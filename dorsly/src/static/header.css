@@ -1,0 +1,21 @@
+.navbar{
+    font-family: 'DM Sans', sans-serif;
+    color: #FFB82E;
+    background-color: #ffffff;
+    gap: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.navbar > div{
+    align-items: center;
+    display: flex;
+    gap: 20px;
+}
+
+.dorsly-logo > img{
+    height: 20px;
+}
+
