@@ -3,3 +3,9 @@ body{
     background-color: #F9F9F9;
     margin: 0;
 }
+
+#root {
+  display: block;
+
+  height: 100vh;
+}

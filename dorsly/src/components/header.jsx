@@ -1,9 +1,9 @@
 import React from "react"
-import "../static/header.css"
-import LogoIcon from '/assets/svg/dorslyheader.svg'
-import SearchIcon from '/assets/svg/search.svg'
-import GpsIcon from '/assets/svg/gps.svg'
 
+import "../static/header.css"
+import LogoIcon from "/assets/svg/dorslylogo.svg"
+import GpsIcon from "/assets/svg/gps.svg"
+import SearchIcon from "/assets/svg/search.svg"
 
 export default function header() {
   return (

@@ -29,6 +29,7 @@
 
 .dorsly-logo > img {
   height: 35px;
+  filter: brightness(0) invert(82%) sepia(66%) saturate(3800%) hue-rotate(334deg) brightness(105%) contrast(101%);
 }
 
 .search-logo > img {
