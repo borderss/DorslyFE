@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('point_interest_image', function (Blueprint $table) {
+        Schema::create('deals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('interest_points_id')->constrained();
-            $table->foreignId('images_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('point_of_interest')->constrained();
+            $table->string('type');
+            $table->string('prices');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('deals');
     }
 };

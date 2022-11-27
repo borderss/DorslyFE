@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('deals', function (Blueprint $table) {
+        Schema::create('point_of_interests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('interest_points_id')->constrained();
-            $table->string('type');
-            $table->decimal('price');
-            $table->string('status');
+            $table->string('name');
+            $table->string('description');
+            $table->float('gps_lng');
+            $table->float('gps_lat');
+            $table->string('country');
+            $table->string('images');
+            $table->date('reservation_date');
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deals');
+        Schema::dropIfExists('point_of_interests');
     }
 };

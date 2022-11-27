@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\AuthConroller;
+use App\Http\Controllers\Api\CommentsController;
+use App\Http\Controllers\Api\DealsController;
+use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\Interest_pointController;
+use App\Http\Controllers\Api\RatingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +20,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/register', [AuthConroller::class, 'register']);
+Route::post('/login', [AuthConroller::class, 'login']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user', [AuthConroller::class, 'user']);
+    Route::get('/logout', [AuthConroller::class, 'logout']);
 });
+
+
+

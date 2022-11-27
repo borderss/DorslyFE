@@ -5,12 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class PointOfInterest extends Model
 {
     protected $fillable = [
-        'user_id',
-        'point_of_interest',
-        'text',
+        'name',
+        'description',
+        'gps_lng',
+        'gps_lat',
+        'country',
+        'images',
+        'reservation_date',
     ];
+
     use HasFactory;
 }

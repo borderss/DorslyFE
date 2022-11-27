@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Deal extends Model
+class TitlePhotos extends Model
 {
     protected $fillable = [
-        'user_id',
-        'interest_points_id',
-        'type',
-        'price',
-        'status',
+        'image',
+        'point_of_interest',
     ];
+
     use HasFactory;
 }

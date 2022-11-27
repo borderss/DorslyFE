@@ -9,8 +9,9 @@ class Rating extends Model
 {
     protected $fillable = [
         'user_id',
-        'interest_points_id',
+        'point_of_interest',
         'rating',
     ];
+
     use HasFactory;
 }

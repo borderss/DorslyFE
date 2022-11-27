@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('interest_points', function (Blueprint $table) {
+        Schema::create('title_photos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->decimal('gps_lng');
-            $table->decimal('gps_lat');
-            $table->string('country');
-            $table->date('reservation_date');
+            $table->string('image');
+            $table->foreignId('point_of_interest')->constrained();
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('interest_points');
+        Schema::dropIfExists('title_photos');
     }
 };
