@@ -31,20 +31,33 @@
   height: 35px;
 }
 
-.search-logo > img {
-  width: 23px;
+.search-logo > img:hover{
+  transform: scale(1.05);
 }
 
-.gps-logo > img {
-  height: 31px;
+.gps-logo > img:hover{
+  transform: scale(1.05);
 }
 
-.left-side > div {
+.wraper > * > a:link {
+  color: #ffb92d;
+}
+
+.wraper > * > a:visited {
+  color: #ffb82e;
+}
+
+.wraper > * > a {
+  height: 100%;
+  text-decoration: none;
+}
+
+.left-side > a > div {
   padding-inline: 25px;
   height: 100%;
 }
 
-.right-side > div {
+.right-side > a > div {
   height: 100%;
   padding-inline: 25px;
 }
@@ -73,13 +86,13 @@
   justify-content: space-between;
 }
 
-.navbar > .wraper > div > div{
+.navbar > .wraper > * > a {
   box-shadow: inset 0px 0px 0px 0px #ffb82e;
   cursor: pointer;
   transition: 0.2s;
 }
 
-.navbar > .wraper > div > div:hover{
+.navbar > .wraper > * > a:hover{
   background-color: #fafafa;
   box-shadow: inset 0px -3px 0px 0px #ffb82e;
 }
