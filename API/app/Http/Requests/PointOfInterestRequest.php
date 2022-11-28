@@ -13,7 +13,7 @@ class PointOfInterestRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class PointOfInterestRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' =>'required',
+            'description' =>'required',
+            'gps_lng' =>'required',
+            'gps_lat' =>'required',
+            'country' =>'required',
+            'images' =>'required',
+            'reservation_date' =>'required',
         ];
     }
 }

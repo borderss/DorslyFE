@@ -16,13 +16,13 @@ class PointOfInterestResouce extends JsonResource
     {
         return[
             'id' => $this->id,
-            'name'=>$this->name,
-            'description'=>$this->description,
-            'gps_lng'=>$this->gps_lng,
-            'gps_lat'=>$this->gps_lat,
-            'country'=>$this->country,
-            'images'=>$this->images,
-            'reservation_date'=>$this->reservation_date,
+            'name' => $this->name,
+            'description' => $this->description,
+            'gps_lng' => $this->gps_lng,
+            'gps_lat' => $this->gps_lat,
+            'country' => $this->country,
+            'images' => $this->images,
+            'reservation_date' => $this->reservation_date,
         ];
     }
 }
