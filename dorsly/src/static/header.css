@@ -12,24 +12,25 @@
   line-height: 63px;
 }
 
-.dorsly-logo{
+.dorsly-logo {
   display: flex;
   align-items: center;
 }
 
-.gps-logo{
+.gps-logo {
   display: flex;
   align-items: center;
 }
 
-.search-logo{
+.search-logo {
   display: flex;
   align-items: center;
 }
 
 .dorsly-logo > img {
   height: 35px;
-  filter: brightness(0) invert(82%) sepia(66%) saturate(3800%) hue-rotate(334deg) brightness(105%) contrast(101%);
+  filter: brightness(0) invert(82%) sepia(66%) saturate(3800%)
+    hue-rotate(334deg) brightness(105%) contrast(101%);
 }
 
 .search-logo > img {
@@ -74,13 +75,13 @@
   justify-content: space-between;
 }
 
-.navbar > .wraper > div > div{
+.navbar > .wraper > div > div {
   box-shadow: inset 0px 0px 0px 0px #ffb82e;
   cursor: pointer;
   transition: 0.2s;
 }
 
-.navbar > .wraper > div > div:hover{
+.navbar > .wraper > div > div:hover {
   background-color: #fafafa;
   box-shadow: inset 0px -3px 0px 0px #ffb82e;
 }

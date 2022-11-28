@@ -1,5 +1,5 @@
 body {
-  background-image: url('/assets/svg/backgroundlines.svg');
+  background-image: url("/assets/svg/backgroundlines.svg");
   background-size: cover;
   height: 100vh;
   min-height: 20px;
@@ -34,7 +34,7 @@ body {
 
 .illustration {
   position: relative;
-  background-image: url('/assets/svg/Illustrationbg.svg');
+  background-image: url("/assets/svg/Illustrationbg.svg");
   width: 50%;
   background-size: cover;
 }
