@@ -20,13 +20,14 @@ body {
   display: flex;
 
   /* size */
-  width: 70%;
+  /* width: 70%; */
+  height: 80%;
   max-width: 1000px;
-  max-height: 670px;
+  max-height: min(670px, 80%);
   aspect-ratio: 1000/670;
 
   /* misc */
-  border-radius: 20px;
+  border-radius: min(20px, 1vw);
   overflow: hidden;
   background-color: white;
   box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.04);
@@ -37,6 +38,7 @@ body {
   background-image: url("/assets/svg/Illustrationbg.svg");
   width: 50%;
   background-size: cover;
+  user-select: none;
 }
 
 .illustration > img {
@@ -45,6 +47,7 @@ body {
   position: absolute;
   bottom: 0;
   right: -6%;
+  user-select: none;
 }
 
 .illustration > .logo {
