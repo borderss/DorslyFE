@@ -106,3 +106,48 @@ body {
   width: 100%;
   user-select: none;
 }
+
+.labeled-text-input-box {
+  position: relative;
+  width: 75%;
+  height: 39px;
+  margin-bottom: 25px;
+}
+
+.labeled-text-input-box[input-name]::before {
+  content: attr(input-name);
+  position: absolute;
+  font-family: "Lexend";
+  pointer-events: none;
+
+  color: #ffb82e;
+  font-size: 16px;
+  top: -16px;
+  left: 0px;
+
+  font-weight: 300;
+  z-index: 1;
+  transition: 0.2s;
+}
+
+.labeled-text-input-box > input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-bottom: 2px solid #ffb82e;
+  outline: none;
+  padding-inline: 6px;
+  font-size: 18px;
+}
+
+.labeled-text-input-box:has(input:placeholder-shown)::before {
+  font-size: 20px;
+  top: 8px;
+  left: 5px;
+}
+
+.labeled-text-input-box:has(:focus-within)::before {
+  font-size: 16px !important;
+  top: -16px !important;
+  left: 0px !important;
+}

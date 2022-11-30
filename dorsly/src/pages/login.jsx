@@ -21,6 +21,13 @@ export default function login() {
             <h1>Welcome, we are glad<br/>to have you here</h1>
             <img className="sperator" src={Seperator} />
             <h2>Log in</h2>
+            <div className="labeled-text-input-box" input-name="Name">
+              <input type="text" name="name" placeholder=" "/>
+            </div>
+            <div className="labeled-text-input-box" input-name="Surname">
+              <input type="text" name="surname" placeholder=" "/>
+            </div>
+
           </form>
         </div>
       </div>
