@@ -1,7 +1,7 @@
-let api = 'http://127.0.0.1:5173/api'
+let api = "http://127.0.0.1:5173/api"
 
 const apiMethod = async (endpoint = "", requestParams) => {
-  const response = await fetch(api+endpoint, requestParams)
+  const response = await fetch(api + endpoint, requestParams)
   const data = await response.json()
 
   return data
@@ -14,7 +14,7 @@ const setLS = (key, value) => {
 const getLS = (key) => {
   let value = window.localStorage.getItem(key)
 
-  return (value != undefined) ? JSON.parse(value) : null
+  return value != undefined ? JSON.parse(value) : null
 }
 
 const removeLS = (key) => {
@@ -22,7 +22,7 @@ const removeLS = (key) => {
 }
 
 const getUser = () => {
-  return (getLS("user") != undefined) ? getLS("user") : null
+  return getLS("user") != undefined ? getLS("user") : null
 }
 
 const getToken = () => {
@@ -34,13 +34,13 @@ const getToken = () => {
 }
 
 const loginUser = (email, password) => {
-  if (! userExists()) {
+  if (!userExists()) {
     apiMethod("/login", {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: email,
-        password: password
+        password: password,
       }),
     }).then((data) => {
       setLS("user", data)
@@ -54,19 +54,19 @@ const loginUser = (email, password) => {
 }
 
 const registerUser = (name, email, password) => {
-  if (! userExists()) {
+  if (!userExists()) {
     apiMethod("/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          password: password
-        }),
-      }).then((data) => {
-        location.reload()
-        return data
-      })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+      }),
+    }).then((data) => {
+      location.reload()
+      return data
+    })
   } else {
     console.warn("Registering with a user token")
     return null
@@ -79,8 +79,8 @@ const logoutUser = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${getToken()}`
-      }
+        Authorization: `Bearer ${getToken()}`,
+      },
     }).then((data) => {
       removeLS("user")
       location.reload()
@@ -107,11 +107,11 @@ const examplePost = (var1, var2) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${getToken()}`
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify({
         param1: var1,
-        param2: var2
+        param2: var2,
       }),
     }).then(() => {
       location.reload()
@@ -122,4 +122,16 @@ const examplePost = (var1, var2) => {
   }
 }
 
-export { apiMethod, setLS, getLS, removeLS, getUser, getToken, loginUser, registerUser, logoutUser, userExists, examplePost }
+export {
+  apiMethod,
+  setLS,
+  getLS,
+  removeLS,
+  getUser,
+  getToken,
+  loginUser,
+  registerUser,
+  logoutUser,
+  userExists,
+  examplePost,
+}

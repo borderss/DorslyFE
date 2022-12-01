@@ -6,6 +6,11 @@ body {
   margin: 0;
 }
 
+.footer-main {
+  margin-bottom: -366px;
+  height: 366px;
+}
+
 .container {
   height: 366px;
   background-color: #2b2b2b;
