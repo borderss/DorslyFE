@@ -1,6 +1,6 @@
 import React from "react"
 
-import "../static/footer.css"
+import "../static/css/footer.css"
 import dorslyLogo from "/assets/svg/dorslylogo.svg"
 
 export default function footer() {

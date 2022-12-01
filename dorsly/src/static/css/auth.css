@@ -29,7 +29,7 @@ body {
   /* misc */
   border-radius: min(20px, 1vw);
   overflow: hidden;
-  background-color: white;
+  background-color: var(--white);
   box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.04);
 }
 
@@ -50,14 +50,36 @@ body {
   user-select: none;
 }
 
-.illustration > .logo {
+.illustration > button {
   height: 8%;
   position: absolute;
   top: 6%;
   left: 8%;
+
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+.illustration > button > .logo {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.illustration > button:hover {
+  top: 5%;
+  transform: scale(1.05);
 }
 
 .auth-container > .content-field > form {
+  font-family: "Lexend";
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,8 +92,7 @@ body {
   margin-top: 8%;
   margin-bottom: 6%;
 
-  font-family: "Lexend";
-  color: #ffb82e;
+  color: var(--accent);
   font-weight: 500;
   font-size: 30px;
   white-space: nowrap;
@@ -82,24 +103,23 @@ body {
   position: relative;
 
   width: 70%;
-  margin-top: 8%;
+  margin-top: 5%;
   margin-bottom: 6%;
 
-  font-family: "Lexend";
-  color: #ffb82e;
+  color: var(--accent);
   font-weight: 500;
-  font-size: 33px;
+  font-size: 32px;
 }
 
 .auth-container > .content-field > form > h2::before {
   content: "";
   position: absolute;
-  height: 40px;
+  height: 36px;
   width: 15%;
   top: 3px;
   left: -21.5%;
   border-radius: 0 3px 3px 0;
-  background-color: #fac45a;
+  background-color: var(--accent);
 }
 
 .auth-container > .content-field > form > .sperator {
@@ -107,47 +127,57 @@ body {
   user-select: none;
 }
 
-.labeled-text-input-box {
-  position: relative;
+.next-step {
   width: 75%;
-  height: 39px;
-  margin-bottom: 25px;
 }
 
-.labeled-text-input-box[input-name]::before {
-  content: attr(input-name);
-  position: absolute;
-  font-family: "Lexend";
-  pointer-events: none;
+.auth-container > .content-field > form > p {
+  color: var(--text-grey);
+  user-select: none;
+  font-size: 19px;
+  font-weight: 200;
 
-  color: #ffb82e;
-  font-size: 16px;
-  top: -16px;
-  left: 0px;
+  margin-top: 22px;
+  margin-bottom: 20px;
+}
 
+.auth-container > .content-field > form > p:has(a) {
+  margin-top: 30px;
+}
+
+.auth-container > .content-field > form > p > a {
+  color: var(--accent);
   font-weight: 300;
-  z-index: 1;
+}
+
+.third-party-auth-options {
+  display: flex;
+  align-items: space-evenly;
+}
+
+.third-party-auth-options > a {
+  display: flex;
+  width: 65px;
+  height: 65px;
+  margin-inline: 8px;
+
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 100vw;
+  border: 2px solid var(--border-color);
   transition: 0.2s;
 }
 
-.labeled-text-input-box > input {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-bottom: 2px solid #ffb82e;
-  outline: none;
-  padding-inline: 6px;
-  font-size: 18px;
+.third-party-auth-options > a:hover {
+  transform: scale(1.1);
 }
 
-.labeled-text-input-box:has(input:placeholder-shown)::before {
-  font-size: 20px;
-  top: 8px;
-  left: 5px;
+.third-party-auth-options > a:nth-child(3) > img {
+  margin-left: 3px;
+  margin-top: 2px;
 }
 
-.labeled-text-input-box:has(:focus-within)::before {
-  font-size: 16px !important;
-  top: -16px !important;
-  left: 0px !important;
+.third-party-auth-options > a:nth-child(4) > img {
+  margin-bottom: 4px;
 }

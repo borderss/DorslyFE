@@ -1,5 +1,5 @@
 import React from 'react'
-import "../static/partner.css"
+import "../static/css/partner.css"
 import PartnerExample from "/assets/svg/partner_example.svg"
 
 export default function partner() {
