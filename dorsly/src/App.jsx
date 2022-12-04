@@ -1,35 +1,22 @@
-import { useEffect, useState } from 'react'
-import './App.css'
+import React from "react"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 
-function App() {
-  const [data, setData] = useState("")
-  const [userid, setUserid] = useState(1)
+import "../src/static/css/general.css"
 
-  const fetchData = () => {
-    fetch(`https://reqres.in/api/users/${userid}`)
-      .then(response => response.json())
-      .then(data => setData(data.data))
-      .catch(error => console.log("pizdec: ", error))
-  }
+import Home from "./pages/home"
+import Login from "./pages/login"
+import Test from "./pages/test"
 
-  useEffect(() => {
-    fetchData()
-  }, [userid]);
-
+export default function App() {
   return (
-    <div className="App">
-      {JSON.stringify(data)}<br/>
-      <button onClick={() => {setUserid(userid + 1)}}>next user</button>
-      <button onClick={() => {setUserid(userid - 1)}}>previous user</button>
-      
-      <p className="read-the-docs">
-        This is a student group project, still a work in progress. <strong>All current and future listed products, services, etc, ARE NOT REAL PRODUCTS OR SERVICES</strong>, all listed products, services, etc, are example products intended to showcase the payment system for the purposes of a school project, without exceptions. We seriously suggest that you <strong>do not make payments through our system unless you are informed of the purpose of the project.</strong>
-        <br/>
-        <br/>
-        This warning has been added to comply with <span style={{'fontWeight': 550, 'color': '#6772E5'}}>Stripe</span> payment gateway terms of use.
-      </p>
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/test" element={<Test />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   )
 }
-
-export default App

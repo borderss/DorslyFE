@@ -1,0 +1,38 @@
+.partnerscontainer{
+    width: 70%;
+    margin-inline: auto;
+    max-width: 1000px;
+}
+
+.partnerstitle{
+    color: #4A4A4A;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 100px;
+}
+
+.allpartners {
+    height: 80px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.allpartners > div {
+    display: flex;
+    justify-content: center;
+}
+
+.allpartners > div > div {
+    height: 55px;
+    width: 250px;
+    background-color: #FFFFFF;
+    margin: 10px;
+    text-align: center;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.allpartners > div > div > img {
+     height: 33px;
+}
