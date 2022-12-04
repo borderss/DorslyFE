@@ -34,7 +34,7 @@ body{
 
 .illustration {
   position: relative;
-  background-image: url("/assets/svg/Illustrationbg.svg");
+  background-image: url("/assets/svg/illustrationbg.svg");
   width: 50%;
   background-size: cover;
   user-select: none;
