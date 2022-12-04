@@ -32,6 +32,7 @@ body {
 
 button {
   height: 3em;
+  min-height: 3em;
   padding-inline: 30px;
   background-color: var(--accent);
 

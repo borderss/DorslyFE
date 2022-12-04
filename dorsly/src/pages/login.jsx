@@ -1,6 +1,6 @@
 import React from "react"
 
-import "../static/css/auth.css"
+import auth from "../static/css/auth.module.css"
 import "../static/css/general.css"
 
 import Logo from "/assets/svg/dorslylogo.svg"
@@ -20,25 +20,26 @@ export default function login() {
     window.location.href ='/'
   }
 
+  document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")';
 
   return (
     <>
-      <div className="auth-container">
-        <div className="content-field">
-          <div className="illustration">
+      <div className={auth["auth-container"]}>
+        <div className={auth["content-field"]}>
+          <div className={auth["illustration"]}>
             <img src={Illustration} />
-            <button onClick={e => {handleLogoButtonClick()}}><img className="logo" src={Logo} /></button>
+            <button onClick={e => {handleLogoButtonClick()}}><img className={auth["logo"]} src={Logo} /></button>
           </div>
           <form>
             <h1>Welcome, we are glad<br/>to have you here</h1>
-            <img className="sperator" src={Seperator} />
+            <img className={auth["sperator"]} src={Seperator} />
             <h2>Log in</h2>
             <LabeledInputField label="Name" inputName="name"/>
             <LabeledInputField label="Surname" inputName="surname"/>
 
-            <button className="next-step">Next step</button>
+            <button className={auth["next-step"]}>Next step</button>
             <p>or</p>
-            <div className="third-party-auth-options">
+            <div className={auth["third-party-auth-options"]}>
               <a href="https://tempurl.com/"><img src={FacebookLogo}/></a>
               <a href="https://tempurl.com/"><img src={GoogleLogo}/></a>
               <a href="https://tempurl.com/"><img src={TwitterLogo}/></a>

@@ -1,5 +1,4 @@
-body {
-  background-image: url("/assets/svg/backgroundlines.svg");
+body{
   background-size: cover;
   height: 100vh;
   min-height: 20px;
@@ -85,6 +84,12 @@ body {
   align-items: center;
 
   width: 50%;
+
+  overflow-y: scroll;
+}
+
+.auth-container > .content-field > form::-webkit-scrollbar {
+  display: none;
 }
 
 .auth-container > .content-field > form > h1 {
