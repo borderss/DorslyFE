@@ -132,8 +132,12 @@ body{
   user-select: none;
 }
 
-.next-step {
+.submit {
   width: 75%;
+}
+
+button:disabled:hover {
+  background-color: #aaa;
 }
 
 .auth-container > .content-field > form > p {
