@@ -34,7 +34,7 @@ body{
 
 .illustration {
   position: relative;
-  background-image: url("/assets/svg/Illustrationbg.svg");
+  background-image: url("/assets/svg/illustrationbg.svg");
   width: 50%;
   background-size: cover;
   user-select: none;
@@ -132,25 +132,33 @@ body{
   user-select: none;
 }
 
-.next-step {
+.actionBtn {
   width: 75%;
+  margin-top: auto;
 }
 
-.auth-container > .content-field > form > p {
+button:disabled:hover {
+  background-color: #aaa;
+}
+
+form > p {
   color: var(--text-grey);
   user-select: none;
   font-size: 19px;
   font-weight: 200;
 
-  margin-top: 22px;
-  margin-bottom: 20px;
+  margin-block: 20px;
 }
 
-.auth-container > .content-field > form > p:has(a) {
+form > .sectionSeperator {
+  margin-bottom: 15px;
+}
+
+form > p:has(a) {
   margin-top: 30px;
 }
 
-.auth-container > .content-field > form > p > a {
+form > p > a {
   color: var(--accent);
   font-weight: 300;
 }
