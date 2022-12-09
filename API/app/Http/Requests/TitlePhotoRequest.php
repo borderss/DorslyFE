@@ -24,7 +24,8 @@ class TitlePhotoRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'image'=> 'required',
+            'point_of_interest_id' => 'required',
         ];
     }
 }

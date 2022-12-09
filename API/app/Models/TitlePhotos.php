@@ -9,8 +9,12 @@ class TitlePhotos extends Model
 {
     protected $fillable = [
         'image',
-        'point_of_interest',
+        'point_of_interest_id',
     ];
+
+    public function PointOfInterest(){
+        return $this->belongsTo(PointOfInterest::class ,'point_of_interest_id');
+    }
 
     use HasFactory;
 }

@@ -22,6 +22,12 @@ return new class extends Migration
             $table->string('country');
             $table->string('images');
             $table->date('reservation_date');
+            $table->string('opensAt')->nullable();
+            $table->boolean('isOpenRoundTheClock');
+            $table->boolean('isTakeaway');
+            $table->boolean('isOnLocation');
+            $table->integer('availableSeats');
+            $table->integer('reviewCount');
             $table->timestamps();
         });
     }

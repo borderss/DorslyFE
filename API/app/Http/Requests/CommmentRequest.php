@@ -25,7 +25,7 @@ class CommmentRequest extends FormRequest
     {
         return [
             'user_id'=>'required',
-            'point_of_interest'=>'required',
+            'point_of_interest_id'=>'required',
             'text'=>'required',
         ];
     }

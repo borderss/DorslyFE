@@ -10,11 +10,14 @@ class Product extends Model
     protected $fillable = [
         'name',
         'description',
-        'point_of_interest',
+        'point_of_interest_id',
         'ingredients',
         'image',
         'price',
     ];
 
+    public function PointOfInterest(){
+        return $this->belongsTo(PointOfInterest::class ,'point_of_interest_id');
+    }
     use HasFactory;
 }

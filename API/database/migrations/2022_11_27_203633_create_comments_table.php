@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('point_of_interest')->constrained();
+            $table->foreignId('point_of_interest_id')->constrained();
             $table->string('text');
             $table->timestamps();
         });

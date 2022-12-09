@@ -26,7 +26,7 @@ class ProductRequest extends FormRequest
         return [
             'name' =>'required',
             'description' =>'required',
-            'point_of_interest' =>'required',
+            'point_of_interest_id' =>'required',
             'ingredients' =>'required',
             'image' =>'required',
             'price' =>'required',

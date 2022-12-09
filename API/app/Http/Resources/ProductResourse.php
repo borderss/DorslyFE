@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\PointOfInterest;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResourse extends JsonResource
@@ -18,7 +19,7 @@ class ProductResourse extends JsonResource
             'id' => $this->id,
             'name'=>$this->name,
             'description' => $this->description,
-            'point_of_interest' => new PointOfInterestResouce($this->boards),
+            'point_of_interest_id' => new PointOfInterestResouce($this->PointOfInterest),
             'ingredients' => $this->ingredients,
             'image' => $this->image,
             'price' => $this->price,

@@ -13,7 +13,7 @@ class DealsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class DealsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'user_id' => 'required',
+            'point_of_interest_id' => 'required',
+            'type' => 'required',
+            'prices' => 'required',
+            'status' => 'required',
         ];
     }
 }

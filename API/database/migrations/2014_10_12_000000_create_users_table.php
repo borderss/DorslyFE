@@ -21,9 +21,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('is_admin');
-            $table->boolean('is_cookies_allowed');
-            $table->boolean('is_email_allowed');
+            $table->boolean('is_admin')->default(false);
+            $table->boolean('is_cookies_allowed')->default(false);
+            $table->boolean('is_email_allowed')->default(false);
+            $table->timestamps();
         });
     }
 

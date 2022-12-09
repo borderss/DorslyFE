@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->foreignId('point_of_interest')->constrained();
+            $table->foreignId('point_of_interest_id')->constrained();
             $table->string('ingredients');
             $table->string('image');
             $table->string('price');

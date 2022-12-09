@@ -31,6 +31,12 @@ class PointOfInterestRequest extends FormRequest
             'country' =>'required',
             'images' =>'required',
             'reservation_date' =>'required',
+            'opensAt' =>'required',
+            'isOpenRoundTheClock' =>'required',
+            'isTakeaway' =>'required',
+            'isOnLocation' =>'required',
+            'availableSeats' =>'required',
+            'reviewCount' =>'required',
         ];
     }
 }

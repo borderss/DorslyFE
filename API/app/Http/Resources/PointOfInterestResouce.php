@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class PointOfInterestResouce extends JsonResource
 {
@@ -21,8 +22,14 @@ class PointOfInterestResouce extends JsonResource
             'gps_lng' => $this->gps_lng,
             'gps_lat' => $this->gps_lat,
             'country' => $this->country,
-            'images' => $this->images,
+            'images' => URL::signedRoute('PointOfInterest.images',['PointOfInterest' => $this->id]),
             'reservation_date' => $this->reservation_date,
+            'opensAt' => $this->opensAt,
+            'isOpenRoundTheClock' => $this->isOpenRoundTheClock,
+            'isTakeaway' => $this->isTakeaway,
+            'isOnLocation' => $this->isOnLocation,
+            'availableSeats' => $this->availableSeats,
+            'reviewCount' => $this->reviewCount,
         ];
     }
 }

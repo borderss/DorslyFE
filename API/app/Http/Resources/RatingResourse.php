@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class RatingResourse extends JsonResource
@@ -16,8 +17,8 @@ class RatingResourse extends JsonResource
     {
         return[
             'id' => $this->id,
-            'user'=>$this->user,
-            'point_of_interest' => new PointOfInterestResouce($this->boards),
+            'user_id'=> $this->user,
+            'point_of_interest_id' => new PointOfInterestResouce($this->PointOfInterest),
             'rating' => $this->rating,
 
         ];

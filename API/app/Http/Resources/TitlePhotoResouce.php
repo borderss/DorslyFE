@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class TitlePhotoResouce extends JsonResource
 {
@@ -16,9 +17,8 @@ class TitlePhotoResouce extends JsonResource
     {
         return[
             'id' => $this->id,
-            'image' => $this->image,
-            'point_of_interest' => new PointOfInterestResouce($this->boards),
-
+            'image' => URL::signedRoute('TitlePhotos.image',['TitlePhoto' => $this->id]),
+            'point_of_interest_id' => new PointOfInterestResouce($this->PointOfInterest),
         ];
     }
 }

@@ -15,6 +15,12 @@ class PointOfInterest extends Model
         'country',
         'images',
         'reservation_date',
+        'opensAt',
+        'isOpenRoundTheClock',
+        'isTakeaway',
+        'isOnLocation',
+        'availableSeats',
+        'reviewCount',
     ];
 
     use HasFactory;

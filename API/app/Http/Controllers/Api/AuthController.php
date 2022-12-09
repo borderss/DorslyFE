@@ -9,15 +9,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
 
-class AuthConroller extends Controller
+class AuthController extends Controller
 {
 
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone_number' => 'required',
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:9',
         ]);
         $validated['password'] = Hash::make($validated['password']);
 
