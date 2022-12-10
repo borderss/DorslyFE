@@ -32,6 +32,18 @@ export default function authentificaton(props) {
 
   let submitButtonRef = useRef(null)
 
+  useEffect(() => {
+    if (props.page == "login") {
+      setLoginButton()
+    }
+  }, [loginData])
+
+  useEffect(() => {
+    if (props.page == "register") {
+      setRegisterButton()
+    }
+  }, [registerData])
+
   const handleLogoButtonClick = () => {
     window.location.href = "/"
   }
@@ -72,18 +84,6 @@ export default function authentificaton(props) {
     }
   }
 
-  useEffect(() => {
-    if (props.page == "login") {
-      setLoginButton()
-    }
-  }, [loginData])
-
-  useEffect(() => {
-    if (props.page == "register") {
-      setRegisterButton()
-    }
-  }, [registerData])
-
   const handleLogin = (e) => {
     e.preventDefault()
     console.log(loginData)
@@ -91,7 +91,6 @@ export default function authentificaton(props) {
 
   const handleRegister = (e) => {
     e.preventDefault()
-    console.log(registerData)
     setRegSection(1)
   }
 
@@ -176,7 +175,6 @@ export default function authentificaton(props) {
           return false
         }
       case "passwordConfirm":
-        console.log(value, registerData.password)
         if (value.length > 8 && value == registerData.password) {
           setRegisternData({ ...registerData, passwordConfirm: value })
           return true
