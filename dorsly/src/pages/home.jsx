@@ -7,6 +7,7 @@ import Footer from "../components/footer"
 import Header from "../components/header"
 import Partner from "../components/partner"
 
+import PhoneIllustration from "/assets/svg/phoneillustration.svg"
 
 export default function home() {
   return (
@@ -14,7 +15,7 @@ export default function home() {
       <Header />
 
       <div className={style["content"]}>
-
+      <img className={style["phoneIllustration"]} src={PhoneIllustration}/>
 
       </div>
 

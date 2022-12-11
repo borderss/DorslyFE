@@ -1,4 +1,5 @@
 .content {
+  position: relative;
   background-image: url('/assets/svg/HomeBackground.svg');
   background-size: 100% auto;
   width: min(1920px,100vw);
@@ -6,4 +7,13 @@
   background-position-x: 0px;
   margin-inline: auto;
   background-repeat: no-repeat;
+}
+
+.phoneIllustration {
+  position: absolute;
+  right: min(-4px, 2vw);
+  top: min(1px, -2vw);
+  width: min(1000px, 46vw);
+  user-select: none;
+  pointer-events: none;
 }
