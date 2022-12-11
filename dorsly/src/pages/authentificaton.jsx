@@ -131,7 +131,7 @@ export default function authentificaton(props) {
 
     switch (inputName) {
       case "firstName":
-        if (value.length > 4) {
+        if (value.length > 0) {
           setRegisternData({ ...registerData, firstName: value })
           return true
         } else {
@@ -139,7 +139,7 @@ export default function authentificaton(props) {
           return false
         }
       case "lastName":
-        if (value.length > 4) {
+        if (value.length > 0) {
           setRegisternData({ ...registerData, lastName: value })
           return true
         } else {
