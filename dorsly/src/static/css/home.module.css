@@ -54,34 +54,82 @@
   display: flex;
 
   background-color: var(--white);
-  width: 860px;
+  width: 890px;
   height: 60px;
   border-radius: 100vw;
   box-shadow: 0px 4px 10px 0 #ebebeb;
+  padding-inline-end: 3px;
+
+  color: #4A4A4A;
+  font-weight: 300;
+  font-size: 17px;
+  user-select: none;
+}
+
+.search-field > div {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-field > div:hover {
+  background-color: #fdfdfd;
+}
+
+.search-field > div > img:nth-child(1) {
+  height: 25px;
+  padding-inline: 10px;
+  pointer-events: none;
+}
+
+.search-field > div > img:nth-child(3) {
+  height: 9px;
+  padding-inline: 10px;
+  pointer-events: none;
+}
+
+.search-field > div > p{
+  flex: 1 0 auto;
 }
 
 
 .search-field > .date{
-  background-color: rgb(219, 104, 104);
+  padding-left: 15px;
   width: 200px;
-  height: 100%;
+  border-radius: 100vw 0 0 100vw;
+  border-right: 2px solid #EBEBEB;
+}
+
+.search-field > .date > img:nth-child(1){
+  height: 23px;
+  margin-bottom: 2px;
 }
 
 .search-field > .time{
-  background-color: rgb(175, 223, 114);
   width: 150px;
-  height: 100%;
+  border-right: 2px solid #EBEBEB;
+}
+
+.search-field > .time > img:nth-child(1){
+  height: 24px;
 }
 
 .search-field > .person-count{
-  background-color: rgb(72, 199, 238);
   width: 170px;
-  height: 100%;
+  border-right: 2px solid #EBEBEB;
 }
 
 .search-field > .search{
-  background-color: rgb(171, 68, 202);
   width: auto;
-  height: 100%;
   flex: 1 0 auto;
+}
+
+.search-field > .search > img:nth-child(1){
+  height: 22px;
+}
+
+.search-field > .search > button{
+  width: 145px;
 }

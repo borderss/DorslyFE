@@ -7,6 +7,13 @@ import Header from "../components/header"
 import Partner from "../components/partner"
 
 import PhoneIllustration from "/assets/svg/phoneillustration.svg"
+import CalendarIcon from "/assets/svg/calendar.svg"
+import ClockIcon from "/assets/svg/clock.svg"
+import PersonIcon from "/assets/svg/person.svg"
+import MainSearchIcon from "/assets/svg/mainsearch.svg"
+import DropdownIcon from "/assets/svg/dropdown.svg"
+
+
 
 export default function home() {
   return (
@@ -27,16 +34,24 @@ export default function home() {
           </p>
           <div className={style["search-field"]}>
             <div className={style["date"]}>
-
+              <img src={CalendarIcon}/>
+              <p>Sep 17, 2022</p>
+              <img src={DropdownIcon}/>
             </div>
             <div className={style["time"]}>
-
+              <img src={ClockIcon}/>
+              <p>00:00</p>
+              <img src={DropdownIcon}/>
             </div>
             <div className={style["person-count"]}>
-
+              <img src={PersonIcon}/>
+              <p>55 people</p>
+              <img src={DropdownIcon}/>
             </div>
             <div className={style["search"]}>
-
+              <img src={MainSearchIcon}/>
+              <p>Placeholder</p>
+              <button>Search</button>
             </div>
           </div>
         </div>
