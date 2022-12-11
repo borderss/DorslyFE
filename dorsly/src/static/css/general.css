@@ -10,6 +10,7 @@
 
   --black: #1d1d1d;
   --dark-grey: #2b2b2b;
+  --medium-dark-grey: #84807B;
   --light-grey: #f9f9f9;
   --white: #ffffff;
 
@@ -22,7 +23,8 @@ html,
 body {
   background-color: #f9f9f9;
   margin: 0;
-  overflow: overlay;
+  overflow-y: overlay;
+  overflow-x: hidden;
 }
 
 #root {
