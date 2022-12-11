@@ -54,6 +54,13 @@ export default function home() {
               <button>Search</button>
             </div>
           </div>
+          <p className={style["seperator"]}>
+            Alternatively,
+          </p>
+          <div className={style["actions"]}>
+            <button>Register now</button>
+            <button className={style["inverted"]}>Register as a business</button>
+          </div>
         </div>
       </div>
 

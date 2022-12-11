@@ -133,3 +133,20 @@
 .search-field > .search > button{
   width: 145px;
 }
+
+.seperator {
+  font-size: 18px !important;
+  margin: 25px 0px 10px !important;
+}
+
+.actions{
+  display: flex;
+  gap: 20px;
+}
+
+.actions > button.inverted {
+  background-color: inherit;
+  border: 3px solid var(--accent);
+  color: var(--accent);
+  font-weight: 300;
+}
