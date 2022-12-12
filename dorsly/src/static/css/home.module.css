@@ -93,42 +93,72 @@
   flex: 1 0 auto;
 }
 
-.search-field > .date {
-  padding-left: 15px;
-  width: 200px;
-  border-radius: 100vw 0 0 100vw;
+.date {
+  flex-direction: row-reverse;
+  font-family: "Lexend";
+  color: #4a4a4a;
+  width: 190px;
+  font-weight: 300;
+  font-size: 17px;
+  user-select: none;
+  outline: none;
+  border: none;
   border-right: 2px solid #ebebeb;
+  background: none;
+  padding-left: 15px;
+  gap: 8px;
+  cursor: pointer;
 }
 
-.search-field > .date > img:nth-child(1) {
-  height: 23px;
-  margin-bottom: 2px;
+.date::-webkit-calendar-picker-indicator {
+  background-image: var(--calendarSvg);
+  width: 25px;
+  height: 25px;
 }
 
-.search-field > .time {
+input::-webkit-datetime-edit-day-field,
+input::-webkit-datetime-edit-month-field,
+input::-webkit-datetime-edit-year-field {
+  display: inline-block;
+  margin-top: 2px;
+  border-bottom: 2px solid #fff;
+  transition: 0.2s;
+}
+
+input::-webkit-datetime-edit-day-field:focus,
+input::-webkit-datetime-edit-month-field:focus,
+input::-webkit-datetime-edit-year-field:focus {
+  display: inline-block;
+  transform: translateY(-2px);
+  border-bottom: 2px solid var(--accent);
+  color: initial;
+  background-color: initial;
+}
+
+.time {
   width: 150px;
   border-right: 2px solid #ebebeb;
 }
 
-.search-field > .time > img:nth-child(1) {
+.time > img:nth-child(1) {
   height: 24px;
 }
 
-.search-field > .person-count {
+.person-count {
   width: 170px;
   border-right: 2px solid #ebebeb;
 }
 
-.search-field > .search {
+.search {
   width: auto;
   flex: 1 0 auto;
 }
 
-.search-field > .search > img:nth-child(1) {
+.search > img:nth-child(1) {
   height: 22px;
 }
 
-.search-field > .search > button {
+.search > button {
   width: 145px;
 }
 

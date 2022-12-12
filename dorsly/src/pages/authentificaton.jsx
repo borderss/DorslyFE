@@ -156,6 +156,7 @@ export default function authentificaton(props) {
           setRegisternData({ ...registerData, phoneNumber: null })
           return false
         }
+
       case "email":
         let emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
@@ -187,14 +188,14 @@ export default function authentificaton(props) {
         break
     }
   }
-  
+
   document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")'
 
   let formSection
 
   if (props.page == "login") {
     formSection = (
-      <form onSubmit={e => handleLogin(e)}>
+      <form onSubmit={(e) => handleLogin(e)}>
         <h1>
           Welcome, we are glad
           <br />
@@ -241,7 +242,7 @@ export default function authentificaton(props) {
     )
   } else if (props.page == "register") {
     formSection = (
-      <form onSubmit={e => handleRegister(e)}>
+      <form onSubmit={(e) => handleRegister(e)}>
         <h1>Create a new account!</h1>
         <img className={auth["sperator"]} src={Seperator} />
         <h2>Register</h2>
@@ -288,7 +289,11 @@ export default function authentificaton(props) {
           </>
         ) : null}
 
-        <button ref={submitButtonRef} onSubmit={_ => console.log(registerData)} className={auth["actionBtn"]} disabled>
+        <button
+          ref={submitButtonRef}
+          onSubmit={(_) => console.log(registerData)}
+          className={auth["actionBtn"]}
+          disabled>
           Next step
         </button>
         <p className={auth["sectionSeperator"]}>or</p>
