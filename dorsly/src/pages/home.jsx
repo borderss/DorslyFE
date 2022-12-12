@@ -5,20 +5,14 @@ import style from "../static/css/home.module.css"
 
 import Header from "../components/header"
 import Partner from "../components/partner"
+import MainSarchBar from "../components/mainSearchBar"
+
 
 import CalendarIllustration from "/assets/svg/calendarillustration.svg"
 import PhoneGlobeIllustration from "/assets/svg/phoneglobeillustration.svg"
 import WalletIllustration from "/assets/svg/walletillustration.svg"
 
-
-import CalendarIcon from "/assets/svg/calendar.svg"
-import ClockIcon from "/assets/svg/clock.svg"
-import DropdownIcon from "/assets/svg/dropdown.svg"
-import MainSearchIcon from "/assets/svg/mainsearch.svg"
-import PersonIcon from "/assets/svg/person.svg"
 import PhoneIllustration from "/assets/svg/phoneillustration.svg"
-
-
 
 export default function home() {
   return (
@@ -38,33 +32,7 @@ export default function home() {
             all of your reservations.
           </p>
 
-          
-          <div className={style["search-field"]}>
-          <input type="date" className={style["date"]} style={{"--calendarSvg": `url(${CalendarIcon})`}}/>
-
-            {/* <div className={style["date"]}>
-              <img src={CalendarIcon}/>
-              <input type="date"></input>
-              <img src={DropdownIcon}/>
-            </div> */}
-
-            <div className={style["time"]}>
-              <img src={ClockIcon}/>
-              <p>00:00</p>
-              <img src={DropdownIcon}/>
-            </div>
-            <div className={style["person-count"]}>
-              <img src={PersonIcon}/>
-              <p>55 people</p>
-              <img src={DropdownIcon}/>
-            </div>
-            <div className={style["search"]}>
-              <img src={MainSearchIcon}/>
-              <p>Placeholder</p>
-              <button>Search</button>
-            </div>
-          </div>
-
+          <MainSarchBar />
 
           <p className={style["seperator"]}>
             Alternatively,
