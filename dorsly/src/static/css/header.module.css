@@ -46,6 +46,7 @@
 }
 
 .dorsly-logo > img {
+  filter: brightness(0) invert(77%) sepia(56%) saturate(926%) hue-rotate(333deg) brightness(103%) contrast(101%);;
   height: 35px;
 }
 

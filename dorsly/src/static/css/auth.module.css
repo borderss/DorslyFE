@@ -1,0 +1,196 @@
+body{
+  background-size: cover;
+  height: 100vh;
+  min-height: 20px;
+}
+
+.auth-container {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+}
+
+.content-field {
+  /* display */
+  display: flex;
+
+  /* size */
+  /* width: 70%; */
+  height: 80%;
+  max-width: 1000px;
+  max-height: min(670px, 80%);
+  aspect-ratio: 1000/670;
+
+  /* misc */
+  border-radius: min(20px, 1vw);
+  overflow: hidden;
+  background-color: var(--white);
+  box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.04);
+}
+
+.illustration {
+  position: relative;
+  background-image: url("/assets/svg/illustrationbg.svg");
+  width: 50%;
+  background-size: cover;
+  user-select: none;
+}
+
+.illustration > img {
+  height: 425px;
+  max-height: 65%;
+  position: absolute;
+  bottom: 0;
+  right: -6%;
+  user-select: none;
+}
+
+.illustration > button {
+  height: 8%;
+  position: absolute;
+  top: 6%;
+  left: 8%;
+
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+.illustration > button > .logo {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.illustration > button:hover {
+  top: 5%;
+  transform: scale(1.05);
+}
+
+.auth-container > .content-field > form {
+  font-family: "Lexend";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 50%;
+
+  overflow-y: scroll;
+}
+
+.auth-container > .content-field > form::-webkit-scrollbar {
+  display: none;
+}
+
+.auth-container > .content-field > form > h1 {
+  width: 80%;
+  margin-top: 8%;
+  margin-bottom: 6%;
+
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 30px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.auth-container > .content-field > form > h2 {
+  position: relative;
+
+  width: 70%;
+  margin-top: 5%;
+  margin-bottom: 6%;
+
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 32px;
+}
+
+.auth-container > .content-field > form > h2::before {
+  content: "";
+  position: absolute;
+  height: 36px;
+  width: 15%;
+  top: 3px;
+  left: -21.5%;
+  border-radius: 0 3px 3px 0;
+  background-color: var(--accent);
+}
+
+.auth-container > .content-field > form > .sperator {
+  width: 100%;
+  user-select: none;
+}
+
+.actionBtn {
+  width: 75%;
+  margin-top: auto;
+}
+
+button:disabled:hover {
+  background-color: #aaa;
+}
+
+form > p {
+  color: var(--text-grey);
+  user-select: none;
+  font-size: 19px;
+  font-weight: 200;
+
+  margin-block: 20px;
+}
+
+form > .sectionSeperator {
+  margin-bottom: 15px;
+}
+
+form > p:has(a) {
+  margin-top: 30px;
+}
+
+form > p > a {
+  color: var(--accent);
+  font-weight: 300;
+}
+
+.third-party-auth-options {
+  display: flex;
+  align-items: space-evenly;
+}
+
+.third-party-auth-options > a {
+  display: flex;
+  width: 65px;
+  height: 65px;
+  margin-inline: 8px;
+
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 100vw;
+  border: 2px solid var(--border-color);
+  transition: 0.2s;
+}
+
+.third-party-auth-options > a:hover {
+  transform: scale(1.1);
+}
+
+.third-party-auth-options > a:nth-child(3) > img {
+  margin-left: 3px;
+  margin-top: 2px;
+}
+
+.third-party-auth-options > a:nth-child(4) > img {
+  margin-bottom: 4px;
+}

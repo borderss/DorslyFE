@@ -1,0 +1,66 @@
+:root {
+  --accent: #ffb82e;
+  --accent-light: #ffc557;
+  --accent-very-light: #ffdd9b;
+  --accent-very-very-light: #ffe9bd;
+
+  --red: #f0574d;
+  --green: #38ff86;
+  --blue: #755cff;
+
+  --black: #1d1d1d;
+  --dark-grey: #2b2b2b;
+  --medium-dark-grey: #84807B;
+  --light-grey: #f9f9f9;
+  --white: #ffffff;
+
+  --text-grey: #bebebe;
+
+  --border-color: #d7d7d7;
+}
+
+html,
+body {
+  background-color: #f9f9f9;
+  margin: 0;
+  overflow-y: overlay;
+  overflow-x: hidden;
+}
+
+#root {
+  display: block;
+
+  height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(243, 243, 243);
+  border-radius: 5px;
+  z-index: -1;
+}
+
+button {
+  height: 3em;
+  min-height: 3em;
+  padding-inline: 30px;
+  background-color: var(--accent);
+
+  color: var(--white);
+  font-family: "Lexend";
+  font-size: 18px;
+
+  border: none;
+  border-radius: 100vw;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+button:hover {
+  background-color: var(--accent-light);
+}
