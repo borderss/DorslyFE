@@ -1,7 +1,5 @@
 import React from "react"
-
 import style from "../static/css/header.module.css"
-
 import LogoIcon from "/assets/svg/dorslylogo.svg"
 import GpsIcon from "/assets/svg/gps.svg"
 import SearchIcon from "/assets/svg/search.svg"
@@ -11,18 +9,18 @@ export default function header() {
     <div className={style["navbar"]}>
       <div className={style["wraper"]}>
         <div className={style["left-side"]}>
-          <a href="#">
+          <a href="#" className={style["logo"]}>
             <div className={style["dorsly-logo"]}>
               <img src={LogoIcon} alt="Dorsly" />
             </div>
           </a>
-          <a href="aboutus">
+          <a href="about_us">
             <div className={style["about-us"]}>About us</div>
           </a>
           <a href="contact">
             <div className={style["contact"]}>Contact</div>
           </a>
-          <a href="reserve">
+          <a href="reserve_now">
             <div className={style["reserve-now"]}>Reserve now</div>
           </a>
           <div className={style["search-logo"]}>
