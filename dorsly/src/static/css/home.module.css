@@ -77,6 +77,10 @@
   background-color: #fdfdfd;
 }
 
+.search-field > input:hover {
+  background-color: #fdfdfd !important;
+}
+
 .search-field > div > img:nth-child(1) {
   height: 25px;
   padding-inline: 10px;
@@ -110,10 +114,15 @@
   cursor: pointer;
 }
 
+.date {
+  border-radius: 200px 0 0 200px;
+}
+
 .date::-webkit-calendar-picker-indicator {
   background-image: var(--calendarSvg);
   width: 25px;
   height: 25px;
+  cursor: pointer;
 }
 
 input::-webkit-datetime-edit-day-field,
@@ -145,12 +154,14 @@ input::-webkit-datetime-edit-ampm-field:focus {
   padding: 5px !important;
   width: 150px !important;
   border-right: 2px solid #ebebeb;
+  cursor: pointer;
 }
 
 .time::-webkit-calendar-picker-indicator {
   background-image: var(--clockSvg);
   width: 25px;
   height: 25px;
+  cursor: pointer;
 }
 
 .person-count {
@@ -159,6 +170,7 @@ input::-webkit-datetime-edit-ampm-field:focus {
 }
 
 .search {
+  border-radius: 0 200px 200px 0;
   width: auto;
   flex: 1 0 auto;
 }
@@ -226,4 +238,14 @@ input::-webkit-datetime-edit-ampm-field:focus {
   font-size: 21px;
   font-weight: 300;
   color: #777777;
+}
+
+.person-count-input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 17px;
+  font-weight: 300;
+  color: #4a4a4a;
+  cursor: pointer;
 }
