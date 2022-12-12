@@ -7,15 +7,12 @@ import CalendarIcon from "/assets/svg/calendar.svg"
 import ClockIcon from "/assets/svg/clock.svg"
 import MainSearchIcon from "/assets/svg/mainsearch.svg"
 import PersonIcon from "/assets/svg/person.svg"
-import { useRef } from "react"
 
 export default function mainSearchBar() {
   const [date, setDate] = useState(new Date())
   const [time, setTime] = useState(new Date())
   const [personCount, setPersonCount] = useState(1)
   const [personText, setPersonText] = useState("Person")
-
-
 
   useEffect(() => {
     const currdate = new Date()
@@ -45,28 +42,35 @@ export default function mainSearchBar() {
   }
 
   const handlePersonCountChange = (e) => {
-    e.target.innerText = e.target.innerText.replace(/[^0-9]/g, "").slice(0, 2)
+    let numRegex = /^\d+$/
 
-    if (e.target.innerText === "") {
-      e.target.innerText = 1
-    }
+    if (e.target.value.match(numRegex) != null || e.target.value == "") {
+      setPersonCount(e.target.value)
+      if (e.target.value > 1) {
+        setPersonText("People")
+      } else {
+        setPersonText("Person")
+      }
 
-    if (e.target.innerText > 25) {
-      e.target.innerText = 25
-    }
+      if (e.target.value > 25) {
+        setPersonCount(25)
+      } else if (e.target.value < 1) {
+        setPersonCount(1)
+      }
 
-    if (e.target.innerText.startsWith("0") && e.target.innerText.length > 1) {
-      e.target.innerText = e.target.innerText.slice(1)
-    }
-
-    if (e.target.innerText === "1") {
-      setPersonText("Person")
+      if (e.target.value.length > 1){
+        console.log(e.target)
+        e.target.style.width = "22px"
+      } else {
+        e.target.style.width = "15px"
+      }
     } else {
-      setPersonText("People")
+      e.target.value[-1] = ""
     }
+  }
 
-
-    setPersonCount(e.target.innerText)
+  const focusChildInput = (e) => {
+    e.target.children[0].focus()
   }
 
   return (
@@ -86,10 +90,23 @@ export default function mainSearchBar() {
         style={{ "--clockSvg": `url(${ClockIcon})` }}
       />
 
-      <div className={style["person-count"]}>
-        <img src={PersonIcon} />
-        <p><span className={style["person-count-input"]} onInput={handlePersonCountChange} contentEditable>{personCount}</span><span> {personText}</span></p>
+      <div
+        className={style["person-box"]}
+        onClick={focusChildInput}
+        style={{
+          "--personSvg": `url(${PersonIcon})`,
+        }}>
+        <input
+          type="text"
+          className={style["person-count"]}
+          pattern="[0-9]*"
+          placeholder="1"
+          onInput={handlePersonCountChange}
+          value={personCount}
+        />
+        <span>{personText}</span>
       </div>
+
       <div className={style["search"]}>
         <img src={MainSearchIcon} />
         <p>Placeholder</p>

@@ -143,7 +143,6 @@ input::-webkit-datetime-edit-year-field:focus,
 input::-webkit-datetime-edit-hour-field:focus,
 input::-webkit-datetime-edit-minute-field:focus,
 input::-webkit-datetime-edit-ampm-field:focus {
-  display: inline-block;
   transform: translateY(-2px);
   border-bottom: 2px solid var(--accent);
   color: initial;
@@ -164,9 +163,42 @@ input::-webkit-datetime-edit-ampm-field:focus {
   cursor: pointer;
 }
 
-.person-count {
+.person-box {
   width: 170px;
   border-right: 2px solid #ebebeb;
+  background-image: var(--personSvg) !important;
+  background-repeat: no-repeat !important;
+  background-position: 15px 50% !important;
+  background-size: 20px !important;
+  padding-inline-start: 50px !important;
+}
+
+.person-box::after {
+  width: 170px;
+  height: 100%;
+  border-right: 2px solid #ebebeb;
+}
+
+.person-box > input {
+  width: 15px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 17px;
+  font-weight: 300;
+  color: #4a4a4a;
+  cursor: pointer;
+  margin-right: 5px;
+  margin-top: 3px;
+  border-bottom: 2px solid #fff;
+  transition: 0.2s;
+}
+
+.person-box > input:focus {
+  transform: translateY(-2px);
+  border-bottom: 2px solid var(--accent);
+  color: initial;
+  background-color: initial;
 }
 
 .search {
@@ -240,12 +272,3 @@ input::-webkit-datetime-edit-ampm-field:focus {
   color: #777777;
 }
 
-.person-count-input {
-  border: none;
-  outline: none;
-  background-color: transparent;
-  font-size: 17px;
-  font-weight: 300;
-  color: #4a4a4a;
-  cursor: pointer;
-}
