@@ -180,16 +180,17 @@ input::-webkit-datetime-edit-ampm-field:focus {
 }
 
 .person-box > input {
-  width: 15px;
+  width: 10px;
   border: none;
   outline: none;
+  font-family: "Lexend"	;
   background-color: transparent;
   font-size: 17px;
   font-weight: 300;
   color: #4a4a4a;
   cursor: pointer;
   margin-right: 5px;
-  margin-top: 3px;
+  margin-top: 1px;
   border-bottom: 2px solid #fff;
   transition: 0.2s;
 }
@@ -202,9 +203,15 @@ input::-webkit-datetime-edit-ampm-field:focus {
 }
 
 .search {
+  display: flex;;
   border-radius: 0 200px 200px 0;
   width: auto;
   flex: 1 0 auto;
+  
+  background-image: var(--mainSearchIcon) !important;
+  background-repeat: no-repeat !important;
+  background-position: 15px 50% !important;
+  background-size: 24px !important;
 }
 
 .search > img:nth-child(1) {
@@ -213,6 +220,36 @@ input::-webkit-datetime-edit-ampm-field:focus {
 
 .search > button {
   width: 145px;
+}
+
+.search-input {
+  flex-direction: row-reverse;
+  font-family: "Lexend";
+  flex: 1 0 auto;
+  color: #4a4a4a;
+  width: 190px;
+  font-weight: 300;
+  font-size: 17px;
+  user-select: none;
+  outline: none;
+  border: none;
+  background: none;
+  margin-left: 50px;
+  margin-right: 15px;
+  cursor: pointer;
+
+  display: inline-block;
+  margin-top: 2px;
+  border-bottom: 2px solid #fff;
+  transition: 0.2s;
+}
+
+.search-input:focus {
+  transform: translateY(-2px);
+  margin-top: 2px;
+  border-bottom: 2px solid var(--accent);
+  color: initial;
+  background-color: initial;
 }
 
 .seperator {
@@ -271,4 +308,3 @@ input::-webkit-datetime-edit-ampm-field:focus {
   font-weight: 300;
   color: #777777;
 }
-

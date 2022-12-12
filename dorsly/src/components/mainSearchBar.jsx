@@ -58,7 +58,7 @@ export default function mainSearchBar() {
         setPersonCount(1)
       }
 
-      if (e.target.value.length > 1){
+      if (e.target.value.length > 1) {
         console.log(e.target)
         e.target.style.width = "22px"
       } else {
@@ -107,9 +107,14 @@ export default function mainSearchBar() {
         <span>{personText}</span>
       </div>
 
-      <div className={style["search"]}>
-        <img src={MainSearchIcon} />
-        <p>Placeholder</p>
+      <div
+        className={style["search"]}
+        style={{ "--mainSearchIcon": `url(${MainSearchIcon})` }}>
+        <input
+          type="text"
+          className={style["search-input"]}
+          placeholder="Search"
+        />
         <button>Search</button>
       </div>
     </div>
