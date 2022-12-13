@@ -12,7 +12,6 @@ export default function home() {
   const fakedata=[
     {
       star: "5.6",
-      hastags: ["burger", "fastfood", "popular"],
       name: "Burgeru Cehs",
       desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
       time: "6:00 - 24:00",
@@ -24,7 +23,6 @@ export default function home() {
     },
     {
       star: "5.6",
-      hastags: ["burger", "fastfood", "popular"],
       name: "kebab",
       desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
       time: "6:00 - 24:00",
@@ -36,7 +34,6 @@ export default function home() {
     },
     {
       star: "5.6",
-      hastags: ["burger", "fastfood", "popular"],
       name: "pica",
       desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
       time: "6:00 - 24:00",
@@ -51,7 +48,8 @@ export default function home() {
   return (
     <>
       <Header />
-      <Card data ={fakedata}/>
+      <Card data ={fakedata[0]}/>
+      <Card data ={fakedata[0]} sideways={true}/>
       <Partner/>
       <Footer />
       
