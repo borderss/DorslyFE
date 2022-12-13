@@ -37,8 +37,8 @@ class AuthController extends Controller
 
         if (!Auth::attempt($validated)) {
             return response()->json([
-                'data' => 'Check tyout email and password'
-            ]);
+                'data' => ['Check your email and password'],
+            ],403);
         }
 
         $token = auth()->user()->createToken('accessToken')->accessToken;
