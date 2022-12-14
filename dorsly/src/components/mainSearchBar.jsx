@@ -83,13 +83,14 @@ export default function mainSearchBar() {
   }
 
   const focusChildInput = (e) => {
-    e.target.closest(".person-count").focus()
+    e.target.closest("div").querySelector("input").focus()
   }
 
   return (
     <form className={style["search-field"]} onSubmit={handleSubmit}>
       <input
         type="date"
+        name="date"
         className={style["date"]}
         value={date}
         onChange={handleDateChange}
@@ -97,6 +98,7 @@ export default function mainSearchBar() {
       />
       <input
         type="time"
+        name="time"
         className={style["time"]}
         value={time}
         onChange={handleTimeChange}
@@ -111,6 +113,7 @@ export default function mainSearchBar() {
         }}>
         <input
           type="text"
+          name="personCount"
           className={style["person-count"]}
           pattern="[0-9]*"
           placeholder="1"
@@ -125,6 +128,7 @@ export default function mainSearchBar() {
         style={{ "--mainSearchIcon": `url(${MainSearchIcon})` }}>
         <input
           type="text"
+          name="searchText"
           className={style["search-input"]}
           onChange={handleSearchTextChange}
           placeholder="Search..."
