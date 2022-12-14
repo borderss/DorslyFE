@@ -275,11 +275,14 @@ input::-webkit-datetime-edit-ampm-field:focus {
 }
 
 .carousel {
+  display: flex;
+  align-items: flex-start;
+  gap: 50px;
   width: 1600px !important;
-  height: 600px;
+  height: 580px;
   left: initial !important;
   margin-inline: auto;
-  margin-top: 385px;
+  margin-top: 405px;
   background-color: transparent;
 }
 

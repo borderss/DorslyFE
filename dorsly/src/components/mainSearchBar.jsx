@@ -72,6 +72,7 @@ export default function mainSearchBar() {
 
   const handleSearchTextChange = (e) => {
     setSearchText(e.target.value)
+    console.log("Searching:", e.target.value)
   }
 
   const handleSubmit = (e) => {
