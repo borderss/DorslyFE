@@ -1,0 +1,128 @@
+.container {
+  position: relative;
+  background-color: #ffffff;
+  width: 312px;
+  aspect-ratio: 312/533 ;
+  font-family: "Lexend";
+  border-radius: 11px;
+  overflow: hidden;
+}
+
+.containersideways {
+  position: relative;
+  display: flex;
+  background-color: #ffffff;
+  max-width: 600px;
+  width: auto;
+  height: auto;
+  font-family: "Lexend";
+  border-radius: 11px;
+  overflow: hidden;
+}
+
+.star {
+  color: #ffb82e;
+  display: flex;
+  background-image: url("/assets/svg/cardratingback.svg");
+  width: 75px;
+  position: absolute;
+  line-height: 28px;
+  gap: 5px;
+  font-size: 18px;
+}
+
+.mainimg {
+  height: 50%;
+}
+
+.mainimg > img {
+  object-fit: cover;
+  width: 312px;
+  height: 100%;
+}
+
+.desccon {
+  padding: 7px;
+}
+
+.name {
+  color: #ffb82e;
+  margin-top: -4px;
+  margin-left: 17px;
+  font-size: 33px;
+}
+
+.desc {
+  color: #ffb82e;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-left: 17px;
+}
+
+.info {
+  color: #636363;
+  margin-top: 12px;
+  margin-left: 17px;
+  font-size: 16px;
+  font-weight: 200;
+}
+
+.info > div {
+  height: 30px;
+}
+
+.clock {
+  gap: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.clock > p {
+  margin: 0;
+  height: 20px;
+}
+
+.takeaway {
+  gap: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.takeaway > p {
+  margin: 0;
+  height: 20px;
+}
+
+.people {
+  gap: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.people > p {
+  margin: 0;
+  height: 20px;
+}
+
+.gps2 {
+  margin-left: 5px;
+  gap: 9px;
+  display: flex;
+  align-items: center;
+}
+
+.gps2 > p {
+  margin: 0;
+  height: 20px;
+}
+
+.reviewlogo {
+  gap: 7px;
+  display: flex;
+  align-items: center;
+}
+
+.reviewlogo > p {
+  margin: 0;
+  height: 20px;
+}

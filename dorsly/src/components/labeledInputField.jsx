@@ -7,21 +7,17 @@ export default function labeledInputField(props) {
 
   const setInputStyle = (color = "#ffb82e") => {
     inputRef.current.parentElement.style.setProperty("--label-color", color)
-
-    console.log(inputRef.current.parentElement.style)
-
     inputRef.current.style.cssText = `border-bottom: 2px solid ${color}`
   }
 
   const handleInput = (e) => {
-    let valid = props.handleInputChange(props.inputType, e.target.value)
+    let valid = props.handleInputChange(props.inputName, e.target.value)
 
     if (valid) {
       setInputStyle()
     } else {
       setInputStyle("#f00")
     }
-    console.log(valid)
   }
 
   return (
@@ -33,6 +29,7 @@ export default function labeledInputField(props) {
         ref={inputRef}
         onChange={(e) => handleInput(e)}
         {...(props.inputType ? { type: props.inputType } : {})}
+        {...(props.inputType == "password" ? { autoComplete: "current-password" } : {})}
       />
     </div>
   )
