@@ -1,4 +1,6 @@
 .labeled-text-input-box {
+  --label-color: #ffb82e;
+
   position: relative;
   width: 75%;
   min-height: 39px;
@@ -7,11 +9,11 @@
 
 .labeled-text-input-box[input-name]::before {
   content: attr(input-name);
+  color: var(--label-color);
   position: absolute;
   font-family: "Lexend";
   pointer-events: none;
 
-  color: var(--accent);
   font-size: 16px;
   top: -16px;
   left: 0px;
@@ -25,10 +27,11 @@
   width: 100%;
   height: 100%;
   border: none;
-  border-bottom: 2px solid var(--accent);
+  border-bottom: 2px solid #ffdd98;
   outline: none;
   padding-inline: 6px;
   font-size: 18px;
+  transition: 0.2s;
 }
 
 .labeled-text-input-box:has(input:placeholder-shown)::before {
@@ -42,3 +45,30 @@
   top: -16px !important;
   left: 0px !important;
 }
+
+.labeled-text-input-box:has(input:-webkit-autofill)::before {
+  font-size: 16px !important;
+  top: -16px !important;
+  left: 0px !important;
+}
+
+.labeled-text-input-box:has(:focus-within) > input {
+  border-bottom: 2px solid var(--accent);
+}
+
+.labeled-text-input-box > input:-webkit-autofill,
+.labeled-text-input-box > input:-webkit-autofill:hover,
+.labeled-text-input-box > input:-webkit-autofill:focus,
+.labeled-text-input-box > input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+input:-webkit-autofill{
+  -webkit-text-fill-color: inherit !important;
+}
+
+:-internal-autofill-previewed {
+  font-size: 20px !important;
+}
+
+

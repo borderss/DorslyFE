@@ -12,33 +12,50 @@
   line-height: 63px;
 }
 
-.dorsly-logo {
+.dorsly-logo{
   display: flex;
   align-items: center;
 }
 
-.gps-logo {
+.gps-logo{
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding-right: 5px;
+
+  height: 100%;
+  aspect-ratio: 1/1;
+  transform: scale(1);
+
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.search-logo {
+.search-logo{
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding-right: 5px;
+
+  height: 100%;
+  aspect-ratio: 1/1;
+  transform: scale(1);
+  
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .dorsly-logo > img {
+  filter: brightness(0) invert(77%) sepia(56%) saturate(926%) hue-rotate(333deg) brightness(103%) contrast(101%);;
   height: 35px;
-  filter: brightness(0) invert(82%) sepia(66%) saturate(3800%)
-    hue-rotate(334deg) brightness(105%) contrast(101%);
 }
 
-.search-logo > img:hover{
-  transform: scale(1.05);
+.search-logo:hover > img{
+  transform: scale(1.1);
 }
 
-.gps-logo > img:hover{
-  transform: scale(1.05);
+.gps-logo:hover > img{
+  transform: scale(1.1);
 }
 
 .wraper > * > a:link {
@@ -88,13 +105,21 @@
   justify-content: space-between;
 }
 
-.navbar > .wraper > div > div {
+.navbar > .wraper > * > a:not(.logo) {
   box-shadow: inset 0px 0px 0px 0px #ffb82e;
   cursor: pointer;
   transition: 0.2s;
 }
 
-.navbar > .wraper > div > div:hover {
+.navbar > .wraper > * > a:not(.logo):hover{
   background-color: #fafafa;
   box-shadow: inset 0px -3px 0px 0px #ffb82e;
+}
+
+.logo > div {
+  transition: 0.2s;
+}
+
+.logo:hover > div{
+  transform: scale(1.05);
 }

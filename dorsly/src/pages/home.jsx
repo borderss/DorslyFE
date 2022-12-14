@@ -1,8 +1,8 @@
 import React from "react"
 
 import "../static/css/general.css"
+import style from "../static/css/home.module.css"
 
-import Footer from "../components/footer"
 import Header from "../components/header"
 import Partner from "../components/partner"
 import Card from "../components/card"
@@ -52,7 +52,6 @@ export default function home() {
       <Card data ={fakedata[0]} sideways={true}/>
       <Partner/>
       <Footer />
-      
     </>
   )
 }
