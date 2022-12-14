@@ -1,15 +1,14 @@
 import React from "react"
 
 import "../static/css/general.css"
-import style from "../static/css/home.module.css"
 
+import Card from "../components/card"
 import Header from "../components/header"
 import Partner from "../components/partner"
-import Card from "../components/card"
+// import Footer from "../components/footer"
 
 export default function home() {
-
-  const fakedata=[
+  const fakedata = [
     {
       star: "5.6",
       name: "Burgeru Cehs",
@@ -19,7 +18,8 @@ export default function home() {
       seats: "25 available seats",
       gps: "1.3km away",
       comments: "253 reviews",
-      imgurl: "https://www.eastendfood.coop/wp-content/uploads/2018/06/Recipe_SouthwesternVeggieBurger.jpg"
+      imgurl:
+        "https://www.eastendfood.coop/wp-content/uploads/2018/06/Recipe_SouthwesternVeggieBurger.jpg",
     },
     {
       star: "5.6",
@@ -30,7 +30,8 @@ export default function home() {
       seats: "25 available seats",
       gps: "1.3km away",
       comments: "253 reviews",
-      imgurl: "https://www.eastendfood.coop/wp-content/uploads/2018/06/Recipe_SouthwesternVeggieBurger.jpg"
+      imgurl:
+        "https://www.eastendfood.coop/wp-content/uploads/2018/06/Recipe_SouthwesternVeggieBurger.jpg",
     },
     {
       star: "5.6",
@@ -41,17 +42,18 @@ export default function home() {
       seats: "25 available seats",
       gps: "1.3km away",
       comments: "253 reviews",
-      imgurl: "https://www.eastendfood.coop/wp-content/uploads/2018/06/Recipe_SouthwesternVeggieBurger.jpg"
-    }
-  ];
-  
+      imgurl:
+        "https://www.eastendfood.coop/wp-content/uploads/2018/06/Recipe_SouthwesternVeggieBurger.jpg",
+    },
+  ]
+
   return (
     <>
       <Header />
-      <Card data ={fakedata[0]}/>
-      <Card data ={fakedata[0]} sideways={true}/>
-      <Partner/>
-      <Footer />
+      <Card data={fakedata[0]} />
+      <Card data={fakedata[0]} sideways={true} />
+      <Partner />
+      {/* <Footer /> */}
     </>
   )
 }

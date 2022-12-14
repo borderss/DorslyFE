@@ -151,7 +151,7 @@ input::-webkit-datetime-edit-ampm-field:focus {
 
 .time {
   padding: 5px !important;
-  width: 150px !important;
+  width: 160px !important;
   border-right: 2px solid #ebebeb;
   cursor: pointer;
 }
@@ -180,7 +180,7 @@ input::-webkit-datetime-edit-ampm-field:focus {
 }
 
 .person-box > input {
-  width: 10px;
+  width: 12px;
   border: none;
   outline: none;
   font-family: "Lexend"	;
@@ -190,7 +190,7 @@ input::-webkit-datetime-edit-ampm-field:focus {
   color: #4a4a4a;
   cursor: pointer;
   margin-right: 5px;
-  margin-top: 1px;
+  margin-top: 2px;
   border-bottom: 2px solid #fff;
   transition: 0.2s;
 }
@@ -250,6 +250,11 @@ input::-webkit-datetime-edit-ampm-field:focus {
   border-bottom: 2px solid var(--accent);
   color: initial;
   background-color: initial;
+}
+
+.search-input::placeholder {
+  color: #ccc;
+  font-weight: 200;
 }
 
 .seperator {

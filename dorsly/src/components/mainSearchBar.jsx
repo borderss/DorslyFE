@@ -13,6 +13,7 @@ export default function mainSearchBar() {
   const [time, setTime] = useState(new Date())
   const [personCount, setPersonCount] = useState(1)
   const [personText, setPersonText] = useState("Person")
+  const [searchText, setSearchText] = useState("")
 
   useEffect(() => {
     const currdate = new Date()
@@ -60,21 +61,32 @@ export default function mainSearchBar() {
 
       if (e.target.value.length > 1) {
         console.log(e.target)
-        e.target.style.width = "22px"
+        e.target.style.width = "25px"
       } else {
-        e.target.style.width = "15px"
+        e.target.style.width = "17px"
       }
     } else {
       e.target.value[-1] = ""
     }
   }
 
+  const handleSearchTextChange = (e) => {
+    setSearchText(e.target.value)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    let formData = new FormData(e.target)
+    let data = Object.fromEntries(formData)
+    console.log(data)
+  }
+
   const focusChildInput = (e) => {
-    e.target.children[0].focus()
+    e.target.closest(".person-count").focus()
   }
 
   return (
-    <div className={style["search-field"]}>
+    <form className={style["search-field"]} onSubmit={handleSubmit}>
       <input
         type="date"
         className={style["date"]}
@@ -113,10 +125,11 @@ export default function mainSearchBar() {
         <input
           type="text"
           className={style["search-input"]}
-          placeholder="Search"
+          onChange={handleSearchTextChange}
+          placeholder="Search..."
         />
         <button>Search</button>
       </div>
-    </div>
+    </form>
   )
 }
