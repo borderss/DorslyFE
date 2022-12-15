@@ -72,18 +72,18 @@ export default function mainSearchBar() {
 
   const handleSearchTextChange = (e) => {
     setSearchText(e.target.value)
-    console.log("Searching:", e.target.value)
+  }
+  const focusChildInput = (e) => {
+    e.target.closest("div").querySelector("input").focus()
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     let formData = new FormData(e.target)
-    let data = Object.fromEntries(formData)
-    console.log(data)
-  }
+    let data = Object.fromEntries(formData.entries()) // convert formData to object
+    data.personCount = parseInt(data.personCount)
 
-  const focusChildInput = (e) => {
-    e.target.closest("div").querySelector("input").focus()
+    console.log(data)
   }
 
   return (
