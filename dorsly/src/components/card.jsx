@@ -1,21 +1,23 @@
-import React from "react";
-import style from "../static/css/card.module.css";
-import Clock from "/assets/svg/clock.svg";
-import People from "/assets/svg/people.svg";
-import Reviewlogo from "/assets/svg/reviewlogo.svg";
-import Star from "/assets/svg/star.svg";
-import Takeaway from "/assets/svg/takeaway.svg";
-import Gps2 from "/assets/svg/Gps2.svg";
+import React from "react"
+
+import style from "../static/css/card.module.css"
+
+import Clock from "/assets/svg/clock.svg"
+import Gps2 from "/assets/svg/Gps2.svg"
+import People from "/assets/svg/people.svg"
+import Reviewlogo from "/assets/svg/reviewlogo.svg"
+import Star from "/assets/svg/star.svg"
+import Takeaway from "/assets/svg/takeaway.svg"
 
 export default function card(props) {
-    let containerstyle
-    if (props.sideways){
-        containerstyle = style["containersideways"]
-        
-    }
-    else{
-        containerstyle = style["container"]
-    }
+  let containerstyle
+
+  if (props.sideways) {
+    containerstyle = style["containersideways"]
+  } else {
+    containerstyle = style["container"]
+  }
+
   return (
     <>
       <div className={containerstyle}>
@@ -54,5 +56,5 @@ export default function card(props) {
         </div>
       </div>
     </>
-  );
+  )
 }
