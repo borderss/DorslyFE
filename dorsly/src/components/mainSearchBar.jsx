@@ -61,7 +61,7 @@ export default function mainSearchBar() {
 
       if (e.target.value.length > 1) {
         console.log(e.target)
-        e.target.style.width = "25px"
+        e.target.style.width = "20px"
       } else {
         e.target.style.width = "17px"
       }

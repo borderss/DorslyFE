@@ -7,6 +7,7 @@ import Header from "../components/header"
 import Partner from "../components/partner"
 import MainSarchBar from "../components/mainSearchBar"
 import Card from "../components/card"
+import Carousel from "../components/carousel"
 
 
 import CalendarIllustration from "/assets/svg/calendarillustration.svg"
@@ -18,6 +19,18 @@ import PhoneIllustration from "/assets/svg/phoneillustration.svg"
 
 export default function home() {
   const fakedata = [
+    {
+      star: "5.6",
+      name: "pirmais",
+      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
+      time: "6:00 - 24:00",
+      place: "Takeaway or on location",
+      seats: "25 available seats",
+      gps: "1.3km away",
+      comments: "253 reviews",
+      imgurl:
+        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
+    },
     {
       star: "5.6",
       name: "Burgeru Cehs",
@@ -86,12 +99,15 @@ export default function home() {
           </div>
         </div>
 
-        <div className={style["carousel"]}>
-          <Card data={fakedata[0]} />
-          <Card data={fakedata[0]} />
-          <Card data={fakedata[0]} />
-          <Card data={fakedata[0]} />
-        </div>
+        <Carousel data={[
+          <Card data={fakedata[0]} />,
+          <Card data={fakedata[2]} />,
+          <Card data={fakedata[3]} />,
+          <Card data={fakedata[3]} />,
+          <Card data={fakedata[2]} />,
+          <Card data={fakedata[2]} />,
+          <Card data={fakedata[2]} />,
+        ]}/>
 
         <div className={style["description"]}>
           <div>

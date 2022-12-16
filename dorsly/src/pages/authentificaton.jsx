@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import {loginUser, registerUser} from "../static/js/util.js"
+import { loginUser, registerUser } from "../static/js/util.js"
 
 import auth from "../static/css/auth.module.css"
 import "../static/css/general.css"
@@ -192,7 +192,7 @@ export default function authentificaton(props) {
     if (regSection == 0) {
       setRegSection(1)
       return
-    } 
+    }
 
     console.log("Registering: ", registerData)
     registerUser(registerData)
@@ -301,7 +301,7 @@ export default function authentificaton(props) {
 
         <button
           ref={submitButtonRef}
-          onSubmit={handleRegister}
+          onSubmit={(_) => console.log(registerData)}
           className={auth["actionBtn"]}
           disabled>
           Next step
@@ -341,7 +341,7 @@ export default function authentificaton(props) {
               <img className={auth["logo"]} src={Logo} />
             </button>
           </div>
-          {formSection}  
+          {formSection}
         </div>
       </div>
     </>

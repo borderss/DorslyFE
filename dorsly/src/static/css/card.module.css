@@ -6,6 +6,7 @@
   font-family: "Lexend";
   border-radius: 11px;
   overflow: hidden;
+  flex: 0 0 auto;
 }
 
 .containersideways {
