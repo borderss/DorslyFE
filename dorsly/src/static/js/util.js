@@ -1,4 +1,4 @@
-let api = "http://127.0.0.1:5173/api"
+let api = "https://api.dorsly.com/api"
 
 const apiMethod = async (endpoint = "", requestParams) => {
   const response = await fetch(api + endpoint, requestParams)
@@ -33,18 +33,18 @@ const getToken = () => {
   }
 }
 
-const loginUser = (email, password) => {
+const loginUser = (props) => {
   if (!userExists()) {
     apiMethod("/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: email,
-        password: password,
+        email:      props.email,
+        password:   props.password,
       }),
     }).then((data) => {
       setLS("user", data)
-      location.reload()
+      window.location.href = "/"
       return data
     })
   } else {
@@ -53,18 +53,20 @@ const loginUser = (email, password) => {
   }
 }
 
-const registerUser = (name, email, password) => {
-  if (!userExists()) {
+const registerUser = (props) => {
+  if (!userExists() && props.password == props.passwordConfirm) {
     apiMethod("/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: name,
-        email: email,
-        password: password,
+        first_name:   props.firstName,
+        last_name:    props.lastName,
+        email:        props.email,
+        phone_number: props.phoneNumber,
+        password:     props.password,
       }),
     }).then((data) => {
-      location.reload()
+      window.location.href = "/login"
       return data
     })
   } else {

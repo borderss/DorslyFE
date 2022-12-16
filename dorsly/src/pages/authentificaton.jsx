@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
+import {loginUser, registerUser} from "../static/js/util.js"
 
 import auth from "../static/css/auth.module.css"
 import "../static/css/general.css"
@@ -82,16 +83,6 @@ export default function authentificaton(props) {
         submitButtonRef.current.disabled = true
       }
     }
-  }
-
-  const handleLogin = (e) => {
-    e.preventDefault()
-    console.log(loginData)
-  }
-
-  const handleRegister = (e) => {
-    e.preventDefault()
-    setRegSection(1)
   }
 
   const handleLoginInputChange = (inputName, value) => {
@@ -189,6 +180,24 @@ export default function authentificaton(props) {
     }
   }
 
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    console.log("Logging in: ", loginData)
+    loginUser(loginData)
+  }
+
+  const handleRegister = async (e) => {
+    e.preventDefault()
+
+    if (regSection == 0) {
+      setRegSection(1)
+      return
+    } 
+
+    console.log("Registering: ", registerData)
+    registerUser(registerData)
+  }
+
   document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")'
 
   let formSection
@@ -262,6 +271,7 @@ export default function authentificaton(props) {
             <LabeledInputField
               label="Phone number"
               inputName="phoneNumber"
+              placeholder="+1 123 456 7890"
               handleInputChange={handleRegisterInputChange}
             />
           </>
@@ -291,7 +301,7 @@ export default function authentificaton(props) {
 
         <button
           ref={submitButtonRef}
-          onSubmit={(_) => console.log(registerData)}
+          onSubmit={handleRegister}
           className={auth["actionBtn"]}
           disabled>
           Next step
@@ -331,7 +341,7 @@ export default function authentificaton(props) {
               <img className={auth["logo"]} src={Logo} />
             </button>
           </div>
-          {formSection}
+          {formSection}  
         </div>
       </div>
     </>
