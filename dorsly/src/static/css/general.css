@@ -64,3 +64,13 @@ button {
 button:hover {
   background-color: var(--accent-light);
 }
+
+button::selection{
+  background-color: transparent;
+  color: inherit;
+}
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}

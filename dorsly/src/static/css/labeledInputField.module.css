@@ -67,6 +67,16 @@ input:-webkit-autofill{
   -webkit-text-fill-color: inherit !important;
 }
 
+input::placeholder{
+  color: transparent;
+  transition: 0.2s;
+}
+
+.labeled-text-input-box:has(:focus-within) > input::placeholder{
+  color: #ccc;
+}
+
+
 :-internal-autofill-previewed {
   font-size: 20px !important;
 }
