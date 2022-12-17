@@ -78,7 +78,6 @@ export default function carousel(props) {
     )
   }
 
-  // move cards on page change
   useEffect(() => {
     let carousel = carouselRef.current
     

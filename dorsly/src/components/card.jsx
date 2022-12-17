@@ -18,15 +18,20 @@ export default function card(props) {
     containerstyle = style["container"]
   }
 
+  const onCardClick = (e) => {
+    console.log("card clicked")
+  
+    window.location.href = "/place/" + props.data.id
+  }
+
   return (
     <>
-      <div className={containerstyle}>
+      <div className={containerstyle} onClick={onCardClick}>
         <div className={style["star"]}>
           <img src={Star} alt="" />
           <span>{props.data.star}</span>
         </div>
-        <div className={style["mainimg"]}>
-          <img src={props.data.imgurl} alt="" />
+        <div className={style["mainimg"]} style={{"--imgUrl": `url(${props.data.imgurl})`}}>
         </div>
         <div className={style["desccon"]}>
           <div className={style["name"]}>{props.data.name}</div>

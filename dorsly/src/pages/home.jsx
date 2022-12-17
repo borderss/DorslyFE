@@ -20,6 +20,7 @@ import PhoneIllustration from "/assets/svg/phoneillustration.svg"
 export default function home() {
   const fakedata = [
     {
+      id: 1,
       star: "5.6",
       name: "pirmais",
       desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
@@ -32,6 +33,7 @@ export default function home() {
         "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
     },
     {
+      id: 2,
       star: "5.6",
       name: "Burgeru Cehs",
       desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
@@ -43,7 +45,8 @@ export default function home() {
       imgurl:
         "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
     },
-    {
+    { 
+      id: 3,
       star: "5.6",
       name: "kebab",
       desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
@@ -56,6 +59,7 @@ export default function home() {
         "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
     },
     {
+      id: 4,
       star: "5.6",
       name: "pica",
       desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
