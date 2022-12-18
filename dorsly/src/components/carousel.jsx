@@ -119,7 +119,9 @@ export default function carousel(props) {
         id={i + 1}
         className={style["carouselDots"]}
         onClick={onDotClick}
-        active={i == 0 ? "true" : "false"}></span>
+        active={i == 0 ? "true" : "false"}>
+          <div></div>
+        </span>
     )
   }
 
