@@ -96,12 +96,13 @@ export default function home() {
 
           <p className={style["seperator"]}>Alternatively,</p>
           <div className={style["actions"]}>
-            <button>Register now</button>
-            <button className={style["inverted"]}>
+            <button onClick={ () => {window.location.href="/register"}}>Register now</button>
+            <button className={style["inverted"]} onClick={ () => {window.location.href="/contact"}}>
               Register as a business
             </button>
           </div>
         </div>
+
 
         <Carousel data={[
           <Card data={fakedata[0]} />,
