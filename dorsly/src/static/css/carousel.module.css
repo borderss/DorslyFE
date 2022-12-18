@@ -23,6 +23,7 @@ div > .carouselContainer {
   width: 1448px;
   height: 100%;
   overflow-x: clip;
+  transition: none;
 }
 
 .carouselInner {
@@ -41,7 +42,6 @@ div > .carouselContainer {
   flex: 0 0 auto;
   width: 35px;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .carouselArrow:hover {
