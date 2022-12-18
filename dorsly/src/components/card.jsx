@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 
 import style from "../static/css/card.module.css"
 
@@ -10,15 +10,22 @@ import Star from "/assets/svg/star.svg"
 import Takeaway from "/assets/svg/takeaway.svg"
 
 export default function card(props) {
+  const cardContainer = useRef(null)
+
   let containerstyle
 
   if (props.sideways) {
-    containerstyle = style["containersideways"]
+    containerstyle = style["cardContainerSideways"]
   } else {
-    containerstyle = style["container"]
+    containerstyle = style["cardContainer"]
   }
 
   const onCardClick = (e) => {
+    if (cardContainer.current.parentNode.hasAttribute("dragging")) {
+      cardContainer.current.parentNode.removeAttribute("dragging")
+      return
+    }
+
     console.log("card clicked")
   
     window.location.href = "/place/" + props.data.id
@@ -26,7 +33,7 @@ export default function card(props) {
 
   return (
     <>
-      <div className={containerstyle} onClick={onCardClick}>
+      <div ref={cardContainer} className={containerstyle} onClick={onCardClick}>
         <div className={style["star"]}>
           <img src={Star} alt="" />
           <span>{props.data.star}</span>

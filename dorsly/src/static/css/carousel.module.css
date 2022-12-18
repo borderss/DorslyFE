@@ -15,7 +15,6 @@ div > .carouselContainer {
   margin-inline: auto;
   margin-top: 405px;
   user-select: none;
-  overflow-x: clip;
   justify-content: space-between;
 }
 
@@ -23,6 +22,7 @@ div > .carouselContainer {
   width: 1448px;
   height: 100%;
   overflow-x: clip;
+  transition: none;
 }
 
 .carouselInner {
@@ -74,18 +74,29 @@ div > .carouselContainer {
 }
 
 .carouselDots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.carouselDots > div {
   width: 9px;
   height: 9px;
   background-color: #e6e6e6;
   border-radius: 10px;
-  margin: 10px;
-  cursor: pointer;
+
+  user-select: none;
+  pointer-events: none;
+
   transition: 0.1s;
 }
 
-.carouselDots[active="true"] {
+.carouselDots[active="true"] > div {
   background-color: #ffffff;
   width: 12px;
   height: 12px;
-  margin: 8px;
 }

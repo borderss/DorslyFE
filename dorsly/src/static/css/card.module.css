@@ -1,4 +1,4 @@
-.container {
+.cardContainer {
   position: relative;
   background-color: #ffffff;
   width: 312px;
@@ -12,17 +12,17 @@
   flex: 0 0 auto;
 }
 
-.container:hover {
+.cardContainer:hover {
   transform: translateY(-10px);
   box-shadow: 0px 25px 43px 0 #0001;
 }
 
-.container:active {
+.cardContainer:active {
   transform: translateY(-12px);
   box-shadow: 0px 27px 42px 0 #0002;
 }
 
-.containersideways {
+.cardContainerSideways {
   position: relative;
   display: flex;
   background-color: #ffffff;

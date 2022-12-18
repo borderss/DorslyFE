@@ -6,8 +6,12 @@ import ArrowLeftSvg from "/assets/svg/arrowLeft.svg"
 import ArrowRightSvg from "/assets/svg/arrowRight.svg"
 
 export default function carousel(props) {
-  const [page, setPage] = useState(1)
-  const pageCount = props.data.length % 3 === 0 ? props.data.length / 3 : Math.floor(props.data.length / 3) + 1
+  const [page, setPage] = useState(2)
+
+  const pageCount =
+    props.data.length % 3 === 0
+      ? props.data.length / 3
+      : Math.floor(props.data.length / 3) + 1
 
   const carouselRef = useRef(null)
   const carouselDotsRef = useRef(null)
@@ -25,25 +29,19 @@ export default function carousel(props) {
       } else {
         setPage(pageCount)
       }
-
-      console.log(page)
-      console.log(pageCount)
     } else if (direction === "right") {
       if (page + 1 <= pageCount) {
         setPage(page + 1)
       } else {
         setPage(1)
       }
-      
-      console.log(page)
-      console.log(pageCount)
     }
   }
 
   const onDotClick = (e) => {
     let dots = carouselDotsRef.current.children
 
-    for(let dot of dots){
+    for (let dot of dots) {
       dot.setAttribute("active", "false")
     }
 
@@ -51,19 +49,67 @@ export default function carousel(props) {
     setPage(e.target.id)
   }
 
-  const loadDots = () => {
+  const loadDots = (id) => {
     let dots = carouselDotsRef.current.children
 
-    for(let dot of dots){
+    for (let dot of dots) {
       dot.setAttribute("active", "false")
     }
 
-    dots[page - 1].setAttribute("active", "true")
+    dots[id ? id - 1 : page - 1].setAttribute("active", "true")
   }
 
-  useEffect(() => {
-    loadDots()
-  }, [page])
+  const handleMouseDown = (e) => {
+    e.preventDefault()
+    let carousel = carouselRef.current
+    let offset = parseInt(carousel.style.marginLeft)
+
+    const mouseStartPos = e.clientX
+
+    const handleMouseMove = (e) => {
+      if (Math.abs(mouseStartPos - e.clientX) < 50) {
+        carousel.setAttribute("dragging", "true")
+      } else {
+        carousel.setAttribute("dragging", "false")
+      }
+
+      carousel.style.transition = "0s"
+      carousel.style.marginLeft = `${offset - (mouseStartPos - e.clientX)}px`
+    }
+
+    const handleMouseUp = (e) => {
+      carousel.style.transition = "0.5s"
+      carousel.style.marginLeft = `${362 * 2 * (1 - page)}px`
+
+      if (Math.abs(mouseStartPos - e.clientX) > 181) {
+        let distance = Math.floor(Math.abs(mouseStartPos - e.clientX) / 362)
+
+        if (mouseStartPos - e.clientX > 0) {
+          if (page + distance <= pageCount) {
+            setPage(page + distance)
+          } else if (page == pageCount && distance >= 1) {
+            setPage(1)
+          } else if (page + distance > pageCount) {
+            setPage(pageCount)
+          }
+        } else {
+          if (page - distance > 0) {
+            setPage(page - distance)
+          } else if (page == 1 && distance >= 1) {
+            setPage(pageCount)
+          } else if (page - distance < 0) {
+            setPage(1)
+          }
+        }
+      }
+
+      document.removeEventListener("mousemove", handleMouseMove)
+      document.removeEventListener("mouseup", handleMouseUp)
+    }
+
+    document.addEventListener("mousemove", handleMouseMove)
+    document.addEventListener("mouseup", handleMouseUp)
+  }
 
   let dots = []
 
@@ -74,13 +120,16 @@ export default function carousel(props) {
         className={style["carouselDots"]}
         onClick={onDotClick}
         active={i == 0 ? "true" : "false"}>
+          <div></div>
         </span>
     )
   }
 
   useEffect(() => {
+    loadDots()
+
     let carousel = carouselRef.current
-    
+
     if (carousel === null) {
       return
     }
@@ -89,10 +138,9 @@ export default function carousel(props) {
     if (carousel.children.length % 2 === 0) {
       carousel.style.marginLeft = `${362 * 2 * (1 - page)}px`
     } else {
-      carousel.style.marginLeft = `${(362 * 2 * (1 - page))}px`
+      carousel.style.marginLeft = `${362 * 2 * (1 - page)}px`
     }
   }, [page])
-
 
   return (
     <div className={style["carouselBoundingBox"]}>
@@ -102,7 +150,7 @@ export default function carousel(props) {
           onClick={(e) => onArrowClick(e, "left")}>
           <img src={ArrowLeftSvg} alt=">" />
         </span>
-        <div className={style["carousel"]}>
+        <div className={style["carousel"]} onMouseDown={handleMouseDown}>
           <div ref={carouselRef} className={style["carouselInner"]}>
             {props.data}
           </div>
