@@ -15,7 +15,6 @@ div > .carouselContainer {
   margin-inline: auto;
   margin-top: 405px;
   user-select: none;
-  overflow-x: clip;
   justify-content: space-between;
 }
 
@@ -42,6 +41,7 @@ div > .carouselContainer {
   flex: 0 0 auto;
   width: 35px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .carouselArrow:hover {
