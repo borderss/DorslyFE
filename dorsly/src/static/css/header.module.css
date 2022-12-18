@@ -1,9 +1,13 @@
 .navbar {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
   font-size: 21px;
   font-family: "DM Sans", sans-serif;
   color: #ffb82e;
   background-color: #ffffff;
-  gap: 0;
+  gap: 0;;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -69,6 +73,7 @@
 .wraper > * > a {
   height: 100%;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .left-side > a > div {
