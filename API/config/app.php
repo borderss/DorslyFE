@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
+    'stripe_secret' => env('STRIPE_SECRET'),
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
