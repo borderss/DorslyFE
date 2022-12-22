@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import { loginUser, registerUser } from "../static/js/util.js"
 
 import auth from "../static/css/auth.module.css"
@@ -15,11 +15,18 @@ import TwitterLogo from "/assets/svg/Twitter.svg"
 
 import LabeledInputField from "../components/labeledInputField"
 
+// import user context and use it
+import { UserContext } from "../contexts/userContext"
+
 export default function authentificaton(props) {
+  const userContext = useContext(UserContext)
+
+  
   const [loginData, setLoginData] = useState({
     email: null,
     password: null,
   })
+
 
   const [regSection, setRegSection] = useState(0)
   const [registerData, setRegisternData] = useState({
@@ -182,8 +189,15 @@ export default function authentificaton(props) {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    console.log("Logging in: ", loginData)
-    loginUser(loginData)
+    loginUser(loginData).then((res) => {
+      if (res === null) {
+        console.log("Error logging in")
+      } else {
+        console.log(res)
+        userContext.setUser(res.user)
+        userContext.setToken(res.access_token)
+      }
+    })
   }
 
   const handleRegister = async (e) => {
@@ -195,7 +209,14 @@ export default function authentificaton(props) {
     }
 
     console.log("Registering: ", registerData)
-    registerUser(registerData)
+
+    const res = await registerUser(registerData)
+
+    console.log(res)
+
+    if (res === null) {
+      console.log("Error registering user")
+    }
   }
 
   document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")'
