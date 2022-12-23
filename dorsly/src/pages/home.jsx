@@ -1,13 +1,15 @@
-import React from "react"
+import React, { useContext } from "react"
+import { Link } from "react-router-dom"
+import { UserContext } from "../contexts/userContext"
 
 import "../static/css/general.css"
 import style from "../static/css/home.module.css"
 
-import Header from "../components/header"
-import Partner from "../components/partner"
-import MainSarchBar from "../components/mainSearchBar"
 import Card from "../components/card"
 import Carousel from "../components/carousel"
+import Header from "../components/header"
+import MainSarchBar from "../components/mainSearchBar"
+import Partner from "../components/partner"
 
 
 import CalendarIllustration from "/assets/svg/calendarillustration.svg"
@@ -18,6 +20,10 @@ import PhoneIllustration from "/assets/svg/phoneillustration.svg"
 // import Footer from "../components/footer"
 
 export default function home() {
+  document.body.style.backgroundImage = ""
+
+  const { user, token, setUser, setToken } = useContext(UserContext)
+
   const fakedata = [
     {
       id: 1,
@@ -45,7 +51,7 @@ export default function home() {
       imgurl:
         "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
     },
-    { 
+    {
       id: 3,
       star: "5.6",
       name: "kebab",
@@ -73,6 +79,8 @@ export default function home() {
     },
   ]
 
+  console.log(user, token)
+
   return (
     <>
       <Header />
@@ -96,23 +104,26 @@ export default function home() {
 
           <p className={style["seperator"]}>Alternatively,</p>
           <div className={style["actions"]}>
-            <button onClick={ () => {window.location.href="/register"}}>Register now</button>
-            <button className={style["inverted"]} onClick={ () => {window.location.href="/contact"}}>
+            <Link to="/register" className={style["link"]}>
+              Register now
+            </Link>
+            <Link to="/contact" className={[style["link"], style["inverted"]].join(" ")}>
               Register as a business
-            </button>
+            </Link>
           </div>
         </div>
 
-
-        <Carousel data={[
-          <Card data={fakedata[0]} />,
-          <Card data={fakedata[2]} />,
-          <Card data={fakedata[3]} />,
-          <Card data={fakedata[3]} />,
-          <Card data={fakedata[2]} />,
-          <Card data={fakedata[2]} />,
-          <Card data={fakedata[2]} />,
-        ]}/>
+        <Carousel
+          data={[
+            <Card data={fakedata[0]} />,
+            <Card data={fakedata[2]} />,
+            <Card data={fakedata[3]} />,
+            <Card data={fakedata[3]} />,
+            <Card data={fakedata[2]} />,
+            <Card data={fakedata[2]} />,
+            <Card data={fakedata[2]} />,
+          ]}
+        />
 
         <div className={style["description"]}>
           <div>

@@ -16,6 +16,76 @@
   color: var(--white);
 }
 
+.link {
+  height: 3em;
+  min-height: 3em;
+  padding-inline: 30px;
+  background-color: var(--accent);
+
+  color: var(--white);
+  font-family: "Lexend";
+  font-size: 18px;
+
+  line-height: 53px;
+
+  border: none;
+  border-radius: 100vw;
+  text-decoration: none;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.link:hover {
+  background-color: var(--accent-light);
+}
+
+.link::selection{
+  background-color: transparent;
+  color: inherit;
+}
+
+.link {
+  height: 3em;
+  min-height: 3em;
+  padding-inline: 30px;
+  background-color: var(--accent);
+
+  color: var(--white);
+  font-family: "Lexend";
+  font-size: 18px;
+
+  line-height: 53px;
+
+  border: none;
+  border-radius: 100vw;
+  text-decoration: none;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.link:hover {
+  background-color: var(--accent-light);
+}
+
+.link::selection{
+  background-color: transparent;
+  color: inherit;
+}
+
+.inverted {
+  background-color: transparent;
+  color: var(--accent);
+  border: 3px solid var(--accent);
+}
+
+.inverted:hover {
+  background-color: transparent;
+  color: var(--accent-light);
+  border: 3px solid var(--accent-light);
+}
+
 .phoneIllustration {
   position: absolute;
   right: min(-4px, 2vw);
@@ -124,6 +194,17 @@
   padding-left: 15px;
   gap: 8px;
   cursor: pointer;
+}
+
+.search-field > input:-webkit-autofill,
+.search-field > input:-webkit-autofill:hover,
+.search-field > input:-webkit-autofill:focus,
+.search-field > input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.search-field > input:-webkit-autofill{
+  -webkit-text-fill-color: inherit !important;
 }
 
 .date {

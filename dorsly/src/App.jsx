@@ -1,7 +1,5 @@
-import React, { createContext, useMemo, useState } from "react"
+import React from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import UserContextProvider from "./contexts/userContext"
-
 
 import "../src/static/css/general.css"
 
@@ -13,7 +11,6 @@ import Test from "./pages/test"
 
 export default function App() {
   return (
-    <UserContextProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -25,6 +22,5 @@ export default function App() {
           <Route path="/test" element={<Test />} />
         </Routes>
       </BrowserRouter>
-    </UserContextProvider>
   )
 }

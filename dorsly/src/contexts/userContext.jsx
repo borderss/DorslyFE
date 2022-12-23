@@ -1,11 +1,6 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useMemo, useState } from "react"
 
-export const UserContext = createContext({
-    user: null,
-    token: null,
-    setUser: () => {},
-    setToken: () => {},
-  })
+export const UserContext = createContext()
 
 export default function UserContextProvider(props) {
   const [user, setUser] = useState(null)
