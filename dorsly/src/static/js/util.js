@@ -1,4 +1,17 @@
-let api = "https://api.dorsly.com/api"
+const api = "https://api.dorsly.com/api"
+
+const defaultHeaders = {
+  "Content-Type": "application/json",
+  accept: "*/*",
+}
+
+const bearerHeaders = (token) => {
+  return {
+    "Content-Type": "application/json",
+    accept: "*/*",
+    Authorization: `Bearer ${token}`,
+  }
+}
 
 const apiMethod = async (endpoint = "", requestParams) => {
   const response = await fetch(api + endpoint, requestParams)
@@ -33,42 +46,45 @@ const getToken = () => {
   }
 }
 
-const loginUser = (props) => {
+const loginUser = async (props) => {
   if (!userExists()) {
-    apiMethod("/login", {
+    return apiMethod("/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: defaultHeaders,
       body: JSON.stringify({
-        email:      props.email,
-        password:   props.password,
+        email: props.email,
+        password: props.password,
       }),
-    }).then((data) => {
-      setLS("user", data)
-      window.location.href = "/"
-      return data
     })
+      .then((data) => {
+        setLS("user", data)
+        return data
+      })
+      .catch((error) => error)
   } else {
     console.warn("Logging in with a user token")
     return null
   }
 }
 
-const registerUser = (props) => {
+const registerUser = async (props) => {
   if (!userExists() && props.password == props.passwordConfirm) {
-    apiMethod("/register", {
+    return apiMethod("/register", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: defaultHeaders,
       body: JSON.stringify({
-        first_name:   props.firstName,
-        last_name:    props.lastName,
-        email:        props.email,
+        first_name: props.firstName,
+        last_name: props.lastName,
+        email: props.email,
         phone_number: props.phoneNumber,
-        password:     props.password,
+        password: props.password,
       }),
-    }).then((data) => {
-      window.location.href = "/login"
-      return data
     })
+      .then((data) => {
+        window.location.href = "/login"
+        return data
+      })
+      .catch((error) => error)
   } else {
     console.warn("Registering with a user token")
     return null
@@ -77,17 +93,16 @@ const registerUser = (props) => {
 
 const logoutUser = () => {
   if (userExists()) {
-    apiMethod("/logout", {
+    return apiMethod("/logout", {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-    }).then((data) => {
-      removeLS("user")
-      location.reload()
-      return data
+      headers: bearerHeaders(getToken()),
     })
+      .then((data) => {
+        removeLS("user")
+        location.reload()
+        return data
+      })
+      .catch((error) => error)
   } else {
     console.warn("logging out without an user existing")
     return null
@@ -103,27 +118,6 @@ const userExists = () => {
   }
 }
 
-const examplePost = (var1, var2) => {
-  if (userExists()) {
-    apiMethod("/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-      body: JSON.stringify({
-        param1: var1,
-        param2: var2,
-      }),
-    }).then(() => {
-      location.reload()
-    })
-  } else {
-    console.warn("Invalid data")
-    return null
-  }
-}
-
 export {
   apiMethod,
   setLS,
@@ -135,5 +129,4 @@ export {
   registerUser,
   logoutUser,
   userExists,
-  examplePost,
 }

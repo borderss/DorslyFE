@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
+import {Link, useNavigate} from "react-router-dom"
 import { loginUser, registerUser } from "../static/js/util.js"
 
 import auth from "../static/css/auth.module.css"
@@ -15,7 +16,15 @@ import TwitterLogo from "/assets/svg/Twitter.svg"
 
 import LabeledInputField from "../components/labeledInputField"
 
+// import user context and use it
+import { UserContext } from "../contexts/userContext"
+
 export default function authentificaton(props) {
+  document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")'
+
+  const {user, token, setUser, setToken} = useContext(UserContext)
+  const navigate = useNavigate()
+
   const [loginData, setLoginData] = useState({
     email: null,
     password: null,
@@ -46,7 +55,7 @@ export default function authentificaton(props) {
   }, [registerData])
 
   const handleLogoButtonClick = () => {
-    window.location.href = "/"
+    navigate("/")
   }
 
   const setLoginButton = () => {
@@ -182,8 +191,16 @@ export default function authentificaton(props) {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    console.log("Logging in: ", loginData)
-    loginUser(loginData)
+    loginUser(loginData).then((res) => {
+      if (res === null) {
+        console.log("Error logging in")
+      } else {
+        setUser(res.user)
+        setToken(res.access_token)
+
+        navigate("/")
+      }
+    })
   }
 
   const handleRegister = async (e) => {
@@ -195,10 +212,16 @@ export default function authentificaton(props) {
     }
 
     console.log("Registering: ", registerData)
-    registerUser(registerData)
+
+    const res = await registerUser(registerData)
+
+    console.log(res)
+
+    if (res === null) {
+      console.log("Error registering user")
+    }
   }
 
-  document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")'
 
   let formSection
 
@@ -231,21 +254,21 @@ export default function authentificaton(props) {
         </button>
         <p className={auth["sectionSeperator"]}>or</p>
         <div className={auth["third-party-auth-options"]}>
-          <a href="/facebookauth">
+          <Link to="/facebookauth">
             <img src={FacebookLogo} />
-          </a>
-          <a href="googleauth">
+          </Link>
+          <Link to="googleauth">
             <img src={GoogleLogo} />
-          </a>
-          <a href="twitterauth">
+          </Link>
+          <Link to="twitterauth">
             <img src={TwitterLogo} />
-          </a>
-          <a href="appleauth">
+          </Link>
+          <Link to="appleauth">
             <img src={AppleLogo} />
-          </a>
+          </Link>
         </div>
         <p>
-          Don't have an account? <a href="/register">Register</a>
+          Don't have an account? <Link to="/register">Register</Link>
         </p>
       </form>
     )
@@ -308,21 +331,21 @@ export default function authentificaton(props) {
         </button>
         <p className={auth["sectionSeperator"]}>or</p>
         <div className={auth["third-party-auth-options"]}>
-          <a href="/facebookauth">
+          <Link to="/facebookauth">
             <img src={FacebookLogo} />
-          </a>
-          <a href="googleauth">
+          </Link>
+          <Link to="googleauth">
             <img src={GoogleLogo} />
-          </a>
-          <a href="twitterauth">
+          </Link>
+          <Link to="twitterauth">
             <img src={TwitterLogo} />
-          </a>
-          <a href="appleauth">
+          </Link>
+          <Link to="appleauth">
             <img src={AppleLogo} />
-          </a>
+          </Link>
         </div>
         <p>
-          Already have an account? <a href="/login">Login</a>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </form>
     )

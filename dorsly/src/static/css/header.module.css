@@ -35,6 +35,24 @@
   transition: 0.2s;
 }
 
+.profile-logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 5px;
+
+  height: 100%;
+  aspect-ratio: 1/1;
+  transform: scale(1);
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.profile-logo:hover > img{
+  transform: scale(1.05)
+}
+
 .search-logo{
   display: flex;
   align-items: center;
