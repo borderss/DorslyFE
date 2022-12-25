@@ -8,8 +8,8 @@ import SearchIcon from "/assets/svg/search.svg"
 
 // import user context and use it
 import { useEffect } from "react"
-import { UserContext } from "../contexts/userContext"
 import { Link } from "react-router-dom"
+import { UserContext } from "../contexts/userContext"
 
 export default function header() {
   const [userOptions, setUserOptions] = useState(
@@ -24,12 +24,31 @@ export default function header() {
   )
 
   const userContext = useContext(UserContext)
+  
+  const handleLogoClick = (e) => {
+    if (e.target.classList.contains(style["profile-logo"]) || e.target.tagName === "IMG") {
+      const profileDropdown = document.querySelector(`.${style["profile-dropdown"]}`)
+      profileDropdown.classList.toggle(style["profile-dropdown-active"])
+    }
+  }
 
+  window.addEventListener("click", (e) => {
+    if (e.target.classList.contains(style["profile-logo"]) || e.target.parentElement.classList.contains(style["profile-logo"])) {
+      return
+    }
+    const profileDropdown = document.querySelector(`.${style["profile-dropdown"]}`)
+    profileDropdown.classList.remove(style["profile-dropdown-active"])
+  })
+  
   useEffect(() => {
-    console.log(userContext)
-    setUserOptions(userContext.user ? (
-      <div className={style["profile-logo"]}>
+    setUserOptions(userContext.user || true ? (
+      <div className={style["profile-logo"]} onClick={handleLogoClick}>
         <img src={ProfileIcon} alt="profile" />
+        <div className={style["profile-dropdown"]}>
+          <div className={style["profile-dropdown-item"]}>Profile</div>
+          <div className={style["profile-dropdown-item"]}>Settings</div>
+          <div className={style["profile-dropdown-item"]}>Log out</div>
+        </div>
       </div>
     ) : (
       <>

@@ -11,7 +11,6 @@ import Header from "../components/header"
 import MainSarchBar from "../components/mainSearchBar"
 import Partner from "../components/partner"
 
-
 import CalendarIllustration from "/assets/svg/calendarillustration.svg"
 import PhoneGlobeIllustration from "/assets/svg/phoneglobeillustration.svg"
 import WalletIllustration from "/assets/svg/walletillustration.svg"
@@ -77,7 +76,52 @@ export default function home() {
       imgurl:
         "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
     },
+    {
+      id: 4,
+      star: "5.6",
+      name: "pica",
+      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
+      time: "6:00 - 24:00",
+      place: "Takeaway or on location",
+      seats: "25 available seats",
+      gps: "1.3km away",
+      comments: "253 reviews",
+      imgurl:
+        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
+    },
+    {
+      id: 4,
+      star: "5.6",
+      name: "pica",
+      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
+      time: "6:00 - 24:00",
+      place: "Takeaway or on location",
+      seats: "25 available seats",
+      gps: "1.3km away",
+      comments: "253 reviews",
+      imgurl:
+        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
+    },
+    {
+      id: 4,
+      star: "5.6",
+      name: "pica",
+      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
+      time: "6:00 - 24:00",
+      place: "Takeaway or on location",
+      seats: "25 available seats",
+      gps: "1.3km away",
+      comments: "253 reviews",
+      imgurl:
+        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
+    },
   ]
+
+  const cardData = fakedata.map((item, id) => {
+    return (
+      <Card key={id} data={item} />
+    )
+  })
 
   console.log(user, token)
 
@@ -107,22 +151,16 @@ export default function home() {
             <Link to="/register" className={style["link"]}>
               Register now
             </Link>
-            <Link to="/contact" className={[style["link"], style["inverted"]].join(" ")}>
+            <Link
+              to="/contact"
+              className={[style["link"], style["inverted"]].join(" ")}>
               Register as a business
             </Link>
           </div>
         </div>
 
         <Carousel
-          data={[
-            <Card data={fakedata[0]} />,
-            <Card data={fakedata[2]} />,
-            <Card data={fakedata[3]} />,
-            <Card data={fakedata[3]} />,
-            <Card data={fakedata[2]} />,
-            <Card data={fakedata[2]} />,
-            <Card data={fakedata[2]} />,
-          ]}
+          data={cardData}
         />
 
         <div className={style["description"]}>
