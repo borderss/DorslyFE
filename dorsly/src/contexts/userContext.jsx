@@ -15,6 +15,20 @@ export default function UserContextProvider(props) {
     }
   }, [user, token, setUser, setToken])
 
+  window.onload = () => {
+    const data = localStorage.getItem("user")
+
+    if (!data) {
+      return
+    }
+
+    const token = JSON.parse(data)
+    if (token.user && token.access_token) {
+      setUser(token.user)
+      setToken(token.access_token)
+    }
+  }
+
   return (
     <UserContext.Provider value={contextValue}>
       {props.children}

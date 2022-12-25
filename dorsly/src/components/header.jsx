@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react"
+import { logoutUser } from '../static//js/util.js'
 
 import style from "../static/css/header.module.css"
 import LogoIcon from "/assets/svg/dorslylogo.svg"
@@ -6,10 +7,13 @@ import GpsIcon from "/assets/svg/gps.svg"
 import ProfileIcon from "/assets/svg/profileIcon.svg"
 import SearchIcon from "/assets/svg/search.svg"
 
-// import user context and use it
+import SecondaryProfileIcon from "/assets/svg/secondaryProfileIcon.svg"
+import SettingsIcon from "/assets/svg/settings.svg"
+import LogoutIcon from "/assets/svg/logout.svg"
+
 import { useEffect } from "react"
-import { UserContext } from "../contexts/userContext"
 import { Link } from "react-router-dom"
+import { UserContext } from "../contexts/userContext"
 
 export default function header() {
   const [userOptions, setUserOptions] = useState(
@@ -24,12 +28,39 @@ export default function header() {
   )
 
   const userContext = useContext(UserContext)
+  
+  const handleLogoClick = (e) => {
+    if (e.target.closest(`.${style["profile-logo-button"]}`)) {
+      const profileDropdown = document.querySelector(`.${style["profile-dropdown"]}`)
+      profileDropdown.classList.toggle(style["profile-dropdown-active"])
+    }
+  }
 
+  const handleOutsideClick = (e) => {
+    if (e.target.closest(`.${style["profile-logo-button"]}`)) {
+      return
+    }
+    const profileDropdown = document.querySelector(`.${style["profile-dropdown"]}`)
+    profileDropdown?.classList.remove(style["profile-dropdown-active"])
+
+    window.removeEventListener("click", handleOutsideClick)
+  }
+
+  window.addEventListener("click", e => handleOutsideClick(e))
+  
   useEffect(() => {
-    console.log(userContext)
     setUserOptions(userContext.user ? (
-      <div className={style["profile-logo"]}>
-        <img src={ProfileIcon} alt="profile" />
+      <div className={style["profile-logo"]} onClick={e => handleLogoClick(e)}>
+        <div className={style["profile-logo-button"]}>
+          <img src={ProfileIcon} alt="profile" />
+          <span>{userContext.user?.first_name}</span>
+          <span>{userContext.user?.last_name}</span>
+        </div>
+        <div className={style["profile-dropdown"]}>
+          <Link to="/profile" style={{"--background-image": `url(${SecondaryProfileIcon})`}}>Profile</Link>
+          <Link to="/settings" style={{"--background-image": `url(${SettingsIcon})`}}>Settings</Link>
+          <Link to="/" style={{"--background-image": `url(${LogoutIcon})`}} onClick={logoutUser}>Log out</Link>
+        </div>
       </div>
     ) : (
       <>
@@ -65,7 +96,6 @@ export default function header() {
             <img src={SearchIcon} alt="Search" />
           </div>
         </div>
-
         <div className={style["right-side"]}>
           {userOptions}
           <div className={style["gps-logo"]}>

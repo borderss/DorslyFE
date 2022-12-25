@@ -30,6 +30,8 @@ export default function authentificaton(props) {
     password: null,
   })
 
+  
+
   const [regSection, setRegSection] = useState(0)
   const [registerData, setRegisternData] = useState({
     firstName: null,
