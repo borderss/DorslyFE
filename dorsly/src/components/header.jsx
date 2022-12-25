@@ -1,10 +1,15 @@
 import React, { useContext, useState } from "react"
+import { logoutUser } from '../static//js/util.js'
 
 import style from "../static/css/header.module.css"
 import LogoIcon from "/assets/svg/dorslylogo.svg"
 import GpsIcon from "/assets/svg/gps.svg"
 import ProfileIcon from "/assets/svg/profileIcon.svg"
 import SearchIcon from "/assets/svg/search.svg"
+
+import SecondaryProfileIcon from "/assets/svg/secondaryProfileIcon.svg"
+import SettingsIcon from "/assets/svg/settings.svg"
+import LogoutIcon from "/assets/svg/logout.svg"
 
 // import user context and use it
 import { useEffect } from "react"
@@ -26,28 +31,36 @@ export default function header() {
   const userContext = useContext(UserContext)
   
   const handleLogoClick = (e) => {
-    if (e.target.classList.contains(style["profile-logo"]) || e.target.tagName === "IMG") {
+    if (e.target.closest(`.${style["profile-logo-button"]}`)) {
       const profileDropdown = document.querySelector(`.${style["profile-dropdown"]}`)
       profileDropdown.classList.toggle(style["profile-dropdown-active"])
     }
   }
 
-  window.addEventListener("click", (e) => {
-    if (e.target.classList.contains(style["profile-logo"]) || e.target.parentElement.classList.contains(style["profile-logo"])) {
+  const handleOutsideClick = (e) => {
+    if (e.target.closest(`.${style["profile-logo-button"]}`)) {
       return
     }
     const profileDropdown = document.querySelector(`.${style["profile-dropdown"]}`)
-    profileDropdown.classList.remove(style["profile-dropdown-active"])
-  })
+    profileDropdown?.classList.remove(style["profile-dropdown-active"])
+
+    window.removeEventListener("click", handleOutsideClick)
+  }
+
+  window.addEventListener("click", e => handleOutsideClick(e))
   
   useEffect(() => {
-    setUserOptions(userContext.user || true ? (
-      <div className={style["profile-logo"]} onClick={handleLogoClick}>
-        <img src={ProfileIcon} alt="profile" />
-        <div className={style["profile-dropdown"]}>
-          <div className={style["profile-dropdown-item"]}>Profile</div>
-          <div className={style["profile-dropdown-item"]}>Settings</div>
-          <div className={style["profile-dropdown-item"]}>Log out</div>
+    setUserOptions(userContext.user ? (
+      <div className={style["profile-logo"]} onClick={e => handleLogoClick(e)}>
+        <div className={style["profile-logo-button"]}>
+          <img src={ProfileIcon} alt="profile" />
+          <span>{userContext.user?.first_name}</span>
+          <span>{userContext.user?.last_name}</span>
+        </div>
+        <div className={[style["profile-dropdown"], style["profile-dropdown-active"]].join(" ")}>
+          <Link to="/profile" style={{"--background-image": `url(${SecondaryProfileIcon})`}}>Profile</Link>
+          <Link to="/settings" style={{"--background-image": `url(${SettingsIcon})`}}>Settings</Link>
+          <Link to="/" style={{"--background-image": `url(${LogoutIcon})`}} onClick={logoutUser}>Log out</Link>
         </div>
       </div>
     ) : (

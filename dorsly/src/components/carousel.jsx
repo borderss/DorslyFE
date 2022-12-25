@@ -116,6 +116,7 @@ export default function carousel(props) {
   for (let i = 0; i < pageCount; i++) {
     dots.push(
       <span
+        key={i + 1}
         id={i + 1}
         className={style["carouselDots"]}
         onClick={onDotClick}
