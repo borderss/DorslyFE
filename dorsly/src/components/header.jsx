@@ -96,7 +96,6 @@ export default function header() {
             <img src={SearchIcon} alt="Search" />
           </div>
         </div>
-
         <div className={style["right-side"]}>
           {userOptions}
           <div className={style["gps-logo"]}>
