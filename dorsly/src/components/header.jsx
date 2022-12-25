@@ -11,7 +11,6 @@ import SecondaryProfileIcon from "/assets/svg/secondaryProfileIcon.svg"
 import SettingsIcon from "/assets/svg/settings.svg"
 import LogoutIcon from "/assets/svg/logout.svg"
 
-// import user context and use it
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { UserContext } from "../contexts/userContext"
