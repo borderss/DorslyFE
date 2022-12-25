@@ -56,7 +56,7 @@ export default function header() {
           <span>{userContext.user?.first_name}</span>
           <span>{userContext.user?.last_name}</span>
         </div>
-        <div className={[style["profile-dropdown"], style["profile-dropdown-active"]].join(" ")}>
+        <div className={style["profile-dropdown"]}>
           <Link to="/profile" style={{"--background-image": `url(${SecondaryProfileIcon})`}}>Profile</Link>
           <Link to="/settings" style={{"--background-image": `url(${SettingsIcon})`}}>Settings</Link>
           <Link to="/" style={{"--background-image": `url(${LogoutIcon})`}} onClick={logoutUser}>Log out</Link>
