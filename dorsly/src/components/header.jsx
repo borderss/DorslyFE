@@ -10,6 +10,7 @@ import SearchIcon from "/assets/svg/search.svg"
 import SecondaryProfileIcon from "/assets/svg/secondaryProfileIcon.svg"
 import SettingsIcon from "/assets/svg/settings.svg"
 import LogoutIcon from "/assets/svg/logout.svg"
+import AdminIcon from "/assets/svg/admin.svg"
 
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
@@ -59,6 +60,9 @@ export default function header() {
         <div className={style["profile-dropdown"]}>
           <Link to="/profile" style={{"--background-image": `url(${SecondaryProfileIcon})`}}>Profile</Link>
           <Link to="/settings" style={{"--background-image": `url(${SettingsIcon})`}}>Settings</Link>
+          {userContext.user?.is_admin ? 
+            <Link to="/admin" style={{"--background-image": `url(${AdminIcon})`}} >Admin</Link> 
+          : null}
           <Link to="/" style={{"--background-image": `url(${LogoutIcon})`}} onClick={logoutUser}>Log out</Link>
         </div>
       </div>
