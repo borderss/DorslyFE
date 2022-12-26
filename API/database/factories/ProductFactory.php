@@ -19,7 +19,7 @@ class ProductFactory extends Factory
         return[
             'name' => $this->faker->name(),
             'description' => $this->faker->text($maxNbChars = 200),
-            'point_of_interest_id' => $this->faker->numberBetween($min = 40, $max = 74),
+            'point_of_interest_id' => $this->faker->numberBetween($min = 0, $max = 70),
             'ingredients'=> $this->faker->text($maxNbChars = 100),
             'image' => $this->faker->imageUrl(1920, 1080, 'food'),
             'price' => $this->faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL),

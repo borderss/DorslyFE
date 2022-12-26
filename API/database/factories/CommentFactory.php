@@ -18,7 +18,7 @@ class CommentFactory extends Factory
     {
         return [
             'user_id'=> $this->faker->numberBetween($min = 1, $max = 17),
-            'point_of_interest_id' => $this->faker->numberBetween($min = 40, $max = 74),
+            'point_of_interest_id' => $this->faker->numberBetween($min = 0, $max = 70),
             'text' => $this->faker->text($maxNbChars = 200),
         ];
     }
