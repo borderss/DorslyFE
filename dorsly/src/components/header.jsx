@@ -1,5 +1,8 @@
-import React, { useContext, useState } from "react"
+import React, { useEffect, useContext, useState } from "react"
+import { Link } from "react-router-dom"
+
 import { logoutUser } from '../static//js/util.js'
+import { UserContext } from "../contexts/userContext"
 
 import style from "../static/css/header.module.css"
 import LogoIcon from "/assets/svg/dorslylogo.svg"
@@ -12,9 +15,6 @@ import SettingsIcon from "/assets/svg/settings.svg"
 import LogoutIcon from "/assets/svg/logout.svg"
 import AdminIcon from "/assets/svg/admin.svg"
 
-import { useEffect } from "react"
-import { Link } from "react-router-dom"
-import { UserContext } from "../contexts/userContext"
 
 export default function header() {
   const [userOptions, setUserOptions] = useState(
@@ -58,12 +58,12 @@ export default function header() {
           <span>{userContext.user?.last_name}</span>
         </div>
         <div className={style["profile-dropdown"]}>
-          <Link to="/profile" style={{"--background-image": `url(${SecondaryProfileIcon})`}}>Profile</Link>
-          <Link to="/settings" style={{"--background-image": `url(${SettingsIcon})`}}>Settings</Link>
-          {userContext.user?.is_admin ? 
-            <Link to="/admin" style={{"--background-image": `url(${AdminIcon})`}} >Admin</Link> 
-          : null}
-          <Link to="/" style={{"--background-image": `url(${LogoutIcon})`}} onClick={logoutUser}>Log out</Link>
+          <Link to="/profile" style={{"--background-icon": `url(${SecondaryProfileIcon})`}}>Profile</Link>
+          <Link to="/settings" style={{"--background-icon": `url(${SettingsIcon})`}}>Settings</Link>
+          {userContext.user?.is_admin && 
+            <Link to="/admin" style={{"--background-icon": `url(${AdminIcon})`}} >Admin</Link>
+          }
+          <Link to="/" style={{"--background-icon": `url(${LogoutIcon})`}} onClick={logoutUser}>Log out</Link>
         </div>
       </div>
     ) : (
@@ -82,7 +82,7 @@ export default function header() {
     <div className={style["navbar"]}>
       <div className={style["wraper"]}>
         <div className={style["left-side"]}>
-          <Link to="#" className={style["logo"]}>
+          <Link to="/" className={style["logo"]}>
             <div className={style["dorsly-logo"]}>
               <img src={LogoIcon} alt="Dorsly" />
             </div>

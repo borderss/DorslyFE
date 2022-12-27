@@ -1,0 +1,102 @@
+.main-container {
+  height: -webkit-fill-available;
+  width: 100%;
+  padding-top: 63px;
+}
+
+.side-navbar {
+  display: flex;
+  flex-direction: column;
+
+  height: -webkit-fill-available;
+  background-color: #fefefe;
+  width: 310px;
+}
+
+.greeting {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px dashed #ffeeb7;
+  color: #3d3d3d;
+  height: 85px;
+  padding-left: 20px;
+  font-family: Lexend;
+  justify-content: center;
+}
+
+.greeting > h1{
+  font-size: 22px;
+  margin-block: 10px 0px;
+}
+
+.greeting > p {
+  color: #838383;
+  font-size: 12px;
+  margin-top: 7px;
+}
+
+.side-navbar > a:any-link {
+  width: 100%;
+  height: 45px;
+  line-height: 45px;
+
+  color: initial;
+  text-decoration: none;
+  font-family: Lexend;
+  user-select: none;
+}
+
+.side-navbar > a {
+  position: relative;
+  line-height: 35px;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  padding-left: 65px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter 0.2s;
+  border-block: 1px solid transparent;
+  border-left: 5px solid transparent;
+  border-top: 1px solid #f7f7f7;
+}
+
+.side-navbar > a::before {
+  content: "";
+  background-image: var(--nav-item-icon);
+  background-size: auto 32px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+
+  position: absolute;
+  left: 1px;
+  top: 0;
+  height: 100%;
+  aspect-ratio: 1;
+
+  filter: brightness(0) saturate(0) invert(0) sepia(0) saturate(0)
+    hue-rotate(332deg) brightness(0) contrast(0);
+  transition: 0.2s;
+}
+
+.side-navbar > a:nth-child(2):before {
+  background-size: auto 35px;
+}
+
+.side-navbar > a:hover::before {
+  filter: brightness(0) saturate(100%) invert(87%) sepia(23%) saturate(2641%)
+    hue-rotate(332deg) brightness(100%) contrast(102%);
+}
+.side-navbar > a:any-link {
+  color: #5a5a5a;
+  transition: 0.2s;
+  font-size: 19px;
+}
+
+.side-navbar > a:hover:any-link {
+  background-color: #fffdfa;
+  padding-left: 65px;
+  color: #ffb82e;
+  border-block: 1px solid #ffe6b5;
+  border-left: 5px solid #ffe6b5;
+}
