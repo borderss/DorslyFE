@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { Link } from "react-router-dom"
 
 import Header from "../components/header"
@@ -17,6 +17,20 @@ import { UserContext } from "../contexts/userContext"
 export default function test() {
   const { user, token, setUser, setToken } = useContext(UserContext)
 
+  const [section, setSection] = useState("accounts")
+
+  const onNavbarItemClick = (e) => {
+    console.log("e")
+    setSection(e.target.id)
+
+    ;[...document.querySelector(`.${style["side-navbar"]}`).querySelectorAll("p")].forEach((el, i) => {
+      console.log(el)
+      el.classList.remove(style["navbar-item-active"])
+    })
+
+    e.target.classList.toggle(style["navbar-item-active"])
+  }
+
   return (
     <>
       <Header />
@@ -27,21 +41,21 @@ export default function test() {
             <p>Report any issues to admin@dorsly.com</p>
           </div>
 
-          <Link style={{ "--nav-item-icon": `url(${PeopleIcon})` }}>
+          <p id="accounts" className={style["navbar-item-active"]} style={{ "--nav-item-icon": `url(${PeopleIcon})` }} onClick={e => onNavbarItemClick(e)}>
             Accounts
-          </Link>
-          <Link style={{ "--nav-item-icon": `url(${GPSIcon})` }}>
+          </p>
+          <p id="pointsofinterest" style={{ "--nav-item-icon": `url(${GPSIcon})` }} onClick={e => onNavbarItemClick(e)}>
             Points of interest
-          </Link>
-          <Link style={{ "--nav-item-icon": `url(${CalendarIcon})` }}>
+          </p>
+          <p id="reservations" style={{ "--nav-item-icon": `url(${CalendarIcon})` }} onClick={e => onNavbarItemClick(e)}>
             Reservations
-          </Link>
-          <Link style={{ "--nav-item-icon": `url(${TakeawayIcon})` }}>
+          </p>
+          <p id="prepurchases" style={{ "--nav-item-icon": `url(${TakeawayIcon})` }} onClick={e => onNavbarItemClick(e)}>
             Pre-purchases
-          </Link>
-          <Link style={{ "--nav-item-icon": `url(${CommentIcon})` }}>
+          </p>
+          <p id="reviews" style={{ "--nav-item-icon": `url(${CommentIcon})` }} onClick={e => onNavbarItemClick(e)}>
             Reviews
-          </Link>
+          </p>
 
           <div className={style["version-data"]}>
             <p>Version 1.0.0 {import.meta.env.MODE}</p>
@@ -49,6 +63,7 @@ export default function test() {
             <p>© 2022 Dorsly</p>
           </div>
         </div>
+        {section}
       </div>
     </>
   )
