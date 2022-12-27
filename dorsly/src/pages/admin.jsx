@@ -20,11 +20,9 @@ export default function test() {
   const [section, setSection] = useState("accounts")
 
   const onNavbarItemClick = (e) => {
-    console.log("e")
     setSection(e.target.id)
 
-    ;[...document.querySelector(`.${style["side-navbar"]}`).querySelectorAll("p")].forEach((el, i) => {
-      console.log(el)
+    ;[...document.querySelectorAll(`.${style["side-navbar"]} > p`)].forEach((el, i) => {
       el.classList.remove(style["navbar-item-active"])
     })
 
