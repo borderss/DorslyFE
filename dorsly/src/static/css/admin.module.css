@@ -26,13 +26,15 @@
 
 .greeting > h1{
   font-size: 22px;
+  font-weight: 400;
   margin-block: 10px 0px;
 }
 
 .greeting > p {
-  color: #838383;
-  font-size: 12px;
-  margin-top: 7px;
+  color: #707070;
+  font-size: 13px;
+  font-weight: 200;
+  margin-top: 4px;
 }
 
 .side-navbar > a:any-link {
@@ -99,4 +101,21 @@
   color: #ffb82e;
   border-block: 1px solid #ffe6b5;
   border-left: 5px solid #ffe6b5;
+}
+
+.version-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+.version-data > p {
+  font-size: 13px;
+  font-weight: 200;
+  font-family: Lexend;
+  color: #c2c2c2;
+  margin: 0;
 }

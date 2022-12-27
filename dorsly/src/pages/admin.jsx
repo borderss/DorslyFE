@@ -42,6 +42,12 @@ export default function test() {
           <Link style={{ "--nav-item-icon": `url(${CommentIcon})` }}>
             Reviews
           </Link>
+
+          <div className={style["version-data"]}>
+            <p>Version 1.0.0 {import.meta.env.MODE}</p>
+
+            <p>© 2022 Dorsly</p>
+          </div>
         </div>
       </div>
     </>
