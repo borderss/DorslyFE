@@ -12,6 +12,8 @@
   height: -webkit-fill-available;
   background-color: #fefefe;
   width: 310px;
+
+  flex: 0 0 auto;
 }
 
 .greeting {
@@ -152,4 +154,49 @@
   font-family: Lexend;
   color: #c2c2c2;
   margin: 0;
+}
+
+
+.content-section {
+  width: -wekit-fill-available;
+  height: -webkit-fill-available;
+
+  margin-inline: 250px;
+
+  font-family: Lexend;
+  color: #3d3d3d
+}
+
+.info {
+  margin-top: 60px;
+}
+
+.info > h1 {
+  font-size: 44px;
+  font-weight: 500;
+  margin-block: 0;
+}
+
+.search {
+  font-weight: 400;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+.error-disclaimer {
+  position: relative;
+  font-size: 16px;
+  font-weight: 300;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.error-disclaimer::before {
+  content: "";
+  position: absolute;
+  left: -15px;
+  top: -4px;
+  height: 30px;
+  width: 5px;
+  background-color: #ffb82e;
 }
