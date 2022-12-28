@@ -162,9 +162,14 @@
   height: -webkit-fill-available;
 
   margin-inline: 250px;
+  overflow-y: scroll;
 
   font-family: Lexend;
   color: #3d3d3d
+}
+
+.content-section::-webkit-scrollbar{
+  display: none;
 }
 
 .info {
