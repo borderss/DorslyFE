@@ -16,7 +16,6 @@ import TwitterLogo from "/assets/svg/Twitter.svg"
 
 import LabeledInputField from "../components/labeledInputField"
 
-// import user context and use it
 import { UserContext } from "../contexts/userContext"
 
 export default function authentificaton(props) {
@@ -29,8 +28,6 @@ export default function authentificaton(props) {
     email: null,
     password: null,
   })
-
-  
 
   const [regSection, setRegSection] = useState(0)
   const [registerData, setRegisternData] = useState({

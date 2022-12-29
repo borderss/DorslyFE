@@ -15,7 +15,6 @@
   height: 63px;
   line-height: 63px;
   transform-style: preserve-3d;
-
 }
 
 .dorsly-logo {
@@ -202,7 +201,7 @@
 
 .profile-dropdown > *::before {
   content: "";
-  background-image: var(--background-image);
+  background-image: var(--background-icon);
   background-size: auto 32px;
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -225,6 +224,7 @@
 .profile-dropdown > *:any-link {
   color: #5a5a5a;
   transition: 0.2s;
+  font-size: 19px;
 }
 
 .profile-dropdown > *:hover:any-link {
