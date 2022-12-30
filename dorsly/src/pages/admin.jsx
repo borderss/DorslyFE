@@ -18,22 +18,26 @@ export default function test() {
 
   const [section, setSection] = useState("accounts")
 
-  const [tableMeta, setTableMeta] = useState({
-    accounts: {
-      columns: [
+  const [tableMetaData, setTableMetaData] = useState({
+    currentPage: 1,
+    entriesPerPage: 10,
+    totalPageCount: 0,
+    shownEntries: 0,
+    totalEntries: 0,
+    searchQuery: "",
+
+    columns: {
+      accounts: [
         { title: "ID", field: "id" },
         { title: "Username", field: "username" },
         { title: "Name", field: "first_name" },
         { title: "Surname", field: "last_name" },
         { title: "Email", field: "email" },
-        { title: "Is admin", field: "is_admin"},
+        { title: "Is admin", field: "is_admin" },
         { title: "Registration date", field: "registration_date" },
         { title: "Last change", field: "last_change" },
       ],
-      data: [],
-    },
-    pointsofinterest: {
-      columns: [
+      pointsofinterest: [
         { title: "ID", field: "id" },
         { title: "Name", field: "name" },
         { title: "Description", field: "description" },
@@ -41,10 +45,7 @@ export default function test() {
         { title: "Reservations fulfilled", field: "reservations_fulfilled" },
         { title: "Pre-purchases fulfilled", field: "prepurchases_fulfilled" },
       ],
-      data: [],
-    },
-    reservations: {
-      columns: [
+      reservations: [
         { title: "ID", field: "id" },
         { title: "Account ID", field: "account_id" },
         { title: "POI ID", field: "poi_id" },
@@ -53,10 +54,7 @@ export default function test() {
         { title: "Attending person count", field: "attending_person_count" },
         { title: "Stripe check number", field: "stripe_check_number" },
       ],
-      data: [],
-    },
-    prepurchases: {
-      columns: [
+      prepurchases: [
         { title: "ID", field: "id" },
         { title: "Account ID", field: "account_id" },
         { title: "POI ID", field: "poi_id" },
@@ -65,10 +63,7 @@ export default function test() {
         { title: "Pre-purchase time", field: "prepurchase_time" },
         { title: "Stripe check number", field: "stripe_check_number" },
       ],
-      data: [],
-    },
-    reviews: {
-      columns: [
+      reviews: [
         { title: "ID", field: "id" },
         { title: "Account ID", field: "account_id" },
         { title: "POI ID", field: "poi_id" },
@@ -76,8 +71,212 @@ export default function test() {
         { title: "Review time", field: "review_time" },
         { title: "Review text", field: "review_text" },
       ],
-      data: [],
     },
+  })
+
+  const [filteredTableData, setFilteredTableData] = useState({
+    accounts: [],
+    pointsofinterest: [],
+    reservations: [],
+    prepurchases: [],
+    reviews: [],
+  })
+
+  const [tableData, setTableData] = useState({
+    accounts: [
+      {
+        id: 1,
+        username: "admin",
+        first_name: "Admin",
+        last_name: "Admin",
+        email: "admin@gmail.com",
+        is_admin: true,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 2,
+        username: "user",
+        first_name: "User",
+        last_name: "User",
+        email: "user@gmail.com",
+        is_admin: false,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 3,
+        username: "admin",
+        first_name: "Admin",
+        last_name: "Admin",
+        email: "admin@gmail.com",
+        is_admin: true,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 4,
+        username: "user",
+        first_name: "User",
+        last_name: "User",
+        email: "user@gmail.com",
+        is_admin: false,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 5,
+        username: "admin",
+        first_name: "Admin",
+        last_name: "Admin",
+        email: "admin@gmail.com",
+        is_admin: true,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 6,
+        username: "user",
+        first_name: "User",
+        last_name: "User",
+        email: "user@gmail.com",
+        is_admin: false,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 7,
+        username: "admin",
+        first_name: "Admin",
+        last_name: "Admin",
+        email: "admin@gmail.com",
+        is_admin: true,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 8,
+        username: "user",
+        first_name: "User",
+        last_name: "User",
+        email: "user@gmail.com",
+        is_admin: false,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 9,
+        username: "admin",
+        first_name: "Admin",
+        last_name: "Admin",
+        email: "admin@gmail.com",
+        is_admin: true,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 10,
+        username: "user",
+        first_name: "User",
+        last_name: "User",
+        email: "user@gmail.com",
+        is_admin: false,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 11,
+        username: "admin",
+        first_name: "Admin",
+        last_name: "Admin",
+        email: "admin@gmail.com",
+        is_admin: true,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 12,
+        username: "user",
+        first_name: "User",
+        last_name: "User",
+        email: "user@gmail.com",
+        is_admin: false,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+    ],
+    pointsofinterest: [
+      {
+        id: 1,
+        name: "Point of interest 1",
+        description: "Description 1",
+        creation_date: "2021-05-01 12:00:00",
+        reservations_fulfilled: 0,
+        prepurchases_fulfilled: 0,
+      },
+      {
+        id: 2,
+        name: "Point of interest 2",
+        description: "Description 2",
+        creation_date: "2021-05-01 12:00:00",
+        reservations_fulfilled: 0,
+        prepurchases_fulfilled: 0,
+      },
+    ],
+    reservations: [
+      {
+        id: 1,
+        name: "Point of interest 1",
+        description: "Description 1",
+        creation_date: "2021-05-01 12:00:00",
+        reservations_fulfilled: 0,
+        prepurchases_fulfilled: 0,
+      },
+      {
+        id: 2,
+        name: "Point of interest 2",
+        description: "Description 2",
+        creation_date: "2021-05-01 12:00:00",
+        reservations_fulfilled: 0,
+        prepurchases_fulfilled: 0,
+      },
+    ],
+    prepurchases: [
+      {
+        id: 1,
+        name: "Point of interest 1",
+        description: "Description 1",
+        creation_date: "2021-05-01 12:00:00",
+        reservations_fulfilled: 0,
+        prepurchases_fulfilled: 0,
+      },
+      {
+        id: 2,
+        name: "Point of interest 2",
+        description: "Description 2",
+        creation_date: "2021-05-01 12:00:00",
+        reservations_fulfilled: 0,
+        prepurchases_fulfilled: 0,
+      },
+    ],
+    reviews: [
+      {
+        id: 1,
+        name: "Point of interest 1",
+        description: "Description 1",
+        creation_date: "2021-05-01 12:00:00",
+        reservations_fulfilled: 0,
+        prepurchases_fulfilled: 0,
+      },
+      {
+        id: 2,
+        name: "Point of interest 2",
+        description: "Description 2",
+        creation_date: "2021-05-01 12:00:00",
+        reservations_fulfilled: 0,
+        prepurchases_fulfilled: 0,
+      },
+    ],
   })
 
   const [sectionInfo, setSectionInfo] = useState({
@@ -125,6 +324,20 @@ export default function test() {
       default:
         break
     }
+
+    // load data from server and all that bullshit
+
+    setTableMetaData({
+      ...tableMetaData,
+      totalPageCount: Math.ceil(
+        tableData[section].length / tableMetaData.entriesPerPage
+      ),
+      shownEntries:
+        tableData[section].length % tableMetaData.entriesPerPage === 0
+          ? tableMetaData.entriesPerPage
+          : tableData[section].length % tableMetaData.entriesPerPage,
+      totalEntries: tableData[section].length,
+    })
   }, [section])
 
   const onNavbarItemClick = (e) => {
@@ -146,111 +359,10 @@ export default function test() {
     target.classList.toggle(style["navbar-item-active"])
   }
 
-  const fakeData = {
-    accounts: [
-      {
-        id: 1,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 2,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-    ],
-    pointsofinterest: [
-      {
-        id: 1,
-        name: "Point of interest 1",
-        description: "Description 1",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
-      },
-      {
-        id: 2,
-        name: "Point of interest 2",
-        description: "Description 2",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
-      },
-    ],
-    reservations: [
-      {
-        id: 1,
-        account_id: 1,
-        poi_id: 1,
-        reservation_date: "2021-05-01 12:00:00",
-        reservation_time: "12:00:00",
-        attending_person_count: 1,
-        stripe_check_number: "123456789",
-      },
-      {
-        id: 2,
-        account_id: 2,
-        poi_id: 2,
-        reservation_date: "2021-05-01 12:00:00",
-        reservation_time: "12:00:00",
-        attending_person_count: 1,
-        stripe_check_number: "123456789",
-      },
-    ],
-    prepurchases: [
-      {
-        id: 1,
-        account_id: 1,
-        poi_id: 1,
-        reservation_id: 1,
-        prepurchase_date: "2021-05-01 12:00:00",
-        prepurchase_time: "12:00:00",
-        stripe_check_number: "123456789",
-      },
-      {
-        id: 2,
-        account_id: 2,
-        poi_id: 2,
-        reservation_id: 2,
-        prepurchase_date: "2021-05-01 12:00:00",
-        prepurchase_time: "12:00:00",
-        stripe_check_number: "123456789",
-      },
-    ],
-    reviews: [
-      {
-        id: 1,
-        account_id: 1,
-        poi_id: 1,
-        review_date: "2021-05-01 12:00:00",
-        review_time: "12:00:00",
-        review_text: "Review text 1",
-      },
-      {
-        id: 2,
-        account_id: 2,
-        poi_id: 2,
-        review_date: "2021-05-01 12:00:00",
-        review_time: "12:00:00",
-        review_text: "Review text 2",
-      },
-    ],
-  }
-
   const renderColumnHeaders = () => {
     let headers = new Array()
 
-    tableMeta[section].columns.map((col, key) => {
+    tableMetaData.columns[section].map((col, key) => {
       headers.push(<th key={key}>{col.title}</th>)
     })
 
@@ -262,8 +374,8 @@ export default function test() {
   const renderTableRow = (row) => {
     let cells = new Array()
 
-    tableMeta[section].columns.map((col, key) => {
-      cells.push(<td key={key}>{row[col.field]}</td>)
+    tableMetaData.columns[section].map((col, key) => {
+      cells.push(<td key={key}>{row[col.title]}</td>)
     })
 
     cells.push(
@@ -279,13 +391,107 @@ export default function test() {
   const renderTableSectionData = (section) => {
     let rows = new Array()
 
-    fakeData[section].map((row, key) => {
-      rows.push(<tr key={key}>{renderTableRow(row)}</tr>)
-    })
+    tableData[section]
+      .slice(
+        (tableMetaData.currentPage - 1) * tableMetaData.entriesPerPage,
+        tableMetaData.currentPage * tableMetaData.entriesPerPage
+      )
+      .map((row, key) => {
+        rows.push(
+          <tr key={key} className={style["table-row"]}>
+            {renderTableRow(row)}
+          </tr>
+        )
+      })
 
     return rows
   }
-  
+
+  const handleNextPageClick = () => {
+    if (tableMetaData.currentPage < tableMetaData.totalPageCount) {
+      setTableMetaData({
+        ...tableMetaData,
+        currentPage: tableMetaData.currentPage + 1,
+      })
+    }
+  }
+
+  const handlePrevPageClick = () => {
+    if (tableMetaData.currentPage > 1) {
+      setTableMetaData({
+        ...tableMetaData,
+        currentPage: tableMetaData.currentPage - 1,
+      })
+    }
+  }
+
+  const handleEntriesPerPageChange = (e) => {
+    setTableMetaData({
+      ...tableMetaData,
+      entriesPerPage: parseInt(e.target.value),
+      currentPage: 1,
+      totalPageCount: Math.ceil(
+        tableData[section].length / parseInt(e.target.value)
+      ),
+      shownEntries:
+        tableData[section].length % parseInt(e.target.value) === 0
+          ? parseInt(e.target.value)
+          : tableData[section].length % parseInt(e.target.value),
+    })
+  }
+
+  const handleGoToPageClick = (e) => {
+    let realVal = e.target.parentElement.querySelector("input").value
+
+    let clampedVal
+
+    clampedVal = Math.min(realVal, tableMetaData.totalPageCount)
+
+    clampedVal = Math.max(realVal, 1)
+
+    setTableMetaData({
+      ...tableMetaData,
+      currentPage: clampedVal,
+    })
+  }
+
+  const handleSearchSubmit = (e) => {
+    let query = e.target.parentElement.querySelector("input").value
+
+    let filteredData = tableData[section].filter((row) => {
+      let match = false
+
+      tableData[section].columns.forEach((col) => {
+        if (row[col.field].toString().includes(query)) {
+          match = true
+        }
+      })
+
+      return match
+    })
+
+    setTableMetaData({
+      ...tableMetaData,
+      totalPageCount: Math.ceil(
+        filteredData.length / tableMetaData.entriesPerPage
+      ),
+      shownEntries:
+        filteredData.length % tableMetaData.entriesPerPage === 0
+          ? tableMetaData.entriesPerPage
+          : filteredData.length % tableMetaData.entriesPerPage,
+      totalEntries: filteredData.length,
+      searchQuery: query,
+    })
+
+    setSearchTableData({
+      ...tableData,
+      [section]: {
+        ...tableData[section],
+        data: filteredData,
+      },
+    })
+  }
+
   return (
     <>
       <Header />
@@ -366,44 +572,91 @@ export default function test() {
           <div className={style["table"]}>
             <div className={style["searchbar"]}>
               <div>
-                <input type="text" placeholder="Search..." />
-                <button>Search</button>
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  defaultValue={tableMetaData.search}
+                />
+                <button onClick={(e) => handleSearchSubmit(e)}>Search</button>
 
                 <button>Export</button>
               </div>
 
               <div>
                 <p>Entries per page:</p>
-                <input type="number" min="1" max="100" />
+                <input
+                  type="number"
+                  min="1"
+                  max={
+                    tableMetaData.totalEntries > 25
+                      ? 25
+                      : tableMetaData.totalEntries
+                  }
+                  placeholder={tableMetaData.entriesPerPage}
+                  onChange={(e) => handleEntriesPerPageChange(e)}
+                />
               </div>
             </div>
             <table>
               <thead>
-                <tr>
-                  {renderColumnHeaders()}
-                </tr>
+                <tr>{renderColumnHeaders()}</tr>
               </thead>
-              <tbody>
-                {
-                  renderTableSectionData(section)
-                }
-              </tbody>
+              <tbody>{renderTableSectionData(section)}</tbody>
             </table>
 
             <div className={style["pagination"]}>
               <div>
-                <button>Previous</button>
-                <p>Page 2 of 1</p>
-                <button>Next</button>
+                {tableMetaData.currentPage !== 1 ? (
+                  <button onClick={handlePrevPageClick}>Previous</button>
+                ) : (
+                  <button disabled>Previous</button>
+                )}
+                <p>
+                  Page {tableMetaData.currentPage} of{" "}
+                  {tableMetaData.totalPageCount}
+                </p>
+                {tableMetaData.currentPage !== tableMetaData.totalPageCount ? (
+                  <button onClick={handleNextPageClick}>Next</button>
+                ) : (
+                  <button disabled>Next</button>
+                )}
               </div>
 
-              <p>Showing <div>1</div> to <div>6</div> of <div>27435345345</div> entries</p>
+              <p>
+                Showing{" "}
+                <span>
+                  {(tableMetaData.currentPage - 1) *
+                    tableMetaData.entriesPerPage +
+                    1}
+                </span>{" "}
+                to{" "}
+                <span>
+                  {tableMetaData.currentPage !== tableMetaData.totalPageCount
+                    ? tableMetaData.currentPage * tableMetaData.entriesPerPage
+                    : tableMetaData.totalEntries}
+                </span>{" "}
+                of <span>{tableMetaData.totalEntries}</span> entries
+              </p>
 
               <div>
                 <p>Go to page:</p>
-                <input type="number" min="1" max="500" />
+                <input
+                  type="number"
+                  min="1"
+                  max={tableMetaData.totalPageCount}
+                  placeholder={tableMetaData.currentPage}
+                  onChange={(e) => {
+                    e.target.value > tableMetaData.totalPageCount
+                      ? (e.target.value = tableMetaData.totalPageCount)
+                      : e.target.value
 
-                <button>Go</button>
+                    e.target.value < 1 ? (e.target.value = 1) : e.target.value
+
+                    e.target.value = parseInt(e.target.value)
+                  }}
+                />
+
+                <button onClick={(e) => handleGoToPageClick(e)}>Go</button>
               </div>
             </div>
           </div>
