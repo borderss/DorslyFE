@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 
 import Header from "../components/header"
 
@@ -14,6 +14,10 @@ import TakeawayIcon from "/assets/svg/takeaway.svg"
 import { UserContext } from "../contexts/userContext"
 
 export default function test() {
+  const searchRef = useRef(null)
+  const entryRef = useRef(null)
+  const goToPageRef = useRef(null)
+
   const { user, token, setUser, setToken } = useContext(UserContext)
 
   const [section, setSection] = useState("accounts")
@@ -226,55 +230,59 @@ export default function test() {
     reservations: [
       {
         id: 1,
-        name: "Point of interest 1",
-        description: "Description 1",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
+        account_id: 1,
+        poi_id: 1,
+        reservation_date: "2021-05-01 12:00:00",
+        reservation_time: "12:00:00",
+        attending_person_count: 1,
+        stripe_check_number: "123456789",
       },
       {
         id: 2,
-        name: "Point of interest 2",
-        description: "Description 2",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
+        account_id: 2,
+        poi_id: 2,
+        reservation_date: "2021-05-01 12:00:00",
+        reservation_time: "12:00:00",
+        attending_person_count: 1,
+        stripe_check_number: "123456789",
       },
     ],
     prepurchases: [
       {
         id: 1,
-        name: "Point of interest 1",
-        description: "Description 1",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
+        account_id: 1,
+        poi_id: 1,
+        reservation_id: 1,
+        prepurchase_date: "2021-05-01 12:00:00",
+        prepurchase_time: "12:00:00",
+        stripe_check_number: "123456789",
       },
       {
         id: 2,
-        name: "Point of interest 2",
-        description: "Description 2",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
+        account_id: 2,
+        poi_id: 2,
+        reservation_id: 2,
+        prepurchase_date: "2021-05-01 12:00:00",
+        prepurchase_time: "12:00:00",
+        stripe_check_number: "123456789",
       },
     ],
     reviews: [
       {
         id: 1,
-        name: "Point of interest 1",
-        description: "Description 1",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
+        account_id: 1,
+        poi_id: 1,
+        review_date: "2021-05-01 12:00:00",
+        review_time: "12:00:00",
+        review_text: "Review text 1",
       },
       {
         id: 2,
-        name: "Point of interest 2",
-        description: "Description 2",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
+        account_id: 2,
+        poi_id: 2,
+        review_date: "2021-05-01 12:00:00",
+        review_time: "12:00:00",
+        review_text: "Review text 2",
       },
     ],
   })
@@ -327,17 +335,40 @@ export default function test() {
 
     // load data from server and all that bullshit
 
-    setTableMetaData({
-      ...tableMetaData,
-      totalPageCount: Math.ceil(
-        tableData[section].length / tableMetaData.entriesPerPage
-      ),
-      shownEntries:
-        tableData[section].length % tableMetaData.entriesPerPage === 0
-          ? tableMetaData.entriesPerPage
-          : tableData[section].length % tableMetaData.entriesPerPage,
-      totalEntries: tableData[section].length,
+    setFilteredTableData({
+      accounts: [],
+      pointsofinterest: [],
+      reservations: [],
+      prepurchases: [],
+      reviews: [],
     })
+
+    return () => {
+      setTableMetaData({
+        ...tableMetaData,
+        searchQuery: "",
+        totalPageCount: Math.ceil(
+          tableData[section].length / tableMetaData.entriesPerPage
+        ),
+        shownEntries:
+          tableData[section].length % tableMetaData.entriesPerPage === 0
+            ? tableMetaData.entriesPerPage
+            : tableData[section].length % tableMetaData.entriesPerPage,
+        totalEntries: tableData[section].length,
+      })
+
+      setFilteredTableData({
+        accounts: [],
+        pointsofinterest: [],
+        reservations: [],
+        prepurchases: [],
+        reviews: [],
+      })
+
+      searchRef.current.value = ""
+      entryRef.current.value = ""
+      goToPageRef.current.value = ""
+    }
   }, [section])
 
   const onNavbarItemClick = (e) => {
@@ -375,7 +406,9 @@ export default function test() {
     let cells = new Array()
 
     tableMetaData.columns[section].map((col, key) => {
-      cells.push(<td key={key}>{row[col.title]}</td>)
+      console.log(col.field)
+
+      cells.push(<td key={key}>{row[col.field].toString()}</td>)
     })
 
     cells.push(
@@ -390,19 +423,34 @@ export default function test() {
 
   const renderTableSectionData = (section) => {
     let rows = new Array()
+    let dataTable
 
-    tableData[section]
+    if (tableMetaData.searchQuery !== "") {
+      dataTable = filteredTableData
+    } else {
+      dataTable = tableData
+    }
+
+    dataTable[section]
       .slice(
         (tableMetaData.currentPage - 1) * tableMetaData.entriesPerPage,
         tableMetaData.currentPage * tableMetaData.entriesPerPage
       )
       .map((row, key) => {
-        rows.push(
-          <tr key={key} className={style["table-row"]}>
-            {renderTableRow(row)}
-          </tr>
-        )
+        rows.push(<tr key={key}>{renderTableRow(row)}</tr>)
       })
+
+    if (rows.length === 0) {
+      rows.push(
+        <tr key={0}>
+          <td
+            colSpan={tableMetaData.columns[section].length + 1}
+            style={{ height: "50px" }}>
+            No data to display
+          </td>
+        </tr>
+      )
+    }
 
     return rows
   }
@@ -426,17 +474,25 @@ export default function test() {
   }
 
   const handleEntriesPerPageChange = (e) => {
+    let realVal = parseInt(e.target.value)
+
+    if (parseInt(e.target.value).toString() !== e.target.value) {
+      realVal = 1
+    } else if (parseInt(e.target.value) > 25) {
+      realVal = 25
+    } else if (parseInt(e.target.value) < 1) {
+      realVal = 1
+    }
+
     setTableMetaData({
       ...tableMetaData,
-      entriesPerPage: parseInt(e.target.value),
+      entriesPerPage: realVal,
       currentPage: 1,
-      totalPageCount: Math.ceil(
-        tableData[section].length / parseInt(e.target.value)
-      ),
+      totalPageCount: Math.ceil(tableData[section].length / realVal),
       shownEntries:
-        tableData[section].length % parseInt(e.target.value) === 0
-          ? parseInt(e.target.value)
-          : tableData[section].length % parseInt(e.target.value),
+        tableData[section].length % realVal === 0
+          ? realVal
+          : tableData[section].length % realVal,
     })
   }
 
@@ -461,7 +517,7 @@ export default function test() {
     let filteredData = tableData[section].filter((row) => {
       let match = false
 
-      tableData[section].columns.forEach((col) => {
+      tableMetaData.columns[section].forEach((col) => {
         if (row[col.field].toString().includes(query)) {
           match = true
         }
@@ -472,6 +528,7 @@ export default function test() {
 
     setTableMetaData({
       ...tableMetaData,
+      searchQuery: query,
       totalPageCount: Math.ceil(
         filteredData.length / tableMetaData.entriesPerPage
       ),
@@ -480,15 +537,11 @@ export default function test() {
           ? tableMetaData.entriesPerPage
           : filteredData.length % tableMetaData.entriesPerPage,
       totalEntries: filteredData.length,
-      searchQuery: query,
     })
 
-    setSearchTableData({
-      ...tableData,
-      [section]: {
-        ...tableData[section],
-        data: filteredData,
-      },
+    setFilteredTableData({
+      ...filteredTableData,
+      [section]: filteredData,
     })
   }
 
@@ -573,9 +626,15 @@ export default function test() {
             <div className={style["searchbar"]}>
               <div>
                 <input
+                  ref={searchRef}
                   type="text"
                   placeholder="Search..."
                   defaultValue={tableMetaData.search}
+                  onChange={(e) => {
+                    if (e.target.value === "clear") {
+                      clearAllFilters()
+                    }
+                  }}
                 />
                 <button onClick={(e) => handleSearchSubmit(e)}>Search</button>
 
@@ -585,8 +644,9 @@ export default function test() {
               <div>
                 <p>Entries per page:</p>
                 <input
+                  ref={entryRef}
                   type="number"
-                  min="1"
+                  min={1}
                   max={
                     tableMetaData.totalEntries > 25
                       ? 25
@@ -635,12 +695,15 @@ export default function test() {
                     ? tableMetaData.currentPage * tableMetaData.entriesPerPage
                     : tableMetaData.totalEntries}
                 </span>{" "}
-                of <span>{tableMetaData.totalEntries}</span> entries
+                of <span>
+                  {tableMetaData.totalEntries}
+                  </span> entries
               </p>
 
               <div>
                 <p>Go to page:</p>
                 <input
+                  ref={goToPageRef}
                   type="number"
                   min="1"
                   max={tableMetaData.totalPageCount}

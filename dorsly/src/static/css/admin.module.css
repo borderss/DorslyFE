@@ -281,13 +281,20 @@
   height: 32px;
   margin: 5px;
   border-radius: 5px;
-  padding-inline: 15px;
+  padding-inline: 7px !important;
+  font-family: Lexend;
   margin: 5px;
   border: 1px solid #dfdfdf;
   font-size: 16px;
   font-weight: 300;
   color: #3d3d3d;
   padding: 0px;
+}
+
+.searchbar > div > input::placeholder {
+  font-size: 16px;
+  font-weight: 300;
+  color: #3d3d3d;
 }
 
 .searchbar > div > p {
@@ -355,17 +362,25 @@
 }
 
 .pagination > div > input {
+  padding-left: 8px;
+  font-family: Lexend;
   display: flex;
   align-items: center;
   width: 100%;
   height: 32px;
   margin: 5px;
   border-radius: 5px;
-  padding-inline: 15px;
+  padding-inline: 7px !important;
   margin: 5px;
   border: 1px solid #dfdfdf;
   font-size: 16px;
   font-weight: 300;
   color: #3d3d3d;
   padding: 0px;
+}
+
+.pagination > div > input::placeholder {
+  font-size: 16px;
+  font-weight: 300;
+  color: #3d3d3d;
 }
