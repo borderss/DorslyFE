@@ -18,6 +18,68 @@ export default function test() {
 
   const [section, setSection] = useState("accounts")
 
+  const [tableMeta, setTableMeta] = useState({
+    accounts: {
+      columns: [
+        { title: "ID", field: "id" },
+        { title: "Username", field: "username" },
+        { title: "Name", field: "first_name" },
+        { title: "Surname", field: "last_name" },
+        { title: "Email", field: "email" },
+        { title: "Is admin", field: "is_admin"},
+        { title: "Registration date", field: "registration_date" },
+        { title: "Last change", field: "last_change" },
+      ],
+      data: [],
+    },
+    pointsofinterest: {
+      columns: [
+        { title: "ID", field: "id" },
+        { title: "Name", field: "name" },
+        { title: "Description", field: "description" },
+        { title: "Creation date", field: "creation_date" },
+        { title: "Reservations fulfilled", field: "reservations_fulfilled" },
+        { title: "Pre-purchases fulfilled", field: "prepurchases_fulfilled" },
+      ],
+      data: [],
+    },
+    reservations: {
+      columns: [
+        { title: "ID", field: "id" },
+        { title: "Account ID", field: "account_id" },
+        { title: "POI ID", field: "poi_id" },
+        { title: "Reservation date", field: "reservation_date" },
+        { title: "Reservation time", field: "reservation_time" },
+        { title: "Attending person count", field: "attending_person_count" },
+        { title: "Stripe check number", field: "stripe_check_number" },
+      ],
+      data: [],
+    },
+    prepurchases: {
+      columns: [
+        { title: "ID", field: "id" },
+        { title: "Account ID", field: "account_id" },
+        { title: "POI ID", field: "poi_id" },
+        { title: "Reservation ID", field: "reservation_id" },
+        { title: "Pre-purchase date", field: "prepurchase_date" },
+        { title: "Pre-purchase time", field: "prepurchase_time" },
+        { title: "Stripe check number", field: "stripe_check_number" },
+      ],
+      data: [],
+    },
+    reviews: {
+      columns: [
+        { title: "ID", field: "id" },
+        { title: "Account ID", field: "account_id" },
+        { title: "POI ID", field: "poi_id" },
+        { title: "Review date", field: "review_date" },
+        { title: "Review time", field: "review_time" },
+        { title: "Review text", field: "review_text" },
+      ],
+      data: [],
+    },
+  })
+
   const [sectionInfo, setSectionInfo] = useState({
     title: "Account overview",
     desc: "Overview account information such as username, name, surname, email, registration date, date of last change, etc.",
@@ -84,6 +146,146 @@ export default function test() {
     target.classList.toggle(style["navbar-item-active"])
   }
 
+  const fakeData = {
+    accounts: [
+      {
+        id: 1,
+        username: "admin",
+        first_name: "Admin",
+        last_name: "Admin",
+        email: "admin@gmail.com",
+        is_admin: true,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+      {
+        id: 2,
+        username: "user",
+        first_name: "User",
+        last_name: "User",
+        email: "user@gmail.com",
+        is_admin: false,
+        registration_date: "2021-05-01 12:00:00",
+        last_change: "2021-05-01 12:00:00",
+      },
+    ],
+    pointsofinterest: [
+      {
+        id: 1,
+        name: "Point of interest 1",
+        description: "Description 1",
+        creation_date: "2021-05-01 12:00:00",
+        reservations_fulfilled: 0,
+        prepurchases_fulfilled: 0,
+      },
+      {
+        id: 2,
+        name: "Point of interest 2",
+        description: "Description 2",
+        creation_date: "2021-05-01 12:00:00",
+        reservations_fulfilled: 0,
+        prepurchases_fulfilled: 0,
+      },
+    ],
+    reservations: [
+      {
+        id: 1,
+        account_id: 1,
+        poi_id: 1,
+        reservation_date: "2021-05-01 12:00:00",
+        reservation_time: "12:00:00",
+        attending_person_count: 1,
+        stripe_check_number: "123456789",
+      },
+      {
+        id: 2,
+        account_id: 2,
+        poi_id: 2,
+        reservation_date: "2021-05-01 12:00:00",
+        reservation_time: "12:00:00",
+        attending_person_count: 1,
+        stripe_check_number: "123456789",
+      },
+    ],
+    prepurchases: [
+      {
+        id: 1,
+        account_id: 1,
+        poi_id: 1,
+        reservation_id: 1,
+        prepurchase_date: "2021-05-01 12:00:00",
+        prepurchase_time: "12:00:00",
+        stripe_check_number: "123456789",
+      },
+      {
+        id: 2,
+        account_id: 2,
+        poi_id: 2,
+        reservation_id: 2,
+        prepurchase_date: "2021-05-01 12:00:00",
+        prepurchase_time: "12:00:00",
+        stripe_check_number: "123456789",
+      },
+    ],
+    reviews: [
+      {
+        id: 1,
+        account_id: 1,
+        poi_id: 1,
+        review_date: "2021-05-01 12:00:00",
+        review_time: "12:00:00",
+        review_text: "Review text 1",
+      },
+      {
+        id: 2,
+        account_id: 2,
+        poi_id: 2,
+        review_date: "2021-05-01 12:00:00",
+        review_time: "12:00:00",
+        review_text: "Review text 2",
+      },
+    ],
+  }
+
+  const renderColumnHeaders = () => {
+    let headers = new Array()
+
+    tableMeta[section].columns.map((col, key) => {
+      headers.push(<th key={key}>{col.title}</th>)
+    })
+
+    headers.push(<th key={headers.length}>Actions</th>)
+
+    return headers
+  }
+
+  const renderTableRow = (row) => {
+    let cells = new Array()
+
+    tableMeta[section].columns.map((col, key) => {
+      cells.push(<td key={key}>{row[col.field]}</td>)
+    })
+
+    cells.push(
+      <td key={cells.length}>
+        <button className={style["table-action-button"]}>Edit</button>
+        <button className={style["table-action-button"]}>Delete</button>
+      </td>
+    )
+
+    return cells
+  }
+
+  const renderTableSectionData = (section) => {
+    let rows = new Array()
+
+    fakeData[section].map((row, key) => {
+      rows.push(<tr key={key}>{renderTableRow(row)}</tr>)
+    })
+
+    return rows
+  }
+  
   return (
     <>
       <Header />
@@ -178,82 +380,13 @@ export default function test() {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Username</th>
-                  <th>First name</th>
-                  <th>Last name</th>
-                  <th>Email</th>
-                  <th>Registration date</th>
-                  <th>Last change</th>
-                  <th>Actions</th>
+                  {renderColumnHeaders()}
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>john.doe</td>
-                  <td>John</td>
-                  <td>Doe</td>
-                  <td>email@example.com</td>
-                  <td>2021-12-13</td>
-                  <td>2021-12-13</td>
-                  <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>john.doe</td>
-                  <td>John</td>
-                  <td>Doe</td>
-                  <td>email@example.com</td>
-                  <td>2021-12-13</td>
-                  <td>2021-12-13</td>
-                  <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>john.doe</td>
-                  <td>John</td>
-                  <td>Doe</td>
-                  <td>email@example.com</td>
-                  <td>2021-12-13</td>
-                  <td>2021-12-13</td>
-                  <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>john.doe</td>
-                  <td>John</td>
-                  <td>Doe</td>
-                  <td>email@example.com</td>
-                  <td>2021-12-13</td>
-                  <td>2021-12-13</td>
-                  <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>john.doe</td>
-                  <td>John</td>
-                  <td>Doe</td>
-                  <td>email@example.com</td>
-                  <td>2021-12-13</td>
-                  <td>2021-12-13</td>
-                  <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                  </td>
-                </tr>
+                {
+                  renderTableSectionData(section)
+                }
               </tbody>
             </table>
 

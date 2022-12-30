@@ -157,7 +157,8 @@
 }
 
 .content-section {
-  width: -wekit-fill-available;
+  width: 1150px;
+  max-width: 70%;
   height: -webkit-fill-available;
 
   margin-inline: auto;
@@ -206,7 +207,7 @@
   background-color: #ffb82e;
 }
 
-thead > tr > th {
+.table > table > thead > tr > th {
   text-align: start;
   font-weight: 500;
   padding-inline: 5px;
@@ -216,15 +217,15 @@ thead > tr > th {
   border-bottom: 1px solid #dfdfdf;
 }
 
-thead > tr > th:hover {
+.table > table > thead > tr > th:hover {
   user-select: none;
 }
 
-thead > tr > th:last-child {
+.table > table > thead > tr > th:last-child {
   border-right: none;
 }
 
-tbody > tr > td {
+.table > table > tbody > tr > td {
   box-sizing: content-box;
   padding-block: 5px;
   border-inline: 1px solid #f1f1f1;
@@ -233,16 +234,20 @@ tbody > tr > td {
   padding-inline: 7px;
 }
 
-tbody > tr > td:first-child {
+.table > table > tbody > tr > td:first-child {
   text-align: center;
 }
 
-td {
+.table > table > tbody > tr > td:last-child {
+  width: 171px;
+}
+
+.table > table > tbody > tr > td {
   position: relative;
   cursor: pointer;
 }
 
-button {
+.table button {
   min-height: 20px;
   height: 35px;
   border-radius: 5px;
@@ -254,7 +259,7 @@ button {
   margin-top: 35px;
 }
 
-table {
+.table > table {
   width: 100%;
   border-collapse: collapse;
 }
