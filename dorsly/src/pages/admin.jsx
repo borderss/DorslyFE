@@ -333,8 +333,6 @@ export default function test() {
         break
     }
 
-    // load data from server and all that bullshit
-
     setFilteredTableData({
       accounts: [],
       pointsofinterest: [],
