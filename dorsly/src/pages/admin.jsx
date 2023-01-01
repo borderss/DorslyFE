@@ -404,14 +404,12 @@ export default function test() {
     let cells = new Array()
 
     tableMetaData.columns[section].map((col, key) => {
-      console.log(col.field)
-
       cells.push(<td key={key}>{row[col.field].toString()}</td>)
     })
 
     cells.push(
       <td key={cells.length}>
-        <button className={style["table-action-button"]}>Edit</button>
+        <button className={style["table-action-button"]} onClick={e => handleEditClick(e)}>Edit</button>
         <button className={style["table-action-button"]}>Delete</button>
       </td>
     )
@@ -542,6 +540,94 @@ export default function test() {
       [section]: filteredData,
     })
   }
+
+  const handleSaveClick = (e, data) => {
+    e.stopPropagation()
+
+    if (Math.random() > 0.5) {
+      e.target.innerText = "fail"
+      e.target.style["padding-inline"] = "15px"	
+      e.target.style["background-color"] = "#ee5a5a"
+      e.target.style["transition"] = "0.2s"
+      e.target.disabled = true
+
+      let row = e.target.parentElement.parentElement
+
+      row.childNodes.forEach((cell, i) => {
+        if (i === row.childNodes.length - 1) return 
+
+        cell.contentEditable = false
+        cell.style["border-block"] = "initial"
+        cell.style["border-bottom"] = "1px solid #f1f1f1"
+      })
+
+      setTimeout(() => {        
+        e.target.innerText = "Edit"
+        e.target.style["padding-inline"] = "15px"	
+        e.target.style["background-color"] = "#ffb82e"
+        e.target.style["transition"] = "0.2s"
+        e.target.disabled = false
+
+        let new_element = e.target.cloneNode(true)
+        e.target.parentNode.replaceChild(new_element, e.target)
+    
+        new_element.addEventListener("click", (e) => {
+          handleEditClick(e)
+        })
+      }, 2000)
+    } else {
+      console.log("save", e.target)
+      e.target.innerText = "Edit"
+      e.target.style["padding-inline"] = "15px"	
+      e.target.style["background-color"] = "#ffb82e"
+      e.target.style["transition"] = "0.2s"
+
+      let row = e.target.parentElement.parentElement
+
+      row.childNodes.forEach((cell, i) => {
+        if (i === row.childNodes.length - 1) return 
+
+        cell.contentEditable = false
+        cell.style["border-block"] = "initial"
+        cell.style["border-bottom"] = "1px solid #f1f1f1"
+      })
+
+      let new_element = e.target.cloneNode(true)
+      e.target.parentNode.replaceChild(new_element, e.target)
+  
+      new_element.addEventListener("click", (e) => {
+        handleEditClick(e)
+      })
+    }
+  }
+
+  const handleEditClick = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    e.target.innerText = "Save"
+    e.target.style["transition"] = "0s"
+    e.target.style["padding-inline"] = "10.7px"
+    e.target.style["background-color"] = "#5aee5a"
+
+    let row = e.target.parentElement.parentElement
+
+    let data = {}
+
+    row.childNodes.forEach((cell, i) => {
+      if (i === row.childNodes.length - 1) return 
+
+      data[tableMetaData.columns[section][i].field] = cell.innerText
+
+      cell.contentEditable = true
+      cell.style["border-bottom"] = "none"
+      cell.style["border-block"] = "2px solid #ffb82e"
+    })
+
+    // pass data to handleSaveClick so that it can be removed later
+    e.target.addEventListener("click", (e) => handleSaveClick(e, data))
+  }
+  
 
   return (
     <>

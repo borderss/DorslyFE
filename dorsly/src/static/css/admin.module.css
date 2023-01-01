@@ -245,6 +245,11 @@
 .table > table > tbody > tr > td {
   position: relative;
   cursor: pointer;
+  outline: none;
+}
+
+.table > table > tbody > tr > td:focus-within {
+  background-color: #fffdf9;;
 }
 
 .table button {
