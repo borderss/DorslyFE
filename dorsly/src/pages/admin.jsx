@@ -363,11 +363,13 @@ export default function test() {
         reviews: [],
       })
 
-      searchRef.current.value = ""
-      entryRef.current.value = ""
-      goToPageRef.current.value = ""
+      if (searchRef.current && entryRef.current && goToPageRef.current) {
+        searchRef.current.value = ""
+        entryRef.current.value = ""
+        goToPageRef.current.value = ""
+      }
     }
-  }, [section])
+  }, [section, tableData])
 
   const onNavbarItemClick = (e) => {
     let target
@@ -409,8 +411,16 @@ export default function test() {
 
     cells.push(
       <td key={cells.length}>
-        <button className={style["table-action-button"]} onClick={e => handleEditClick(e)}>Edit</button>
-        <button className={style["table-action-button"]}>Delete</button>
+        <button
+          className={style["table-action-button"]}
+          onClick={(e) => handleEditClick(e)}>
+          Edit
+        </button>
+        <button
+          className={style["table-action-button"]}
+          onClick={(e) => handleDeleteClick(e)}>
+          Delete
+        </button>
       </td>
     )
 
@@ -548,7 +558,7 @@ export default function test() {
       // FAILED SAVE
 
       e.target.innerText = "fail"
-      e.target.style["padding-inline"] = "15px"	
+      e.target.style["padding-inline"] = "15px"
       e.target.style["background-color"] = "#ee5a5a"
       e.target.style["transition"] = "0.2s"
       e.target.disabled = true
@@ -556,8 +566,8 @@ export default function test() {
       let row = e.target.parentElement.parentElement
 
       row.childNodes.forEach((cell, i) => {
-        if (i === row.childNodes.length - 1) return 
-        
+        if (i === row.childNodes.length - 1) return
+
         cell.innerText = data[tableMetaData.columns[section][i].field]
 
         cell.contentEditable = false
@@ -565,18 +575,16 @@ export default function test() {
         cell.style["border-bottom"] = "1px solid #f1f1f1"
       })
 
-
-
-      setTimeout(() => { 
+      setTimeout(() => {
         e.target.innerText = "Edit"
-        e.target.style["padding-inline"] = "15px"	
+        e.target.style["padding-inline"] = "15px"
         e.target.style["background-color"] = "#ffb82e"
         e.target.style["transition"] = "0.2s"
         e.target.disabled = false
 
         let new_element = e.target.cloneNode(true)
         e.target.parentNode.replaceChild(new_element, e.target)
-    
+
         new_element.addEventListener("click", (e) => {
           handleEditClick(e)
         })
@@ -586,14 +594,14 @@ export default function test() {
 
       console.log("save", e.target)
       e.target.innerText = "Edit"
-      e.target.style["padding-inline"] = "15px"	
+      e.target.style["padding-inline"] = "15px"
       e.target.style["background-color"] = "#ffb82e"
       e.target.style["transition"] = "0.2s"
 
       let row = e.target.parentElement.parentElement
 
       row.childNodes.forEach((cell, i) => {
-        if (i === row.childNodes.length - 1) return 
+        if (i === row.childNodes.length - 1) return
 
         cell.contentEditable = false
         cell.style["border-block"] = "initial"
@@ -602,7 +610,7 @@ export default function test() {
 
       let new_element = e.target.cloneNode(true)
       e.target.parentNode.replaceChild(new_element, e.target)
-  
+
       new_element.addEventListener("click", (e) => {
         handleEditClick(e)
       })
@@ -623,7 +631,7 @@ export default function test() {
     let data = {}
 
     row.childNodes.forEach((cell, i) => {
-      if (i === row.childNodes.length - 1) return 
+      if (i === row.childNodes.length - 1) return
 
       data[tableMetaData.columns[section][i].field] = cell.innerText
 
@@ -635,7 +643,62 @@ export default function test() {
     // pass data to handleSaveClick so that it can be removed later
     e.target.addEventListener("click", (e) => handleSaveClick(e, data))
   }
-  
+
+  const handleDeleteClick = (e) => {
+    if (Math.random() > 0.5) {
+      // FAILED DELETE
+
+      e.target.innerText = "fail"
+      e.target.style["padding-inline"] = "15px"
+      e.target.style["background-color"] = "#ee5a5a"
+      e.target.style["transition"] = "0.2s"
+      e.target.disabled = true
+
+      setTimeout(() => {
+        e.target.innerText = "Delete"
+        e.target.style["padding-inline"] = "15px"
+        e.target.style["background-color"] = "#ffb82e"
+        e.target.style["transition"] = "0.2s"
+        e.target.disabled = false
+      }, 2000)
+    } else {
+      // SUCCESSFUL DELETE
+      setTableMetaData((prevState) => {
+        return {
+          ...prevState,
+          totalPageCount: Math.ceil(
+            (prevState.totalEntries - 1) / prevState.entriesPerPage
+          ),
+          shownEntries:
+            prevState.totalEntries % prevState.entriesPerPage === 0
+              ? prevState.entriesPerPage
+              : prevState.totalEntries % prevState.entriesPerPage,
+          totalEntries: prevState.totalEntries - 1,
+
+          // if the last page is empty, go back one page
+          currentPage:
+            prevState.currentPage === prevState.totalPageCount &&
+            prevState.totalEntries % prevState.entriesPerPage === 0
+              ? prevState.currentPage - 1
+              : prevState.currentPage,
+        }
+      })
+
+      console.log(e.target.parentElement.parentElement.querySelectorAll("td")[0].innerText)
+
+      setTableData((prevState) => {
+        return {
+          ...prevState,
+          [section]: prevState[section].filter(
+            (item) => item.id+1 != e.target.parentElement.parentElement.querySelectorAll("td")[0].innerText
+          ),
+        }
+      })
+
+      // delete row
+      e.target.parentElement.parentElement.remove()
+    }
+  }
 
   return (
     <>
@@ -787,9 +850,7 @@ export default function test() {
                     ? tableMetaData.currentPage * tableMetaData.entriesPerPage
                     : tableMetaData.totalEntries}
                 </span>{" "}
-                of <span>
-                  {tableMetaData.totalEntries}
-                  </span> entries
+                of <span>{tableMetaData.totalEntries}</span> entries
               </p>
 
               <div>
