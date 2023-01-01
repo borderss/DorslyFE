@@ -545,6 +545,8 @@ export default function test() {
     e.stopPropagation()
 
     if (Math.random() > 0.5) {
+      // FAILED SAVE
+
       e.target.innerText = "fail"
       e.target.style["padding-inline"] = "15px"	
       e.target.style["background-color"] = "#ee5a5a"
@@ -555,13 +557,17 @@ export default function test() {
 
       row.childNodes.forEach((cell, i) => {
         if (i === row.childNodes.length - 1) return 
+        
+        cell.innerText = data[tableMetaData.columns[section][i].field]
 
         cell.contentEditable = false
         cell.style["border-block"] = "initial"
         cell.style["border-bottom"] = "1px solid #f1f1f1"
       })
 
-      setTimeout(() => {        
+
+
+      setTimeout(() => { 
         e.target.innerText = "Edit"
         e.target.style["padding-inline"] = "15px"	
         e.target.style["background-color"] = "#ffb82e"
@@ -576,6 +582,8 @@ export default function test() {
         })
       }, 2000)
     } else {
+      // SUCCESSFUL SAVE
+
       console.log("save", e.target)
       e.target.innerText = "Edit"
       e.target.style["padding-inline"] = "15px"	
