@@ -695,7 +695,6 @@ export default function test() {
         }
       })
 
-      // delete row
       e.target.parentElement.parentElement.remove()
     }
   }
