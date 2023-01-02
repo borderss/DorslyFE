@@ -157,7 +157,8 @@
 }
 
 .content-section {
-  width: -wekit-fill-available;
+  width: 1150px;
+  max-width: 70%;
   height: -webkit-fill-available;
 
   margin-inline: auto;
@@ -206,7 +207,7 @@
   background-color: #ffb82e;
 }
 
-thead > tr > th {
+.table > table > thead > tr > th {
   text-align: start;
   font-weight: 500;
   padding-inline: 5px;
@@ -216,15 +217,15 @@ thead > tr > th {
   border-bottom: 1px solid #dfdfdf;
 }
 
-thead > tr > th:hover {
+.table > table > thead > tr > th:hover {
   user-select: none;
 }
 
-thead > tr > th:last-child {
+.table > table > thead > tr > th:last-child {
   border-right: none;
 }
 
-tbody > tr > td {
+.table > table > tbody > tr > td {
   box-sizing: content-box;
   padding-block: 5px;
   border-inline: 1px solid #f1f1f1;
@@ -233,16 +234,25 @@ tbody > tr > td {
   padding-inline: 7px;
 }
 
-tbody > tr > td:first-child {
+.table > table > tbody > tr > td:first-child {
   text-align: center;
 }
 
-td {
-  position: relative;
-  cursor: pointer;
+.table > table > tbody > tr > td:last-child {
+  width: 171px;
 }
 
-button {
+.table > table > tbody > tr > td {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+.table > table > tbody > tr > td:focus-within {
+  background-color: #fffdf9;;
+}
+
+.table button {
   min-height: 20px;
   height: 35px;
   border-radius: 5px;
@@ -254,7 +264,7 @@ button {
   margin-top: 35px;
 }
 
-table {
+.table > table {
   width: 100%;
   border-collapse: collapse;
 }
@@ -276,13 +286,20 @@ table {
   height: 32px;
   margin: 5px;
   border-radius: 5px;
-  padding-inline: 15px;
+  padding-inline: 7px !important;
+  font-family: Lexend;
   margin: 5px;
   border: 1px solid #dfdfdf;
   font-size: 16px;
   font-weight: 300;
   color: #3d3d3d;
   padding: 0px;
+}
+
+.searchbar > div > input::placeholder {
+  font-size: 16px;
+  font-weight: 300;
+  color: #3d3d3d;
 }
 
 .searchbar > div > p {
@@ -350,17 +367,25 @@ table {
 }
 
 .pagination > div > input {
+  padding-left: 8px;
+  font-family: Lexend;
   display: flex;
   align-items: center;
   width: 100%;
   height: 32px;
   margin: 5px;
   border-radius: 5px;
-  padding-inline: 15px;
+  padding-inline: 7px !important;
   margin: 5px;
   border: 1px solid #dfdfdf;
   font-size: 16px;
   font-weight: 300;
   color: #3d3d3d;
   padding: 0px;
+}
+
+.pagination > div > input::placeholder {
+  font-size: 16px;
+  font-weight: 300;
+  color: #3d3d3d;
 }

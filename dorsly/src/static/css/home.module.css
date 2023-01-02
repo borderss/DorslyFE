@@ -183,7 +183,7 @@
   flex-direction: row-reverse;
   font-family: "Lexend";
   color: #4a4a4a;
-  width: 190px;
+  width: 205px;
   font-weight: 300;
   font-size: 17px;
   user-select: none;
@@ -244,7 +244,7 @@ input::-webkit-datetime-edit-ampm-field:focus {
 
 .time {
   padding: 5px !important;
-  width: 160px !important;
+  width: 180px !important;
   border-right: 2px solid #ebebeb;
   cursor: pointer;
 }
