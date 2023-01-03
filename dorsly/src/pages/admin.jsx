@@ -38,8 +38,6 @@ export default function test() {
         { title: "Surname", field: "last_name" },
         { title: "Email", field: "email" },
         { title: "Is admin", field: "is_admin" },
-        { title: "Registration date", field: "registration_date" },
-        { title: "Last change", field: "last_change" },
       ],
       pointsofinterest: [
         { title: "ID", field: "id" },
@@ -76,215 +74,6 @@ export default function test() {
         { title: "Review text", field: "review_text" },
       ],
     },
-  })
-
-  const [filteredTableData, setFilteredTableData] = useState({
-    accounts: [],
-    pointsofinterest: [],
-    reservations: [],
-    prepurchases: [],
-    reviews: [],
-  })
-
-  const [tableData, setTableData] = useState({
-    accounts: [
-      {
-        id: 1,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 2,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 3,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 4,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 5,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 6,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 7,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 8,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 9,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 10,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 11,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 12,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-    ],
-    pointsofinterest: [
-      {
-        id: 1,
-        name: "Point of interest 1",
-        description: "Description 1",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
-      },
-      {
-        id: 2,
-        name: "Point of interest 2",
-        description: "Description 2",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
-      },
-    ],
-    reservations: [
-      {
-        id: 1,
-        account_id: 1,
-        poi_id: 1,
-        reservation_date: "2021-05-01 12:00:00",
-        reservation_time: "12:00:00",
-        attending_person_count: 1,
-        stripe_check_number: "123456789",
-      },
-      {
-        id: 2,
-        account_id: 2,
-        poi_id: 2,
-        reservation_date: "2021-05-01 12:00:00",
-        reservation_time: "12:00:00",
-        attending_person_count: 1,
-        stripe_check_number: "123456789",
-      },
-    ],
-    prepurchases: [
-      {
-        id: 1,
-        account_id: 1,
-        poi_id: 1,
-        reservation_id: 1,
-        prepurchase_date: "2021-05-01 12:00:00",
-        prepurchase_time: "12:00:00",
-        stripe_check_number: "123456789",
-      },
-      {
-        id: 2,
-        account_id: 2,
-        poi_id: 2,
-        reservation_id: 2,
-        prepurchase_date: "2021-05-01 12:00:00",
-        prepurchase_time: "12:00:00",
-        stripe_check_number: "123456789",
-      },
-    ],
-    reviews: [
-      {
-        id: 1,
-        account_id: 1,
-        poi_id: 1,
-        review_date: "2021-05-01 12:00:00",
-        review_time: "12:00:00",
-        review_text: "Review text 1",
-      },
-      {
-        id: 2,
-        account_id: 2,
-        poi_id: 2,
-        review_date: "2021-05-01 12:00:00",
-        review_time: "12:00:00",
-        review_text: "Review text 2",
-      },
-    ],
   })
 
   const [sectionInfo, setSectionInfo] = useState({
@@ -332,44 +121,7 @@ export default function test() {
       default:
         break
     }
-
-    setFilteredTableData({
-      accounts: [],
-      pointsofinterest: [],
-      reservations: [],
-      prepurchases: [],
-      reviews: [],
-    })
-
-    return () => {
-      setTableMetaData({
-        ...tableMetaData,
-        searchQuery: "",
-        totalPageCount: Math.ceil(
-          tableData[section].length / tableMetaData.entriesPerPage
-        ),
-        shownEntries:
-          tableData[section].length % tableMetaData.entriesPerPage === 0
-            ? tableMetaData.entriesPerPage
-            : tableData[section].length % tableMetaData.entriesPerPage,
-        totalEntries: tableData[section].length,
-      })
-
-      setFilteredTableData({
-        accounts: [],
-        pointsofinterest: [],
-        reservations: [],
-        prepurchases: [],
-        reviews: [],
-      })
-
-      if (searchRef.current && entryRef.current && goToPageRef.current) {
-        searchRef.current.value = ""
-        entryRef.current.value = ""
-        goToPageRef.current.value = ""
-      }
-    }
-  }, [section, tableData])
+  }, [section])
 
   const onNavbarItemClick = (e) => {
     let target
@@ -427,128 +179,28 @@ export default function test() {
     return cells
   }
 
-  const renderTableSectionData = (section) => {
-    let rows = new Array()
-    let dataTable
-
-    if (tableMetaData.searchQuery !== "") {
-      dataTable = filteredTableData
-    } else {
-      dataTable = tableData
-    }
-
-    dataTable[section]
-      .slice(
-        (tableMetaData.currentPage - 1) * tableMetaData.entriesPerPage,
-        tableMetaData.currentPage * tableMetaData.entriesPerPage
-      )
-      .map((row, key) => {
-        rows.push(<tr key={key}>{renderTableRow(row)}</tr>)
-      })
-
-    if (rows.length === 0) {
-      rows.push(
-        <tr key={0}>
-          <td
-            colSpan={tableMetaData.columns[section].length + 1}
-            style={{ height: "50px" }}>
-            No data to display
-          </td>
-        </tr>
-      )
-    }
-
-    return rows
+  const renderTableSectionData = () => {
+    //
   }
 
   const handleNextPageClick = () => {
-    if (tableMetaData.currentPage < tableMetaData.totalPageCount) {
-      setTableMetaData({
-        ...tableMetaData,
-        currentPage: tableMetaData.currentPage + 1,
-      })
-    }
+    //
   }
 
   const handlePrevPageClick = () => {
-    if (tableMetaData.currentPage > 1) {
-      setTableMetaData({
-        ...tableMetaData,
-        currentPage: tableMetaData.currentPage - 1,
-      })
-    }
+    //
   }
 
   const handleEntriesPerPageChange = (e) => {
-    let realVal = parseInt(e.target.value)
-
-    if (parseInt(e.target.value).toString() !== e.target.value) {
-      realVal = 1
-    } else if (parseInt(e.target.value) > 25) {
-      realVal = 25
-    } else if (parseInt(e.target.value) < 1) {
-      realVal = 1
-    }
-
-    setTableMetaData({
-      ...tableMetaData,
-      entriesPerPage: realVal,
-      currentPage: 1,
-      totalPageCount: Math.ceil(tableData[section].length / realVal),
-      shownEntries:
-        tableData[section].length % realVal === 0
-          ? realVal
-          : tableData[section].length % realVal,
-    })
+    //
   }
 
   const handleGoToPageClick = (e) => {
-    let realVal = e.target.parentElement.querySelector("input").value
-
-    let clampedVal
-
-    clampedVal = Math.min(realVal, tableMetaData.totalPageCount)
-
-    clampedVal = Math.max(realVal, 1)
-
-    setTableMetaData({
-      ...tableMetaData,
-      currentPage: clampedVal,
-    })
+    //
   }
 
   const handleSearchSubmit = (e) => {
-    let query = e.target.parentElement.querySelector("input").value
-
-    let filteredData = tableData[section].filter((row) => {
-      let match = false
-
-      tableMetaData.columns[section].forEach((col) => {
-        if (row[col.field].toString().includes(query)) {
-          match = true
-        }
-      })
-
-      return match
-    })
-
-    setTableMetaData({
-      ...tableMetaData,
-      searchQuery: query,
-      totalPageCount: Math.ceil(
-        filteredData.length / tableMetaData.entriesPerPage
-      ),
-      shownEntries:
-        filteredData.length % tableMetaData.entriesPerPage === 0
-          ? tableMetaData.entriesPerPage
-          : filteredData.length % tableMetaData.entriesPerPage,
-      totalEntries: filteredData.length,
-    })
-
-    setFilteredTableData({
-      ...filteredTableData,
-      [section]: filteredData,
-    })
+    //
   }
 
   const handleSaveClick = (e, data) => {
@@ -633,8 +285,6 @@ export default function test() {
     row.childNodes.forEach((cell, i) => {
       if (i === row.childNodes.length - 1) return
 
-      data[tableMetaData.columns[section][i].field] = cell.innerText
-
       cell.contentEditable = true
       cell.style["border-bottom"] = "none"
       cell.style["border-block"] = "2px solid #ffb82e"
@@ -661,42 +311,9 @@ export default function test() {
         e.target.style["transition"] = "0.2s"
         e.target.disabled = false
       }, 2000)
-    } else {
-      // SUCCESSFUL DELETE
-      setTableMetaData((prevState) => {
-        return {
-          ...prevState,
-          totalPageCount: Math.ceil(
-            (prevState.totalEntries - 1) / prevState.entriesPerPage
-          ),
-          shownEntries:
-            prevState.totalEntries % prevState.entriesPerPage === 0
-              ? prevState.entriesPerPage
-              : prevState.totalEntries % prevState.entriesPerPage,
-          totalEntries: prevState.totalEntries - 1,
-
-          // if the last page is empty, go back one page
-          currentPage:
-            prevState.currentPage === prevState.totalPageCount &&
-            prevState.totalEntries % prevState.entriesPerPage === 0
-              ? prevState.currentPage - 1
-              : prevState.currentPage,
-        }
-      })
-
-      console.log(e.target.parentElement.parentElement.querySelectorAll("td")[0].innerText)
-
-      setTableData((prevState) => {
-        return {
-          ...prevState,
-          [section]: prevState[section].filter(
-            (item) => item.id+1 != e.target.parentElement.parentElement.querySelectorAll("td")[0].innerText
-          ),
-        }
-      })
+    }
 
       e.target.parentElement.parentElement.remove()
-    }
   }
 
   return (
@@ -809,6 +426,7 @@ export default function test() {
                   placeholder={tableMetaData.entriesPerPage}
                   onChange={(e) => handleEntriesPerPageChange(e)}
                 />
+                <button>Set</button>
               </div>
             </div>
             <table>
