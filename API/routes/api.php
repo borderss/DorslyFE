@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\PointOfInterestController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RatingController;
 use App\Http\Controllers\Api\TitlePhotoController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\StripeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,12 +32,14 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('Comment',CommentController::class);
     Route::apiResource('Deal',DealsController::class);
     Route::apiResource('Rating',RatingController::class);
+    Route::post('/filterUsers',[UserController::class, 'filter']);
 });
 
-Route::apiResource('PointOfInterest',PointOfInterestController::class);
 Route::get('/PointOfInterest/images/{PointOfInterest}',[PointOfInterestController::class,'getFile'])->name('PointOfInterest.images');
 
+Route::apiResource('PointOfInterest',PointOfInterestController::class);
 Route::apiResource('Product',ProductController::class);
+Route::apiResource('users',UserController::class);
 Route::apiResource('Comment',CommentController::class);
 Route::apiResource('Deal',DealsController::class);
 Route::apiResource('Rating',RatingController::class);
@@ -45,3 +48,6 @@ Route::apiResource('TitlePhotos',TitlePhotoController::class);
 Route::get('/TitlePhotos/image/{TitlePhoto}',[TitlePhotoController::class,'getFile'])->name('TitlePhotos.image');
 
 Route::get('/getSession',[StripeController::class, 'getSession']);
+
+
+

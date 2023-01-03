@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::all());
+        return UserResource::collection(User::paginate(10));
     }
 
     /**
@@ -73,5 +73,28 @@ class UserController extends Controller
         $user->delete();
 
         return new UserResource($user);
+    }
+
+    public function filter(Request $request)
+    {
+        $validated = $request->validate([
+            'by'=>'required',
+            'value'=>'required',
+            'paginate'=>'required|integer'
+        ]);
+
+        if ($validated['by'] == 'all'){
+            $users = User::where('id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('first_name', "LIKE", "%{$validated['value']}%")
+                ->orWhere('last_name', "LIKE", "%{$validated['value']}%")
+                ->orWhere('phone_number', "LIKE", "%{$validated['value']}%")
+                ->orWhere('email', "LIKE", "%{$validated['value']}%")
+                ->orWhere('is_admin', "LIKE", "%{$validated['value']}%")
+                ->paginate($validated['paginate']);
+        } else {
+            $users = User::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);
+        }
+
+        return UserResource::collection($users);
     }
 }
