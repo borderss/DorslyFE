@@ -20,7 +20,6 @@ class RatingResourse extends JsonResource
             'user_id'=> $this->user,
             'point_of_interest_id' => new PointOfInterestResouce($this->PointOfInterest),
             'rating' => $this->rating,
-
         ];
     }
 }

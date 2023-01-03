@@ -17,7 +17,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        return CommentResourse::collection(Comment::all());
+        return CommentResourse::collection(Comment::paginate(10));
     }
 
     /**
@@ -69,5 +69,26 @@ class CommentController extends Controller
         $comment = Comment::find($id);
         $comment->delete();
         return new CommentResourse($comment);
+    }
+
+    public function filter(Request $request)
+    {
+        $validated = $request->validate([
+            'by'=>'required',
+            'value'=>'required',
+            'paginate'=>'required|integer'
+        ]);
+
+        if ($validated['by'] == 'all'){
+            $users = Comment::where('id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('user_id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('point_of_interest_id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('text', "LIKE", "%{$validated['value']}%")
+                ->paginate($validated['paginate']);
+        } else {
+            $users = Comment::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);
+        }
+
+        return CommentResourse::collection($users);
     }
 }

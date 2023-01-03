@@ -17,7 +17,7 @@ class DealsController extends Controller
      */
     public function index()
     {
-        return DealsResourse::collection(Deals::all());
+        return DealsResourse::collection(Deals::paginate(10));
     }
 
     /**
@@ -69,5 +69,28 @@ class DealsController extends Controller
         $deal = Deals::find($id);
         $deal->delete();
         return new DealsResourse($deal);
+    }
+
+    public function filter(Request $request)
+    {
+        $validated = $request->validate([
+            'by'=>'required',
+            'value'=>'required',
+            'paginate'=>'required|integer'
+        ]);
+
+        if ($validated['by'] == 'all'){
+            $users = Deals::where('id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('user_id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('point_of_interest_id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('type', "LIKE", "%{$validated['value']}%")
+                ->orWhere('prices', "LIKE", "%{$validated['value']}%")
+                ->orWhere('status', "LIKE", "%{$validated['value']}%")
+                ->paginate($validated['paginate']);
+        } else {
+            $users = Deals::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);
+        }
+
+        return DealsResourse::collection($users);
     }
 }

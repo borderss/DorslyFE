@@ -18,7 +18,7 @@ class PointOfInterestController extends Controller
      */
     public function index()
     {
-        return PointOfInterestResouce::collection(PointOfInterest::all());
+        return PointOfInterestResouce::collection(PointOfInterest::paginate(10));
     }
 
     /**
@@ -96,5 +96,35 @@ class PointOfInterestController extends Controller
         $pointPhoto = PointOfInterest::find($pointPhoto);
         $pointPhoto->images= Storage::disk('local')->path('public/PointOfInterestPhoto/'.$pointPhoto->images);
         return response()->file($pointPhoto->images);
+    }
+
+    public function filter(Request $request)
+    {
+        $validated = $request->validate([
+            'by'=>'required',
+            'value'=>'required',
+            'paginate'=>'required|integer'
+        ]);
+
+        if ($validated['by'] == 'all'){
+            $users = PointOfInterest::where('id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('name', "LIKE", "%{$validated['value']}%")
+                ->orWhere('description', "LIKE", "%{$validated['value']}%")
+                ->orWhere('gps_lng', "LIKE", "%{$validated['value']}%")
+                ->orWhere('gps_lat', "LIKE", "%{$validated['value']}%")
+                ->orWhere('country', "LIKE", "%{$validated['value']}%")
+                ->orWhere('reservation_date', "LIKE", "%{$validated['value']}%")
+                ->orWhere('opensAt', "LIKE", "%{$validated['value']}%")
+                ->orWhere('isOpenRoundTheClock', "LIKE", "%{$validated['value']}%")
+                ->orWhere('isTakeaway', "LIKE", "%{$validated['value']}%")
+                ->orWhere('isOnLocation', "LIKE", "%{$validated['value']}%")
+                ->orWhere('availableSeats', "LIKE", "%{$validated['value']}%")
+                ->orWhere('reviewCount', "LIKE", "%{$validated['value']}%")
+                ->paginate($validated['paginate']);
+        } else {
+            $users = PointOfInterest::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);
+        }
+
+        return PointOfInterestResouce::collection($users);
     }
 }

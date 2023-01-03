@@ -71,4 +71,27 @@ class ProductController extends Controller
         $product->delete();
         return new ProductResourse($product);
     }
+
+    public function filter(Request $request)
+    {
+        $validated = $request->validate([
+            'by'=>'required',
+            'value'=>'required',
+            'paginate'=>'required|integer'
+        ]);
+
+        if ($validated['by'] == 'all'){
+            $users = Product::where('id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('name', "LIKE", "%{$validated['value']}%")
+                ->orWhere('description', "LIKE", "%{$validated['value']}%")
+                ->orWhere('point_of_interest_id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('ingredients', "LIKE", "%{$validated['value']}%")
+                ->orWhere('price', "LIKE", "%{$validated['value']}%")
+                ->paginate($validated['paginate']);
+        } else {
+            $users = Product::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);
+        }
+
+        return ProductResourse::collection($users);
+    }
 }
