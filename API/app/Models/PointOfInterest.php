@@ -14,13 +14,13 @@ class PointOfInterest extends Model
         'gps_lat',
         'country',
         'images',
-        'reservation_date',
-        'opensAt',
-        'isOpenRoundTheClock',
-        'isTakeaway',
-        'isOnLocation',
-        'availableSeats',
-        'reviewCount',
+        'opens_at',
+        'closes_at',
+        'i_open_round_the_clock',
+        'is_takeaway',
+        'is_on_location',
+        'available_seats',
+        'review_count',
     ];
 
     use HasFactory;

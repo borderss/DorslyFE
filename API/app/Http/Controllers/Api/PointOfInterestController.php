@@ -33,7 +33,7 @@ class PointOfInterestController extends Controller
         $validated = $request->validated();
         $image = $validated['images'];
         $validated['images'] = $image->hashName();
-        $image->store('public/PointOfInterestPhoto/');
+        $image->store('public/point_of_interest_photo/');
 
         return new PointOfInterestResouce(PointOfInterest::create($validated));
 //        $Point = PointOfInterest::create($request->validated());
@@ -67,10 +67,10 @@ class PointOfInterestController extends Controller
         $Point = PointOfInterest::find($id);
         $validated = $request->validated();
         if($request->hasFile('images')){
-            $Point->images= Storage::disk('local')->delete('public/PointOfInterestPhoto/'.$Point->images);
+            $Point->images= Storage::disk('local')->delete('public/point_of_interest_photo/'.$Point->images);
             $image = $validated['images'];
             $validated['images'] = $image->hashName();
-            $image->store('public/PointOfInterestPhoto/');
+            $image->store('public/point_of_interest_photo/');
         }
 
         $Point->update($validated);
@@ -86,7 +86,7 @@ class PointOfInterestController extends Controller
     public function destroy($id)
     {
         $Point = PointOfInterest::find($id);
-        $Point->images= Storage::disk('local')->delete('public/PointOfInterestPhoto/'.$Point->images);
+        $Point->images= Storage::disk('local')->delete('public/point_of_interest_photo/'.$Point->images);
         $Point->delete();
         return new PointOfInterestResouce($Point);
     }
@@ -94,7 +94,7 @@ class PointOfInterestController extends Controller
     public function getFile(Request $request, $pointPhoto){
         if(!$request->hasValidSignature()) return abort(401);
         $pointPhoto = PointOfInterest::find($pointPhoto);
-        $pointPhoto->images= Storage::disk('local')->path('public/PointOfInterestPhoto/'.$pointPhoto->images);
+        $pointPhoto->images= Storage::disk('local')->path('public/point_of_interest_photo/'.$pointPhoto->images);
         return response()->file($pointPhoto->images);
     }
 
@@ -107,22 +107,22 @@ class PointOfInterestController extends Controller
         ]);
 
         if ($validated['by'] == 'all'){
-            $users = PointOfInterest::where('id', "LIKE", "%{$validated['value']}%")
-                ->orWhere('name', "LIKE", "%{$validated['value']}%")
-                ->orWhere('description', "LIKE", "%{$validated['value']}%")
-                ->orWhere('gps_lng', "LIKE", "%{$validated['value']}%")
-                ->orWhere('gps_lat', "LIKE", "%{$validated['value']}%")
-                ->orWhere('country', "LIKE", "%{$validated['value']}%")
-                ->orWhere('reservation_date', "LIKE", "%{$validated['value']}%")
-                ->orWhere('opensAt', "LIKE", "%{$validated['value']}%")
-                ->orWhere('isOpenRoundTheClock', "LIKE", "%{$validated['value']}%")
-                ->orWhere('isTakeaway', "LIKE", "%{$validated['value']}%")
-                ->orWhere('isOnLocation', "LIKE", "%{$validated['value']}%")
-                ->orWhere('availableSeats', "LIKE", "%{$validated['value']}%")
-                ->orWhere('reviewCount', "LIKE", "%{$validated['value']}%")
+            $users = PointOfInterest::where('id', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('name', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('description', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('gps_lng', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('gps_lat', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('country', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('opens_at', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('closes_at', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('is_open_round_the_clock', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('is_takeaway', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('is_on_location', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('available_seats', 'LIKE', "%{$validated['value']}%")
+                ->orWhere('review_count', 'LIKE', "%{$validated['value']}%")
                 ->paginate($validated['paginate']);
         } else {
-            $users = PointOfInterest::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);
+            $users = PointOfInterest::where($validated['by'], 'LIKE', "%{$validated['value']}%")->paginate($validated['paginate']);
         }
 
         return PointOfInterestResouce::collection($users);

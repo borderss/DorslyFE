@@ -21,13 +21,13 @@ return new class extends Migration
             $table->float('gps_lat');
             $table->string('country');
             $table->string('images');
-            $table->date('reservation_date');
-            $table->string('opensAt')->nullable();
-            $table->boolean('isOpenRoundTheClock');
-            $table->boolean('isTakeaway');
-            $table->boolean('isOnLocation');
-            $table->integer('availableSeats');
-            $table->integer('reviewCount');
+            $table->string('opens_at')->nullable();
+            $table->date('closes_at')->nullable();
+            $table->boolean('is_open_round_the_clock');
+            $table->boolean('is_takeaway');
+            $table->boolean('is_on_location');
+            $table->integer('available_seats');
+            $table->integer('review_count');
             $table->timestamps();
         });
     }

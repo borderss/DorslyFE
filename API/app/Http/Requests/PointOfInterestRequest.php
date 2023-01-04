@@ -30,13 +30,13 @@ class PointOfInterestRequest extends FormRequest
             'gps_lat' =>'required',
             'country' =>'required',
             'images' =>'required',
-            'reservation_date' =>'required',
-            'opensAt' =>'required',
-            'isOpenRoundTheClock' =>'required',
-            'isTakeaway' =>'required',
-            'isOnLocation' =>'required',
-            'availableSeats' =>'required',
-            'reviewCount' =>'required',
+            'opens_at' =>'required',
+            'closes_at' =>'required',
+            'is_open_round_the_clock' =>'required',
+            'is_takeaway' =>'required',
+            'is_on_location' =>'required',
+            'available_seats' =>'required',
+            'review_count' =>'required',
         ];
     }
 }

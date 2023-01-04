@@ -53,6 +53,3 @@ Route::apiResource('title_photos',TitlePhotoController::class);
 Route::get('/PointOfInterest/images/{PointOfInterest}',[PointOfInterestController::class,'getFile'])->name('PointOfInterest.images');
 Route::get('/TitlePhotos/image/{TitlePhoto}',[TitlePhotoController::class,'getFile'])->name('TitlePhotos.image');
 Route::get('/getSession',[StripeController::class, 'getSession']);
-
-
-

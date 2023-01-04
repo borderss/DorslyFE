@@ -23,13 +23,13 @@ class PointOfInterestFactory extends Factory
             'gps_lat' => $this->faker->latitude($min = -90, $max = 90),
             'country' => $this->faker->country(),
             'images' => $this->faker->imageUrl(1920, 1080, 'food'),
-            'reservation_date' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
-            'opensAt' => $this->faker->time($format = 'H:i:s', $max = 'now'),
-            'isOpenRoundTheClock' => $this->faker->boolean,
-            'isTakeaway' => $this->faker->boolean,
-            'isOnLocation' => $this->faker->boolean,
-            'availableSeats' => $this->faker->randomDigit(),
-            'reviewCount' => $this->faker->randomDigit(),
+            'opens_at' => $this->faker->time($format = 'H:i:s', $max = 'now'),
+            'closes_at' => $this->faker->time($format = 'H:i:s', $max = 'now'),
+            'is_open_round_the_clock' => $this->faker->boolean,
+            'is_takeaway' => $this->faker->boolean,
+            'is_on_location' => $this->faker->boolean,
+            'available_seats' => $this->faker->randomDigit(),
+            'review_count' => $this->faker->randomDigit(),
         ];
     }
 }
