@@ -22,60 +22,6 @@ export default function test() {
 
   const [section, setSection] = useState("accounts")
 
-  const [tableMetaData, setTableMetaData] = useState({
-    currentPage: 1,
-    entriesPerPage: 10,
-    totalPageCount: 0,
-    shownEntries: 0,
-    totalEntries: 0,
-    searchQuery: "",
-
-    columns: {
-      accounts: [
-        { title: "ID", field: "id" },
-        { title: "Username", field: "username" },
-        { title: "Name", field: "first_name" },
-        { title: "Surname", field: "last_name" },
-        { title: "Email", field: "email" },
-        { title: "Is admin", field: "is_admin" },
-      ],
-      pointsofinterest: [
-        { title: "ID", field: "id" },
-        { title: "Name", field: "name" },
-        { title: "Description", field: "description" },
-        { title: "Creation date", field: "creation_date" },
-        { title: "Reservations fulfilled", field: "reservations_fulfilled" },
-        { title: "Pre-purchases fulfilled", field: "prepurchases_fulfilled" },
-      ],
-      reservations: [
-        { title: "ID", field: "id" },
-        { title: "Account ID", field: "account_id" },
-        { title: "POI ID", field: "poi_id" },
-        { title: "Reservation date", field: "reservation_date" },
-        { title: "Reservation time", field: "reservation_time" },
-        { title: "Attending person count", field: "attending_person_count" },
-        { title: "Stripe check number", field: "stripe_check_number" },
-      ],
-      prepurchases: [
-        { title: "ID", field: "id" },
-        { title: "Account ID", field: "account_id" },
-        { title: "POI ID", field: "poi_id" },
-        { title: "Reservation ID", field: "reservation_id" },
-        { title: "Pre-purchase date", field: "prepurchase_date" },
-        { title: "Pre-purchase time", field: "prepurchase_time" },
-        { title: "Stripe check number", field: "stripe_check_number" },
-      ],
-      reviews: [
-        { title: "ID", field: "id" },
-        { title: "Account ID", field: "account_id" },
-        { title: "POI ID", field: "poi_id" },
-        { title: "Review date", field: "review_date" },
-        { title: "Review time", field: "review_time" },
-        { title: "Review text", field: "review_text" },
-      ],
-    },
-  })
-
   const [sectionInfo, setSectionInfo] = useState({
     title: "Account overview",
     desc: "Overview account information such as username, name, surname, email, registration date, date of last change, etc.",
@@ -191,7 +137,7 @@ export default function test() {
     //
   }
 
-  const handleEntriesPerPageChange = (e) => {
+  const handleEntriesPerPageSubmit = (e) => {
     //
   }
 
@@ -424,9 +370,8 @@ export default function test() {
                       : tableMetaData.totalEntries
                   }
                   placeholder={tableMetaData.entriesPerPage}
-                  onChange={(e) => handleEntriesPerPageChange(e)}
                 />
-                <button>Set</button>
+                <button onClick={e => handleEntriesPerPageSubmit(e)}>Set</button>
               </div>
             </div>
             <table>
@@ -444,7 +389,7 @@ export default function test() {
                   <button disabled>Previous</button>
                 )}
                 <p>
-                  Page {tableMetaData.currentPage} of{" "}
+                  Page {tableMetaData.currentPage} of {" "}
                   {tableMetaData.totalPageCount}
                 </p>
                 {tableMetaData.currentPage !== tableMetaData.totalPageCount ? (
