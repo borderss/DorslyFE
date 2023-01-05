@@ -123,8 +123,6 @@ export default function home() {
     )
   })
 
-  console.log(user, token)
-
   return (
     <>
       <Header />

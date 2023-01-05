@@ -380,7 +380,9 @@ export default function admin() {
     let rows = new Array()
 
     data.data.map((row, key) => {
-      rows.push(<tr key={key}>{renderTableRow(row)}</tr>)
+      rows.push(<tr
+        id={row.id}
+        key={key}>{renderTableRow(row)}</tr>)
     })
 
     return rows
@@ -522,10 +524,21 @@ export default function admin() {
       })
   }
 
-  const handleSaveClick = (e, data) => {
+  const handleSaveClick = (e, initialData, row) => {
     e.stopPropagation()
 
-    
+    console.log(initialData)
+
+    let saveData = {}
+
+    // read edited data
+    row.childNodes.forEach((cell, i) => {
+      if (i === row.childNodes.length - 1) return
+      
+      saveData[tableMetaData.columns[section][i].field] = cell.innerText
+    })
+
+    console.log(saveData)
 
     if (Math.random() > 0.5) {
       e.target.innerText = "fail"
@@ -598,19 +611,42 @@ export default function admin() {
     e.target.style["background-color"] = "#5aee5a"
 
     let row = e.target.parentElement.parentElement
+    let rowData = data.data[row.id-1]
 
-    let data = {}
+    console.log(row, rowData)
 
-    row.childNodes.forEach((cell, i) => {
-      if (i === 0 || i === row.childNodes.length - 1) return
+    let initialData = {}
 
-      cell.contentEditable = true
-      cell.style["border-bottom"] = "none"
-      cell.style["border-block"] = "2px solid #ffb82e"
-    })
+
+    // row.childNodes.forEach((cell, i) => {
+    //   if (i === row.childNodes.length - 1) return
+
+    //   initialData[tableMetaData[section][i].field] = cell.innerText
+
+    //   if (cell.innerText !== data[tableMetaData[section][i].field]) {
+    //     e.target.innerText = "Edit"
+    //     e.target.style["padding-inline"] = "15px"
+    //     e.target.style["background-color"] = "#ffb82e"
+    //     e.target.style["transition"] = "0.2s"
+    //     e.target.disabled = false
+
+    //     let new_element = e.target.cloneNode(true)
+    //     e.target.parentNode.replaceChild(new_element, e.target) 
+
+    //     new_element.addEventListener("click", (e) => {  
+    //       handleEditClick(e)  
+    //     })
+
+    //     return
+    //   }
+
+    //   cell.contentEditable = true
+    //   cell.style["border-bottom"] = "none"
+    //   cell.style["border-block"] = "2px solid #ffb82e"
+    // })
 
     // pass data to handleSaveClick so that it can be removed later
-    e.target.addEventListener("click", (e) => handleSaveClick(e, data))
+    e.target.addEventListener("click", (e) => handleSaveClick(e, initialData, row))
   }
 
   const handleDeleteClick = (e) => {
