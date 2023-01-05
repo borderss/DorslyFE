@@ -1,5 +1,5 @@
 <div style="
-background-image: url({{"https://filebin.net/rxgc8dkkpl050kcu/Frame_26__1_.png"}});
+background-image: url({{"https://api.dorsly.com/email_background.png"}});
 background-size: cover;
 background-position: bottom;
 border-radius: 20px;
