@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommmentRequest;
 use App\Http\Resources\CommentResourse;
+use App\Http\Resources\FilterCommentResourse;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
@@ -89,6 +90,6 @@ class CommentController extends Controller
             $users = Comment::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);
         }
 
-        return CommentResourse::collection($users);
+        return FilterCommentResourse::collection($users);
     }
 }

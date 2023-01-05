@@ -35,7 +35,7 @@ class TitlePhotoController extends Controller
         $validated = $request->validated();
         $image = $validated['image'];
         $validated['image'] = $image->hashName();
-        $image->store('public/PointOfInterestPhoto/');
+        $image->store('public/point_of_interest_photo/');
 
         return new TitlePhotoResouce(TitlePhotos::create($validated));
     }
@@ -62,10 +62,10 @@ class TitlePhotoController extends Controller
     {
         $TitlePhoto = TitlePhotos::find($id);
         $validated = $request->validated();
-        $TitlePhoto->image= Storage::disk('local')->delete('public/PointOfInterestPhoto/'.$TitlePhoto->image);
+        $TitlePhoto->image= Storage::disk('local')->delete('public/point_of_interest_photo/'.$TitlePhoto->image);
         $image = $validated['image'];
         $validated['image'] = $image->hashName();
-        $image->store('public/PointOfInterestPhoto/');
+        $image->store('public/point_of_interest_photo/');
         $TitlePhoto->update($validated);
         return new TitlePhotoResouce($TitlePhoto);
     }
@@ -79,7 +79,7 @@ class TitlePhotoController extends Controller
     public function destroy($id)
     {
         $TitlePhoto = TitlePhotos::find($id);
-        $TitlePhoto->image= Storage::disk('local')->delete('public/PointOfInterestPhoto/'.$TitlePhoto->image);
+        $TitlePhoto->image= Storage::disk('local')->delete('public/point_of_interest_photo/'.$TitlePhoto->image);
         $TitlePhoto->delete();
         return new TitlePhotoResouce($TitlePhoto);
     }
@@ -87,7 +87,7 @@ class TitlePhotoController extends Controller
     public function getFile(Request $request, $photo){
         if(!$request->hasValidSignature()) return abort(401);
         $photo = TitlePhotos::find($photo);
-        $photo->image = Storage::disk('local')->path('public/PointOfInterestPhoto/'.$photo->image);
+        $photo->image = Storage::disk('local')->path('public/point_of_interest_photo/'.$photo->image);
         return response()->file($photo->image);
     }
 
