@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
+import { apiMethod, bearerHeaders } from "../static/js/util"
 
 import Header from "../components/header"
 
@@ -13,14 +14,227 @@ import TakeawayIcon from "/assets/svg/takeaway.svg"
 
 import { UserContext } from "../contexts/userContext"
 
-export default function test() {
+export default function admin() {
   const searchRef = useRef(null)
   const entryRef = useRef(null)
   const goToPageRef = useRef(null)
 
+  const tableMetaData = {
+    accounts: [
+      {
+        title: "ID",
+        field: "id",
+      },
+      {
+        title: "Name",
+        field: "first_name",
+      },
+      {
+        title: "Surname",
+        field: "last_name",
+      },
+      {
+        title: "Phone number",
+        field: "phone_number",
+      },
+      {
+        title: "Email",
+        field: "email",
+      },
+      {
+        title: "Is admin",
+        field: "is_admin",
+      },
+      {
+        title: "Registration date",
+        field: "created_at",
+      },
+      {
+        title: "Last change",
+        field: "updated_at",
+      },
+    ],
+    pointsofinterest: [
+      {
+        title: "ID",
+        field: "id",
+      },
+      {
+        title: "Name",
+        field: "name",
+      },
+      {
+        title: "Description",
+        field: "description",
+      },
+      {
+        title: "Longitue",
+        field: "gps_lng",
+      },
+      {
+        title: "Latitude",
+        field: "gps_lat",
+      },
+      {
+        title: "Country",
+        field: "country",
+      },
+      {
+        title: "Opens at",
+        field: "opens_at",
+      },
+      {
+        title: "Closes at",
+        field: "closes_at",
+      },
+      {
+        title: "24h open",
+        field: "is_open_round_the_clock",
+      },
+      {
+        title: "Takeaway",
+        field: "is_takeaway",
+      },
+      {
+        title: "On location",
+        field: "is_on_location",
+      },
+      {
+        title: "Available seats",
+        field: "available_seats",
+      },
+      {
+        title: "Available seats",
+        field: "review_count",
+      },
+    ],
+    reservations: [
+      {
+        title: "ID",
+        field: "id",
+      },
+      {
+        title: "Account ID",
+        field: "account_id",
+      },
+      {
+        title: "POI ID",
+        field: "poi_id",
+      },
+      {
+        title: "Reservation date",
+        field: "reservation_date",
+      },
+      {
+        title: "Reservation time",
+        field: "reservation_time",
+      },
+      {
+        title: "Attending person count",
+        field: "attending_person_count",
+      },
+      {
+        title: "Stripe check number",
+        field: "stripe_check_number",
+      },
+    ],
+    prepurchases: [
+      {
+        title: "ID",
+        field: "id",
+      },
+      {
+        title: "Account ID",
+        field: "account_id",
+      },
+      {
+        title: "POI ID",
+        field: "poi_id",
+      },
+      {
+        title: "Reservation ID",
+        field: "reservation_id",
+      },
+      {
+        title: "Pre-purchase date",
+        field: "prepurchase_date",
+      },
+      {
+        title: "Pre-purchase time",
+        field: "prepurchase_time",
+      },
+      {
+        title: "Stripe check number",
+        field: "stripe_check_number",
+      },
+    ],
+    reviews: [
+      {
+        title: "ID",
+        field: "id",
+      },
+      {
+        title: "Name",
+        field: "first_name",
+      },
+      {
+        title: "Surname",
+        field: "last_name",
+      },
+      {
+        title: "Account ID",
+        field: "user_id",
+      },
+      {
+        title: "POI ID",
+        field: "point_of_interest_id",
+      },
+      {
+        title: "Text",
+        field: "text",
+      },
+    ],
+  }
+
+  const defaultData = {
+    data: [],
+    links: {
+      first: null,
+      last: null,
+      prev: null,
+      next: null,
+    },
+    meta: {
+      current_page: 1,
+      from: 1,
+      last_page: 0,
+      links: [
+        {
+          url: null,
+          label: null,
+          active: false,
+        },
+      ],
+      path: null,
+      per_page: 10,
+      to: 0,
+      total: 0,
+    },
+  }
+
   const { user, token, setUser, setToken } = useContext(UserContext)
 
   const [section, setSection] = useState("accounts")
+
+  const [data, setData] = useState(defaultData)
+
+  const [search, setSearch] = useState("")
+
+  const [postBody, setPostBody] = useState({
+    by: "all",
+    value: "_",
+    paginate: 10,
+  })
 
   const [sectionInfo, setSectionInfo] = useState({
     title: "Account overview",
@@ -34,6 +248,17 @@ export default function test() {
           title: "Account overview",
           desc: "Overview, edit or delete account information such as username, name, surname, email, registration date, date of last change, etc.",
         })
+
+        apiMethod("/filter_users", {
+          method: "POST",
+          headers: bearerHeaders(),
+          body: JSON.stringify(postBody),
+        })
+          .then((data) => {
+            console.log(data)
+            setData(data)
+          })
+          .catch((error) => console.log(error))
         break
 
       case "pointsofinterest":
@@ -41,6 +266,17 @@ export default function test() {
           title: "Point of interest overview",
           desc: "Check interest data, for example, name, description, creation date, number of reservations/pre-purchases fulfilled, and other general satistical data.",
         })
+
+        apiMethod("/filter_points_of_interest", {
+          method: "POST",
+          headers: bearerHeaders(),
+          body: JSON.stringify(postBody),
+        })
+          .then((data) => {
+            console.log(data)
+            setData(data)
+          })
+          .catch((error) => console.log(error))
         break
 
       case "reservations":
@@ -62,6 +298,17 @@ export default function test() {
           title: "POI review overview",
           desc: "See point of interest reviews, who posted the review, the date and time the review was posted at, etc.",
         })
+
+        apiMethod("/filter_comments", {
+          method: "POST",
+          headers: bearerHeaders(),
+          body: JSON.stringify(postBody),
+        })
+          .then((data) => {
+            console.log(data)
+            setData(data)
+          })
+          .catch((error) => console.log(error))
         break
 
       default:
@@ -78,6 +325,8 @@ export default function test() {
       target = e.target.parentElement
     }
 
+    setData(defaultData)
+
     setSection(e.target.id)
     ;[...document.querySelectorAll(`.${style["side-navbar"]} > p`)].forEach(
       (el, i) => {
@@ -91,7 +340,7 @@ export default function test() {
   const renderColumnHeaders = () => {
     let headers = new Array()
 
-    tableMetaData.columns[section].map((col, key) => {
+    tableMetaData[section].map((col, key) => {
       headers.push(<th key={key}>{col.title}</th>)
     })
 
@@ -103,7 +352,9 @@ export default function test() {
   const renderTableRow = (row) => {
     let cells = new Array()
 
-    tableMetaData.columns[section].map((col, key) => {
+    console.log(row, section, tableMetaData[section], data)
+
+    tableMetaData[section].map((col, key) => {
       cells.push(<td key={key}>{row[col.field].toString()}</td>)
     })
 
@@ -126,35 +377,157 @@ export default function test() {
   }
 
   const renderTableSectionData = () => {
-    //
+    let rows = new Array()
+
+    data.data.map((row, key) => {
+      rows.push(<tr key={key}>{renderTableRow(row)}</tr>)
+    })
+
+    return rows
   }
 
   const handleNextPageClick = () => {
-    //
+    let nextPage = data.links.next.substring(data.links.next.lastIndexOf("/") + 1)
+
+    apiMethod("/" + nextPage, {
+      method: "POST",
+      headers: bearerHeaders(),
+      body: JSON.stringify(postBody),
+    })
+      .then((data) => {
+        setData(data)
+      })
+      .catch((error) => console.log(error))
   }
 
   const handlePrevPageClick = () => {
-    //
+    let prevPage = data.links.prev.substring(data.links.prev.lastIndexOf("/") + 1)
+
+    apiMethod("/" + prevPage, {
+      method: "POST",
+      headers: bearerHeaders(),
+      body: JSON.stringify(postBody),
+    })
+      .then((data) => {
+        setData(data)
+      })
+      .catch((error) => console.log(error))
   }
 
   const handleEntriesPerPageSubmit = (e) => {
-    //
+    let paginateCount = parseInt(e.target.parentElement.children[1].value)
+
+    setPostBody({
+      ...postBody,
+      paginate: paginateCount,
+    })
+
+    let page = data.meta.path.substring(data.meta.path.lastIndexOf("/") + 1)
+
+    apiMethod("/" + page, {
+      method: "POST",
+      headers: bearerHeaders(),
+      body: JSON.stringify({
+        ...postBody,
+        paginate: paginateCount,
+      }),
+    })
+      .then((data) => {
+        setData(data)
+      })
   }
 
   const handleGoToPageClick = (e) => {
-    //
+    let page = parseInt(e.target.parentElement.children[1].value)
+
+    let pageLink = data.meta.links[page].url
+
+    console.log(pageLink)
+
+    page = pageLink.substring(pageLink.lastIndexOf("/") + 1)
+
+    apiMethod("/" + page, {
+      method: "POST",
+      headers: bearerHeaders(),
+      body: JSON.stringify(postBody),
+    })
+      .then((data) => {
+        setData(data)
+      })
   }
 
   const handleSearchSubmit = (e) => {
-    //
+    e.preventDefault()
+
+    let searchText = e.target.parentElement.children[0].value
+
+    let searchBy
+    let searchValue
+
+    if (searchText.includes(":") && searchText.split(":")[0].length > 0 && searchText.split(":")[1].length > 0) {
+      searchBy = searchText.split(":")[0]
+      searchValue = searchText.split(":")[1]
+
+      let searchByValid = false
+
+      tableMetaData[section].map((col) => {
+        if (col.field === searchBy) {
+          searchByValid = true
+        }
+      })
+
+      console.log(searchBy, searchValue, searchByValid)
+
+      if (!searchByValid) {
+        setPostBody({
+          ...postBody,
+          by: "all",
+          value: searchText,
+        })
+      } else {
+        setPostBody({
+          ...postBody,
+          by: searchBy,
+          value: searchValue,
+        })
+      }
+    } else {
+      searchBy = "all"
+      searchValue = e.target.parentElement.children[0].value
+
+      if (searchValue === "") {
+        searchValue = "\_"
+      }
+
+      setPostBody({
+        ...postBody,
+        by: searchBy,
+        value: searchValue,
+      })
+    }
+
+    let page = data.links.first.substring(data.links.first.lastIndexOf("/") + 1)
+
+    apiMethod("/" + page, {
+      method: "POST",
+      headers: bearerHeaders(),
+      body: JSON.stringify({
+        ...postBody,
+        by: searchBy,
+        value: searchValue,
+      }),
+    })
+      .then((data) => {
+        setData(data)
+      })
   }
 
   const handleSaveClick = (e, data) => {
     e.stopPropagation()
 
-    if (Math.random() > 0.5) {
-      // FAILED SAVE
+    
 
+    if (Math.random() > 0.5) {
       e.target.innerText = "fail"
       e.target.style["padding-inline"] = "15px"
       e.target.style["background-color"] = "#ee5a5a"
@@ -229,7 +602,7 @@ export default function test() {
     let data = {}
 
     row.childNodes.forEach((cell, i) => {
-      if (i === row.childNodes.length - 1) return
+      if (i === 0 || i === row.childNodes.length - 1) return
 
       cell.contentEditable = true
       cell.style["border-bottom"] = "none"
@@ -259,7 +632,7 @@ export default function test() {
       }, 2000)
     }
 
-      e.target.parentElement.parentElement.remove()
+    e.target.parentElement.parentElement.remove()
   }
 
   return (
@@ -346,12 +719,7 @@ export default function test() {
                   ref={searchRef}
                   type="text"
                   placeholder="Search..."
-                  defaultValue={tableMetaData.search}
-                  onChange={(e) => {
-                    if (e.target.value === "clear") {
-                      clearAllFilters()
-                    }
-                  }}
+                  defaultValue={search}
                 />
                 <button onClick={(e) => handleSearchSubmit(e)}>Search</button>
 
@@ -364,35 +732,32 @@ export default function test() {
                   ref={entryRef}
                   type="number"
                   min={1}
-                  max={
-                    tableMetaData.totalEntries > 25
-                      ? 25
-                      : tableMetaData.totalEntries
-                  }
-                  placeholder={tableMetaData.entriesPerPage}
+                  max={data.meta.total}
+                  placeholder={data.meta.per_page}
                 />
-                <button onClick={e => handleEntriesPerPageSubmit(e)}>Set</button>
+                <button onClick={(e) => handleEntriesPerPageSubmit(e)}>
+                  Set
+                </button>
               </div>
             </div>
             <table>
               <thead>
-                <tr>{renderColumnHeaders()}</tr>
+                <tr>{data != defaultData && renderColumnHeaders()}</tr>
               </thead>
-              <tbody>{renderTableSectionData(section)}</tbody>
+              <tbody>{data != defaultData && renderTableSectionData(section)}</tbody>
             </table>
 
             <div className={style["pagination"]}>
               <div>
-                {tableMetaData.currentPage !== 1 ? (
+                {data.links.prev ? (
                   <button onClick={handlePrevPageClick}>Previous</button>
                 ) : (
                   <button disabled>Previous</button>
                 )}
                 <p>
-                  Page {tableMetaData.currentPage} of {" "}
-                  {tableMetaData.totalPageCount}
+                  Page {data.meta.current_page} of {data.meta.last_page}
                 </p>
-                {tableMetaData.currentPage !== tableMetaData.totalPageCount ? (
+                {data.links.next ? (
                   <button onClick={handleNextPageClick}>Next</button>
                 ) : (
                   <button disabled>Next</button>
@@ -400,19 +765,9 @@ export default function test() {
               </div>
 
               <p>
-                Showing{" "}
-                <span>
-                  {(tableMetaData.currentPage - 1) *
-                    tableMetaData.entriesPerPage +
-                    1}
-                </span>{" "}
-                to{" "}
-                <span>
-                  {tableMetaData.currentPage !== tableMetaData.totalPageCount
-                    ? tableMetaData.currentPage * tableMetaData.entriesPerPage
-                    : tableMetaData.totalEntries}
-                </span>{" "}
-                of <span>{tableMetaData.totalEntries}</span> entries
+                Showing <span>{data.meta.from}</span> to{" "}
+                <span>{data.meta.to}</span> of <span>{data.meta.total}</span>{" "}
+                entries
               </p>
 
               <div>
@@ -420,17 +775,21 @@ export default function test() {
                 <input
                   ref={goToPageRef}
                   type="number"
-                  min="1"
-                  max={tableMetaData.totalPageCount}
-                  placeholder={tableMetaData.currentPage}
+                  min={1}
+                  max={data.meta.last_page}
+                  placeholder={data.meta.current_page}
                   onChange={(e) => {
-                    e.target.value > tableMetaData.totalPageCount
-                      ? (e.target.value = tableMetaData.totalPageCount)
-                      : e.target.value
+                    if (e.target.value > data.meta.last_page) {
+                      e.target.value = data.meta.last_page
+                    }
 
-                    e.target.value < 1 ? (e.target.value = 1) : e.target.value
+                    if (e.target.value < 1) {
+                      e.target.value = 1
+                    }
 
-                    e.target.value = parseInt(e.target.value)
+                    if (e.target.value === "") {
+                      e.target.value = data.meta.current_page
+                    }
                   }}
                 />
 
