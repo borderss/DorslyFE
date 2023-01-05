@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DealsController;
 use App\Http\Controllers\Api\PointOfInterestController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RatingController;
+use App\Http\Controllers\Api\TestMailController;
 use App\Http\Controllers\Api\TitlePhotoController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\StripeController;
@@ -50,6 +51,7 @@ Route::apiResource('products',ProductController::class);
 Route::apiResource('title_photos',TitlePhotoController::class);
 
 // util
-Route::get('/PointOfInterest/images/{PointOfInterest}',[PointOfInterestController::class,'getFile'])->name('PointOfInterest.images');
-Route::get('/TitlePhotos/image/{TitlePhoto}',[TitlePhotoController::class,'getFile'])->name('TitlePhotos.image');
+Route::get('/point_of_interest/images/{point_of_interest}',[PointOfInterestController::class,'getFile'])->name('point_of_interest.images');
+Route::get('/title_photos/image/{title_photos}',[TitlePhotoController::class,'getFile'])->name('title_photos.image');
 Route::get('/getSession',[StripeController::class, 'getSession']);
+Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);

@@ -23,13 +23,13 @@ class PointOfInterestResouce extends JsonResource
             'gps_lat' => $this->gps_lat,
             'country' => $this->country,
             'images' => URL::signedRoute('point_of_interest.images',['point_of_interest' => $this->id]),
-            'opens_at' => $this->opensAt,
+            'opens_at' => $this->opens_at,
             'closes_at' => $this->closes_at,
-            'is_open_round_the_clock' => $this->isOpenRoundTheClock,
-            'is_takeaway' => $this->isTakeaway,
-            'is_on_location' => $this->isOnLocation,
-            'available_seats' => $this->availableSeats,
-            'review_count' => $this->reviewCount,
+            'is_open_round_the_clock' => $this->is_open_round_the_clock,
+            'is_takeaway' => $this->is_takeaway,
+            'is_on_location' => $this->is_on_location,
+            'available_seats' => $this->available_seats,
+            'review_count' => $this->review_count,
         ];
     }
 }

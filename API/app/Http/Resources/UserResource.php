@@ -21,8 +21,8 @@ class UserResource extends JsonResource
             'phone_number' => $this->phone_number,
             'email' => $this->email,
             'is_admin' => $this->is_admin,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => \Carbon\Carbon::parse($this->created_at)->format('d/m/Y H:i:s'),
+            'updated_at' => \Carbon\Carbon::parse($this->updated_at)->format('d/m/Y H:i:s'),
         ];
     }
 }
