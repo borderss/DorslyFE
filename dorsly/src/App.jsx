@@ -6,6 +6,7 @@ import "../src/static/css/general.css"
 import Authentificaton from "./pages/authentificaton"
 import Home from "./pages/home"
 import Admin from "./pages/admin"
+import MainProductPage from "./pages/mainProductPage"
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/login" element={<Authentificaton page="login"/>} />
         <Route path="/register" element={<Authentificaton page="register"/>} />
         <Route path="/admin" element={<Admin/>} />
+        <Route path="/products" element={<MainProductPage/>} />
       </Routes>
     </BrowserRouter>
   )
