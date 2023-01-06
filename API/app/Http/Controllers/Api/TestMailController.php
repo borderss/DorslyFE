@@ -13,9 +13,5 @@ class TestMailController extends Controller
     {
         Mail::to("liepins01@gmail.com")->send(new TestEmail("testing!!!!!!!"));
 
-        Mail::send('testemail', $data, function ($message) {
-            $message->to('recipient@example.com', 'Recipient Name')
-                ->subject('Email Subject');
-        });
     }
 }
