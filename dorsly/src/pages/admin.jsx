@@ -481,25 +481,29 @@ export default function admin() {
       let searchByValid = false
 
       tableMetaData[section].map((col) => {
-        if (col.field === searchBy) {
+        if (col.field == searchBy) {
+          console.log(col.field, searchBy)
           searchByValid = true
         }
       })
 
       console.log(searchBy, searchValue, searchByValid)
 
-      if (!searchByValid) {
-        setPostBody({
-          ...postBody,
-          by: "all",
-          value: searchText,
-        })
-      } else {
+      if (searchByValid) {
         setPostBody({
           ...postBody,
           by: searchBy,
           value: searchValue,
         })
+      } else {
+        setPostBody({
+          ...postBody,
+          by: "all",
+          value: searchText,
+        })
+
+        searchBy = "all"
+        searchValue = searchText
       }
     } else {
       searchBy = "all"
@@ -531,7 +535,7 @@ export default function admin() {
     })
   }
 
-  const handleSaveClick = (e, editedHTMLData, initialData) => {
+  const handleSaveClick = async (e, editedHTMLData, initialData) => {
     e.stopPropagation()
 
     let saveData = {}
@@ -548,44 +552,7 @@ export default function admin() {
 
     console.log(saveData, initialData)
 
-
-
-    if (Math.random() > 0.5) {
-      // FAILED SAVE
-
-      e.target.innerText = "fail"
-      e.target.style["padding-inline"] = "15px"
-      e.target.style["background-color"] = "#ee5a5a"
-      e.target.style["transition"] = "0.2s"
-      e.target.disabled = true
-
-      editedHTMLData.childNodes.forEach((cell, i) => {
-        if (i === editedHTMLData.childNodes.length - 1) return
-
-        cell.innerText = initialData[tableMetaData[section][i].field]
-
-        cell.contentEditable = false
-        cell.style["border-block"] = "initial"
-        cell.style["border-bottom"] = "1px solid #f1f1f1"
-      })
-
-      setTimeout(() => {
-        e.target.innerText = "Edit"
-        e.target.style["padding-inline"] = "15px"
-        e.target.style["background-color"] = "#ffb82e"
-        e.target.style["transition"] = "0.2s"
-        e.target.disabled = false
-
-        let new_element = e.target.cloneNode(true)
-        e.target.parentNode.replaceChild(new_element, e.target)
-
-        new_element.addEventListener("click", (e) => {
-          handleEditClick(e)
-        })
-      }, 2000)
-    } else {
-      // SUCCESSFUL SAVE
-
+    if (JSON.stringify(saveData) != JSON.stringify(initialData)) {
       console.log("save", e.target)
       e.target.innerText = "Edit"
       e.target.style["padding-inline"] = "15px"
@@ -606,7 +573,74 @@ export default function admin() {
       new_element.addEventListener("click", (e) => {
         handleEditClick(e)
       })
+
+      let editData = await apiMethod("/" + section + "/" + editedHTMLData.id, {
+        method: "PUT",
+        headers: bearerHeaders(),
+        body: JSON.stringify(saveData),
+      })
+
+      console.log(editData)
     }
+
+
+    // if (Math.random() > 0.5) {
+    //   // FAILED SAVE
+
+    //   e.target.innerText = "fail"
+    //   e.target.style["padding-inline"] = "15px"
+    //   e.target.style["background-color"] = "#ee5a5a"
+    //   e.target.style["transition"] = "0.2s"
+    //   e.target.disabled = true
+
+    //   editedHTMLData.childNodes.forEach((cell, i) => {
+    //     if (i === editedHTMLData.childNodes.length - 1) return
+
+    //     cell.innerText = initialData[tableMetaData[section][i].field]
+
+    //     cell.contentEditable = false
+    //     cell.style["border-block"] = "initial"
+    //     cell.style["border-bottom"] = "1px solid #f1f1f1"
+    //   })
+
+    //   setTimeout(() => {
+    //     e.target.innerText = "Edit"
+    //     e.target.style["padding-inline"] = "15px"
+    //     e.target.style["background-color"] = "#ffb82e"
+    //     e.target.style["transition"] = "0.2s"
+    //     e.target.disabled = false
+
+    //     let new_element = e.target.cloneNode(true)
+    //     e.target.parentNode.replaceChild(new_element, e.target)
+
+    //     new_element.addEventListener("click", (e) => {
+    //       handleEditClick(e)
+    //     })
+    //   }, 2000)
+    // } else {
+    //   // SUCCESSFUL SAVE
+
+    //   console.log("save", e.target)
+    //   e.target.innerText = "Edit"
+    //   e.target.style["padding-inline"] = "15px"
+    //   e.target.style["background-color"] = "#ffb82e"
+    //   e.target.style["transition"] = "0.2s"
+
+    //   editedHTMLData.childNodes.forEach((cell, i) => {
+    //     if (i === editedHTMLData.childNodes.length - 1) return
+
+    //     cell.contentEditable = false
+    //     cell.style["border-block"] = "initial"
+    //     cell.style["border-bottom"] = "1px solid #f1f1f1"
+    //   })
+
+    //   let new_element = e.target.cloneNode(true)
+    //   e.target.parentNode.replaceChild(new_element, e.target)
+
+    //   new_element.addEventListener("click", (e) => {
+    //     handleEditClick(e)
+    //   })
+    // }
   }
 
   const handleEditClick = (e) => {
@@ -744,6 +778,13 @@ export default function admin() {
                 If you encounter any unexpected data or results, immediately
                 notify any of the developers and log out of your account.
               </p>
+
+              <h2 className={style["search"]}>Searchable fields</h2>
+              <div className={style["searchable-keys"]}>
+                {Object.keys(tableMetaData[section]).map((key) => (
+                  <div key={key}>{tableMetaData[section][key].field}</div> 
+                ))}
+              </div>
             </div>
           </div>
 
