@@ -20,7 +20,7 @@ export default function admin() {
   const goToPageRef = useRef(null)
 
   const tableMetaData = {
-    accounts: [
+    users: [
       {
         title: "ID",
         field: "id",
@@ -224,7 +224,7 @@ export default function admin() {
 
   const { user, token, setUser, setToken } = useContext(UserContext)
 
-  const [section, setSection] = useState("accounts")
+  const [section, setSection] = useState("users")
 
   const [data, setData] = useState(defaultData)
 
@@ -243,7 +243,7 @@ export default function admin() {
 
   useEffect(() => {
     switch (section) {
-      case "accounts":
+      case "users":
         setSectionInfo({
           title: "Account overview",
           desc: "Overview, edit or delete account information such as username, name, surname, email, registration date, date of last change, etc.",
@@ -380,16 +380,20 @@ export default function admin() {
     let rows = new Array()
 
     data.data.map((row, key) => {
-      rows.push(<tr
-        id={row.id}
-        key={key}>{renderTableRow(row)}</tr>)
+      rows.push(
+        <tr id={row.id} key={key}>
+          {renderTableRow(row)}
+        </tr>
+      )
     })
 
     return rows
   }
 
   const handleNextPageClick = () => {
-    let nextPage = data.links.next.substring(data.links.next.lastIndexOf("/") + 1)
+    let nextPage = data.links.next.substring(
+      data.links.next.lastIndexOf("/") + 1
+    )
 
     apiMethod("/" + nextPage, {
       method: "POST",
@@ -403,7 +407,9 @@ export default function admin() {
   }
 
   const handlePrevPageClick = () => {
-    let prevPage = data.links.prev.substring(data.links.prev.lastIndexOf("/") + 1)
+    let prevPage = data.links.prev.substring(
+      data.links.prev.lastIndexOf("/") + 1
+    )
 
     apiMethod("/" + prevPage, {
       method: "POST",
@@ -433,10 +439,9 @@ export default function admin() {
         ...postBody,
         paginate: paginateCount,
       }),
+    }).then((data) => {
+      setData(data)
     })
-      .then((data) => {
-        setData(data)
-      })
   }
 
   const handleGoToPageClick = (e) => {
@@ -452,10 +457,9 @@ export default function admin() {
       method: "POST",
       headers: bearerHeaders(),
       body: JSON.stringify(postBody),
+    }).then((data) => {
+      setData(data)
     })
-      .then((data) => {
-        setData(data)
-      })
   }
 
   const handleSearchSubmit = (e) => {
@@ -466,7 +470,11 @@ export default function admin() {
     let searchBy
     let searchValue
 
-    if (searchText.includes(":") && searchText.split(":")[0].length > 0 && searchText.split(":")[1].length > 0) {
+    if (
+      searchText.includes(":") &&
+      searchText.split(":")[0].length > 0 &&
+      searchText.split(":")[1].length > 0
+    ) {
       searchBy = searchText.split(":")[0]
       searchValue = searchText.split(":")[1]
 
@@ -498,7 +506,7 @@ export default function admin() {
       searchValue = e.target.parentElement.children[0].value
 
       if (searchValue === "") {
-        searchValue = "\_"
+        searchValue = "_"
       }
 
       setPostBody({
@@ -518,41 +526,43 @@ export default function admin() {
         by: searchBy,
         value: searchValue,
       }),
+    }).then((data) => {
+      setData(data)
     })
-      .then((data) => {
-        setData(data)
-      })
   }
 
-  const handleSaveClick = (e, initialData, row) => {
+  const handleSaveClick = (e, editedHTMLData, initialData) => {
     e.stopPropagation()
-
-    console.log(initialData)
 
     let saveData = {}
 
-    // read edited data
-    row.childNodes.forEach((cell, i) => {
-      if (i === row.childNodes.length - 1) return
-      
-      saveData[tableMetaData.columns[section][i].field] = cell.innerText
+    editedHTMLData.childNodes.forEach((cell, i) => {
+      if (i === editedHTMLData.childNodes.length - 1) return
+
+      if (typeof(initialData[tableMetaData[section][i].field]) === "number") { 
+        saveData[tableMetaData[section][i].field] = parseInt(cell.innerText)
+      } else {
+        saveData[tableMetaData[section][i].field] = cell.innerText
+      }
     })
 
-    console.log(saveData)
+    console.log(saveData, initialData)
+
+
 
     if (Math.random() > 0.5) {
+      // FAILED SAVE
+
       e.target.innerText = "fail"
       e.target.style["padding-inline"] = "15px"
       e.target.style["background-color"] = "#ee5a5a"
       e.target.style["transition"] = "0.2s"
       e.target.disabled = true
 
-      let row = e.target.parentElement.parentElement
+      editedHTMLData.childNodes.forEach((cell, i) => {
+        if (i === editedHTMLData.childNodes.length - 1) return
 
-      row.childNodes.forEach((cell, i) => {
-        if (i === row.childNodes.length - 1) return
-
-        cell.innerText = data[tableMetaData.columns[section][i].field]
+        cell.innerText = initialData[tableMetaData[section][i].field]
 
         cell.contentEditable = false
         cell.style["border-block"] = "initial"
@@ -582,10 +592,8 @@ export default function admin() {
       e.target.style["background-color"] = "#ffb82e"
       e.target.style["transition"] = "0.2s"
 
-      let row = e.target.parentElement.parentElement
-
-      row.childNodes.forEach((cell, i) => {
-        if (i === row.childNodes.length - 1) return
+      editedHTMLData.childNodes.forEach((cell, i) => {
+        if (i === editedHTMLData.childNodes.length - 1) return
 
         cell.contentEditable = false
         cell.style["border-block"] = "initial"
@@ -610,65 +618,56 @@ export default function admin() {
     e.target.style["padding-inline"] = "10.7px"
     e.target.style["background-color"] = "#5aee5a"
 
-    let row = e.target.parentElement.parentElement
-    let rowData = data.data[row.id-1]
+    let rowHtml = e.target.parentElement.parentElement
+    let rowData = data.data.find((row) => row.id == rowHtml.id)
 
-    console.log(row, rowData)
+    console.log(rowHtml, rowData)
 
-    let initialData = {}
+    rowHtml.childNodes.forEach((cell, i) => {
+      if (i === rowHtml.childNodes.length - 1) return
 
+      Object.keys(rowData).map((key) => {
+        if (key === tableMetaData[section][i].field) {
+          cell.innerText = rowData[key]
+        }
+      })
 
-    // row.childNodes.forEach((cell, i) => {
-    //   if (i === row.childNodes.length - 1) return
+      if (i != 0 && i != rowHtml.childNodes.length - 2 && i != rowHtml.childNodes.length - 3) {
+        cell.contentEditable = true
+        cell.style["border-bottom"] = "none"
+        cell.style["border-block"] = "2px solid #ffb82e"
+      }
+    })
 
-    //   initialData[tableMetaData[section][i].field] = cell.innerText
-
-    //   if (cell.innerText !== data[tableMetaData[section][i].field]) {
-    //     e.target.innerText = "Edit"
-    //     e.target.style["padding-inline"] = "15px"
-    //     e.target.style["background-color"] = "#ffb82e"
-    //     e.target.style["transition"] = "0.2s"
-    //     e.target.disabled = false
-
-    //     let new_element = e.target.cloneNode(true)
-    //     e.target.parentNode.replaceChild(new_element, e.target) 
-
-    //     new_element.addEventListener("click", (e) => {  
-    //       handleEditClick(e)  
-    //     })
-
-    //     return
-    //   }
-
-    //   cell.contentEditable = true
-    //   cell.style["border-bottom"] = "none"
-    //   cell.style["border-block"] = "2px solid #ffb82e"
-    // })
-
-    // pass data to handleSaveClick so that it can be removed later
-    e.target.addEventListener("click", (e) => handleSaveClick(e, initialData, row))
+    e.target.addEventListener("click", (e) =>
+      handleSaveClick(e, e.target.parentElement.parentElement, rowData)
+    )
   }
 
-  const handleDeleteClick = (e) => {
-    if (Math.random() > 0.5) {
-      // FAILED DELETE
+  const handleDeleteClick = async (e) => {
+    let rowItemIndex = e.target.parentElement.parentElement.id
 
-      e.target.innerText = "fail"
-      e.target.style["padding-inline"] = "15px"
-      e.target.style["background-color"] = "#ee5a5a"
-      e.target.style["transition"] = "0.2s"
-      e.target.disabled = true
+    let deleteData = data.data.find((row) => row.id == rowItemIndex)
 
-      setTimeout(() => {
-        e.target.innerText = "Delete"
-        e.target.style["padding-inline"] = "15px"
-        e.target.style["background-color"] = "#ffb82e"
-        e.target.style["transition"] = "0.2s"
-        e.target.disabled = false
-      }, 2000)
+    console.log(rowItemIndex, rowItemIndex, deleteData)
+
+    let apiData = await apiMethod("/" + section + "/" + deleteData.id, {
+      method: "DELETE",
+      headers: bearerHeaders(),
+    })
+
+    if (apiData && apiData.data.id == deleteData?.id) {
+      let new_data = data.data.filter((item) => item.id != deleteData.id)
+
+      setData({
+        ...data,
+        data: new_data,
+        meta: {
+          ...data.meta,
+          total: data.meta.total - 1
+        }
+      })
     }
-
-    e.target.parentElement.parentElement.remove()
   }
 
   return (
@@ -682,11 +681,11 @@ export default function admin() {
           </div>
 
           <p
-            id="accounts"
+            id="users"
             className={style["navbar-item-active"]}
             style={{ "--nav-item-icon": `url(${PeopleIcon})` }}
             onClick={(e) => onNavbarItemClick(e)}>
-            Accounts
+            Users
           </p>
           <p
             id="pointsofinterest"
@@ -780,7 +779,9 @@ export default function admin() {
               <thead>
                 <tr>{data != defaultData && renderColumnHeaders()}</tr>
               </thead>
-              <tbody>{data != defaultData && renderTableSectionData(section)}</tbody>
+              <tbody>
+                {data != defaultData && renderTableSectionData(section)}
+              </tbody>
             </table>
 
             <div className={style["pagination"]}>
