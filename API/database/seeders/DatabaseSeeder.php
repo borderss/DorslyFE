@@ -20,22 +20,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         User::factory(33)->create();
-         PointOfInterest::factory(70)->create();
-         Product::factory(50)->create();
-         Rating::factory(20)->create();
-         Comment::factory(30)->create();
-
-         User::create([
-             'first_name' => 'user1',
-             'last_name' => 'surname1',
-             'phone_number' => '+371 22022479',
-             'email' => 'user1@gmail.com',
-             'password' => Hash::make('password1'),
-             'is_admin' => true,
-             'is_cookies_allowed' => true,
-             'is_email_allowed' => true,
-         ]);
+        User::create([
+            'first_name' => 'user1',
+            'last_name' => 'surname1',
+            'phone_number' => '+371 22022479',
+            'email' => 'user1@gmail.com',
+            'password' => Hash::make('password1'),
+            'is_admin' => true,
+            'is_cookies_allowed' => true,
+            'is_email_allowed' => true,
+        ]);
 
         User::create([
             'first_name' => 'user2',
@@ -47,5 +41,11 @@ class DatabaseSeeder extends Seeder
             'is_cookies_allowed' => true,
             'is_email_allowed' => true,
         ]);
+
+         User::factory(33)->create();
+         PointOfInterest::factory(70)->create();
+         Product::factory(50)->create();
+         Rating::factory(20)->create();
+         Comment::factory(30)->create();
     }
 }

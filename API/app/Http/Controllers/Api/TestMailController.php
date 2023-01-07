@@ -12,6 +12,5 @@ class TestMailController extends Controller
     public function sendEmail()
     {
         Mail::to("liepins01@gmail.com")->send(new TestEmail("testing!!!!!!!"));
-
     }
 }
