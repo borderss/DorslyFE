@@ -4,6 +4,7 @@ import { UserContext } from "../contexts/userContext"
 
 import "../static/css/general.css"
 import style from "../static/css/home.module.css"
+import carouselStyle from "../static/css/homeCarouselStyle.module.css"
 
 import Card from "../components/card"
 import Carousel from "../components/carousel"
@@ -159,8 +160,11 @@ export default function home() {
           </div>
         </div>
 
+
+    
         <Carousel
           data={cardData}
+          stylesheet={carouselStyle}
         />
 
         <div className={style["description"]}>

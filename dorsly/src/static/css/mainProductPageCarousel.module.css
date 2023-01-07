@@ -1,43 +1,8 @@
-div > .carouselContainer {
-  position: relative;
-  left: 0px;
-  width: 100%;
-  margin-inline: auto;
-}
-
-.carouselContainer {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  width: 1600px !important;
-  height: 580px;
-  left: initial !important;
-  margin-inline: auto;
-  user-select: none;
-  justify-content: space-between;
-}
-
-.carousel {
-  width: 1448px;
-  height: 100%;
-  overflow-x: clip;
-  transition: none;
-}
-
-.carouselInner {
-  display: flex;
-  align-items: center;
-  overflow-x: clip;
-}
-
-.carouselInner > div {
-  margin-inline: 25px;
-}
-
 .carouselArrow {
   position: sticky;
   display: flex;
   flex: 0 0 auto;
+  filter: contrast(0) brightness(0) invert(69%) sepia(59%) saturate(623%) hue-rotate(343deg) brightness(106%) contrast(101%);
   width: 35px;
   cursor: pointer;
   transition: 0.2s;
@@ -82,10 +47,11 @@ div > .carouselContainer {
   cursor: pointer;
 }
 
+
 .carouselDots > div {
   width: 9px;
   height: 9px;
-  background-color: #e6e6e6;
+  background-color: #ffe5b4;
   border-radius: 10px;
 
   user-select: none;
@@ -95,7 +61,7 @@ div > .carouselContainer {
 }
 
 .carouselDots[active="true"] > div {
-  background-color: #ffffff;
+  background-color: #ffb82e;
   width: 12px;
   height: 12px;
 }

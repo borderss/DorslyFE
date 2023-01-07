@@ -118,11 +118,15 @@ export default function carousel(props) {
       <span
         key={i + 1}
         id={i + 1}
-        className={style["carouselDots"]}
+        className={
+          props.stylesheet?.["carouselDots"]
+            ? props.stylesheet?.["carouselDots"]
+            : style["carouselDots"]
+        }
         onClick={onDotClick}
         active={i == 0 ? "true" : "false"}>
-          <div></div>
-        </span>
+        <div></div>
+      </span>
     )
   }
 
@@ -144,25 +148,65 @@ export default function carousel(props) {
   }, [page])
 
   return (
-    <div className={style["carouselBoundingBox"]}>
-      <div className={style["carouselContainer"]}>
+    <div
+      className={
+        props.stylesheet?.["carouselBoundingBox"]
+          ? props.stylesheet?.["carouselBoundingBox"]
+          : style["carouselBoundingBox"]
+      }>
+      <div
+        className={
+          props.stylesheet?.["carouselContainer"]
+            ? props.stylesheet?.["carouselContainer"]
+            : style["carouselContainer"]
+        }>
         <span
-          className={[style["carouselArrow"], style["left"]].join(" ")}
+          className={[
+            props.stylesheet?.["carouselArrow"]
+              ? props.stylesheet?.["carouselArrow"]
+              : style["carouselArrow"],
+            props.stylesheet?.["left"] ? props.stylesheet?.["left"] : style["left"],
+          ].join(" ")}
           onClick={(e) => onArrowClick(e, "left")}>
           <img src={ArrowLeftSvg} alt=">" />
         </span>
-        <div className={style["carousel"]} onMouseDown={handleMouseDown}>
-          <div ref={carouselRef} className={style["carouselInner"]}>
+        <div
+          className={
+            props.stylesheet?.["carousel"]
+              ? props.stylesheet?.["carousel"]
+              : style["carousel"]
+          }
+          onMouseDown={handleMouseDown}>
+          <div
+            ref={carouselRef}
+            className={
+              props.stylesheet?.["carouselInner"]
+                ? props.stylesheet?.["carouselInner"]
+                : style["carouselInner"]
+            }>
             {props.data}
           </div>
         </div>
         <span
-          className={[style["carouselArrow"], style["right"]].join(" ")}
+          className={[
+            props.stylesheet?.["carouselArrow"]
+              ? props.stylesheet?.["carouselArrow"]
+              : style["carouselArrow"],
+            props.stylesheet?.["right"]
+              ? props.stylesheet?.["right"]
+              : style["right"],
+          ].join(" ")}
           onClick={(e) => onArrowClick(e, "right")}>
           <img src={ArrowRightSvg} alt="<" />
         </span>
       </div>
-      <div ref={carouselDotsRef} className={style["carouselDotsContainer"]}>
+      <div
+        ref={carouselDotsRef}
+        className={
+          props.stylesheet?.["carouselDotsContainer"]
+            ? props.stylesheet?.["carouselDotsContainer"]
+            : style["carouselDotsContainer"]
+        }>
         {dots}
       </div>
     </div>
