@@ -68,10 +68,10 @@ export default function header() {
       </div>
     ) : (
       <>
-        <Link to="login">
+        <Link to="/login">
           <div className={style["log-in"]}>Log in</div>
         </Link>
-        <Link to="register">
+        <Link to="/register">
           <div className={style["register"]}>Register</div>
         </Link>
       </>
@@ -87,13 +87,13 @@ export default function header() {
               <img src={LogoIcon} alt="Dorsly" />
             </div>
           </Link>
-          <Link to="about_us">
+          <Link to="/about_us">
             <div className={style["about-us"]}>About us</div>
           </Link>
-          <Link to="contact">
+          <Link to="/contact">
             <div className={style["contact"]}>Contact</div>
           </Link>
-          <Link to="reserve_now">
+          <Link to="/products">
             <div className={style["reserve-now"]}>Reserve now</div>
           </Link>
           <div className={style["search-logo"]}>

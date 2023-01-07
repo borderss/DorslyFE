@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from "react"
 
 import Header from "../components/header"
 
-import style from "../static/css/admin.module.css"
 import "../static/css/general.css"
+import style from "../static/css/admin.module.css"
 
 import CalendarIcon from "/assets/svg/calendar.svg"
 import GPSIcon from "/assets/svg/gps2.svg"

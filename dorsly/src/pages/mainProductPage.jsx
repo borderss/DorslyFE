@@ -1,28 +1,18 @@
-import React, { useContext } from "react"
-import { Link } from "react-router-dom"
-import { UserContext } from "../contexts/userContext"
+import React from "react"
 
 import "../static/css/general.css"
-import style from "../static/css/home.module.css"
-import carouselStyle from "../static/css/homeCarouselStyle.module.css"
+import Header from "../components/header"
 
 import Card from "../components/card"
 import Carousel from "../components/carousel"
-import Header from "../components/header"
-import MainSarchBar from "../components/mainSearchBar"
-import Partner from "../components/partner"
 
-import CalendarIllustration from "/assets/svg/calendarillustration.svg"
-import PhoneGlobeIllustration from "/assets/svg/phoneglobeillustration.svg"
-import WalletIllustration from "/assets/svg/walletillustration.svg"
+import style from "../static/css/mainProductPage.module.css"
+import carouselStyle from "../static/css/mainProductPageCarousel.module.css"
 
-import PhoneIllustration from "/assets/svg/phoneillustration.svg"
-// import Footer from "../components/footer"
+import TodaysDeals from "/assets/svg/todaysdeals.svg"
+import PageSeperator from "/assets/svg/pageseperator.svg"
 
-export default function home() {
-  document.body.style.backgroundImage = ""
-
-  const { user, token, setUser, setToken } = useContext(UserContext)
+export default function mainProductPage() {
 
   const fakedata = [
     {
@@ -124,93 +114,21 @@ export default function home() {
     )
   })
 
-  console.log(user, token)
-
   return (
     <>
       <Header />
 
-      <div className={style["header-content"]}>
-        <img className={style["phoneIllustration"]} src={PhoneIllustration} />
-
-        <div>
-          <h1>
-            Dont worry about
-            <br />
-            reservations ever again
-          </h1>
-          <p>
-            We are here to help you make informed decisions about
-            <br />
-            all of your reservations.
-          </p>
-
-          <MainSarchBar />
-
-          <p className={style["seperator"]}>Alternatively,</p>
-          <div className={style["actions"]}>
-            <Link to="/register" className={style["link"]}>
-              Register now
-            </Link>
-            <Link
-              to="/contact"
-              className={[style["link"], style["inverted"]].join(" ")}>
-              Register as a business
-            </Link>
-          </div>
-        </div>
-
-
-    
-        <Carousel
-          data={cardData}
-          stylesheet={carouselStyle}
-        />
-
-        <div className={style["description"]}>
-          <div>
-            <img src={CalendarIllustration} />
-            <h2>
-              Schedule any hour
-              <br />
-              of any day
-            </h2>
-            <p>
-              We try our best to help people the
-              <br />
-              process of reservation as simple as possible.
-            </p>
-          </div>
-          <div>
-            <img src={WalletIllustration} />
-            <h2>
-              Find options that fit your
-              <br />
-              price range
-            </h2>
-            <p>
-              Dorsly provides tools to search for the best
-              <br />
-              restaurant in your selected price range.
-            </p>
-          </div>
-          <div>
-            <img src={PhoneGlobeIllustration} />
-            <h2>
-              Freely make reservations
-              <br />
-              anywhere across the globe
-            </h2>
-            <p>
-              You can access our application and its services
-              <br />
-              world wide.
-            </p>
-          </div>
+      <div className={style["content"]}>
+        <div className={style["todays-deals"]}
+        style={{"--background-img": `url(${TodaysDeals})`}}>
+          <h1 className={style["section-title"]}>Today's deals!</h1>
+          <Carousel
+            data={cardData}
+            stylesheet={carouselStyle}
+          />
+          <img src={PageSeperator}/>
         </div>
       </div>
-      <Partner />
-      {/* <Footer /> */}
     </>
   )
 }
