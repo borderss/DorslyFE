@@ -150,51 +150,36 @@ export default function carousel(props) {
   return (
     <div
       className={
-        props.stylesheet?.["carouselBoundingBox"]
-          ? props.stylesheet?.["carouselBoundingBox"]
-          : style["carouselBoundingBox"]
+        props.stylesheet?.["carouselBoundingBox"] ||
+        style["carouselBoundingBox"]
       }>
       <div
         className={
-          props.stylesheet?.["carouselContainer"]
-            ? props.stylesheet?.["carouselContainer"]
-            : style["carouselContainer"]
+          props.stylesheet?.["carouselContainer"] || style["carouselContainer"]
         }>
         <span
           className={[
-            props.stylesheet?.["carouselArrow"]
-              ? props.stylesheet?.["carouselArrow"]
-              : style["carouselArrow"],
-            props.stylesheet?.["left"] ? props.stylesheet?.["left"] : style["left"],
+            props.stylesheet?.["carouselArrow"] || style["carouselArrow"],
+            props.stylesheet?.["left"] || style["left"],
           ].join(" ")}
           onClick={(e) => onArrowClick(e, "left")}>
           <img src={ArrowLeftSvg} alt=">" />
         </span>
         <div
-          className={
-            props.stylesheet?.["carousel"]
-              ? props.stylesheet?.["carousel"]
-              : style["carousel"]
-          }
+          className={props.stylesheet?.["carousel"] || style["carousel"]}
           onMouseDown={handleMouseDown}>
           <div
             ref={carouselRef}
             className={
-              props.stylesheet?.["carouselInner"]
-                ? props.stylesheet?.["carouselInner"]
-                : style["carouselInner"]
+              props.stylesheet?.["carouselInner"] || style["carouselInner"]
             }>
             {props.data}
           </div>
         </div>
         <span
           className={[
-            props.stylesheet?.["carouselArrow"]
-              ? props.stylesheet?.["carouselArrow"]
-              : style["carouselArrow"],
-            props.stylesheet?.["right"]
-              ? props.stylesheet?.["right"]
-              : style["right"],
+            props.stylesheet?.["carouselArrow"] || style["carouselArrow"],
+            props.stylesheet?.["right"] || style["right"],
           ].join(" ")}
           onClick={(e) => onArrowClick(e, "right")}>
           <img src={ArrowRightSvg} alt="<" />
@@ -203,9 +188,8 @@ export default function carousel(props) {
       <div
         ref={carouselDotsRef}
         className={
-          props.stylesheet?.["carouselDotsContainer"]
-            ? props.stylesheet?.["carouselDotsContainer"]
-            : style["carouselDotsContainer"]
+          props.stylesheet?.["carouselDotsContainer"] ||
+          style["carouselDotsContainer"]
         }>
         {dots}
       </div>

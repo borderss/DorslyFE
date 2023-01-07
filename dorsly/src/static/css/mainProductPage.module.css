@@ -33,3 +33,10 @@
   position: relative;
   z-index: 1;
 }
+
+
+.todays-deals > img {
+  width: 120%;
+  margin-left: -10%;
+  margin-top: 60px;
+}

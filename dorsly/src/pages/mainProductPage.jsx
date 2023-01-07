@@ -10,6 +10,7 @@ import style from "../static/css/mainProductPage.module.css"
 import carouselStyle from "../static/css/mainProductPageCarousel.module.css"
 
 import TodaysDeals from "/assets/svg/todaysdeals.svg"
+import PageSeperator from "/assets/svg/pageseperator.svg"
 
 export default function mainProductPage() {
 
@@ -125,6 +126,7 @@ export default function mainProductPage() {
             data={cardData}
             stylesheet={carouselStyle}
           />
+          <img src={PageSeperator}/>
         </div>
       </div>
     </>
