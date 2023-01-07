@@ -1,4 +1,5 @@
 import React from "react"
+import { useLocation } from "react-router-dom"
 
 import Header from "../components/header"
 import "../static/css/general.css"
@@ -14,6 +15,9 @@ import PopularChoices from "/assets/svg/popularchoices.svg"
 import TodaysDeals from "/assets/svg/todaysdeals.svg"
 
 export default function mainProductPage() {
+  const location = useLocation()
+  const searchText = location?.state?.searchText
+
   const searchdata = [
     {
       id: 1,
@@ -185,11 +189,18 @@ export default function mainProductPage() {
       <Header />
 
       <div className={style["content"]}>
-        {searchdata  && (
+        {location?.state  && (
           <div
             className={style["section"]}
             style={{ "--background-img": `url(${TodaysDeals})` }}>
             <h1 className={style["section-title"]}>Search results:</h1>
+            <div>
+              <span>{location?.state?.date}</span>
+              <span>{location?.state?.time}</span>
+              <span>{location?.state?.personCount}</span>
+              <span>{location?.state?.searchText}</span>
+            </div>
+
             <div className={style["card-data-list"]}>
               {searchdata.map((item, id) => {
                 return <Card key={id} data={item} />
