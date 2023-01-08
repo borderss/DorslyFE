@@ -25,6 +25,8 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make($this->faker->password),
+            'gps_lng' => $this->faker->randomFloat(14, 0, 360),
+            'gps_lat' => $this->faker->randomFloat(14, 0, 360),
             'is_admin' => $this->faker->boolean($chanceOfGettingTrue = 0),
             'is_cookies_allowed' => $this->faker->boolean($chanceOfGettingTrue = 50),
             'is_email_allowed' => $this->faker->boolean($chanceOfGettingTrue = 50),

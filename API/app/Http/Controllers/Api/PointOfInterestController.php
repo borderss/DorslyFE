@@ -121,7 +121,7 @@ class PointOfInterestController extends Controller
                 ->orWhere('available_seats', 'LIKE', "%{$validated['value']}%")
                 ->orWhere('review_count', 'LIKE', "%{$validated['value']}%")
                 ->paginate($validated['paginate']);
-        } else {
+        }  else {
             $users = PointOfInterest::where($validated['by'], 'LIKE', "%{$validated['value']}%")->paginate($validated['paginate']);
         }
 

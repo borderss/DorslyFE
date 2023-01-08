@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('point_of_interest_id')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->string('ingredients');
             $table->string('image');
-            $table->string('price');
+            $table->decimal('price');
             $table->timestamps();
         });
     }

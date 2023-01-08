@@ -22,8 +22,7 @@ class ProductFactory extends Factory
             'point_of_interest_id' => $this->faker->numberBetween($min = 1, $max = 69),
             'ingredients'=> $this->faker->text($maxNbChars = 100),
             'image' => $this->faker->imageUrl(1920, 1080, 'food'),
-            'price' => $this->faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL),
-
+            'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 20),
         ];
     }
 }
