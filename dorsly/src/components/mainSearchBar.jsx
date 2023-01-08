@@ -1,19 +1,22 @@
-import React from "react"
+import React, { useCallback, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import style from "../static/css/home.module.css"
 
-import { useEffect, useState } from "react"
 import CalendarIcon from "/assets/svg/calendar.svg"
 import ClockIcon from "/assets/svg/clock.svg"
 import MainSearchIcon from "/assets/svg/mainsearch.svg"
 import PersonIcon from "/assets/svg/person.svg"
 
 export default function mainSearchBar() {
+  const navigate = useNavigate()
+
   const [date, setDate] = useState(new Date())
   const [time, setTime] = useState(new Date())
   const [personCount, setPersonCount] = useState(1)
-  const [personText, setPersonText] = useState("Person")
   const [searchText, setSearchText] = useState("")
+  
+  const [personText, setPersonText] = useState("Person")
 
   useEffect(() => {
     const currdate = new Date()
@@ -60,7 +63,6 @@ export default function mainSearchBar() {
       }
 
       if (e.target.value.length > 1) {
-        console.log(e.target)
         e.target.style.width = "22px"
       } else {
         e.target.style.width = "17px"
@@ -73,6 +75,7 @@ export default function mainSearchBar() {
   const handleSearchTextChange = (e) => {
     setSearchText(e.target.value)
   }
+
   const focusChildInput = (e) => {
     e.target.closest("div").querySelector("input").focus()
   }
@@ -82,8 +85,20 @@ export default function mainSearchBar() {
     let formData = new FormData(e.target)
     let data = Object.fromEntries(formData.entries()) // convert formData to object
     data.personCount = parseInt(data.personCount)
+  }
 
-    console.log(data)
+  const handleSearchClick = (_) => {
+    console.log(date, time, personCount, searchText)
+
+    navigate("/products", {
+      replace: true,
+      state: {
+        date: date,
+        time: time,
+        personCount: personCount,
+        searchText: searchText,
+      },
+    })
   }
 
   return (
@@ -133,7 +148,7 @@ export default function mainSearchBar() {
           onChange={handleSearchTextChange}
           placeholder="Search..."
         />
-        <button>Search</button>
+        <button onClick={(e) => handleSearchClick(e)}>Search</button>
       </div>
     </form>
   )

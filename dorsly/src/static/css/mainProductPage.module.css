@@ -3,22 +3,21 @@
   margin-bottom: 150px;
   width: 1650px;
   margin-inline: auto;
+  margin-bottom: 60px;
 }
 
-.todays-deals {
+.section {
   margin-top: 150px;
 }
 
-.todays-deals::before {
+.section::before {
   content: var(--background-img);
   position: absolute;
   top: -74px;
   left: 0;
-  width: 500%;
-  height: 100%;
 }
 
-.todays-deals {
+.section {
   position: relative;
   z-index: 2;
 }
@@ -35,8 +34,16 @@
 }
 
 
-.todays-deals > img {
+.section > img {
   width: 120%;
   margin-left: -10%;
   margin-top: 60px;
+}
+
+.card-data-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  max-width: calc(312px * 4 + 50px * 3);
+  margin-inline: auto;
 }
