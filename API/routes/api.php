@@ -53,5 +53,6 @@ Route::apiResource('title_photos',TitlePhotoController::class);
 // util
 Route::get('/point_of_interest/images/{point_of_interest}',[PointOfInterestController::class,'getFile'])->name('point_of_interest.images');
 Route::get('/title_photos/image/{title_photos}',[TitlePhotoController::class,'getFile'])->name('title_photos.image');
-Route::get('/getSession',[StripeController::class, 'getSession']);
+Route::post('/getSession/{pointOfInterest}',[StripeController::class, 'getSession']);
+Route::post('/successPayment', [StripeController::class, 'successPayment']);
 Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);
