@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
+import { apiMethod, bearerHeaders } from "../static/js/util"
 
 import Header from "../components/header"
 
@@ -13,278 +14,226 @@ import TakeawayIcon from "/assets/svg/takeaway.svg"
 
 import { UserContext } from "../contexts/userContext"
 
-export default function test() {
+export default function admin() {
   const searchRef = useRef(null)
   const entryRef = useRef(null)
   const goToPageRef = useRef(null)
 
-  const { user, token, setUser, setToken } = useContext(UserContext)
-
-  const [section, setSection] = useState("accounts")
-
-  const [tableMetaData, setTableMetaData] = useState({
-    currentPage: 1,
-    entriesPerPage: 10,
-    totalPageCount: 0,
-    shownEntries: 0,
-    totalEntries: 0,
-    searchQuery: "",
-
-    columns: {
-      accounts: [
-        { title: "ID", field: "id" },
-        { title: "Username", field: "username" },
-        { title: "Name", field: "first_name" },
-        { title: "Surname", field: "last_name" },
-        { title: "Email", field: "email" },
-        { title: "Is admin", field: "is_admin" },
-        { title: "Registration date", field: "registration_date" },
-        { title: "Last change", field: "last_change" },
-      ],
-      pointsofinterest: [
-        { title: "ID", field: "id" },
-        { title: "Name", field: "name" },
-        { title: "Description", field: "description" },
-        { title: "Creation date", field: "creation_date" },
-        { title: "Reservations fulfilled", field: "reservations_fulfilled" },
-        { title: "Pre-purchases fulfilled", field: "prepurchases_fulfilled" },
-      ],
-      reservations: [
-        { title: "ID", field: "id" },
-        { title: "Account ID", field: "account_id" },
-        { title: "POI ID", field: "poi_id" },
-        { title: "Reservation date", field: "reservation_date" },
-        { title: "Reservation time", field: "reservation_time" },
-        { title: "Attending person count", field: "attending_person_count" },
-        { title: "Stripe check number", field: "stripe_check_number" },
-      ],
-      prepurchases: [
-        { title: "ID", field: "id" },
-        { title: "Account ID", field: "account_id" },
-        { title: "POI ID", field: "poi_id" },
-        { title: "Reservation ID", field: "reservation_id" },
-        { title: "Pre-purchase date", field: "prepurchase_date" },
-        { title: "Pre-purchase time", field: "prepurchase_time" },
-        { title: "Stripe check number", field: "stripe_check_number" },
-      ],
-      reviews: [
-        { title: "ID", field: "id" },
-        { title: "Account ID", field: "account_id" },
-        { title: "POI ID", field: "poi_id" },
-        { title: "Review date", field: "review_date" },
-        { title: "Review time", field: "review_time" },
-        { title: "Review text", field: "review_text" },
-      ],
-    },
-  })
-
-  const [filteredTableData, setFilteredTableData] = useState({
-    accounts: [],
-    pointsofinterest: [],
-    reservations: [],
-    prepurchases: [],
-    reviews: [],
-  })
-
-  const [tableData, setTableData] = useState({
-    accounts: [
+  const tableMetaData = {
+    users: [
       {
-        id: 1,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
+        title: "ID",
+        field: "id",
       },
       {
-        id: 2,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
+        title: "Name",
+        field: "first_name",
       },
       {
-        id: 3,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
+        title: "Surname",
+        field: "last_name",
       },
       {
-        id: 4,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
+        title: "Phone number",
+        field: "phone_number",
       },
       {
-        id: 5,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
+        title: "Email",
+        field: "email",
       },
       {
-        id: 6,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
+        title: "Is admin",
+        field: "is_admin",
       },
       {
-        id: 7,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
+        title: "Registration date",
+        field: "created_at",
       },
       {
-        id: 8,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 9,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 10,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 11,
-        username: "admin",
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@gmail.com",
-        is_admin: true,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
-      },
-      {
-        id: 12,
-        username: "user",
-        first_name: "User",
-        last_name: "User",
-        email: "user@gmail.com",
-        is_admin: false,
-        registration_date: "2021-05-01 12:00:00",
-        last_change: "2021-05-01 12:00:00",
+        title: "Last change",
+        field: "updated_at",
       },
     ],
     pointsofinterest: [
       {
-        id: 1,
-        name: "Point of interest 1",
-        description: "Description 1",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
+        title: "ID",
+        field: "id",
       },
       {
-        id: 2,
-        name: "Point of interest 2",
-        description: "Description 2",
-        creation_date: "2021-05-01 12:00:00",
-        reservations_fulfilled: 0,
-        prepurchases_fulfilled: 0,
+        title: "Name",
+        field: "name",
+      },
+      {
+        title: "Description",
+        field: "description",
+      },
+      {
+        title: "Longitue",
+        field: "gps_lng",
+      },
+      {
+        title: "Latitude",
+        field: "gps_lat",
+      },
+      {
+        title: "Country",
+        field: "country",
+      },
+      {
+        title: "Opens at",
+        field: "opens_at",
+      },
+      {
+        title: "Closes at",
+        field: "closes_at",
+      },
+      {
+        title: "24h open",
+        field: "is_open_round_the_clock",
+      },
+      {
+        title: "Takeaway",
+        field: "is_takeaway",
+      },
+      {
+        title: "On location",
+        field: "is_on_location",
+      },
+      {
+        title: "Available seats",
+        field: "available_seats",
+      },
+      {
+        title: "Available seats",
+        field: "review_count",
       },
     ],
     reservations: [
       {
-        id: 1,
-        account_id: 1,
-        poi_id: 1,
-        reservation_date: "2021-05-01 12:00:00",
-        reservation_time: "12:00:00",
-        attending_person_count: 1,
-        stripe_check_number: "123456789",
+        title: "ID",
+        field: "id",
       },
       {
-        id: 2,
-        account_id: 2,
-        poi_id: 2,
-        reservation_date: "2021-05-01 12:00:00",
-        reservation_time: "12:00:00",
-        attending_person_count: 1,
-        stripe_check_number: "123456789",
+        title: "Account ID",
+        field: "account_id",
+      },
+      {
+        title: "POI ID",
+        field: "poi_id",
+      },
+      {
+        title: "Reservation date",
+        field: "reservation_date",
+      },
+      {
+        title: "Reservation time",
+        field: "reservation_time",
+      },
+      {
+        title: "Attending person count",
+        field: "attending_person_count",
+      },
+      {
+        title: "Stripe check number",
+        field: "stripe_check_number",
       },
     ],
     prepurchases: [
       {
-        id: 1,
-        account_id: 1,
-        poi_id: 1,
-        reservation_id: 1,
-        prepurchase_date: "2021-05-01 12:00:00",
-        prepurchase_time: "12:00:00",
-        stripe_check_number: "123456789",
+        title: "ID",
+        field: "id",
       },
       {
-        id: 2,
-        account_id: 2,
-        poi_id: 2,
-        reservation_id: 2,
-        prepurchase_date: "2021-05-01 12:00:00",
-        prepurchase_time: "12:00:00",
-        stripe_check_number: "123456789",
+        title: "Account ID",
+        field: "account_id",
+      },
+      {
+        title: "POI ID",
+        field: "poi_id",
+      },
+      {
+        title: "Reservation ID",
+        field: "reservation_id",
+      },
+      {
+        title: "Pre-purchase date",
+        field: "prepurchase_date",
+      },
+      {
+        title: "Pre-purchase time",
+        field: "prepurchase_time",
+      },
+      {
+        title: "Stripe check number",
+        field: "stripe_check_number",
       },
     ],
     reviews: [
       {
-        id: 1,
-        account_id: 1,
-        poi_id: 1,
-        review_date: "2021-05-01 12:00:00",
-        review_time: "12:00:00",
-        review_text: "Review text 1",
+        title: "ID",
+        field: "id",
       },
       {
-        id: 2,
-        account_id: 2,
-        poi_id: 2,
-        review_date: "2021-05-01 12:00:00",
-        review_time: "12:00:00",
-        review_text: "Review text 2",
+        title: "Name",
+        field: "first_name",
+      },
+      {
+        title: "Surname",
+        field: "last_name",
+      },
+      {
+        title: "Account ID",
+        field: "user_id",
+      },
+      {
+        title: "POI ID",
+        field: "point_of_interest_id",
+      },
+      {
+        title: "Text",
+        field: "text",
       },
     ],
+  }
+
+  const defaultData = {
+    data: [],
+    links: {
+      first: null,
+      last: null,
+      prev: null,
+      next: null,
+    },
+    meta: {
+      current_page: 1,
+      from: 1,
+      last_page: 0,
+      links: [
+        {
+          url: null,
+          label: null,
+          active: false,
+        },
+      ],
+      path: null,
+      per_page: 10,
+      to: 0,
+      total: 0,
+    },
+  }
+
+  const { user, token, setUser, setToken } = useContext(UserContext)
+
+  const [section, setSection] = useState("users")
+
+  const [data, setData] = useState(defaultData)
+
+  const [search, setSearch] = useState("")
+
+  const [postBody, setPostBody] = useState({
+    by: "all",
+    value: "_",
+    paginate: 10,
   })
 
   const [sectionInfo, setSectionInfo] = useState({
@@ -294,11 +243,22 @@ export default function test() {
 
   useEffect(() => {
     switch (section) {
-      case "accounts":
+      case "users":
         setSectionInfo({
           title: "Account overview",
           desc: "Overview, edit or delete account information such as username, name, surname, email, registration date, date of last change, etc.",
         })
+
+        apiMethod("/filter_users", {
+          method: "POST",
+          headers: bearerHeaders(),
+          body: JSON.stringify(postBody),
+        })
+          .then((data) => {
+            console.log(data)
+            setData(data)
+          })
+          .catch((error) => console.log(error))
         break
 
       case "pointsofinterest":
@@ -306,6 +266,17 @@ export default function test() {
           title: "Point of interest overview",
           desc: "Check interest data, for example, name, description, creation date, number of reservations/pre-purchases fulfilled, and other general satistical data.",
         })
+
+        apiMethod("/filter_points_of_interest", {
+          method: "POST",
+          headers: bearerHeaders(),
+          body: JSON.stringify(postBody),
+        })
+          .then((data) => {
+            console.log(data)
+            setData(data)
+          })
+          .catch((error) => console.log(error))
         break
 
       case "reservations":
@@ -327,49 +298,23 @@ export default function test() {
           title: "POI review overview",
           desc: "See point of interest reviews, who posted the review, the date and time the review was posted at, etc.",
         })
+
+        apiMethod("/filter_comments", {
+          method: "POST",
+          headers: bearerHeaders(),
+          body: JSON.stringify(postBody),
+        })
+          .then((data) => {
+            console.log(data)
+            setData(data)
+          })
+          .catch((error) => console.log(error))
         break
 
       default:
         break
     }
-
-    setFilteredTableData({
-      accounts: [],
-      pointsofinterest: [],
-      reservations: [],
-      prepurchases: [],
-      reviews: [],
-    })
-
-    return () => {
-      setTableMetaData({
-        ...tableMetaData,
-        searchQuery: "",
-        totalPageCount: Math.ceil(
-          tableData[section].length / tableMetaData.entriesPerPage
-        ),
-        shownEntries:
-          tableData[section].length % tableMetaData.entriesPerPage === 0
-            ? tableMetaData.entriesPerPage
-            : tableData[section].length % tableMetaData.entriesPerPage,
-        totalEntries: tableData[section].length,
-      })
-
-      setFilteredTableData({
-        accounts: [],
-        pointsofinterest: [],
-        reservations: [],
-        prepurchases: [],
-        reviews: [],
-      })
-
-      if (searchRef.current && entryRef.current && goToPageRef.current) {
-        searchRef.current.value = ""
-        entryRef.current.value = ""
-        goToPageRef.current.value = ""
-      }
-    }
-  }, [section, tableData])
+  }, [section])
 
   const onNavbarItemClick = (e) => {
     let target
@@ -379,6 +324,8 @@ export default function test() {
     } else {
       target = e.target.parentElement
     }
+
+    setData(defaultData)
 
     setSection(e.target.id)
     ;[...document.querySelectorAll(`.${style["side-navbar"]} > p`)].forEach(
@@ -393,7 +340,7 @@ export default function test() {
   const renderColumnHeaders = () => {
     let headers = new Array()
 
-    tableMetaData.columns[section].map((col, key) => {
+    tableMetaData[section].map((col, key) => {
       headers.push(<th key={key}>{col.title}</th>)
     })
 
@@ -405,7 +352,9 @@ export default function test() {
   const renderTableRow = (row) => {
     let cells = new Array()
 
-    tableMetaData.columns[section].map((col, key) => {
+    console.log(row, section, tableMetaData[section], data)
+
+    tableMetaData[section].map((col, key) => {
       cells.push(<td key={key}>{row[col.field].toString()}</td>)
     })
 
@@ -427,181 +376,191 @@ export default function test() {
     return cells
   }
 
-  const renderTableSectionData = (section) => {
+  const renderTableSectionData = () => {
     let rows = new Array()
-    let dataTable
 
-    if (tableMetaData.searchQuery !== "") {
-      dataTable = filteredTableData
-    } else {
-      dataTable = tableData
-    }
-
-    dataTable[section]
-      .slice(
-        (tableMetaData.currentPage - 1) * tableMetaData.entriesPerPage,
-        tableMetaData.currentPage * tableMetaData.entriesPerPage
-      )
-      .map((row, key) => {
-        rows.push(<tr key={key}>{renderTableRow(row)}</tr>)
-      })
-
-    if (rows.length === 0) {
+    data.data.map((row, key) => {
       rows.push(
-        <tr key={0}>
-          <td
-            colSpan={tableMetaData.columns[section].length + 1}
-            style={{ height: "50px" }}>
-            No data to display
-          </td>
+        <tr id={row.id} key={key}>
+          {renderTableRow(row)}
         </tr>
       )
-    }
+    })
 
     return rows
   }
 
   const handleNextPageClick = () => {
-    if (tableMetaData.currentPage < tableMetaData.totalPageCount) {
-      setTableMetaData({
-        ...tableMetaData,
-        currentPage: tableMetaData.currentPage + 1,
+    let nextPage = data.links.next.substring(
+      data.links.next.lastIndexOf("/") + 1
+    )
+
+    apiMethod("/" + nextPage, {
+      method: "POST",
+      headers: bearerHeaders(),
+      body: JSON.stringify(postBody),
+    })
+      .then((data) => {
+        setData(data)
       })
-    }
+      .catch((error) => console.log(error))
   }
 
   const handlePrevPageClick = () => {
-    if (tableMetaData.currentPage > 1) {
-      setTableMetaData({
-        ...tableMetaData,
-        currentPage: tableMetaData.currentPage - 1,
+    let prevPage = data.links.prev.substring(
+      data.links.prev.lastIndexOf("/") + 1
+    )
+
+    apiMethod("/" + prevPage, {
+      method: "POST",
+      headers: bearerHeaders(),
+      body: JSON.stringify(postBody),
+    })
+      .then((data) => {
+        setData(data)
       })
-    }
+      .catch((error) => console.log(error))
   }
 
-  const handleEntriesPerPageChange = (e) => {
-    let realVal = parseInt(e.target.value)
+  const handleEntriesPerPageSubmit = (e) => {
+    let paginateCount = parseInt(e.target.parentElement.children[1].value)
 
-    if (parseInt(e.target.value).toString() !== e.target.value) {
-      realVal = 1
-    } else if (parseInt(e.target.value) > 25) {
-      realVal = 25
-    } else if (parseInt(e.target.value) < 1) {
-      realVal = 1
-    }
+    setPostBody({
+      ...postBody,
+      paginate: paginateCount,
+    })
 
-    setTableMetaData({
-      ...tableMetaData,
-      entriesPerPage: realVal,
-      currentPage: 1,
-      totalPageCount: Math.ceil(tableData[section].length / realVal),
-      shownEntries:
-        tableData[section].length % realVal === 0
-          ? realVal
-          : tableData[section].length % realVal,
+    let page = data.meta.path.substring(data.meta.path.lastIndexOf("/") + 1)
+
+    apiMethod("/" + page, {
+      method: "POST",
+      headers: bearerHeaders(),
+      body: JSON.stringify({
+        ...postBody,
+        paginate: paginateCount,
+      }),
+    }).then((data) => {
+      setData(data)
     })
   }
 
   const handleGoToPageClick = (e) => {
-    let realVal = e.target.parentElement.querySelector("input").value
+    let page = parseInt(e.target.parentElement.children[1].value)
 
-    let clampedVal
+    let pageLink = data.meta.links[page].url
 
-    clampedVal = Math.min(realVal, tableMetaData.totalPageCount)
+    console.log(pageLink)
 
-    clampedVal = Math.max(realVal, 1)
+    page = pageLink.substring(pageLink.lastIndexOf("/") + 1)
 
-    setTableMetaData({
-      ...tableMetaData,
-      currentPage: clampedVal,
+    apiMethod("/" + page, {
+      method: "POST",
+      headers: bearerHeaders(),
+      body: JSON.stringify(postBody),
+    }).then((data) => {
+      setData(data)
     })
   }
 
   const handleSearchSubmit = (e) => {
-    let query = e.target.parentElement.querySelector("input").value
+    e.preventDefault()
 
-    let filteredData = tableData[section].filter((row) => {
-      let match = false
+    let searchText = e.target.parentElement.children[0].value
 
-      tableMetaData.columns[section].forEach((col) => {
-        if (row[col.field].toString().includes(query)) {
-          match = true
+    let searchBy
+    let searchValue
+
+    if (
+      searchText.includes(":") &&
+      searchText.split(":")[0].length > 0 &&
+      searchText.split(":")[1].length > 0
+    ) {
+      searchBy = searchText.split(":")[0]
+      searchValue = searchText.split(":")[1]
+
+      let searchByValid = false
+
+      tableMetaData[section].map((col) => {
+        if (col.field == searchBy) {
+          console.log(col.field, searchBy)
+          searchByValid = true
         }
       })
 
-      return match
-    })
+      console.log(searchBy, searchValue, searchByValid)
 
-    setTableMetaData({
-      ...tableMetaData,
-      searchQuery: query,
-      totalPageCount: Math.ceil(
-        filteredData.length / tableMetaData.entriesPerPage
-      ),
-      shownEntries:
-        filteredData.length % tableMetaData.entriesPerPage === 0
-          ? tableMetaData.entriesPerPage
-          : filteredData.length % tableMetaData.entriesPerPage,
-      totalEntries: filteredData.length,
-    })
+      if (searchByValid) {
+        setPostBody({
+          ...postBody,
+          by: searchBy,
+          value: searchValue,
+        })
+      } else {
+        setPostBody({
+          ...postBody,
+          by: "all",
+          value: searchText,
+        })
 
-    setFilteredTableData({
-      ...filteredTableData,
-      [section]: filteredData,
+        searchBy = "all"
+        searchValue = searchText
+      }
+    } else {
+      searchBy = "all"
+      searchValue = e.target.parentElement.children[0].value
+
+      if (searchValue === "") {
+        searchValue = "_"
+      }
+
+      setPostBody({
+        ...postBody,
+        by: searchBy,
+        value: searchValue,
+      })
+    }
+
+    let page = data.links.first.substring(data.links.first.lastIndexOf("/") + 1)
+
+    apiMethod("/" + page, {
+      method: "POST",
+      headers: bearerHeaders(),
+      body: JSON.stringify({
+        ...postBody,
+        by: searchBy,
+        value: searchValue,
+      }),
+    }).then((data) => {
+      setData(data)
     })
   }
 
-  const handleSaveClick = (e, data) => {
+  const handleSaveClick = async (e, editedHTMLData, initialData) => {
     e.stopPropagation()
 
-    if (Math.random() > 0.5) {
-      // FAILED SAVE
+    let saveData = {}
 
-      e.target.innerText = "fail"
-      e.target.style["padding-inline"] = "15px"
-      e.target.style["background-color"] = "#ee5a5a"
-      e.target.style["transition"] = "0.2s"
-      e.target.disabled = true
+    editedHTMLData.childNodes.forEach((cell, i) => {
+      if (i === editedHTMLData.childNodes.length - 1) return
 
-      let row = e.target.parentElement.parentElement
+      if (typeof(initialData[tableMetaData[section][i].field]) === "number") { 
+        saveData[tableMetaData[section][i].field] = parseInt(cell.innerText)
+      } else {
+        saveData[tableMetaData[section][i].field] = cell.innerText
+      }
+    })
 
-      row.childNodes.forEach((cell, i) => {
-        if (i === row.childNodes.length - 1) return
+    console.log(saveData, initialData)
 
-        cell.innerText = data[tableMetaData.columns[section][i].field]
-
-        cell.contentEditable = false
-        cell.style["border-block"] = "initial"
-        cell.style["border-bottom"] = "1px solid #f1f1f1"
-      })
-
-      setTimeout(() => {
-        e.target.innerText = "Edit"
-        e.target.style["padding-inline"] = "15px"
-        e.target.style["background-color"] = "#ffb82e"
-        e.target.style["transition"] = "0.2s"
-        e.target.disabled = false
-
-        let new_element = e.target.cloneNode(true)
-        e.target.parentNode.replaceChild(new_element, e.target)
-
-        new_element.addEventListener("click", (e) => {
-          handleEditClick(e)
-        })
-      }, 2000)
-    } else {
-      // SUCCESSFUL SAVE
-
+    if (JSON.stringify(saveData) != JSON.stringify(initialData)) {
       console.log("save", e.target)
       e.target.innerText = "Edit"
       e.target.style["padding-inline"] = "15px"
       e.target.style["background-color"] = "#ffb82e"
       e.target.style["transition"] = "0.2s"
 
-      let row = e.target.parentElement.parentElement
-
-      row.childNodes.forEach((cell, i) => {
-        if (i === row.childNodes.length - 1) return
+      editedHTMLData.childNodes.forEach((cell, i) => {
+        if (i === editedHTMLData.childNodes.length - 1) return
 
         cell.contentEditable = false
         cell.style["border-block"] = "initial"
@@ -614,7 +573,74 @@ export default function test() {
       new_element.addEventListener("click", (e) => {
         handleEditClick(e)
       })
+
+      let editData = await apiMethod("/" + section + "/" + editedHTMLData.id, {
+        method: "PUT",
+        headers: bearerHeaders(),
+        body: JSON.stringify(saveData),
+      })
+
+      console.log(editData)
     }
+
+
+    // if (Math.random() > 0.5) {
+    //   // FAILED SAVE
+
+    //   e.target.innerText = "fail"
+    //   e.target.style["padding-inline"] = "15px"
+    //   e.target.style["background-color"] = "#ee5a5a"
+    //   e.target.style["transition"] = "0.2s"
+    //   e.target.disabled = true
+
+    //   editedHTMLData.childNodes.forEach((cell, i) => {
+    //     if (i === editedHTMLData.childNodes.length - 1) return
+
+    //     cell.innerText = initialData[tableMetaData[section][i].field]
+
+    //     cell.contentEditable = false
+    //     cell.style["border-block"] = "initial"
+    //     cell.style["border-bottom"] = "1px solid #f1f1f1"
+    //   })
+
+    //   setTimeout(() => {
+    //     e.target.innerText = "Edit"
+    //     e.target.style["padding-inline"] = "15px"
+    //     e.target.style["background-color"] = "#ffb82e"
+    //     e.target.style["transition"] = "0.2s"
+    //     e.target.disabled = false
+
+    //     let new_element = e.target.cloneNode(true)
+    //     e.target.parentNode.replaceChild(new_element, e.target)
+
+    //     new_element.addEventListener("click", (e) => {
+    //       handleEditClick(e)
+    //     })
+    //   }, 2000)
+    // } else {
+    //   // SUCCESSFUL SAVE
+
+    //   console.log("save", e.target)
+    //   e.target.innerText = "Edit"
+    //   e.target.style["padding-inline"] = "15px"
+    //   e.target.style["background-color"] = "#ffb82e"
+    //   e.target.style["transition"] = "0.2s"
+
+    //   editedHTMLData.childNodes.forEach((cell, i) => {
+    //     if (i === editedHTMLData.childNodes.length - 1) return
+
+    //     cell.contentEditable = false
+    //     cell.style["border-block"] = "initial"
+    //     cell.style["border-bottom"] = "1px solid #f1f1f1"
+    //   })
+
+    //   let new_element = e.target.cloneNode(true)
+    //   e.target.parentNode.replaceChild(new_element, e.target)
+
+    //   new_element.addEventListener("click", (e) => {
+    //     handleEditClick(e)
+    //   })
+    // }
   }
 
   const handleEditClick = (e) => {
@@ -626,76 +652,55 @@ export default function test() {
     e.target.style["padding-inline"] = "10.7px"
     e.target.style["background-color"] = "#5aee5a"
 
-    let row = e.target.parentElement.parentElement
+    let rowHtml = e.target.parentElement.parentElement
+    let rowData = data.data.find((row) => row.id == rowHtml.id)
 
-    let data = {}
+    console.log(rowHtml, rowData)
 
-    row.childNodes.forEach((cell, i) => {
-      if (i === row.childNodes.length - 1) return
+    rowHtml.childNodes.forEach((cell, i) => {
+      if (i === rowHtml.childNodes.length - 1) return
 
-      data[tableMetaData.columns[section][i].field] = cell.innerText
+      Object.keys(rowData).map((key) => {
+        if (key === tableMetaData[section][i].field) {
+          cell.innerText = rowData[key]
+        }
+      })
 
-      cell.contentEditable = true
-      cell.style["border-bottom"] = "none"
-      cell.style["border-block"] = "2px solid #ffb82e"
+      if (i != 0 && i != rowHtml.childNodes.length - 2 && i != rowHtml.childNodes.length - 3) {
+        cell.contentEditable = true
+        cell.style["border-bottom"] = "none"
+        cell.style["border-block"] = "2px solid #ffb82e"
+      }
     })
 
-    // pass data to handleSaveClick so that it can be removed later
-    e.target.addEventListener("click", (e) => handleSaveClick(e, data))
+    e.target.addEventListener("click", (e) =>
+      handleSaveClick(e, e.target.parentElement.parentElement, rowData)
+    )
   }
 
-  const handleDeleteClick = (e) => {
-    if (Math.random() > 0.5) {
-      // FAILED DELETE
+  const handleDeleteClick = async (e) => {
+    let rowItemIndex = e.target.parentElement.parentElement.id
 
-      e.target.innerText = "fail"
-      e.target.style["padding-inline"] = "15px"
-      e.target.style["background-color"] = "#ee5a5a"
-      e.target.style["transition"] = "0.2s"
-      e.target.disabled = true
+    let deleteData = data.data.find((row) => row.id == rowItemIndex)
 
-      setTimeout(() => {
-        e.target.innerText = "Delete"
-        e.target.style["padding-inline"] = "15px"
-        e.target.style["background-color"] = "#ffb82e"
-        e.target.style["transition"] = "0.2s"
-        e.target.disabled = false
-      }, 2000)
-    } else {
-      // SUCCESSFUL DELETE
-      setTableMetaData((prevState) => {
-        return {
-          ...prevState,
-          totalPageCount: Math.ceil(
-            (prevState.totalEntries - 1) / prevState.entriesPerPage
-          ),
-          shownEntries:
-            prevState.totalEntries % prevState.entriesPerPage === 0
-              ? prevState.entriesPerPage
-              : prevState.totalEntries % prevState.entriesPerPage,
-          totalEntries: prevState.totalEntries - 1,
+    console.log(rowItemIndex, rowItemIndex, deleteData)
 
-          // if the last page is empty, go back one page
-          currentPage:
-            prevState.currentPage === prevState.totalPageCount &&
-            prevState.totalEntries % prevState.entriesPerPage === 0
-              ? prevState.currentPage - 1
-              : prevState.currentPage,
+    let apiData = await apiMethod("/" + section + "/" + deleteData.id, {
+      method: "DELETE",
+      headers: bearerHeaders(),
+    })
+
+    if (apiData && apiData.data.id == deleteData?.id) {
+      let new_data = data.data.filter((item) => item.id != deleteData.id)
+
+      setData({
+        ...data,
+        data: new_data,
+        meta: {
+          ...data.meta,
+          total: data.meta.total - 1
         }
       })
-
-      console.log(e.target.parentElement.parentElement.querySelectorAll("td")[0].innerText)
-
-      setTableData((prevState) => {
-        return {
-          ...prevState,
-          [section]: prevState[section].filter(
-            (item) => item.id+1 != e.target.parentElement.parentElement.querySelectorAll("td")[0].innerText
-          ),
-        }
-      })
-
-      e.target.parentElement.parentElement.remove()
     }
   }
 
@@ -710,11 +715,11 @@ export default function test() {
           </div>
 
           <p
-            id="accounts"
+            id="users"
             className={style["navbar-item-active"]}
             style={{ "--nav-item-icon": `url(${PeopleIcon})` }}
             onClick={(e) => onNavbarItemClick(e)}>
-            Accounts
+            Users
           </p>
           <p
             id="pointsofinterest"
@@ -773,6 +778,13 @@ export default function test() {
                 If you encounter any unexpected data or results, immediately
                 notify any of the developers and log out of your account.
               </p>
+
+              <h2 className={style["search"]}>Searchable fields</h2>
+              <div className={style["searchable-keys"]}>
+                {Object.keys(tableMetaData[section]).map((key) => (
+                  <div key={key}>{tableMetaData[section][key].field}</div> 
+                ))}
+              </div>
             </div>
           </div>
 
@@ -783,12 +795,7 @@ export default function test() {
                   ref={searchRef}
                   type="text"
                   placeholder="Search..."
-                  defaultValue={tableMetaData.search}
-                  onChange={(e) => {
-                    if (e.target.value === "clear") {
-                      clearAllFilters()
-                    }
-                  }}
+                  defaultValue={search}
                 />
                 <button onClick={(e) => handleSearchSubmit(e)}>Search</button>
 
@@ -801,35 +808,34 @@ export default function test() {
                   ref={entryRef}
                   type="number"
                   min={1}
-                  max={
-                    tableMetaData.totalEntries > 25
-                      ? 25
-                      : tableMetaData.totalEntries
-                  }
-                  placeholder={tableMetaData.entriesPerPage}
-                  onChange={(e) => handleEntriesPerPageChange(e)}
+                  max={data.meta.total}
+                  placeholder={data.meta.per_page}
                 />
+                <button onClick={(e) => handleEntriesPerPageSubmit(e)}>
+                  Set
+                </button>
               </div>
             </div>
             <table>
               <thead>
-                <tr>{renderColumnHeaders()}</tr>
+                <tr>{data != defaultData && renderColumnHeaders()}</tr>
               </thead>
-              <tbody>{renderTableSectionData(section)}</tbody>
+              <tbody>
+                {data != defaultData && renderTableSectionData(section)}
+              </tbody>
             </table>
 
             <div className={style["pagination"]}>
               <div>
-                {tableMetaData.currentPage !== 1 ? (
+                {data.links.prev ? (
                   <button onClick={handlePrevPageClick}>Previous</button>
                 ) : (
                   <button disabled>Previous</button>
                 )}
                 <p>
-                  Page {tableMetaData.currentPage} of{" "}
-                  {tableMetaData.totalPageCount}
+                  Page {data.meta.current_page} of {data.meta.last_page}
                 </p>
-                {tableMetaData.currentPage !== tableMetaData.totalPageCount ? (
+                {data.links.next ? (
                   <button onClick={handleNextPageClick}>Next</button>
                 ) : (
                   <button disabled>Next</button>
@@ -837,19 +843,9 @@ export default function test() {
               </div>
 
               <p>
-                Showing{" "}
-                <span>
-                  {(tableMetaData.currentPage - 1) *
-                    tableMetaData.entriesPerPage +
-                    1}
-                </span>{" "}
-                to{" "}
-                <span>
-                  {tableMetaData.currentPage !== tableMetaData.totalPageCount
-                    ? tableMetaData.currentPage * tableMetaData.entriesPerPage
-                    : tableMetaData.totalEntries}
-                </span>{" "}
-                of <span>{tableMetaData.totalEntries}</span> entries
+                Showing <span>{data.meta.from}</span> to{" "}
+                <span>{data.meta.to}</span> of <span>{data.meta.total}</span>{" "}
+                entries
               </p>
 
               <div>
@@ -857,17 +853,21 @@ export default function test() {
                 <input
                   ref={goToPageRef}
                   type="number"
-                  min="1"
-                  max={tableMetaData.totalPageCount}
-                  placeholder={tableMetaData.currentPage}
+                  min={1}
+                  max={data.meta.last_page}
+                  placeholder={data.meta.current_page}
                   onChange={(e) => {
-                    e.target.value > tableMetaData.totalPageCount
-                      ? (e.target.value = tableMetaData.totalPageCount)
-                      : e.target.value
+                    if (e.target.value > data.meta.last_page) {
+                      e.target.value = data.meta.last_page
+                    }
 
-                    e.target.value < 1 ? (e.target.value = 1) : e.target.value
+                    if (e.target.value < 1) {
+                      e.target.value = 1
+                    }
 
-                    e.target.value = parseInt(e.target.value)
+                    if (e.target.value === "") {
+                      e.target.value = data.meta.current_page
+                    }
                   }}
                 />
 

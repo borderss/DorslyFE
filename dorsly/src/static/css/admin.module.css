@@ -157,7 +157,7 @@
 }
 
 .content-section {
-  width: 1150px;
+  width: 1250px;
   max-width: 70%;
   height: -webkit-fill-available;
 
@@ -388,4 +388,20 @@
   font-size: 16px;
   font-weight: 300;
   color: #3d3d3d;
+}
+
+.searchable-keys {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.searchable-keys > div {
+  margin: 5px;
+  background-color: #fff0d1;
+  padding: 3px;
+  border-radius: 3px;
+  color: #6a6a6a;
+  font-weight: 300;
+  padding-inline: 5px;
 }

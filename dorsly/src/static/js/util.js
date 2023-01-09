@@ -1,15 +1,15 @@
-const api = "https://api.dorsly.com/api"
+const api = "http://127.0.0.1:8000/api"
 
 const defaultHeaders = {
   "Content-Type": "application/json",
   accept: "*/*",
 }
 
-const bearerHeaders = (token) => {
+const bearerHeaders = () => {
   return {
     "Content-Type": "application/json",
     accept: "*/*",
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${getToken()}`,
   }
 }
 
@@ -95,7 +95,7 @@ const logoutUser = () => {
   if (userExists()) {
     return apiMethod("/logout", {
       method: "GET",
-      headers: bearerHeaders(getToken()),
+      headers: bearerHeaders(),
     })
       .then((data) => {
         removeLS("user")
@@ -120,6 +120,7 @@ const userExists = () => {
 
 export {
   apiMethod,
+  bearerHeaders,
   setLS,
   getLS,
   removeLS,
