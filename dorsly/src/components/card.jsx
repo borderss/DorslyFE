@@ -1,4 +1,5 @@
 import React, { useRef } from "react"
+import { useNavigate } from "react-router-dom"
 
 import style from "../static/css/card.module.css"
 
@@ -10,6 +11,7 @@ import Star from "/assets/svg/star.svg"
 import Takeaway from "/assets/svg/takeaway.svg"
 
 export default function card(props) {
+  const navigate = useNavigate()
   const cardContainer = useRef(null)
 
   let containerstyle
@@ -26,9 +28,7 @@ export default function card(props) {
       return
     }
 
-    console.log("card clicked")
-  
-    window.location.href = "/place/" + props.data.id
+    navigate("/place/" + props.data.id, {state: {place: props.data}})
   }
 
   return (

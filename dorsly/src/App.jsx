@@ -4,19 +4,23 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import "../src/static/css/general.css"
 
 import Authentificaton from "./pages/authentificaton"
-import Home from "./pages/home"
-import Admin from "./pages/admin"
 import MainProductPage from "./pages/mainProductPage"
+import Place from "./pages/place"
+import Admin from "./pages/admin"
+import Home from "./pages/home"
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
+      <Routes history={history}>
         <Route path="/" element={<Home/>} />
         <Route path="/login" element={<Authentificaton page="login"/>} />
         <Route path="/register" element={<Authentificaton page="register"/>} />
-        <Route path="/admin" element={<Admin/>} />
+        
         <Route path="/products" element={<MainProductPage/>} />
+        <Route path="/admin" element={<Admin/>} />
+        <Route path="/place/:id" element={<Place noid={false}/>} />
+        <Route path="/place" element={<Place noid={true}/>} />
       </Routes>
     </BrowserRouter>
   )

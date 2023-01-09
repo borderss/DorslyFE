@@ -221,7 +221,6 @@ export default function authentificaton(props) {
     }
   }
 
-
   let formSection
 
   if (props.page == "login") {
