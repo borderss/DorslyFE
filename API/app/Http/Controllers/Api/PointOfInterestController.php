@@ -21,6 +21,11 @@ class PointOfInterestController extends Controller
         return PointOfInterestResouce::collection(PointOfInterest::paginate(10));
     }
 
+    public function getPopular()
+    {
+        return PointOfInterestResouce::collection();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
