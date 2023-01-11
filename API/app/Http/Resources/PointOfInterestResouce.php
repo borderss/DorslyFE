@@ -30,6 +30,7 @@ class PointOfInterestResouce extends JsonResource
             'is_on_location' => $this->is_on_location,
             'available_seats' => $this->available_seats,
             'review_count' => $this->review_count,
+            'avg' => $this->avgRating,
         ];
     }
 }

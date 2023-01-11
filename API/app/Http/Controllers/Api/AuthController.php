@@ -18,15 +18,18 @@ class AuthController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'phone_number' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:9',
         ]);
         $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);
-        return response()->json([
-            'data' => $user
-        ]);
+
+        if ($user){
+            return response()->json([
+                'data' => $user
+            ]);
+        }
     }
 
     public function login(Request $request) {

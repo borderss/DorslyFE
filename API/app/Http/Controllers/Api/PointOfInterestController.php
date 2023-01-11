@@ -28,7 +28,12 @@ class PointOfInterestController extends Controller
 
     public function getTodaysSelection()
     {
-        $pointsOfInterest = PointOfInterest::inRandomOrder()->limit(8)->get();
+        $pointsOfInterest = PointOfInterest::inRandomOrder()->limit(8)->get()
+            ->map(function ($point) {
+                $pointAverageRatings = Rating::where('point_of_interest_id', $point->id)->get();
+                $point['avgRating'] = $pointAverageRatings->pluck('rating')->avg();
+                return $point;
+            });
         return PointOfInterestResouce::collection($pointsOfInterest);
     }
 
@@ -73,10 +78,12 @@ class PointOfInterestController extends Controller
      */
     public function show($id)
     {
-//        $Find = PointOfInterest::find($Point);
-//        dd($Find);
-//        return new PointOfInterestResouce($Point);
-        return new PointOfInterestResouce(PointOfInterest::find($id));
+        $point = PointOfInterest::find($id);
+
+        $pointAverageRatings = Rating::where('point_of_interest_id', $point->id)->get();
+        $point['avgRating'] = $pointAverageRatings->pluck('rating')->avg();
+
+        return new PointOfInterestResouce($point);
     }
 
     /**
