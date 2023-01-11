@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { useLocation } from "react-router-dom"
 import { apiMethod, defaultHeaders } from "../static/js/util"
 
@@ -15,8 +15,12 @@ import PageSeperator from "/assets/svg/pageseperator.svg"
 import PopularChoices from "/assets/svg/popularchoices.svg"
 import TodaysDeals from "/assets/svg/todaysdeals.svg"
 
+import { UserContext } from "../contexts/userContext"
+
 export default function mainProductPage() {
   const location = useLocation()
+  const {user, token, setUser, setToken} = useContext(UserContext)
+
   const searchText = location?.state?.searchText
 
   const [todaysDealsCardData, setTodaysDealsCardData] = useState()
@@ -286,9 +290,6 @@ export default function mainProductPage() {
     return <Card key={id} data={card} />
   })
 
-  console.log(todaysDealsCards)
-  console.log()
-
   return (
     <>
       <Header />
@@ -321,13 +322,11 @@ export default function mainProductPage() {
           <h1 className={style["section-title"]}>Today's deals!</h1>
           {todaysDealsCards != null ? (
             <>
-              <h1>REAL DATA</h1>
               <Carousel data={todaysDealsCards} stylesheet={carouselStyle} />
             </>
           ) : (
             <>
-              <h1>FAKE DATA</h1>
-              <Carousel data={tempCards} stylesheet={carouselStyle} />
+              <div className={carouselStyle["carousel-placeholder"]}>Loading caoursel data...</div>
             </>
           )}
           <img src={PageSeperator} />
@@ -339,7 +338,6 @@ export default function mainProductPage() {
           <h1 className={style["section-title"]}>Popular choices!</h1>
           {popularChoicesCards != null ? (
             <>
-              <h1>REAL DATA</h1>
               <Carousel data={popularChoicesCards} stylesheet={carouselStyle} />
             </>
           ) : (

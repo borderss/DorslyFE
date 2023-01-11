@@ -6,7 +6,7 @@ import ArrowLeftSvg from "/assets/svg/arrowLeft.svg"
 import ArrowRightSvg from "/assets/svg/arrowRight.svg"
 
 export default function carousel(props) {
-  const [page, setPage] = useState(2)
+  const [page, setPage] = useState(1)
 
   const pageCount =
     props.data.length % 3 === 0

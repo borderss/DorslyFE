@@ -3,8 +3,8 @@ import { apiMethod, bearerHeaders } from "../static/js/util"
 
 import Header from "../components/header"
 
-import "../static/css/general.css"
 import style from "../static/css/admin.module.css"
+import "../static/css/general.css"
 
 import CalendarIcon from "/assets/svg/calendar.svg"
 import GPSIcon from "/assets/svg/gps2.svg"
@@ -543,7 +543,7 @@ export default function admin() {
     editedHTMLData.childNodes.forEach((cell, i) => {
       if (i === editedHTMLData.childNodes.length - 1) return
 
-      if (typeof(initialData[tableMetaData[section][i].field]) === "number") { 
+      if (typeof initialData[tableMetaData[section][i].field] === "number") {
         saveData[tableMetaData[section][i].field] = parseInt(cell.innerText)
       } else {
         saveData[tableMetaData[section][i].field] = cell.innerText
@@ -582,7 +582,6 @@ export default function admin() {
 
       console.log(editData)
     }
-
 
     // if (Math.random() > 0.5) {
     //   // FAILED SAVE
@@ -666,7 +665,11 @@ export default function admin() {
         }
       })
 
-      if (i != 0 && i != rowHtml.childNodes.length - 2 && i != rowHtml.childNodes.length - 3) {
+      if (
+        i != 0 &&
+        i != rowHtml.childNodes.length - 2 &&
+        i != rowHtml.childNodes.length - 3
+      ) {
         cell.contentEditable = true
         cell.style["border-bottom"] = "none"
         cell.style["border-block"] = "2px solid #ffb82e"
@@ -698,8 +701,8 @@ export default function admin() {
         data: new_data,
         meta: {
           ...data.meta,
-          total: data.meta.total - 1
-        }
+          total: data.meta.total - 1,
+        },
       })
     }
   }
@@ -778,11 +781,10 @@ export default function admin() {
                 If you encounter any unexpected data or results, immediately
                 notify any of the developers and log out of your account.
               </p>
-
               <h2 className={style["search"]}>Searchable fields</h2>
               <div className={style["searchable-keys"]}>
                 {Object.keys(tableMetaData[section]).map((key) => (
-                  <div key={key}>{tableMetaData[section][key].field}</div> 
+                  <div key={key}>{tableMetaData[section][key].field}</div>
                 ))}
               </div>
             </div>

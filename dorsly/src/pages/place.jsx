@@ -7,7 +7,15 @@ export default function place(props) {
   const [searchParams] = useSearchParams()
 
   useEffect(() => {
-    if (searchParams.get("p") == null || searchParams.get("p") == "undefined" || searchParams.get("p") == "null" || searchParams.get("p") == "NaN" || searchParams.get("p") == "false" || searchParams.get("p") == "0" || searchParams.get("p") == "[]") {
+    if (
+      searchParams.get("p") == null ||
+      searchParams.get("p") == "undefined" ||
+      searchParams.get("p") == "null" ||
+      searchParams.get("p") == "NaN" ||
+      searchParams.get("p") == "false" ||
+      searchParams.get("p") == "0" ||
+      searchParams.get("p") == "[]"
+    ) {
       navigate("/products")
     }
   }, [navigate])

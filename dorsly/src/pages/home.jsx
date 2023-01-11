@@ -197,11 +197,7 @@ export default function home() {
     return <Card key={id} data={card} />
   })
 
-  // {cards.length > 0 ? (
-  //   <Carousel data={cards} stylesheet={carouselStyle} />
-  // ) : (
-  //   <Carousel data={tempCards} stylesheet={carouselStyle} />
-  // )}
+  console.log(user, token)
 
   return (
     <>
