@@ -222,6 +222,7 @@ export default function authentificaton(props) {
 
       console.log(res)
 
+      window.localStorage.setItem("access_token", res.access_token)
       setUser(res.user)
       setToken(res.access_token)
 
@@ -360,11 +361,7 @@ export default function authentificaton(props) {
           </>
         ) : null}
 
-        <button
-          ref={submitButtonRef}
-          onSubmit={(_) => console.log(registerData)}
-          className={auth["actionBtn"]}
-          disabled>
+        <button ref={submitButtonRef} className={auth["actionBtn"]} disabled>
           Next step
         </button>
         <p className={auth["sectionSeperator"]}>or</p>

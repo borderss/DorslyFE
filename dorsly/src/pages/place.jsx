@@ -6,6 +6,8 @@ export default function place(props) {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
+  
+
   useEffect(() => {
     if (
       searchParams.get("p") == null ||

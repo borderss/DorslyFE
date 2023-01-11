@@ -88,8 +88,6 @@ export default function mainSearchBar() {
   }
 
   const handleSearchClick = (_) => {
-    console.log(date, time, personCount, searchText)
-
     navigate("/products", {
       replace: true,
       state: {

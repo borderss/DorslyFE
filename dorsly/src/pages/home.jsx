@@ -38,7 +38,6 @@ export default function home() {
   }, [])
 
   useEffect(() => {
-    console.log(cardData)
     let cardsTemp = cardData.map((card, id) => {
       return <Card key={id} data={card} />
     })
@@ -196,8 +195,6 @@ export default function home() {
   let tempCards = tempData.map((card, id) => {
     return <Card key={id} data={card} />
   })
-
-  console.log(user, token)
 
   return (
     <>

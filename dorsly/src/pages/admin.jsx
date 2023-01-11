@@ -3,8 +3,8 @@ import { apiMethod, bearerHeaders } from "../static/js/util"
 
 import Header from "../components/header"
 
-import style from "../static/css/admin.module.css"
 import "../static/css/general.css"
+import style from "../static/css/admin.module.css"
 
 import CalendarIcon from "/assets/svg/calendar.svg"
 import GPSIcon from "/assets/svg/gps2.svg"
@@ -251,11 +251,10 @@ export default function admin() {
 
         apiMethod("/filter_users", {
           method: "POST",
-          headers: bearerHeaders(),
+          headers: bearerHeaders(token),
           body: JSON.stringify(postBody),
         })
           .then((data) => {
-            console.log(data)
             setData(data)
           })
           .catch((error) => console.log(error))
@@ -269,11 +268,10 @@ export default function admin() {
 
         apiMethod("/filter_points_of_interest", {
           method: "POST",
-          headers: bearerHeaders(),
+          headers: bearerHeaders(token),
           body: JSON.stringify(postBody),
         })
           .then((data) => {
-            console.log(data)
             setData(data)
           })
           .catch((error) => console.log(error))
@@ -301,11 +299,10 @@ export default function admin() {
 
         apiMethod("/filter_comments", {
           method: "POST",
-          headers: bearerHeaders(),
+          headers: bearerHeaders(token),
           body: JSON.stringify(postBody),
         })
           .then((data) => {
-            console.log(data)
             setData(data)
           })
           .catch((error) => console.log(error))
@@ -352,8 +349,6 @@ export default function admin() {
   const renderTableRow = (row) => {
     let cells = new Array()
 
-    console.log(row, section, tableMetaData[section], data)
-
     tableMetaData[section].map((col, key) => {
       cells.push(<td key={key}>{row[col.field].toString()}</td>)
     })
@@ -397,7 +392,7 @@ export default function admin() {
 
     apiMethod("/" + nextPage, {
       method: "POST",
-      headers: bearerHeaders(),
+      headers: bearerHeaders(token),
       body: JSON.stringify(postBody),
     })
       .then((data) => {
@@ -413,7 +408,7 @@ export default function admin() {
 
     apiMethod("/" + prevPage, {
       method: "POST",
-      headers: bearerHeaders(),
+      headers: bearerHeaders(token),
       body: JSON.stringify(postBody),
     })
       .then((data) => {
@@ -434,7 +429,7 @@ export default function admin() {
 
     apiMethod("/" + page, {
       method: "POST",
-      headers: bearerHeaders(),
+      headers: bearerHeaders(token),
       body: JSON.stringify({
         ...postBody,
         paginate: paginateCount,
@@ -449,13 +444,11 @@ export default function admin() {
 
     let pageLink = data.meta.links[page].url
 
-    console.log(pageLink)
-
     page = pageLink.substring(pageLink.lastIndexOf("/") + 1)
 
     apiMethod("/" + page, {
       method: "POST",
-      headers: bearerHeaders(),
+      headers: bearerHeaders(token),
       body: JSON.stringify(postBody),
     }).then((data) => {
       setData(data)
@@ -482,12 +475,9 @@ export default function admin() {
 
       tableMetaData[section].map((col) => {
         if (col.field == searchBy) {
-          console.log(col.field, searchBy)
           searchByValid = true
         }
       })
-
-      console.log(searchBy, searchValue, searchByValid)
 
       if (searchByValid) {
         setPostBody({
@@ -524,7 +514,7 @@ export default function admin() {
 
     apiMethod("/" + page, {
       method: "POST",
-      headers: bearerHeaders(),
+      headers: bearerHeaders(token),
       body: JSON.stringify({
         ...postBody,
         by: searchBy,
@@ -543,17 +533,14 @@ export default function admin() {
     editedHTMLData.childNodes.forEach((cell, i) => {
       if (i === editedHTMLData.childNodes.length - 1) return
 
-      if (typeof initialData[tableMetaData[section][i].field] === "number") {
+      if (typeof(initialData[tableMetaData[section][i].field]) === "number") { 
         saveData[tableMetaData[section][i].field] = parseInt(cell.innerText)
       } else {
         saveData[tableMetaData[section][i].field] = cell.innerText
       }
     })
 
-    console.log(saveData, initialData)
-
     if (JSON.stringify(saveData) != JSON.stringify(initialData)) {
-      console.log("save", e.target)
       e.target.innerText = "Edit"
       e.target.style["padding-inline"] = "15px"
       e.target.style["background-color"] = "#ffb82e"
@@ -576,12 +563,11 @@ export default function admin() {
 
       let editData = await apiMethod("/" + section + "/" + editedHTMLData.id, {
         method: "PUT",
-        headers: bearerHeaders(),
+        headers: bearerHeaders(token),
         body: JSON.stringify(saveData),
       })
-
-      console.log(editData)
     }
+
 
     // if (Math.random() > 0.5) {
     //   // FAILED SAVE
@@ -654,8 +640,6 @@ export default function admin() {
     let rowHtml = e.target.parentElement.parentElement
     let rowData = data.data.find((row) => row.id == rowHtml.id)
 
-    console.log(rowHtml, rowData)
-
     rowHtml.childNodes.forEach((cell, i) => {
       if (i === rowHtml.childNodes.length - 1) return
 
@@ -665,11 +649,7 @@ export default function admin() {
         }
       })
 
-      if (
-        i != 0 &&
-        i != rowHtml.childNodes.length - 2 &&
-        i != rowHtml.childNodes.length - 3
-      ) {
+      if (i != 0 && i != rowHtml.childNodes.length - 2 && i != rowHtml.childNodes.length - 3) {
         cell.contentEditable = true
         cell.style["border-bottom"] = "none"
         cell.style["border-block"] = "2px solid #ffb82e"
@@ -686,11 +666,10 @@ export default function admin() {
 
     let deleteData = data.data.find((row) => row.id == rowItemIndex)
 
-    console.log(rowItemIndex, rowItemIndex, deleteData)
 
     let apiData = await apiMethod("/" + section + "/" + deleteData.id, {
       method: "DELETE",
-      headers: bearerHeaders(),
+      headers: bearerHeaders(token),
     })
 
     if (apiData && apiData.data.id == deleteData?.id) {
@@ -701,8 +680,8 @@ export default function admin() {
         data: new_data,
         meta: {
           ...data.meta,
-          total: data.meta.total - 1,
-        },
+          total: data.meta.total - 1
+        }
       })
     }
   }
@@ -781,10 +760,11 @@ export default function admin() {
                 If you encounter any unexpected data or results, immediately
                 notify any of the developers and log out of your account.
               </p>
+
               <h2 className={style["search"]}>Searchable fields</h2>
               <div className={style["searchable-keys"]}>
                 {Object.keys(tableMetaData[section]).map((key) => (
-                  <div key={key}>{tableMetaData[section][key].field}</div>
+                  <div key={key}>{tableMetaData[section][key].field}</div> 
                 ))}
               </div>
             </div>
