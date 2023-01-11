@@ -37,10 +37,8 @@ class PointOfInterestController extends Controller
         $pointsOfInterests = PointOfInterest::all()
             ->map(function ($point) {
                 $pointAverageRatings = Rating::where('point_of_interest_id', $point->id)->get();
-                if (isset($pointAverageRatings)) {
-                    $point['avgRating'] = $pointAverageRatings->pluck('rating')->avg();
-                    return $point;
-                }
+                $point['avgRating'] = $pointAverageRatings->pluck('rating')->avg();
+                return $point;
             })
             ->sortByDesc('avgRating')
             ->take(8);
