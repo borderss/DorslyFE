@@ -114,27 +114,21 @@ export default function mainProductPage() {
   }, [])
 
   useEffect(() => {
-    console.log(todaysDealsCardData)
     if (todaysDealsCardData) {
       let cardsTemp = todaysDealsCardData?.map((card, id) => {
         return <Card key={id} data={card} />
       })
-  
-      console.log("cards: ", cardsTemp)
-  
+    
       setTodaysDealsCards(cardsTemp)
     }
   }, [todaysDealsCardData])
 
   useEffect(() => {
-    console.log(popularChociesCardData)
     if (popularChociesCardData){
       let cardsTemp = popularChociesCardData?.map((card, id) => {
         return <Card key={id} data={card} />
       })
-  
-      console.log("cards: ", cardsTemp)
-  
+    
       setPopularChoicesCards(cardsTemp)
     }
   }, [popularChociesCardData])

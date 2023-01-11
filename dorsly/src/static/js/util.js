@@ -72,13 +72,13 @@ const registerUser = async (registerData, user, token, setUser, setToken) => {
 }
 
 const logoutUser = (user, token, setUser, setToken) => {
-  console.log(user, token, setUser, setToken)
   if (user && token) {
     return apiMethod("/logout", {
       method: "GET",
       headers: bearerHeaders(token),
     })
       .then((data) => {
+        window.localStorage.removeItem("access_token")
         setUser(null)
         setToken(null)
         window.location.href = "/"

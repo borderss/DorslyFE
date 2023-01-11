@@ -101,7 +101,7 @@ export default function header() {
         </>
       )
     )
-  }, [userContext])
+  }, [userContext.user, userContext.token])
 
   return (
     <div className={style["navbar"]}>
