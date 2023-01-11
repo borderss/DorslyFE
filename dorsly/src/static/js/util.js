@@ -1,8 +1,10 @@
 const api = "http://127.0.0.1:8000/api"
 
-const defaultHeaders = {
-  "Content-Type": "application/json",
-  accept: "*/*",
+const defaultHeaders = () => {
+  return {
+    "Content-Type": "application/json",
+    accept: "*/*",
+  }
 }
 
 const bearerHeaders = () => {
@@ -50,7 +52,7 @@ const loginUser = async (props) => {
   if (!userExists()) {
     return apiMethod("/login", {
       method: "POST",
-      headers: defaultHeaders,
+      headers: defaultHeaders(),
       body: JSON.stringify({
         email: props.email,
         password: props.password,
@@ -71,7 +73,7 @@ const registerUser = async (props) => {
   if (!userExists() && props.password == props.passwordConfirm) {
     return apiMethod("/register", {
       method: "POST",
-      headers: defaultHeaders,
+      headers: defaultHeaders(),
       body: JSON.stringify({
         first_name: props.firstName,
         last_name: props.lastName,
@@ -120,6 +122,7 @@ const userExists = () => {
 
 export {
   apiMethod,
+  defaultHeaders,
   bearerHeaders,
   setLS,
   getLS,

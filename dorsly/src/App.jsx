@@ -19,8 +19,7 @@ export default function App() {
         
         <Route path="/products" element={<MainProductPage/>} />
         <Route path="/admin" element={<Admin/>} />
-        <Route path="/place/:id" element={<Place noid={false}/>} />
-        <Route path="/place" element={<Place noid={true}/>} />
+        <Route path="/place" element={<Place/>} />
       </Routes>
     </BrowserRouter>
   )

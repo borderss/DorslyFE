@@ -1,23 +1,20 @@
 import React, { useEffect } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 
 export default function place(props) {
   const location = useLocation()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
-    if (typeof(props.noid) == "undefined" || props.noid || !location?.state?.place) {
+    if (searchParams.get("p") == null || searchParams.get("p") == "undefined" || searchParams.get("p") == "null" || searchParams.get("p") == "NaN" || searchParams.get("p") == "false" || searchParams.get("p") == "0" || searchParams.get("p") == "[]") {
       navigate("/products")
     }
-  }, [props.noid, navigate])
-  
-
-  const product = location?.state?.place
+  }, [navigate])
 
   return (
     <>
-      <h1>{product.name}</h1>
-      <h1>{product.desc}</h1>
+      <h1>{searchParams.get("p")}</h1>
     </>
   )
 }

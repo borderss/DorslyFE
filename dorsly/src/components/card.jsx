@@ -28,7 +28,7 @@ export default function card(props) {
       return
     }
 
-    navigate("/place/" + props.data.id, {state: {place: props.data}})
+    navigate("/place?p=" + props.data.id, {state: {place: props.data}})
   }
 
   return (
