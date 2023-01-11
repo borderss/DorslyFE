@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-
-import { UserContext } from "../contexts/userContext"
-import { logoutUser } from "../static//js/util.js"
+import { logoutUser } from "../static/js/util"
 
 import style from "../static/css/header.module.css"
 import LogoIcon from "/assets/svg/dorslylogo.svg"
@@ -15,7 +13,12 @@ import LogoutIcon from "/assets/svg/logout.svg"
 import SecondaryProfileIcon from "/assets/svg/secondaryProfileIcon.svg"
 import SettingsIcon from "/assets/svg/settings.svg"
 
+import { UserContext } from "../contexts/userContext"
+
 export default function header() {
+  const userContext = useContext(UserContext)
+  const {user, token, setUser, setToken} = useContext(UserContext)
+
   const [userOptions, setUserOptions] = useState(
     <>
       <Link to="login">
@@ -26,8 +29,6 @@ export default function header() {
       </Link>
     </>
   )
-
-  const userContext = useContext(UserContext)
 
   const handleLogoClick = (e) => {
     if (e.target.closest(`.${style["profile-logo-button"]}`)) {
@@ -74,7 +75,7 @@ export default function header() {
               style={{ "--background-icon": `url(${SettingsIcon})` }}>
               Settings
             </Link>
-            {userContext.user?.is_admin && (
+            {userContext.user?.is_admin == 1 && (
               <Link
                 to="/admin"
                 style={{ "--background-icon": `url(${AdminIcon})` }}>
@@ -84,7 +85,7 @@ export default function header() {
             <Link
               to="/"
               style={{ "--background-icon": `url(${LogoutIcon})` }}
-              onClick={logoutUser}>
+              onClick={(e) => logoutUser(user, token, setUser, setToken)}>
               Log out
             </Link>
           </div>

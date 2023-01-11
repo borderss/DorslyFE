@@ -1,15 +1,18 @@
 const api = "http://127.0.0.1:8000/api"
 
-const defaultHeaders = {
-  "Content-Type": "application/json",
-  accept: "*/*",
-}
-
-const bearerHeaders = () => {
+const defaultHeaders = () => {
   return {
     "Content-Type": "application/json",
-    accept: "*/*",
-    Authorization: `Bearer ${getToken()}`,
+    "Access-Control-Allow-Origin": "*",
+    accept: "application/json",
+  }
+}
+
+const bearerHeaders = (token) => {
+  return {
+    "Content-Type": "application/json",
+    accept: "application/json",
+    Authorization: `Bearer ${token}`,
   }
 }
 
@@ -20,44 +23,20 @@ const apiMethod = async (endpoint = "", requestParams) => {
   return data
 }
 
-const setLS = (key, value) => {
-  window.localStorage.setItem(key, JSON.stringify(value))
-}
-
-const getLS = (key) => {
-  let value = window.localStorage.getItem(key)
-
-  return value != undefined ? JSON.parse(value) : null
-}
-
-const removeLS = (key) => {
-  window.localStorage.removeItem(key)
-}
-
-const getUser = () => {
-  return getLS("user") != undefined ? getLS("user") : null
-}
-
-const getToken = () => {
-  let user = getLS("user")
-
-  if (user) {
-    return user.access_token
-  }
-}
-
-const loginUser = async (props) => {
-  if (!userExists()) {
+const loginUser = async (loginData, user, token, setUser, setToken) => {
+  if (user == null && token == null ) {
     return apiMethod("/login", {
       method: "POST",
-      headers: defaultHeaders,
+      headers: defaultHeaders(),
       body: JSON.stringify({
-        email: props.email,
-        password: props.password,
+        email: loginData.email,
+        password: loginData.password,
       }),
     })
       .then((data) => {
-        setLS("user", data)
+        setUser(data.user) 
+        setToken(data.token)
+
         return data
       })
       .catch((error) => error)
@@ -67,21 +46,22 @@ const loginUser = async (props) => {
   }
 }
 
-const registerUser = async (props) => {
-  if (!userExists() && props.password == props.passwordConfirm) {
+const registerUser = async (registerData, user, token, setUser, setToken) => {
+  if (user == null && token == null && registerData.password == registerData.passwordConfirm) {
     return apiMethod("/register", {
       method: "POST",
-      headers: defaultHeaders,
+      headers: defaultHeaders(),
       body: JSON.stringify({
-        first_name: props.firstName,
-        last_name: props.lastName,
-        email: props.email,
-        phone_number: props.phoneNumber,
-        password: props.password,
+        first_name: registerData.firstName,
+        last_name: registerData.lastName,
+        email: registerData.email,
+        phone_number: registerData.phoneNumber,
+        password: registerData.password,
       }),
     })
       .then((data) => {
-        window.location.href = "/login"
+        setUser(data.user) 
+        setToken(data.token)
         return data
       })
       .catch((error) => error)
@@ -91,15 +71,17 @@ const registerUser = async (props) => {
   }
 }
 
-const logoutUser = () => {
-  if (userExists()) {
+const logoutUser = (user, token, setUser, setToken) => {
+  console.log(user, token, setUser, setToken)
+  if (user && token) {
     return apiMethod("/logout", {
       method: "GET",
-      headers: bearerHeaders(),
+      headers: bearerHeaders(token),
     })
       .then((data) => {
-        removeLS("user")
-        location.reload()
+        setUser(null)
+        setToken(null)
+        window.location.href = "/"
         return data
       })
       .catch((error) => error)
@@ -109,25 +91,11 @@ const logoutUser = () => {
   }
 }
 
-const userExists = () => {
-  let user = getUser()
-  if (user) {
-    return true
-  } else {
-    return false
-  }
-}
-
 export {
   apiMethod,
+  defaultHeaders,
   bearerHeaders,
-  setLS,
-  getLS,
-  removeLS,
-  getUser,
-  getToken,
   loginUser,
   registerUser,
   logoutUser,
-  userExists,
 }
