@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->float('gps_lng')->nullable();
-            $table->float('gps_lat')->nullable();
+            $table->float('gps_lng',10, 7)->nullable();
+            $table->float('gps_lat',10, 7)->nullable();
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_cookies_allowed')->default(false);
             $table->boolean('is_email_allowed')->default(false);

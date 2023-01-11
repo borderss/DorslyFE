@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PointOfInterestRequest;
 use App\Http\Resources\PointOfInterestResouce;
+use App\Http\Resources\RatingResourse;
 use App\Models\PointOfInterest;
+use App\Models\Rating;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use mysql_xdevapi\Collection;
 
 class PointOfInterestController extends Controller
 {
@@ -21,9 +26,25 @@ class PointOfInterestController extends Controller
         return PointOfInterestResouce::collection(PointOfInterest::paginate(10));
     }
 
-    public function getPopular()
+    public function getTodaysSelection()
     {
-        return PointOfInterestResouce::collection();
+        $pointsOfInterest = PointOfInterest::inRandomOrder()->limit(8)->get();
+        return PointOfInterestResouce::collection($pointsOfInterest);
+    }
+
+    public function getPopularSelection()
+    {
+        $pointsOfInterests = PointOfInterest::all()
+            ->map(function ($point) {
+                $pointAverageRatings = Rating::where('point_of_interest_id', $point->id)->get();
+                if (isset($pointAverageRatings)) {
+                    $point['avgRating'] = $pointAverageRatings->pluck('rating')->avg();
+                    return $point;
+                }
+            })
+            ->sortByDesc('avgRating')
+            ->take(8);
+        return PointOfInterestResouce::collection($pointsOfInterests);
     }
 
     /**

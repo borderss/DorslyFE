@@ -20,6 +20,8 @@ class UserResource extends JsonResource
             'last_name' => $this->last_name,
             'phone_number' => $this->phone_number,
             'email' => $this->email,
+            'gps_lng' => $this->gps_lng,
+            'gps_lat' => $this->gps_lat,
             'is_admin' => $this->is_admin,
             'created_at' => \Carbon\Carbon::parse($this->created_at)->format('d/m/Y H:i:s'),
             'updated_at' => \Carbon\Carbon::parse($this->updated_at)->format('d/m/Y H:i:s'),

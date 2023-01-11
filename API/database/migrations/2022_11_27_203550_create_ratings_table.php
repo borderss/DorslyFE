@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -17,9 +18,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->onDelete('SET NULL')->onUpdate('CASCADE');
             $table->foreignId('point_of_interest_id')->onDelete('SET NULL')->onUpdate('CASCADE');
-            $table->string('rating');
+            $table->integer('rating');
             $table->timestamps();
         });
+
+        DB::statement('
+            ALTER TABLE ratings
+            ADD CONSTRAINT ratings_rating_check CHECK (rating >= 1 AND rating <= 10)
+        ');
     }
 
     /**

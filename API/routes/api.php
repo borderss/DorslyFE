@@ -56,3 +56,8 @@ Route::get('/title_photos/image/{title_photos}',[TitlePhotoController::class,'ge
 Route::post('/getSession/{pointOfInterest}',[StripeController::class, 'getSession']);
 Route::post('/successPayment', [StripeController::class, 'successPayment']);
 Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);
+
+Route::get('/todays_deals', [PointOfInterestController::class, 'getTodaysSelection']);
+Route::get('/popular_choices', [PointOfInterestController::class, 'getPopularSelection']);
+
+// TESTING                  !! REMOVE IN PRODUCTION !!

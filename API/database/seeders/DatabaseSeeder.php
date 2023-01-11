@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '+371 22022479',
             'email' => 'user1@gmail.com',
             'password' => Hash::make('password1'),
+            'gps_lng' => 34.1976253,
+            'gps_lat' => 21.7612640,
             'is_admin' => true,
             'is_cookies_allowed' => true,
             'is_email_allowed' => true,
@@ -37,6 +39,8 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '+371 22022480',
             'email' => 'user2@gmail.com',
             'password' => Hash::make('password2'),
+            'gps_lng' => 122.87652482,
+            'gps_lat' => 84.17625489,
             'is_admin' => false,
             'is_cookies_allowed' => true,
             'is_email_allowed' => true,
@@ -45,7 +49,7 @@ class DatabaseSeeder extends Seeder
          User::factory(33)->create();
          PointOfInterest::factory(70)->create();
          Product::factory(50)->create();
-         Rating::factory(20)->create();
+         Rating::factory(1450)->create();
          Comment::factory(30)->create();
     }
 }
