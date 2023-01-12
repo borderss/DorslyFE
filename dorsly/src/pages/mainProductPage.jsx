@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import { apiMethod, defaultHeaders } from "../static/js/util"
 
@@ -19,7 +19,7 @@ import { UserContext } from "../contexts/userContext"
 
 export default function mainProductPage() {
   const location = useLocation()
-  const {user, token, setUser, setToken} = useContext(UserContext)
+  const { user, token, setUser, setToken } = useContext(UserContext)
 
   const searchText = location?.state?.searchText
 
@@ -118,17 +118,17 @@ export default function mainProductPage() {
       let cardsTemp = todaysDealsCardData?.map((card, id) => {
         return <Card key={id} data={card} />
       })
-    
+
       setTodaysDealsCards(cardsTemp)
     }
   }, [todaysDealsCardData])
 
   useEffect(() => {
-    if (popularChociesCardData){
+    if (popularChociesCardData) {
       let cardsTemp = popularChociesCardData?.map((card, id) => {
         return <Card key={id} data={card} />
       })
-    
+
       setPopularChoicesCards(cardsTemp)
     }
   }, [popularChociesCardData])
@@ -284,6 +284,22 @@ export default function mainProductPage() {
     return <Card key={id} data={card} />
   })
 
+  const carouselPlaceholderData = [
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        color: "#FAB733",
+        "line-height": "532px",
+        "text-align": "center",
+        "font-size": "40px",
+        "font-family": "Lexend",
+        "font-weight": "300",
+      }}>
+      Loading Cards...
+    </div>,
+  ]
+
   return (
     <>
       <Header />
@@ -320,7 +336,10 @@ export default function mainProductPage() {
             </>
           ) : (
             <>
-              <div className={carouselStyle["carousel-placeholder"]}>Loading caoursel data...</div>
+              <Carousel
+                data={carouselPlaceholderData}
+                stylesheet={carouselStyle}
+              />
             </>
           )}
           <img src={PageSeperator} />
@@ -336,8 +355,10 @@ export default function mainProductPage() {
             </>
           ) : (
             <>
-              <h1>FAKE DATA</h1>
-              <Carousel data={tempCards} stylesheet={carouselStyle} />
+              <Carousel
+                data={carouselPlaceholderData}
+                stylesheet={carouselStyle}
+              />
             </>
           )}
           <img src={PageSeperator} />

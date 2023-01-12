@@ -19,8 +19,6 @@ import LabeledInputField from "../components/labeledInputField"
 import { UserContext } from "../contexts/userContext"
 
 export default function authentificaton(props) {
-  document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")'
-
   const { user, token, setUser, setToken } = useContext(UserContext)
   const navigate = useNavigate()
 
@@ -40,6 +38,10 @@ export default function authentificaton(props) {
   })
 
   let submitButtonRef = useRef(null)
+
+  useEffect(() => {
+    document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")'
+  }, [])
 
   useEffect(() => {
     if (props.page == "login") {

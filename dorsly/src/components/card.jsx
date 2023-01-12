@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import style from "../static/css/card.module.css"
 
 import Clock from "/assets/svg/clock.svg"
-import Gps2 from "/assets/svg/Gps2.svg"
+import Gps2 from "/assets/svg/gps2.svg"
 import People from "/assets/svg/people.svg"
 import Reviewlogo from "/assets/svg/reviewlogo.svg"
 import Star from "/assets/svg/star.svg"
