@@ -1,12 +1,19 @@
 import React, { useEffect } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 
+import PlaceLowerBackground from "/assets/svg/placelowerbackground.svg"
+import Star from "/assets/svg/star.svg"
+
+import style from "../static/css/place.module.css"
+
+import Header from "../components/header"
+
 export default function place(props) {
   const location = useLocation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
-  
+  const [data, setData] = React.useState([])
 
   useEffect(() => {
     if (
@@ -22,9 +29,62 @@ export default function place(props) {
     }
   }, [navigate])
 
+  // apiMethod("/points_of_interest/" + searchParams.get("p"), defaultHeaders()).then((data) => {
+  //   console.log(data)
+  //   setData(data)
+  // })
+
+  useEffect(() => {
+    setData({
+      id: 30,
+      name: "Luella Frami",
+      description:
+        "Rem laboriosam dignissimos voluptates ut. Officiis libero veritatis impedit quae delectus voluptas. Consequatur occaecati et et sit est.",
+      gps_lng: "-146.048615",
+      gps_lat: "42.816474",
+      country: "British Virgin Islands",
+      images:
+        "https://api.dorsly.com/api/point_of_interest/images/30?signature=7ef48ed2203d5c5b438e5c61d9d1abf105e1be65f49168775e7161da70c8f923",
+      opens_at: "11:25:22",
+      closes_at: "22:04:15",
+      is_open_round_the_clock: false,
+      is_takeaway: true,
+      is_on_location: false,
+      available_seats: 6,
+      review_count: 7,
+      avg: 5.894736842105263,
+    })
+  }, [])
+
   return (
     <>
-      <h1>{searchParams.get("p")}</h1>
+      <Header />
+      <div className={style["container"]}>
+        <div
+          className={style["top-section"]}
+          style={{
+            "--background-image": `url(https://picsum.photos/1920/1080/?random&t=${new Date().getTime()})`,
+          }}>
+            <div className={style["content"]}>
+              <div className={style["rating"]}>
+                <img src={Star}/>
+                <p>{Math.round(data.avg*10)/10}</p>
+              </div>
+            </div>
+            <h1>
+              {data.name}
+            </h1>
+            <p>
+              {data.description}
+            </p>
+          </div>
+        <div
+          className={style["place-lower-bg"]}
+          style={{
+            "--background-image": `url(${PlaceLowerBackground})`,
+          }}>
+        </div>
+      </div>
     </>
   )
 }
