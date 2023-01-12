@@ -87,7 +87,7 @@ export default function mainSearchBar() {
     data.personCount = parseInt(data.personCount)
   }
 
-  const handleSearchClick = (_) => {
+  const handleSearchClick = () => {
     navigate("/products", {
       replace: true,
       state: {

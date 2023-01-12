@@ -10,8 +10,9 @@
 .top-section {
   background-image: var(--background-image);
   background-position-y: center;
-  padding-top: 63px;
-  height: 670px;
+  padding-top: 372px;
+  padding-left: 70px;
+  height: 351px;
   background-repeat: no-repeat;
   font-family: "Lexend";
   color: #ffffff;
@@ -36,11 +37,52 @@
   margin-bottom: 3px;
 }
 
+.rating > .place-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-left: 20px;
+  opacity: 0;
+  transition: 0.1s;
+}
+
+.rating:hover > .place-rating {
+  opacity: 1;
+}
+
+.place-rating > .left, .place-rating > .right {
+  cursor: pointer;
+  transition: 0.1s;
+  stroke: none;
+}
+
+.place-rating > .left {
+  background-image: var(--rating-left-icon-hollow);
+  background-size: 23px 39px;
+  width: 22px;
+  height: 39px;
+}
+
+.place-rating > .right {
+  background-image: var(--rating-right-icon-hollow);
+  background-size: 23px 39px;
+  background-position: -1px;
+  width: 22px;
+  height: 39px;
+}
+
+.place-rating > .left:hover ~ .left {
+  background-image: var(--rating-left-icon-filled);
+}
+
+.place-rating > .right:hover ~ .right{
+  background-image: var(--rating-right-icon-filled);
+}
+
 .top-section > h1 {
   width: 900px;
   font-size: 3.5rem;
   font-weight: 500;
-  margin-top: 20px;
+  margin-top: -4px;
   margin-bottom: 20px;
   font-family: "Lexend";
 }
@@ -64,4 +106,6 @@
   background-position-y: center;
   background-repeat: no-repeat;
   font-family: "Lexend";
+  z-index: 5;
+  position: relative;
 }

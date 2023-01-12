@@ -1,7 +1,13 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 
 import PlaceLowerBackground from "/assets/svg/placelowerbackground.svg"
+
+import RatingLeft from "/assets/svg/ratingleft.svg"
+import RatingLeftHollow from "/assets/svg/ratinglefthollow.svg"
+import RatingRight from "/assets/svg/ratingright.svg"
+import RatingRightHollow from "/assets/svg/ratingrighthollow.svg"
+
 import Star from "/assets/svg/star.svg"
 
 import style from "../static/css/place.module.css"
@@ -13,7 +19,7 @@ export default function place(props) {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
-  const [data, setData] = React.useState([])
+  const [data, setData] = useState([])
 
   useEffect(() => {
     if (
@@ -65,25 +71,40 @@ export default function place(props) {
           style={{
             "--background-image": `url(https://picsum.photos/1920/1080/?random&t=${new Date().getTime()})`,
           }}>
-            <div className={style["content"]}>
-              <div className={style["rating"]}>
-                <img src={Star}/>
-                <p>{Math.round(data.avg*10)/10}</p>
+          <div className={style["content"]}>
+            <div className={style["rating"]}>
+              <img src={Star} />
+              <p>{Math.round(data.avg * 10) / 10}</p>
+              <div
+                className={style["place-rating"]}
+                style={{
+                  "--rating-left-icon-filled": `url(${RatingLeft})`,
+                  "--rating-left-icon-hollow": `url(${RatingLeftHollow})`,
+                  "--rating-right-icon-filled": `url(${RatingRight})`,
+                  "--rating-right-icon-hollow": `url(${RatingRightHollow})`,
+                }}>
+
+                <div className={style["right"]} />
+                <div className={style["left"]} />
+                <div className={style["right"]} />
+                <div className={style["left"]} />
+                <div className={style["right"]} />
+                <div className={style["left"]} />
+                <div className={style["right"]} />
+                <div className={style["left"]} />
+                <div className={style["right"]} />
+                <div className={style["left"]} />
               </div>
             </div>
-            <h1>
-              {data.name}
-            </h1>
-            <p>
-              {data.description}
-            </p>
           </div>
+          <h1>{data.name}</h1>
+          <p>{data.description}</p>
+        </div>
         <div
           className={style["place-lower-bg"]}
           style={{
             "--background-image": `url(${PlaceLowerBackground})`,
-          }}>
-        </div>
+          }}></div>
       </div>
     </>
   )
