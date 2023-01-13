@@ -41,6 +41,8 @@ export default function place(props) {
   // })
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     setData({
       id: 30,
       name: "Luella Frami",

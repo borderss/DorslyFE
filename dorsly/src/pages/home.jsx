@@ -28,6 +28,8 @@ export default function home() {
 
   useEffect(() => {
     document.body.style.backgroundImage = ''
+    
+    window.scrollTo(0, 0)
 
     apiMethod("/popular_choices", {
       method: "GET",

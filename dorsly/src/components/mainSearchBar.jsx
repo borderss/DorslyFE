@@ -85,9 +85,19 @@ export default function mainSearchBar() {
     let formData = new FormData(e.target)
     let data = Object.fromEntries(formData.entries()) // convert formData to object
     data.personCount = parseInt(data.personCount)
+
+    console.log(data)
   }
 
-  const handleSearchClick = () => {
+  const handleSearchClick = (_) => {
+
+    console.log({
+      date: date,
+      time: time,
+      personCount: personCount,
+      searchText: searchText,
+    })
+    
     navigate("/products", {
       replace: true,
       state: {

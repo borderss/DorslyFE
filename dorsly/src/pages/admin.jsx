@@ -222,6 +222,12 @@ export default function admin() {
     },
   }
 
+  const defaultPostBody = {
+    by: "all",
+    value: "_",
+    paginate: 10,
+  }
+
   const { user, token, setUser, setToken } = useContext(UserContext)
 
   const [section, setSection] = useState("users")
@@ -252,7 +258,7 @@ export default function admin() {
         apiMethod("/filter_users", {
           method: "POST",
           headers: bearerHeaders(token),
-          body: JSON.stringify(postBody),
+          body: JSON.stringify(defaultPostBody),
         })
           .then((data) => {
             setData(data)
@@ -269,7 +275,7 @@ export default function admin() {
         apiMethod("/filter_points_of_interest", {
           method: "POST",
           headers: bearerHeaders(token),
-          body: JSON.stringify(postBody),
+          body: JSON.stringify(defaultPostBody),
         })
           .then((data) => {
             setData(data)
@@ -300,7 +306,7 @@ export default function admin() {
         apiMethod("/filter_comments", {
           method: "POST",
           headers: bearerHeaders(token),
-          body: JSON.stringify(postBody),
+          body: JSON.stringify(defaultPostBody),
         })
           .then((data) => {
             setData(data)
@@ -323,6 +329,11 @@ export default function admin() {
     }
 
     setData(defaultData)
+    setPostBody(defaultPostBody)
+
+    searchRef.current.value = ""
+    entryRef.current.value = 10
+    goToPageRef.current.value = 1
 
     setSection(e.target.id)
     ;[...document.querySelectorAll(`.${style["side-navbar"]} > p`)].forEach(

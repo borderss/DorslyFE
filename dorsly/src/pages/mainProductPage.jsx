@@ -98,6 +98,8 @@ export default function mainProductPage() {
   ]
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     apiMethod("/todays_deals", {
       method: "GET",
       headers: defaultHeaders(),
@@ -318,9 +320,7 @@ export default function mainProductPage() {
             </div>
 
             <div className={style["card-data-list"]}>
-              {searchdata.map((item, id) => {
-                return <Card key={id} data={item} />
-              })}
+              {tempCards}
             </div>
             <img src={PageSeperator} />
           </div>
