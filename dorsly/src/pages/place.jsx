@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 
 import PlaceLowerBackground from "/assets/svg/placelowerbackground.svg"
@@ -18,9 +18,12 @@ export default function place(props) {
   const location = useLocation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-
+  
+  const ratingRef = useRef(null)
+  
   const [data, setData] = useState([])
-
+  const [userRating, setUserRating] = useState(Math.ceil(Math.random() * 10))
+  
   useEffect(() => {
     if (
       searchParams.get("p") == null ||
@@ -41,7 +44,28 @@ export default function place(props) {
   // })
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (ratingRef.current != null) {
+      ratingRef.current.childNodes.forEach((star) => {
+        star.childNodes.forEach((icon) => {
+          icon.addEventListener("click", (e) => {
+            setUserRating(e.target.getAttribute("selectionindex"))
+          })
+        })
+      })
+    }
+
+    ratingRef.current.childNodes.forEach((star) => {
+      star.childNodes.forEach((half) => {
+        console.log(half)
+
+        if (half.getAttribute("selectionIndex") == userRating) {
+          half.classList.add(half.classList.item(0), style["active"])          
+        }
+        else {
+          half.classList.remove(half.classList.item(1)) 
+        }
+      })
+    })
 
     setData({
       id: 30,
@@ -78,6 +102,7 @@ export default function place(props) {
               <img src={Star} />
               <p>{Math.round(data.avg * 10) / 10}</p>
               <div
+                ref={ratingRef}
                 className={style["place-rating"]}
                 style={{
                   "--rating-left-icon-filled": `url(${RatingLeft})`,
@@ -85,17 +110,26 @@ export default function place(props) {
                   "--rating-right-icon-filled": `url(${RatingRight})`,
                   "--rating-right-icon-hollow": `url(${RatingRightHollow})`,
                 }}>
-
-                <div className={style["right"]} />
-                <div className={style["left"]} />
-                <div className={style["right"]} />
-                <div className={style["left"]} />
-                <div className={style["right"]} />
-                <div className={style["left"]} />
-                <div className={style["right"]} />
-                <div className={style["left"]} />
-                <div className={style["right"]} />
-                <div className={style["left"]} />
+                <div className={style["star"]}>
+                  <div selectionIndex={10} className={[style["left"], style["active"]].join(" ")} />
+                  <div selectionIndex={9} className={style["right"]} />
+                </div>
+                <div className={style["star"]}>
+                  <div selectionIndex={8} className={style["left"]} />
+                  <div selectionIndex={7} className={style["right"]} />
+                </div>
+                <div className={style["star"]}>
+                  <div selectionIndex={6} className={style["left"]} />
+                  <div selectionIndex={5} className={style["right"]} />
+                </div>
+                <div className={style["star"]}>
+                  <div selectionIndex={4} className={style["left"]} />
+                  <div selectionIndex={3} className={style["right"]} />
+                </div>
+                <div className={style["star"]}>
+                  <div selectionIndex={2} className={style["left"]} />
+                  <div selectionIndex={1} className={style["right"]} />
+                </div>
               </div>
             </div>
           </div>

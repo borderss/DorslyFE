@@ -8,18 +8,19 @@
 }
 
 .top-section {
-  background-image: var(--background-image);
+  background-image: linear-gradient(0deg, #00000091, transparent),
+    var(--background-image);
   background-position-y: center;
-  padding-top: 372px;
-  padding-left: 70px;
-  height: 351px;
+  padding-top: 438px;
+  padding-left: 96px;
+  height: 325px;
   background-repeat: no-repeat;
   font-family: "Lexend";
   color: #ffffff;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
-.top-section > .content > .rating { 
+.top-section > .content > .rating {
   display: flex;
   align-items: center;
   color: white;
@@ -41,41 +42,84 @@
   display: flex;
   flex-direction: row-reverse;
   margin-left: 20px;
-  opacity: 0;
+  /* opacity: 0; */
   transition: 0.1s;
+  margin-bottom: 8px;
 }
 
-.rating:hover > .place-rating {
+.top-section:hover > .content > .rating > .place-rating {
   opacity: 1;
 }
 
-.place-rating > .left, .place-rating > .right {
-  cursor: pointer;
+.place-rating > .star > .left,
+.place-rating > .star > .right {
   transition: 0.1s;
-  stroke: none;
 }
 
-.place-rating > .left {
+.star {
+  cursor: pointer;
+  display: flex;
+}
+
+.star > .left {
   background-image: var(--rating-left-icon-hollow);
-  background-size: 23px 39px;
-  width: 22px;
+  background-size: 20px 39px;
+  width: 20px;
   height: 39px;
+  image-rendering: crisp-edges;
 }
 
-.place-rating > .right {
+.star > .right {
   background-image: var(--rating-right-icon-hollow);
-  background-size: 23px 39px;
-  background-position: -1px;
-  width: 22px;
+  background-size: 20px 39px;
+  width: 20px;
   height: 39px;
+  image-rendering: crisp-edges;
 }
 
-.place-rating > .left:hover ~ .left {
+.star > .left:hover {
   background-image: var(--rating-left-icon-filled);
+  transition: 0.2s;
 }
 
-.place-rating > .right:hover ~ .right{
+.star > .right:hover {
   background-image: var(--rating-right-icon-filled);
+  transition: 0.2s;
+}
+
+.star:has(.right:hover) > .left {
+  background-image: var(--rating-left-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating > .star:hover ~ .star > .left {
+  background-image: var(--rating-left-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating > .star:hover ~ .star > .right {
+  background-image: var(--rating-right-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating:not(:hover) > .star:has(*:is(.left.active, .right.active)) > .left {
+  background-image: var(--rating-left-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating:not(:hover) > .star:has(*:is(.right.active)) > .right {
+  background-image: var(--rating-right-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating:not(:hover) > .star:has(*:is(.left.active, .right.active)) ~ .star > .left {
+  background-image: var(--rating-left-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating:not(:hover) > .star:has(*:is(.left.active, .right.active)) ~ .star > .right {
+  background-image: var(--rating-right-icon-filled);
+  transition: 0.2s;
 }
 
 .top-section > h1 {
