@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import style from "../static/css/home.module.css"
+import style from "../static/css/reservationBar.module.css"
 
 import CalendarIcon from "/assets/svg/calendar.svg"
 import ClockIcon from "/assets/svg/clock.svg"
-import MainSearchIcon from "/assets/svg/mainsearch.svg"
 import PersonIcon from "/assets/svg/person.svg"
 
 export default function mainSearchBar() {
@@ -14,8 +13,7 @@ export default function mainSearchBar() {
   const [date, setDate] = useState(new Date())
   const [time, setTime] = useState(new Date())
   const [personCount, setPersonCount] = useState(1)
-  const [searchText, setSearchText] = useState("")
-  
+
   const [personText, setPersonText] = useState("Person")
 
   useEffect(() => {
@@ -72,10 +70,6 @@ export default function mainSearchBar() {
     }
   }
 
-  const handleSearchTextChange = (e) => {
-    setSearchText(e.target.value)
-  }
-
   const focusChildInput = (e) => {
     e.target.closest("div").querySelector("input").focus()
   }
@@ -90,21 +84,18 @@ export default function mainSearchBar() {
   }
 
   const handleSearchClick = (_) => {
-
     console.log({
       date: date,
       time: time,
       personCount: personCount,
-      searchText: searchText,
     })
-    
+
     navigate("/products", {
       replace: true,
       state: {
         date: date,
         time: time,
         personCount: personCount,
-        searchText: searchText,
       },
     })
   }
@@ -146,18 +137,11 @@ export default function mainSearchBar() {
         <span>{personText}</span>
       </div>
 
-      <div
-        className={style["search"]}
-        style={{ "--mainSearchIcon": `url(${MainSearchIcon})` }}>
-        <input
-          type="text"
-          name="searchText"
-          className={style["search-input"]}
-          onChange={handleSearchTextChange}
-          placeholder="Search..."
-        />
-        <button onClick={(e) => handleSearchClick(e)}>Search</button>
-      </div>
+      <button
+        onClick={(e) => handleSearchClick(e)}
+        style={{ "marginBlock": "3px" }}>
+        Reserve
+      </button>
     </form>
   )
 }

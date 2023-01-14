@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import { apiMethod, defaultHeaders } from "../static/js/util"
 
@@ -19,7 +19,7 @@ import { UserContext } from "../contexts/userContext"
 
 export default function mainProductPage() {
   const location = useLocation()
-  const {user, token, setUser, setToken} = useContext(UserContext)
+  const { user, token, setUser, setToken } = useContext(UserContext)
 
   const searchText = location?.state?.searchText
 
@@ -98,6 +98,8 @@ export default function mainProductPage() {
   ]
 
   useEffect(() => {
+    window.scrollTo(0, 0)
+
     apiMethod("/todays_deals", {
       method: "GET",
       headers: defaultHeaders(),
@@ -118,17 +120,17 @@ export default function mainProductPage() {
       let cardsTemp = todaysDealsCardData?.map((card, id) => {
         return <Card key={id} data={card} />
       })
-    
+
       setTodaysDealsCards(cardsTemp)
     }
   }, [todaysDealsCardData])
 
   useEffect(() => {
-    if (popularChociesCardData){
+    if (popularChociesCardData) {
       let cardsTemp = popularChociesCardData?.map((card, id) => {
         return <Card key={id} data={card} />
       })
-    
+
       setPopularChoicesCards(cardsTemp)
     }
   }, [popularChociesCardData])
@@ -284,6 +286,23 @@ export default function mainProductPage() {
     return <Card key={id} data={card} />
   })
 
+  const carouselPlaceholderData = [
+    <div
+      key={0}
+      style={{
+        width: "100%",
+        height: "100%",
+        color: "#FAB733",
+        lineHeight: "532px",
+        textAlign: "center",
+        fontSize: "40px",
+        fontFamily: "Lexend",
+        fontWeight: "300",
+      }}>
+      Loading Cards...
+    </div>,
+  ]
+
   return (
     <>
       <Header />
@@ -301,11 +320,7 @@ export default function mainProductPage() {
               <span>{location?.state?.searchText}</span>
             </div>
 
-            <div className={style["card-data-list"]}>
-              {searchdata.map((item, id) => {
-                return <Card key={id} data={item} />
-              })}
-            </div>
+            <div className={style["card-data-list"]}>{tempCards}</div>
             <img src={PageSeperator} />
           </div>
         )}
@@ -320,7 +335,10 @@ export default function mainProductPage() {
             </>
           ) : (
             <>
-              <div className={carouselStyle["carousel-placeholder"]}>Loading caoursel data...</div>
+              <Carousel
+                data={carouselPlaceholderData}
+                stylesheet={carouselStyle}
+              />
             </>
           )}
           <img src={PageSeperator} />
@@ -336,8 +354,10 @@ export default function mainProductPage() {
             </>
           ) : (
             <>
-              <h1>FAKE DATA</h1>
-              <Carousel data={tempCards} stylesheet={carouselStyle} />
+              <Carousel
+                data={carouselPlaceholderData}
+                stylesheet={carouselStyle}
+              />
             </>
           )}
           <img src={PageSeperator} />

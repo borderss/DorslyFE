@@ -1,0 +1,204 @@
+.container {
+  position: relative;
+  width: min(1920px, 100vw);
+  aspect-ratio: 1920/2310;
+  margin-inline: auto;
+  background-repeat: no-repeat;
+  font-family: "Lexend";
+}
+
+.top-section {
+  background-image: linear-gradient(112deg, #282828b3, transparent),
+    var(--background-image);
+  background-position-y: center;
+  padding-top: 231px;
+  padding-inline: 96px;
+  height: 750px;
+  background-repeat: no-repeat;
+  font-family: "Lexend";
+  color: #ffffff;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.top-section > .content > .rating {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 29px;
+}
+
+.top-section > .content > .rating > img {
+  filter: brightness(5);
+  width: 60px;
+}
+
+.top-section > .content > .rating > p {
+  width: 35px;
+  margin: 0;
+  margin-bottom: 3px;
+}
+
+.rating > .place-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-left: 20px;
+  opacity: 0;
+  transition: 0.1s;
+  margin-bottom: 8px;
+}
+
+.top-section:hover > .content > .rating > .place-rating {
+  opacity: 1;
+}
+
+.container:has(.place-lower-bg:hover)
+  > .top-section
+  > .content
+  > .rating
+  > .place-rating {
+  opacity: 1;
+}
+
+.place-rating > .star > .left,
+.place-rating > .star > .right {
+  transition: 0.1s;
+}
+
+.star {
+  cursor: pointer;
+  display: flex;
+}
+
+.star > .left {
+  background-image: var(--rating-left-icon-hollow);
+  background-size: 20px 39px;
+  width: 20px;
+  height: 39px;
+  image-rendering: crisp-edges;
+}
+
+.star > .right {
+  background-image: var(--rating-right-icon-hollow);
+  background-size: 20px 39px;
+  width: 20px;
+  height: 39px;
+  image-rendering: crisp-edges;
+}
+
+.star > .left:hover {
+  background-image: var(--rating-left-icon-filled);
+  transition: 0.2s;
+}
+
+.star > .right:hover {
+  background-image: var(--rating-right-icon-filled);
+  transition: 0.2s;
+}
+
+.star:has(.right:hover) > .left {
+  background-image: var(--rating-left-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating > .star:hover ~ .star > .left {
+  background-image: var(--rating-left-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating > .star:hover ~ .star > .right {
+  background-image: var(--rating-right-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating:not(:hover)
+  > .star:has(*:is(.left.active, .right.active))
+  > .left {
+  background-image: var(--rating-left-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating:not(:hover) > .star:has(*:is(.right.active)) > .right {
+  background-image: var(--rating-right-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating:not(:hover)
+  > .star:has(*:is(.left.active, .right.active))
+  ~ .star
+  > .left {
+  background-image: var(--rating-left-icon-filled);
+  transition: 0.2s;
+}
+
+.place-rating:not(:hover)
+  > .star:has(*:is(.left.active, .right.active))
+  ~ .star
+  > .right {
+  background-image: var(--rating-right-icon-filled);
+  transition: 0.2s;
+}
+
+.top-section > h1 {
+  width: 900px;
+  font-size: 3.5rem;
+  font-weight: 500;
+  margin-top: -4px;
+  margin-bottom: 20px;
+  font-family: "Lexend";
+}
+
+.top-section > p {
+  width: 900px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: "Lexend";
+
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.place-lower-bg {
+  background-image: var(--background-image);
+  height: 345px;
+  margin-top: -20px;
+  padding-top: 1px;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  font-family: "Lexend";
+  z-index: 5;
+  position: relative;
+}
+
+.scroll-encouragement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 23px;
+  margin-top: 135px;
+  animation: _scroll_1qzvw_347 1s infinite;
+  user-select: none;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.13));
+}
+
+.scroll-encouragement > img {
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  animation: scroll 1s infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

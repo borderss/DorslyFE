@@ -32,7 +32,7 @@ export default function UserContextProvider(props) {
       console.log("user returned with token")
       console.log(res)
 
-      if (res) {
+      if (!res.message) {
         setUser(res)
         setToken(token)
       } else {
