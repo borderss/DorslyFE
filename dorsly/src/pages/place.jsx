@@ -1,13 +1,14 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 
+import ReservationBar from "../components/reservationBar"
 import PlaceLowerBackground from "/assets/svg/placelowerbackground.svg"
 
+import MouseArrow from "/assets/svg/mousearrow.svg"
 import RatingLeft from "/assets/svg/ratingleft.svg"
 import RatingLeftHollow from "/assets/svg/ratinglefthollow.svg"
 import RatingRight from "/assets/svg/ratingright.svg"
 import RatingRightHollow from "/assets/svg/ratingrighthollow.svg"
-
 import Star from "/assets/svg/star.svg"
 
 import style from "../static/css/place.module.css"
@@ -18,12 +19,15 @@ export default function place(props) {
   const location = useLocation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  
+
   const ratingRef = useRef(null)
-  
+
   const [data, setData] = useState([])
   const [userRating, setUserRating] = useState(Math.ceil(Math.random() * 10))
-  
+  const [bgImage, setBgImage] = useState(
+    `https://picsum.photos/1920/1080/?random&t=${new Date().getTime()}`
+  )
+
   useEffect(() => {
     if (
       searchParams.get("p") == null ||
@@ -48,25 +52,12 @@ export default function place(props) {
       ratingRef.current.childNodes.forEach((star) => {
         star.childNodes.forEach((icon) => {
           icon.addEventListener("click", (e) => {
+            console.log(e.target.getAttribute("selectionindex"))
             setUserRating(e.target.getAttribute("selectionindex"))
           })
         })
       })
     }
-
-    ratingRef.current.childNodes.forEach((star) => {
-      star.childNodes.forEach((half) => {
-        console.log(half)
-
-        if (half.getAttribute("selectionIndex") == userRating) {
-          half.classList.add(half.classList.item(0), style["active"])          
-        }
-        else {
-          half.classList.remove(half.classList.item(1)) 
-        }
-      })
-    })
-
     setData({
       id: 30,
       name: "Luella Frami",
@@ -88,6 +79,18 @@ export default function place(props) {
     })
   }, [])
 
+  useEffect(() => {
+    ratingRef.current.childNodes.forEach((star) => {
+      star.childNodes.forEach((half) => {
+        if (half.getAttribute("selectionindex") == userRating) {
+          half.classList.add(half.classList.item(0), style["active"])
+        } else {
+          half.classList.remove(half.classList.item(1))
+        }
+      })
+    })
+  }, [userRating])
+
   return (
     <>
       <Header />
@@ -95,7 +98,7 @@ export default function place(props) {
         <div
           className={style["top-section"]}
           style={{
-            "--background-image": `url(https://picsum.photos/1920/1080/?random&t=${new Date().getTime()})`,
+            "--background-image": `url(${bgImage})`,
           }}>
           <div className={style["content"]}>
             <div className={style["rating"]}>
@@ -111,30 +114,38 @@ export default function place(props) {
                   "--rating-right-icon-hollow": `url(${RatingRightHollow})`,
                 }}>
                 <div className={style["star"]}>
-                  <div selectionIndex={10} className={[style["left"], style["active"]].join(" ")} />
-                  <div selectionIndex={9} className={style["right"]} />
+                  <div
+                    selectionindex={9}
+                    className={[style["left"], style["active"]].join(" ")}
+                  />
+                  <div selectionindex={10} className={style["right"]} />
                 </div>
                 <div className={style["star"]}>
-                  <div selectionIndex={8} className={style["left"]} />
-                  <div selectionIndex={7} className={style["right"]} />
+                  <div selectionindex={7} className={style["left"]} />
+                  <div selectionindex={8} className={style["right"]} />
                 </div>
                 <div className={style["star"]}>
-                  <div selectionIndex={6} className={style["left"]} />
-                  <div selectionIndex={5} className={style["right"]} />
+                  <div selectionindex={5} className={style["left"]} />
+                  <div selectionindex={6} className={style["right"]} />
                 </div>
                 <div className={style["star"]}>
-                  <div selectionIndex={4} className={style["left"]} />
-                  <div selectionIndex={3} className={style["right"]} />
+                  <div selectionindex={3} className={style["left"]} />
+                  <div selectionindex={4} className={style["right"]} />
                 </div>
                 <div className={style["star"]}>
-                  <div selectionIndex={2} className={style["left"]} />
-                  <div selectionIndex={1} className={style["right"]} />
+                  <div selectionindex={1} className={style["left"]} />
+                  <div selectionindex={2} className={style["right"]} />
                 </div>
               </div>
             </div>
           </div>
           <h1>{data.name}</h1>
           <p>{data.description}</p>
+          <ReservationBar />
+          <div className={style["scroll-encouragement"]}>
+            Scroll down to see more
+            <img src={MouseArrow} />
+          </div>
         </div>
         <div
           className={style["place-lower-bg"]}

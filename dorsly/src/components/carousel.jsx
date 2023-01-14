@@ -39,7 +39,7 @@ export default function carousel(props) {
   }
 
   const onDotClick = (e) => {
-    let dots = carouselDotsRef.current.children
+    let dots = carouselDotsRef.current?.children
 
     for (let dot of dots) {
       dot.setAttribute("active", "false")
@@ -50,7 +50,7 @@ export default function carousel(props) {
   }
 
   const loadDots = (id) => {
-    let dots = carouselDotsRef.current.children
+    let dots = carouselDotsRef.current?.children
 
     for (let dot of dots) {
       dot.setAttribute("active", "false")

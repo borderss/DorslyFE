@@ -8,12 +8,12 @@
 }
 
 .top-section {
-  background-image: linear-gradient(0deg, #00000091, transparent),
+  background-image: linear-gradient(112deg, #282828b3, transparent),
     var(--background-image);
   background-position-y: center;
-  padding-top: 438px;
-  padding-left: 96px;
-  height: 325px;
+  padding-top: 231px;
+  padding-inline: 96px;
+  height: 750px;
   background-repeat: no-repeat;
   font-family: "Lexend";
   color: #ffffff;
@@ -42,12 +42,20 @@
   display: flex;
   flex-direction: row-reverse;
   margin-left: 20px;
-  /* opacity: 0; */
+  opacity: 0;
   transition: 0.1s;
   margin-bottom: 8px;
 }
 
 .top-section:hover > .content > .rating > .place-rating {
+  opacity: 1;
+}
+
+.container:has(.place-lower-bg:hover)
+  > .top-section
+  > .content
+  > .rating
+  > .place-rating {
   opacity: 1;
 }
 
@@ -102,7 +110,9 @@
   transition: 0.2s;
 }
 
-.place-rating:not(:hover) > .star:has(*:is(.left.active, .right.active)) > .left {
+.place-rating:not(:hover)
+  > .star:has(*:is(.left.active, .right.active))
+  > .left {
   background-image: var(--rating-left-icon-filled);
   transition: 0.2s;
 }
@@ -112,12 +122,18 @@
   transition: 0.2s;
 }
 
-.place-rating:not(:hover) > .star:has(*:is(.left.active, .right.active)) ~ .star > .left {
+.place-rating:not(:hover)
+  > .star:has(*:is(.left.active, .right.active))
+  ~ .star
+  > .left {
   background-image: var(--rating-left-icon-filled);
   transition: 0.2s;
 }
 
-.place-rating:not(:hover) > .star:has(*:is(.left.active, .right.active)) ~ .star > .right {
+.place-rating:not(:hover)
+  > .star:has(*:is(.left.active, .right.active))
+  ~ .star
+  > .right {
   background-image: var(--rating-right-icon-filled);
   transition: 0.2s;
 }
@@ -147,9 +163,42 @@
   background-image: var(--background-image);
   height: 345px;
   margin-top: -20px;
+  padding-top: 1px;
   background-position-y: center;
   background-repeat: no-repeat;
   font-family: "Lexend";
   z-index: 5;
   position: relative;
+}
+
+.scroll-encouragement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 23px;
+  margin-top: 135px;
+  animation: _scroll_1qzvw_347 1s infinite;
+  user-select: none;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.13));
+}
+
+.scroll-encouragement > img {
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  animation: scroll 1s infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }

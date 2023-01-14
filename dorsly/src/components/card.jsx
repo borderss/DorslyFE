@@ -54,8 +54,8 @@ export default function card(props) {
               <p>24 hours a day</p>
             ) : (
               <p>
-                {props.data?.opens_at.slice(0, 5)}-
-                {props.data?.closes_at.slice(0, 5)}
+                {props?.data?.opens_at.slice(0, 5)}-
+                {props?.data?.closes_at.slice(0, 5)}
               </p>
             )}
           </div>

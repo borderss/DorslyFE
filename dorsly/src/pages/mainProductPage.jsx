@@ -98,7 +98,7 @@ export default function mainProductPage() {
   ]
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
 
     apiMethod("/todays_deals", {
       method: "GET",
@@ -288,15 +288,16 @@ export default function mainProductPage() {
 
   const carouselPlaceholderData = [
     <div
+      key={0}
       style={{
         width: "100%",
         height: "100%",
         color: "#FAB733",
-        "line-height": "532px",
-        "text-align": "center",
-        "font-size": "40px",
-        "font-family": "Lexend",
-        "font-weight": "300",
+        lineHeight: "532px",
+        textAlign: "center",
+        fontSize: "40px",
+        fontFamily: "Lexend",
+        fontWeight: "300",
       }}>
       Loading Cards...
     </div>,
@@ -319,9 +320,7 @@ export default function mainProductPage() {
               <span>{location?.state?.searchText}</span>
             </div>
 
-            <div className={style["card-data-list"]}>
-              {tempCards}
-            </div>
+            <div className={style["card-data-list"]}>{tempCards}</div>
             <img src={PageSeperator} />
           </div>
         )}
