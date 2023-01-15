@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 
 import ReservationBar from "../components/reservationBar"
-import PlaceLowerBackground from "/assets/svg/placelowerbackground.svg"
 
+import Checkmark from "/assets/svg/checkmark.svg"
 import MouseArrow from "/assets/svg/mousearrow.svg"
 import RatingLeft from "/assets/svg/ratingleft.svg"
 import RatingLeftHollow from "/assets/svg/ratinglefthollow.svg"
@@ -21,6 +21,7 @@ export default function place(props) {
   const [searchParams] = useSearchParams()
 
   const ratingRef = useRef(null)
+  const ratingResultRef = useRef(null)
 
   const [data, setData] = useState([])
   const [userRating, setUserRating] = useState(Math.ceil(Math.random() * 10))
@@ -80,15 +81,26 @@ export default function place(props) {
   }, [])
 
   useEffect(() => {
+    let changed = false
+
     ratingRef.current.childNodes.forEach((star) => {
       star.childNodes.forEach((half) => {
         if (half.getAttribute("selectionindex") == userRating) {
           half.classList.add(half.classList.item(0), style["active"])
+          changed = true
         } else {
           half.classList.remove(half.classList.item(1))
         }
       })
     })
+
+    if (changed) {
+      ratingResultRef.current.classList.add(style["result-active"])
+
+      setTimeout(() => {
+        ratingResultRef.current.classList.remove(style["result-active"])
+      }, 1500)
+    }
   }, [userRating])
 
   return (
@@ -137,6 +149,12 @@ export default function place(props) {
                   <div selectionindex={2} className={style["right"]} />
                 </div>
               </div>
+
+              <img
+                ref={ratingResultRef}
+                className={style["rating-result"]}
+                src={Checkmark}
+              />
             </div>
           </div>
           <h1>{data.name}</h1>
@@ -147,11 +165,11 @@ export default function place(props) {
             <img src={MouseArrow} />
           </div>
         </div>
-        <div
+        {/* <div
           className={style["place-lower-bg"]}
           style={{
             "--background-image": `url(${PlaceLowerBackground})`,
-          }}></div>
+          }}></div> */}
       </div>
     </>
   )
