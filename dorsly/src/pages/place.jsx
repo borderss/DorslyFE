@@ -51,7 +51,7 @@ export default function place(props) {
   useEffect(() => {
     if (ratingRef.current != null) {
       ratingRef.current.childNodes.forEach((star) => {
-        star.childNodes.forEach((icon) => {
+        star?.childNodes.forEach((icon) => {
           icon.addEventListener("click", (e) => {
             console.log(e.target.getAttribute("selectionindex"))
             setUserRating(e.target.getAttribute("selectionindex"))
@@ -111,7 +111,7 @@ export default function place(props) {
           <div className={style["content"]}>
             <div className={style["rating"]}>
               <img src={Star} />
-              <p>{Math.round(data.avg * 10) / 10}</p>
+              <p>{data.avg && Math.round(data.avg * 10) / 10}</p>
               <div
                 ref={ratingRef}
                 className={style["place-rating"]}
