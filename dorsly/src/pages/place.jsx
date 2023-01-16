@@ -165,12 +165,21 @@ export default function place(props) {
           <div className={style["left"]}>
             <div>Products</div>
             <div>Info</div>
-            <div>Reviews</div>
+            <div>
+              <p>Reviews</p>
+              <div className={style["info-display"]}>243</div>
+            </div>
           </div>
 
           <div className={style["right"]}>
-            <div>Cart</div>
-            <div>Pay</div>
+            <div>
+              <p>Cart</p>
+              <div className={style["info-display"]}>3</div>
+            </div>
+            <div>
+              <div>Pay</div>
+              <div className={style["info-display"]}>€13,24</div>
+            </div>
           </div>
         </div>
       </div>
