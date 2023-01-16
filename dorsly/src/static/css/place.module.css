@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: min(1920px, 100vw);
-  aspect-ratio: 1920/2310;
+  aspect-ratio: 1920/5310;
   margin-inline: auto;
   background-repeat: no-repeat;
   font-family: "Lexend";
@@ -203,7 +203,7 @@
 .rating-result.result-active {
   translate: 0px 0px;
   filter: invert(1) opacity(1) !important;
-  animation: swivel 0.2s infinite; 
+  animation: swivel 0.2s infinite;
 }
 
 @keyframes scroll {
@@ -228,4 +228,50 @@
   100% {
     transform: rotate(-2.5deg);
   }
+}
+
+.lower-navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding-left: 173px;
+  padding-right: 88px;
+  position: sticky;
+  top: 63px;
+  background-color: #ffffff;
+  border-block: 1px solid #ebebeb;
+  font-family: "DM Sans";
+}
+
+.lower-navbar > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  color: #6e6e6e;
+  font-size: 21px;
+  box-shadow: inset 0px 0px 0px 0px #ffb82e;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.lower-navbar > div > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding-inline: 25px;
+  color: #6e6e6e;
+  font-size: 21px;
+  box-shadow: inset 0px 0px 0px 0px #ffb82e;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.lower-navbar > div > div:hover {
+  background-color: #fafafa;
+  box-shadow: inset 0px -3px 0px 0px #ffb82e;
 }
