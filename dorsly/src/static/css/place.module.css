@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: min(1920px, 100vw);
-  aspect-ratio: 1920/5310;
+  /* aspect-ratio: 1920/3310; */
   margin-inline: auto;
   background-repeat: no-repeat;
   font-family: "Lexend";
@@ -240,15 +240,6 @@
   padding-right: 88px;
   position: sticky;
   top: 63px;
-  background-color: #ffffff;display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-  padding-left: 173px;
-  padding-right: 88px;
-  position: sticky;
-  top: 63px;
   background-color: #ffffff;
   border-block: 1px solid #ebebeb;
   font-family: "DM Sans";
@@ -302,3 +293,61 @@
   margin-left: 10px;
   margin-bottom: 2px;
 }
+
+/* 
+<div className={style["product"]}>
+  <div className={style["product-image"]}>
+    <img src={product.image} />
+  </div>
+  <div className={style["product-info"]}>
+    <p className={style["product-name"]}>{product.name}</p>
+    <p className={style["product-description"]}>{product.description}</p>
+    <p className={style["product-price"]}>${product.price}</p>
+  </div>
+</div>
+*/
+
+.product {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 400px;
+  height: 100px;
+  padding-inline: 20px;
+  border-bottom: 1px solid #ebebeb;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.product:hover {
+
+}
+
+.product-image {
+
+}
+
+.product-image > img {
+  background-image: var(--product-image);
+  width: 150px;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-info {
+
+}
+
+.product-name {
+
+}
+
+.product-description {
+
+}
+
+.product-price {
+
+}
+
