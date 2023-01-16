@@ -83,21 +83,15 @@ export default function mainSearchBar() {
     console.log(data)
   }
 
-  const handleSearchClick = (_) => {
+  const handleReserveClick = (_) => {
     console.log({
       date: date,
       time: time,
       personCount: personCount,
     })
+    
 
-    navigate("/products", {
-      replace: true,
-      state: {
-        date: date,
-        time: time,
-        personCount: personCount,
-      },
-    })
+    console.log("Reserved: " + date + " " + time + " " + personCount + " people")
   }
 
   return (
@@ -138,7 +132,7 @@ export default function mainSearchBar() {
       </div>
 
       <button
-        onClick={(e) => handleSearchClick(e)}
+        onClick={(e) => handleReserveClick(e)}
         style={{ "marginBlock": "3px" }}>
         Reserve
       </button>
