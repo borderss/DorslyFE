@@ -240,6 +240,7 @@
   padding-right: 88px;
   position: sticky;
   top: 63px;
+  z-index: 10;
   background-color: #ffffff;
   border-block: 1px solid #ebebeb;
   font-family: "DM Sans";
@@ -307,47 +308,81 @@
 </div>
 */
 
-.product {
+.product-section {
+  width: 1300px;
+  margin-inline: auto;
+  color: #292929;
+}
+
+.section-title {
+  font-size: 39px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: #292929;
+}
+
+.product-section .product {
   display: flex;
+  gap: 16px;
   flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 400px;
-  height: 100px;
-  padding-inline: 20px;
-  border-bottom: 1px solid #ebebeb;
+  align-items: stretch;
+  border-radius: 10px;
+  width: 1200px;
+  padding: 10px;
+  margin-block: 20px;
   cursor: pointer;
+  margin-inline: auto;
   transition: 0.2s;
 }
 
-.product:hover {
-
+.product-section .product:hover {
+  transform: scale(1.02);
+  background-color: #ededed;
 }
 
-.product-image {
-
-}
-
-.product-image > img {
+.product-section .product-image {
   background-image: var(--product-image);
-  width: 150px;
+  min-width: 200px;
+  border-radius: 5px;
+  background-size: cover;
+  background-position: center;
+}
+
+.product-section .product-image > img {
+  background-image: var(--product-image);
+  width: 200px;
   height: 100%;
   object-fit: cover;
 }
 
-.product-info {
-
+.product-section .product-info {
+  position: relative;
+  font-size: 18px;
+  flex-grow: 1;
 }
 
-.product-name {
-
+.product-section .product-name {
+  font-size: 22px;
+  font-weight: 600;
+  margin-block: 0px;
 }
 
-.product-description {
-
+.product-section .product-description {
+  width: 850px;
 }
 
-.product-price {
-
+.product-section .product-price {
+  position: absolute;
+  color: #ffffff;
+  font-size: 17px;
+  width: fit-content;
+  padding-inline: 10px;
+  padding-block: 5px;
+  background-color: #25c94e;
+  border-radius: 100vh;
+  font-weight: 500;
+  margin-block: 0px;
+  top: 0;
+  right: 0;
 }
 
