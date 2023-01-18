@@ -725,7 +725,6 @@ export default function place(props) {
     }
 
     let returnData = Object.keys(productData.data).map((section, id) => {
-      console.log(section)
       return (
         <div key={id} className={style["product-section"]}>
           <h2 className={style["section-title"]}>{section}</h2>
@@ -737,6 +736,19 @@ export default function place(props) {
     })
 
     return returnData
+  }
+
+  const onLowerNavbarItemClick = (e, section) => {
+    setSection(section)
+    let navbar = e.target.parentElement?.parentElement
+
+    navbar.childNodes.forEach((half) => {
+      half.childNodes.forEach((icon) => {
+        icon.classList.remove(style["active"])
+      })
+    })
+
+    e.target.classList.add(style["active"])
   }
 
   return (
@@ -805,20 +817,20 @@ export default function place(props) {
         <div className={style["main-content"]}>
           <div className={style["lower-navbar"]}>
             <div className={style["left"]}>
-              <div onClick={(_) => setSection("products")}>Products</div>
-              <div onClick={(_) => setSection("info")}>Info</div>
-              <div onClick={(_) => setSection("reviews")}>
+              <div className={style["active"]} onClick={(e) => onLowerNavbarItemClick(e, "products")}>Products</div>
+              <div onClick={(e) => onLowerNavbarItemClick(e, "info")}>Info</div>
+              <div onClick={(e) => onLowerNavbarItemClick(e, "reviews")}>
                 <p>Reviews</p>
                 <div className={style["info-display"]}>243</div>
               </div>
             </div>
 
             <div className={style["right"]}>
-              <div onClick={(_) => setSection("cart")}>
+              <div onClick={(e) => onLowerNavbarItemClick(e, "cart")}>
                 <p>Cart</p>
                 <div className={style["info-display"]}>3</div>
               </div>
-              <div onClick={(_) => setSection("pay")}>
+              <div onClick={(e) => onLowerNavbarItemClick(e, "pay")}>
                 <div>Pay</div>
                 <div className={style["info-display"]}>€13,24</div>
               </div>

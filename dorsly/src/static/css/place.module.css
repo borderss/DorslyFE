@@ -279,6 +279,12 @@
   box-shadow: inset 0px -3px 0px 0px #ffb82e;
 }
 
+.lower-navbar > div > div.active {
+  background-color: #fafafa;
+  box-shadow: inset 0px -3px 0px 0px #ffb82e;
+}
+
+
 .info-display {
   display: flex;
   flex-direction: row;
