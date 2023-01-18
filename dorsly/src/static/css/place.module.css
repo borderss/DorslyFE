@@ -392,3 +392,18 @@
   right: 0;
 }
 
+.info-sections {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 1600px;
+  gap: 100px;
+  margin-inline: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.info-sections > div {
+  width: 50%;
+}

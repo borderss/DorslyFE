@@ -28,7 +28,7 @@ export default function place(props) {
   const [bgImage, setBgImage] = useState(
     `https://picsum.photos/1920/1080/?random&t=${new Date().getTime()}`
   )
-  const [section, setSection] = useState("products")
+  const [section, setSection] = useState("info")
 
   const productData = {
     data: {
@@ -738,6 +738,25 @@ export default function place(props) {
     return returnData
   }
 
+  const renderInfoSection = () => {
+    return (
+      <div className={style["info"]}>
+        <div className={style["info-sections"]}>
+          <div className={style["info-description"]}>
+            <h2 className={style["info-title"]}>Description</h2>
+            <p className={style["info-text"]}>{data.description}</p>
+          </div>
+          <div className={style["Location"]}>
+            <h2 className={style["info-title"]}>Location</h2>
+            <p className={style["info-text"]}>lat: {data.gps_lat}</p>
+            <p className={style["info-text"]}>lng: {data.gps_lng}</p>
+
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   const onLowerNavbarItemClick = (e, section) => {
     setSection(section)
     let navbar = e.target.parentElement?.parentElement
@@ -838,6 +857,7 @@ export default function place(props) {
           </div>
           <div className={style["content"]}>
             { section == "products" && renderProducts()}
+            { section == "info" && renderInfoSection()}
             <br />
           </div>
         </div>
