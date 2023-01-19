@@ -49,7 +49,7 @@ export default function mainProductPage() {
       setPopularChociesCardData(data.data)
     })
 
-    const searchCardsData = location?.state.data.map((card, id) => {
+    const searchCardsData = location?.state?.data?.map((card, id) => {
       return <Card key={id} data={card} />
     })
 
@@ -68,7 +68,7 @@ export default function mainProductPage() {
 
   useEffect(() => {
     if (popularChociesCardData) {
-      let cardsTemp = popularChociesCardData.map((card, id) => {
+      let cardsTemp = popularChociesCardData?.map((card, id) => {
         return <Card key={id} data={card} />
       })
 
