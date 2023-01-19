@@ -20,6 +20,10 @@
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
+.container > .main-content > .content {
+  min-height: 400px;
+}
+
 .top-section > .content > .rating {
   display: flex;
   align-items: center;
@@ -299,6 +303,8 @@
   font-size: 16px;
   margin-left: 10px;
   margin-bottom: 2px;
+  user-select: none;
+  pointer-events: none;
 }
 
 /* 
@@ -406,4 +412,26 @@
 
 .info-sections > div {
   width: 50%;
+}
+
+.reviews {
+  display: flex;
+  width: 1250px;
+  gap: 17px;
+  margin-inline: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  flex-direction: column;
+}
+
+.review-user-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-block: 0px;
+}
+
+.review {
+  width: 100%;
+  padding-left: 5px;
+  border-bottom: 1px solid #e7e7e7;
 }
