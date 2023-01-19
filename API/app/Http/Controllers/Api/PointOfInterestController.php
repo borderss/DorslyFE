@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PointOfInterestRequest;
 use App\Http\Resources\CommentResourse;
 use App\Http\Resources\PointOfInterestResouce;
+use App\Http\Resources\ProductResourse;
 use App\Http\Resources\RatingResourse;
 use App\Models\Comment;
 use App\Models\PointOfInterest;
+use App\Models\Product;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -165,5 +167,11 @@ class PointOfInterestController extends Controller
         $comments = Comment::where('point_of_interest_id', $id);
 
         return CommentResourse::collection($comments->get());
+    }
+
+    public function getProducts($id) {
+        $comments = Product::where('point_of_interest_id', $id);
+
+        return ProductResourse::collection($comments->get());
     }
 }

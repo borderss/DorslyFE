@@ -62,3 +62,4 @@ Route::get('/popular_choices', [PointOfInterestController::class, 'getPopularSel
 
 
 Route::get('/points_of_interest/{id}/comments', [PointOfInterestController::class, 'getComments']);
+Route::get('/points_of_interest/{id}/products', [PointOfInterestController::class, 'getProducts']);
