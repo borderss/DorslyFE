@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
+import { apiMethod, defaultHeaders } from "../static/js/util"
 
+import Map from "../components/map"
 import ReservationBar from "../components/reservationBar"
 
 import Checkmark from "/assets/svg/checkmark.svg"
@@ -32,7 +34,7 @@ export default function place(props) {
 
   const productData = {
     data: {
-      "kebabi": [
+      kebabi: [
         {
           id: 1,
           name: "Veda Crist",
@@ -106,7 +108,7 @@ export default function place(props) {
           price: "7.03",
         },
       ],
-      "pizza": [
+      pizza: [
         {
           id: 7,
           name: "Miss Imogene Runte Sr.",
@@ -216,7 +218,7 @@ export default function place(props) {
           price: "10.95",
         },
       ],
-      "uzkodas": [
+      uzkodas: [
         {
           id: 16,
           name: "Mrs. Lacy Gibson V",
@@ -314,7 +316,7 @@ export default function place(props) {
           price: "16.28",
         },
       ],
-      "Citi": [
+      Citi: [
         {
           id: 24,
           name: "Nia Simonis",
@@ -674,24 +676,11 @@ export default function place(props) {
       })
     }
 
-    setData({
-      id: 30,
-      name: "Luella Frami",
-      description:
-        "Rem laboriosam dignissimos voluptates ut. Officiis libero veritatis impedit quae delectus voluptas. Consequatur occaecati et et sit est.",
-      gps_lng: "-146.048615",
-      gps_lat: "42.816474",
-      country: "British Virgin Islands",
-      images:
-        "https://api.dorsly.com/api/point_of_interest/images/30?signature=7ef48ed2203d5c5b438e5c61d9d1abf105e1be65f49168775e7161da70c8f923",
-      opens_at: "11:25:22",
-      closes_at: "22:04:15",
-      is_open_round_the_clock: false,
-      is_takeaway: true,
-      is_on_location: false,
-      available_seats: 6,
-      review_count: 7,
-      avg: 5.894736842105263,
+    apiMethod("/points_of_interest/" + searchParams.get("p"), {
+      method: "GET",
+      headers: defaultHeaders(),
+    }).then((data) => {
+      setData(data.data)
     })
   }, [])
 
@@ -708,15 +697,18 @@ export default function place(props) {
   }, [userRating])
 
   const renderProducts = () => {
-
     const renderSectionProducts = (section) => {
       return productData.data[section].map((product, id) => {
         return (
           <div key={id} className={style["product"]}>
-            <div className={style["product-image"]}style={{"--product-image": "url(" + product.image + ")"}}></div>
+            <div
+              className={style["product-image"]}
+              style={{ "--product-image": "url(" + product.image + ")" }}></div>
             <div className={style["product-info"]}>
               <p className={style["product-name"]}>{product.name}</p>
-              <p className={style["product-description"]}>{product.description}</p>
+              <p className={style["product-description"]}>
+                {product.description}
+              </p>
               <p className={style["product-price"]}>${product.price}</p>
             </div>
           </div>
@@ -729,13 +721,23 @@ export default function place(props) {
         <div key={id} className={style["product-section"]}>
           <h2 className={style["section-title"]}>{section}</h2>
           <div className={style["section-products"]}>
-          {renderSectionProducts(section)}
+            {renderSectionProducts(section)}
           </div>
         </div>
       )
     })
 
     return returnData
+  }
+
+  const containerStyle = {
+    width: "600px",
+    height: "400px",
+  }
+
+  const center = {
+    lat: -3.745,
+    lng: -38.523,
   }
 
   const renderInfoSection = () => {
@@ -748,9 +750,19 @@ export default function place(props) {
           </div>
           <div className={style["Location"]}>
             <h2 className={style["info-title"]}>Location</h2>
-            <p className={style["info-text"]}>lat: {data.gps_lat}</p>
-            <p className={style["info-text"]}>lng: {data.gps_lng}</p>
-
+            <p className={style["info-text"]}>Coordnates: {data.gps_lat}, {data.gps_lng}</p>
+            <div style={{ display: "flex", height: "500px" }}>
+              <Map
+                containerStyle={{
+                  width: "600px",
+                  height: "400px",
+                }}
+                center={{
+                  lat: parseFloat(data.gps_lat),
+                  lng: parseFloat(data.gps_lng),
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -836,8 +848,14 @@ export default function place(props) {
         <div className={style["main-content"]}>
           <div className={style["lower-navbar"]}>
             <div className={style["left"]}>
-              <div className={style["active"]} onClick={(e) => onLowerNavbarItemClick(e, "products")}>Products</div>
-              <div onClick={(e) => onLowerNavbarItemClick(e, "info")}>Info</div>
+              <div onClick={(e) => onLowerNavbarItemClick(e, "products")}>
+                Products
+              </div>
+              <div
+                className={style["active"]}
+                onClick={(e) => onLowerNavbarItemClick(e, "info")}>
+                Info
+              </div>
               <div onClick={(e) => onLowerNavbarItemClick(e, "reviews")}>
                 <p>Reviews</p>
                 <div className={style["info-display"]}>243</div>
@@ -856,8 +874,8 @@ export default function place(props) {
             </div>
           </div>
           <div className={style["content"]}>
-            { section == "products" && renderProducts()}
-            { section == "info" && renderInfoSection()}
+            {section == "products" && renderProducts()}
+            {section == "info" && renderInfoSection()}
             <br />
           </div>
         </div>
