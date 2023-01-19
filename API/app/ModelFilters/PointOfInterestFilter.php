@@ -47,7 +47,7 @@ class PointOfInterestFilter extends ModelFilter
 
     public function seats($seats)
     {
-        return $this->where('available_seats', $seats);
+        return $this->where('available_seats', '<=', $seats);
     }
 
     public function review($review)
