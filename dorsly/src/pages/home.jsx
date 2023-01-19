@@ -27,8 +27,8 @@ export default function home() {
   const [cards, setCards] = React.useState([])
 
   useEffect(() => {
-    document.body.style.backgroundImage = ''
-    
+    document.body.style.backgroundImage = ""
+
     window.scrollTo(0, 0)
 
     apiMethod("/popular_choices", {
@@ -53,11 +53,11 @@ export default function home() {
         width: "100%",
         height: "100%",
         color: "#FFF",
-        "line-height": "532px",
-        "text-align": "center",
-        "font-size": "40px",
-        "font-family": "Lexend",
-        "font-weight": "450",
+        lineHeight: "532px",
+        textAlign: "center",
+        fontSize: "40px",
+        fontFamily: "Lexend",
+        fontWeight: "450",
       }}>
       Loading Cards...
     </div>,

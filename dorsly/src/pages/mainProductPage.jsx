@@ -14,6 +14,7 @@ import carouselStyle from "../static/css/mainProductPageCarousel.module.css"
 import PageSeperator from "/assets/svg/pageseperator.svg"
 import PopularChoices from "/assets/svg/popularchoices.svg"
 import TodaysDeals from "/assets/svg/todaysdeals.svg"
+import Results from "/assets/svg/results.svg"
 
 import { UserContext } from "../contexts/userContext"
 
@@ -21,7 +22,7 @@ export default function mainProductPage() {
   const location = useLocation()
   const { user, token, setUser, setToken } = useContext(UserContext)
 
-  const searchText = location?.state?.searchText
+  const [searchCards, setSearchCards] = useState()
 
   const [todaysDealsCardData, setTodaysDealsCardData] = useState()
   const [popularChociesCardData, setPopularChociesCardData] = useState()
@@ -29,73 +30,7 @@ export default function mainProductPage() {
   const [todaysDealsCards, setTodaysDealsCards] = useState()
   const [popularChoicesCards, setPopularChoicesCards] = useState()
 
-  const searchdata = [
-    {
-      id: 1,
-      star: "5.6",
-      name: "pirmais",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      id: 2,
-      star: "5.6",
-      name: "Burgeru Cehs",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      id: 3,
-      star: "5.6",
-      name: "kebab",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      id: 4,
-      star: "5.6",
-      name: "pica",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      id: 4,
-      star: "5.6",
-      name: "pica",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-  ]
+  console.log("asdasd")
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -113,7 +48,13 @@ export default function mainProductPage() {
     }).then((data) => {
       setPopularChociesCardData(data.data)
     })
-  }, [])
+
+    const searchCardsData = location?.state.data.map((card, id) => {
+      return <Card key={id} data={card} />
+    })
+
+    setSearchCards(searchCardsData)
+  }, [token])
 
   useEffect(() => {
     if (todaysDealsCardData) {
@@ -127,7 +68,7 @@ export default function mainProductPage() {
 
   useEffect(() => {
     if (popularChociesCardData) {
-      let cardsTemp = popularChociesCardData?.map((card, id) => {
+      let cardsTemp = popularChociesCardData.map((card, id) => {
         return <Card key={id} data={card} />
       })
 
@@ -308,19 +249,14 @@ export default function mainProductPage() {
       <Header />
 
       <div className={style["content"]}>
-        {location?.state && (
+        {location?.state?.data?.length > 0 && (
           <div
             className={style["section"]}
-            style={{ "--background-img": `url(${TodaysDeals})` }}>
+            style={{ "--background-img": `url(${Results})` }}>
             <h1 className={style["section-title"]}>Search results:</h1>
-            <div>
-              <span>{location?.state?.date}</span>
-              <span>{location?.state?.time}</span>
-              <span>{location?.state?.personCount}</span>
-              <span>{location?.state?.searchText}</span>
+            <div className={style["card-data-list"]}>
+                {searchCards}
             </div>
-
-            <div className={style["card-data-list"]}>{tempCards}</div>
             <img src={PageSeperator} />
           </div>
         )}
@@ -368,7 +304,7 @@ export default function mainProductPage() {
           style={{ "--background-img": `url(${PopularChoices})` }}>
           <h1 className={style["section-title"]}>Near you</h1>
 
-          <div className={style["card-data-list"]}>{tempCards}</div>
+          <div className={style["card-data-list"]} style={{paddingBottom: "100px"}}>{tempCards}</div>
         </div>
       </div>
     </>
