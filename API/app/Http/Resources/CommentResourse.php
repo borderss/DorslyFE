@@ -17,8 +17,12 @@ class CommentResourse extends JsonResource
     {
         return[
             'id' => $this->id,
-            'user_id'=> $this->user,
-            'point_of_interest_id' => new PointOfInterestResouce($this->PointOfInterest),
+            'user'=> [
+                'id'=>$this->user->id,
+                'first_name'=>$this->user->first_name,
+                'last_name'=>$this->user->last_name,
+            ],
+            'point_of_interest_id' => $this->point_of_interest_id,
             'text' => $this->text,
         ];
     }

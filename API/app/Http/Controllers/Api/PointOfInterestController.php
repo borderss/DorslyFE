@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PointOfInterestRequest;
+use App\Http\Resources\CommentResourse;
 use App\Http\Resources\PointOfInterestResouce;
 use App\Http\Resources\RatingResourse;
+use App\Models\Comment;
 use App\Models\PointOfInterest;
 use App\Models\Rating;
 use Illuminate\Http\Request;
@@ -157,5 +159,11 @@ class PointOfInterestController extends Controller
         }
 
         return PointOfInterestResouce::collection($users);
+    }
+
+    public function getComments($id) {
+        $comments = Comment::where('point_of_interest_id', $id);
+
+        return CommentResourse::collection($comments->get());
     }
 }

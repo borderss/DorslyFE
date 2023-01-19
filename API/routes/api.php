@@ -60,4 +60,5 @@ Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);
 Route::get('/todays_deals', [PointOfInterestController::class, 'getTodaysSelection']);
 Route::get('/popular_choices', [PointOfInterestController::class, 'getPopularSelection']);
 
-// TESTING                  !! REMOVE IN PRODUCTION !!
+
+Route::get('/points_of_interest/{id}/comments', [PointOfInterestController::class, 'getComments']);
