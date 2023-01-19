@@ -185,6 +185,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        EloquentFilter\ServiceProvider::class,
+
         /*
          * Package Service Providers...
          */

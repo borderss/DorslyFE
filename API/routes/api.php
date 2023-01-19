@@ -35,7 +35,6 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('comments',CommentController::class);
     Route::apiResource('deals',DealsController::class);
     Route::apiResource('ratings',RatingController::class);
-    Route::apiResource('users',UserController::class);
 
     // filtering
     Route::post('/filter_users',[UserController::class, 'filter']);

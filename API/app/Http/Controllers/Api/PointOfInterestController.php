@@ -25,9 +25,16 @@ class PointOfInterestController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return PointOfInterestResouce::collection(PointOfInterest::paginate(10));
+
+        if ($request->page) {
+            $points_of_interest = PointOfInterest::filter($request->all())->paginate(10);
+        } else {
+            $points_of_interest = PointOfInterest::filter($request->all())->get();
+        }
+
+        return PointOfInterestResouce::collection($points_of_interest);
     }
 
     public function getTodaysSelection()
