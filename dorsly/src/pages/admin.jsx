@@ -251,9 +251,13 @@ export default function admin() {
   })
 
   useEffect(() => {
-    if (!token) return
+    let safe = true
+    if (!token) {
+      safe = false
+      navigate("/")
+    }
 
-    apiMethod("/filter_users", {
+    if (safe) apiMethod("/filter_users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
