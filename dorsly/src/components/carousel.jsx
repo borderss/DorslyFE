@@ -6,7 +6,7 @@ import ArrowLeftSvg from "/assets/svg/arrowLeft.svg"
 import ArrowRightSvg from "/assets/svg/arrowRight.svg"
 
 export default function carousel(props) {
-  const [page, setPage] = useState(2)
+  const [page, setPage] = useState(1)
 
   const pageCount =
     props.data.length % 3 === 0
@@ -39,7 +39,7 @@ export default function carousel(props) {
   }
 
   const onDotClick = (e) => {
-    let dots = carouselDotsRef.current.children
+    let dots = carouselDotsRef.current?.children
 
     for (let dot of dots) {
       dot.setAttribute("active", "false")
@@ -50,7 +50,7 @@ export default function carousel(props) {
   }
 
   const loadDots = (id) => {
-    let dots = carouselDotsRef.current.children
+    let dots = carouselDotsRef.current?.children
 
     for (let dot of dots) {
       dot.setAttribute("active", "false")

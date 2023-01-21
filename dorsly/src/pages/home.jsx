@@ -1,6 +1,7 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { UserContext } from "../contexts/userContext"
+import { apiMethod, defaultHeaders } from "../static/js/util"
 
 import "../static/css/general.css"
 import style from "../static/css/home.module.css"
@@ -20,109 +21,47 @@ import PhoneIllustration from "/assets/svg/phoneillustration.svg"
 // import Footer from "../components/footer"
 
 export default function home() {
-  document.body.style.backgroundImage = ""
-
   const { user, token, setUser, setToken } = useContext(UserContext)
 
-  const fakedata = [
-    {
-      id: 1,
-      star: "5.6",
-      name: "pirmais",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      id: 2,
-      star: "5.6",
-      name: "Burgeru Cehs",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      id: 3,
-      star: "5.6",
-      name: "kebab",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      id: 4,
-      star: "5.6",
-      name: "pica",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      id: 4,
-      star: "5.6",
-      name: "pica",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      id: 4,
-      star: "5.6",
-      name: "pica",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      id: 4,
-      star: "5.6",
-      name: "pica",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-  ]
+  const [cardData, setCardData] = React.useState([])
+  const [cards, setCards] = React.useState([])
 
-  const cardData = fakedata.map((item, id) => {
-    return (
-      <Card key={id} data={item} />
-    )
-  })
+  useEffect(() => {
+    document.body.style.backgroundImage = ""
+
+    window.scrollTo(0, 0)
+
+    apiMethod("/popular_choices", {
+      method: "GET",
+      headers: defaultHeaders(),
+    }).then((data) => {
+      setCardData(data.data)
+    })
+  }, [])
+
+  useEffect(() => {
+    let cardsTemp = cardData.map((card, id) => {
+      return <Card key={id} data={card} />
+    })
+
+    setCards(cardsTemp)
+  }, [cardData])
+
+  const carouselPlaceholderData = [
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        color: "#FFF",
+        lineHeight: "532px",
+        textAlign: "center",
+        fontSize: "40px",
+        fontFamily: "Lexend",
+        fontWeight: "450",
+      }}>
+      Loading Cards...
+    </div>,
+  ]
 
   return (
     <>
@@ -158,12 +97,11 @@ export default function home() {
           </div>
         </div>
 
-
-    
-        <Carousel
-          data={cardData}
-          stylesheet={carouselStyle}
-        />
+        {cards.length > 0 ? (
+          <Carousel data={cards} stylesheet={carouselStyle} />
+        ) : (
+          <Carousel data={carouselPlaceholderData} stylesheet={carouselStyle} />
+        )}
 
         <div className={style["description"]}>
           <div>

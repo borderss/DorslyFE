@@ -65,3 +65,15 @@
   width: 12px;
   height: 12px;
 }
+
+.carousel-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: 1600px !important;
+  height: 613px;
+  left: initial !important;
+  margin-inline: auto;
+  user-select: none;
+  justify-content: space-between;
+}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
-import {Link, useNavigate} from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { loginUser, registerUser } from "../static/js/util.js"
 
 import auth from "../static/css/auth.module.css"
@@ -19,9 +19,7 @@ import LabeledInputField from "../components/labeledInputField"
 import { UserContext } from "../contexts/userContext"
 
 export default function authentificaton(props) {
-  document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")'
-
-  const {user, token, setUser, setToken} = useContext(UserContext)
+  const { user, token, setUser, setToken } = useContext(UserContext)
   const navigate = useNavigate()
 
   const [loginData, setLoginData] = useState({
@@ -40,6 +38,10 @@ export default function authentificaton(props) {
   })
 
   let submitButtonRef = useRef(null)
+
+  useEffect(() => {
+    document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")'
+  }, [])
 
   useEffect(() => {
     if (props.page == "login") {
@@ -91,6 +93,24 @@ export default function authentificaton(props) {
         submitButtonRef.current.disabled = true
       }
     }
+  }
+
+  const setRegisterButtonError = (errorText) => {
+    let originalText = submitButtonRef.current.innerHTML
+
+    if (submitButtonRef.current) {
+      submitButtonRef.current.disabled = true
+      submitButtonRef.current.style.backgroundColor = "#ff4848"
+      submitButtonRef.current.innerHTML = errorText
+    }
+
+    setTimeout(() => {
+      if (submitButtonRef.current) {
+        submitButtonRef.current.disabled = false
+        submitButtonRef.current.style.backgroundColor = "var(--accent)"
+        submitButtonRef.current.innerHTML = originalText
+      }
+    }, 3000)
   }
 
   const handleLoginInputChange = (inputName, value) => {
@@ -190,15 +210,25 @@ export default function authentificaton(props) {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    loginUser(loginData).then((res) => {
+    loginUser(loginData, user, token, setUser, setToken).then((res) => {
       if (res === null) {
         console.log("Error logging in")
-      } else {
-        setUser(res.user)
-        setToken(res.access_token)
-
-        navigate("/")
+        return
       }
+
+      if (!res.user || !res.access_token) {
+        console.log("Error logging in")
+        setRegisterButtonError(res?.data)
+        return
+      }
+
+      console.log(res)
+
+      window.localStorage.setItem("access_token", res.access_token)
+      setUser(res.user)
+      setToken(res.access_token)
+
+      navigate("/")
     })
   }
 
@@ -210,17 +240,29 @@ export default function authentificaton(props) {
       return
     }
 
-    console.log("Registering: ", registerData)
+    registerUser(registerData, user, token, setUser, setToken).then((res) => {
+      if (res === null) {
+        console.log("Error registering user")
+        return
+      }
 
-    const res = await registerUser(registerData)
+      if (!res?.data?.id) {
+        console.log("Error registering user")
+        if (res?.data) {
+          setRegisterButtonError(res?.data)
+        } else if (res?.message) {
+          setRegisterButtonError(res?.message)
+        } else {
+          setRegisterButtonError("Error registering user")
+        }
 
-    console.log(res)
-
-    if (res === null) {
-      console.log("Error registering user")
-    }
+        return
+      } else {
+        console.log(res)
+        navigate("/login")
+      }
+    })
   }
-
 
   let formSection
 
@@ -321,11 +363,7 @@ export default function authentificaton(props) {
           </>
         ) : null}
 
-        <button
-          ref={submitButtonRef}
-          onSubmit={(_) => console.log(registerData)}
-          className={auth["actionBtn"]}
-          disabled>
+        <button ref={submitButtonRef} className={auth["actionBtn"]} disabled>
           Next step
         </button>
         <p className={auth["sectionSeperator"]}>or</p>

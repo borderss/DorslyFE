@@ -1,0 +1,214 @@
+.search-field {
+  display: flex;
+  background-color: var(--white);
+  width: fit-content;
+  height: 60px;
+  border-radius: 100vw;
+  margin-top: 66px;
+  box-shadow: 0px 4px 0px 0 #dbdbdb;
+  padding-inline-end: 3px;
+  color: #4a4a4a;
+  font-weight: 300;
+  font-size: 17px;
+  user-select: none;
+}
+
+.search-field > div {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-field > div:hover {
+  background-color: #fdfdfd;
+}
+
+.search-field > input:hover {
+  background-color: #fdfdfd !important;
+}
+
+.search-field > div > img:nth-child(1) {
+  height: 25px;
+  padding-inline: 10px;
+  pointer-events: none;
+}
+
+.search-field > div > img:nth-child(3) {
+  height: 9px;
+  padding-inline: 10px;
+  pointer-events: none;
+}
+
+.search-field > div > p {
+  flex: 1 0 auto;
+}
+
+.search-field > input {
+  flex-direction: row-reverse;
+  font-family: "Lexend";
+  color: #4a4a4a;
+  width: 205px;
+  font-weight: 300;
+  font-size: 17px;
+  user-select: none;
+  outline: none;
+  border: none;
+  border-right: 2px solid #ebebeb;
+  background: none;
+  padding-left: 15px;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.search-field > input:-webkit-autofill,
+.search-field > input:-webkit-autofill:hover,
+.search-field > input:-webkit-autofill:focus,
+.search-field > input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.search-field > input:-webkit-autofill{
+  -webkit-text-fill-color: inherit !important;
+}
+
+.date {
+  border-radius: 200px 0 0 200px;
+}
+
+.date::-webkit-calendar-picker-indicator {
+  background-image: var(--calendarSvg);
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+input::-webkit-datetime-edit-day-field,
+input::-webkit-datetime-edit-month-field,
+input::-webkit-datetime-edit-year-field,
+input::-webkit-datetime-edit-hour-field,
+input::-webkit-datetime-edit-minute-field,
+input::-webkit-datetime-edit-ampm-field {
+  display: inline-block;
+  margin-top: 2px;
+  border-bottom: 2px solid #fff;
+  transition: 0.2s;
+}
+
+input::-webkit-datetime-edit-day-field:focus,
+input::-webkit-datetime-edit-month-field:focus,
+input::-webkit-datetime-edit-year-field:focus,
+input::-webkit-datetime-edit-hour-field:focus,
+input::-webkit-datetime-edit-minute-field:focus,
+input::-webkit-datetime-edit-ampm-field:focus {
+  transform: translateY(-2px);
+  border-bottom: 2px solid var(--accent);
+  color: initial;
+  background-color: initial;
+}
+
+.time {
+  padding: 5px !important;
+  width: 180px !important;
+  border-right: 2px solid #ebebeb;
+  cursor: pointer;
+}
+
+.time::-webkit-calendar-picker-indicator {
+  background-image: var(--clockSvg);
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.person-box {
+  width: 170px;
+  background-image: var(--personSvg) !important;
+  background-repeat: no-repeat !important;
+  background-position: 15px 50% !important;
+  background-size: 20px !important;
+  padding-inline-start: 50px !important;
+}
+
+.person-box::after {
+  width: 170px;
+  height: 100%;
+  border-right: 2px solid #ebebeb;
+}
+
+.person-box > input {
+  width: 12px;
+  border: none;
+  outline: none;
+  font-family: "Lexend";
+  background-color: transparent;
+  font-size: 17px;
+  font-weight: 300;
+  color: #4a4a4a;
+  cursor: pointer;
+  margin-right: 2px;
+  margin-top: 2px;
+  border-bottom: 2px solid #fff;
+  transition: 0.2s;
+}
+
+.person-box > input::selection{
+  background-color: transparent;
+  color: inherit;
+}
+
+.person-box > input:focus {
+  transform: translateY(-2px);
+  border-bottom: 2px solid var(--accent);
+  color: initial;
+  background-color: initial;
+}
+
+.seperator {
+  font-size: 18px !important;
+  margin: 25px 0px 10px !important;
+}
+
+.actions {
+  display: flex;
+  gap: 20px;
+}
+
+.actions > button.inverted {
+  background-color: inherit;
+  border: 3px solid var(--accent);
+  color: var(--accent);
+  font-weight: 300;
+}
+
+.description {
+  display: flex;
+  margin-top: 200px;
+  left: initial !important;
+  margin-inline: auto;
+  padding-left: 100px;
+  width: 1600px !important;
+}
+
+.description > div {
+  flex: 1 0 auto;
+}
+
+.description > div > img {
+  height: 200px;
+}
+
+.description > div > h2 {
+  color: #4a4a4a;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 31px;
+}
+
+.description > div > p {
+  margin-top: 10px;
+  font-size: 21px;
+  font-weight: 300;
+  color: #777777;
+}
