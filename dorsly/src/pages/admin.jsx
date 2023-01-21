@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { apiMethod, bearerHeaders } from "../static/js/util"
+import { useNavigate, useLocation } from "react-router-dom"
 
 import Header from "../components/header"
 
-import "../static/css/general.css"
 import style from "../static/css/admin.module.css"
+import "../static/css/general.css"
 
 import CalendarIcon from "/assets/svg/calendar.svg"
 import GPSIcon from "/assets/svg/gps2.svg"
@@ -15,6 +16,8 @@ import TakeawayIcon from "/assets/svg/takeaway.svg"
 import { UserContext } from "../contexts/userContext"
 
 export default function admin() {
+  const navigate = useNavigate()
+  const location = useLocation()
   const searchRef = useRef(null)
   const entryRef = useRef(null)
   const goToPageRef = useRef(null)
@@ -199,10 +202,10 @@ export default function admin() {
   const defaultData = {
     data: [],
     links: {
-      first: null,
-      last: null,
-      prev: null,
-      next: null,
+      first: "",
+      last: "",
+      prev: "",
+      next: "",
     },
     meta: {
       current_page: 1,
@@ -210,12 +213,12 @@ export default function admin() {
       last_page: 0,
       links: [
         {
-          url: null,
-          label: null,
+          url: "",
+          label: "",
           active: false,
         },
       ],
-      path: null,
+      path: "",
       per_page: 10,
       to: 0,
       total: 0,
@@ -248,6 +251,27 @@ export default function admin() {
   })
 
   useEffect(() => {
+    if (!token) return
+
+    apiMethod("/filter_users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(defaultPostBody),
+    })
+      .then((data) => {
+        console.log(data)
+        setData(data)
+      })
+      .catch((error) => console.log(error))
+  }, [token])
+
+  useEffect(() => {
+    if (!token) return
+
     switch (section) {
       case "users":
         setSectionInfo({
@@ -261,6 +285,7 @@ export default function admin() {
           body: JSON.stringify(defaultPostBody),
         })
           .then((data) => {
+            console.log(data)
             setData(data)
           })
           .catch((error) => console.log(error))
@@ -385,7 +410,7 @@ export default function admin() {
   const renderTableSectionData = () => {
     let rows = new Array()
 
-    data.data.map((row, key) => {
+    data.data?.map((row, key) => {
       rows.push(
         <tr id={row.id} key={key}>
           {renderTableRow(row)}
@@ -413,8 +438,8 @@ export default function admin() {
   }
 
   const handlePrevPageClick = () => {
-    let prevPage = data.links.prev.substring(
-      data.links.prev.lastIndexOf("/") + 1
+    let prevPage = data.links.prev?.substring(
+      data.links.prev?.lastIndexOf("/") + 1
     )
 
     apiMethod("/" + prevPage, {
@@ -436,7 +461,7 @@ export default function admin() {
       paginate: paginateCount,
     })
 
-    let page = data.meta.path.substring(data.meta.path.lastIndexOf("/") + 1)
+    let page = data.meta?.path.substring(data.meta?.path.lastIndexOf("/") + 1)
 
     apiMethod("/" + page, {
       method: "POST",
@@ -453,7 +478,7 @@ export default function admin() {
   const handleGoToPageClick = (e) => {
     let page = parseInt(e.target.parentElement.children[1].value)
 
-    let pageLink = data.meta.links[page].url
+    let pageLink = data.meta?.links[page].url
 
     page = pageLink.substring(pageLink.lastIndexOf("/") + 1)
 
@@ -544,7 +569,7 @@ export default function admin() {
     editedHTMLData.childNodes.forEach((cell, i) => {
       if (i === editedHTMLData.childNodes.length - 1) return
 
-      if (typeof(initialData[tableMetaData[section][i].field]) === "number") { 
+      if (typeof initialData[tableMetaData[section][i].field] === "number") {
         saveData[tableMetaData[section][i].field] = parseInt(cell.innerText)
       } else {
         saveData[tableMetaData[section][i].field] = cell.innerText
@@ -578,7 +603,6 @@ export default function admin() {
         body: JSON.stringify(saveData),
       })
     }
-
 
     // if (Math.random() > 0.5) {
     //   // FAILED SAVE
@@ -660,7 +684,11 @@ export default function admin() {
         }
       })
 
-      if (i != 0 && i != rowHtml.childNodes.length - 2 && i != rowHtml.childNodes.length - 3) {
+      if (
+        i != 0 &&
+        i != rowHtml.childNodes.length - 2 &&
+        i != rowHtml.childNodes.length - 3
+      ) {
         cell.contentEditable = true
         cell.style["border-bottom"] = "none"
         cell.style["border-block"] = "2px solid #ffb82e"
@@ -677,7 +705,6 @@ export default function admin() {
 
     let deleteData = data.data.find((row) => row.id == rowItemIndex)
 
-
     let apiData = await apiMethod("/" + section + "/" + deleteData.id, {
       method: "DELETE",
       headers: bearerHeaders(token),
@@ -691,8 +718,8 @@ export default function admin() {
         data: new_data,
         meta: {
           ...data.meta,
-          total: data.meta.total - 1
-        }
+          total: data.meta?.total - 1,
+        },
       })
     }
   }
@@ -703,7 +730,7 @@ export default function admin() {
       <div className={style["main-container"]}>
         <div className={style["side-navbar"]}>
           <div className={style["greeting"]}>
-            <h1>Hello, {user.first_name}</h1>
+            <h1>Hello, {user ? user.first_name : "user"}</h1>
             <p>Report any issues to admin@dorsly.com</p>
           </div>
 
@@ -771,11 +798,10 @@ export default function admin() {
                 If you encounter any unexpected data or results, immediately
                 notify any of the developers and log out of your account.
               </p>
-
               <h2 className={style["search"]}>Searchable fields</h2>
               <div className={style["searchable-keys"]}>
-                {Object.keys(tableMetaData[section]).map((key) => (
-                  <div key={key}>{tableMetaData[section][key].field}</div> 
+                {(Object.keys(tableMetaData[section]) || []).map((key) => (
+                  <div key={key}>{tableMetaData[section][key].field}</div>
                 ))}
               </div>
             </div>
@@ -801,8 +827,8 @@ export default function admin() {
                   ref={entryRef}
                   type="number"
                   min={1}
-                  max={data.meta.total}
-                  placeholder={data.meta.per_page}
+                  max={data.meta?.total}
+                  placeholder={data.meta?.per_page}
                 />
                 <button onClick={(e) => handleEntriesPerPageSubmit(e)}>
                   Set
@@ -820,7 +846,7 @@ export default function admin() {
 
             <div className={style["pagination"]}>
               <div>
-                {data.links.prev ? (
+                {data.links?.prev ? (
                   <button onClick={handlePrevPageClick}>Previous</button>
                 ) : (
                   <button disabled>Previous</button>

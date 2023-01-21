@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { apiMethod, defaultHeaders } from "../static/js/util.js"
 
 import style from "../static/css/home.module.css"
 
@@ -90,22 +91,18 @@ export default function mainSearchBar() {
   }
 
   const handleSearchClick = (_) => {
+    apiMethod(`/points_of_interest/?jobtime=${time}&seats=${time}` +  (searchText ? `&name=${searchText}` : ""), {
+      method: "GET",
+      headers: defaultHeaders(),
+    }).then((data) => {
+      console.log(data.data)
 
-    console.log({
-      date: date,
-      time: time,
-      personCount: personCount,
-      searchText: searchText,
-    })
-    
-    navigate("/products", {
-      replace: true,
-      state: {
-        date: date,
-        time: time,
-        personCount: personCount,
-        searchText: searchText,
-      },
+      navigate("/products", {
+        replace: true,
+        state: {
+          data: data.data,
+        },
+      })
     })
   }
 
