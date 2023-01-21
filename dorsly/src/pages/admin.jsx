@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { apiMethod, bearerHeaders } from "../static/js/util"
+import { useNavigate, useLocation } from "react-router-dom"
 
 import Header from "../components/header"
 
@@ -15,6 +16,8 @@ import TakeawayIcon from "/assets/svg/takeaway.svg"
 import { UserContext } from "../contexts/userContext"
 
 export default function admin() {
+  const navigate = useNavigate()
+  const location = useLocation()
   const searchRef = useRef(null)
   const entryRef = useRef(null)
   const goToPageRef = useRef(null)
@@ -247,10 +250,8 @@ export default function admin() {
     desc: "Overview account information such as username, name, surname, email, registration date, date of last change, etc.",
   })
 
-
-
   useEffect(() => {
-    console.warn(bearerHeaders(token))
+    if (!token) return
 
     apiMethod("/filter_users", {
       method: "POST",
@@ -266,11 +267,10 @@ export default function admin() {
         setData(data)
       })
       .catch((error) => console.log(error))
-  }, [])
+  }, [token])
 
   useEffect(() => {
-    console.warn("SECOND", bearerHeaders(token), token)
-
+    if (!token) return
 
     switch (section) {
       case "users":
@@ -730,7 +730,7 @@ export default function admin() {
       <div className={style["main-container"]}>
         <div className={style["side-navbar"]}>
           <div className={style["greeting"]}>
-            <h1>Hello, {user?.first_name}</h1>
+            <h1>Hello, {user ? user.first_name : "user"}</h1>
             <p>Report any issues to admin@dorsly.com</p>
           </div>
 
@@ -800,7 +800,7 @@ export default function admin() {
               </p>
               <h2 className={style["search"]}>Searchable fields</h2>
               <div className={style["searchable-keys"]}>
-                {Object.keys(tableMetaData[section]).map((key) => (
+                {(Object.keys(tableMetaData[section]) || []).map((key) => (
                   <div key={key}>{tableMetaData[section][key].field}</div>
                 ))}
               </div>
@@ -852,9 +852,9 @@ export default function admin() {
                   <button disabled>Previous</button>
                 )}
                 <p>
-                  Page {data.meta?.current_page} of {data.meta?.last_page}
+                  Page {data.meta.current_page} of {data.meta.last_page}
                 </p>
-                {data.links?.next ? (
+                {data.links.next ? (
                   <button onClick={handleNextPageClick}>Next</button>
                 ) : (
                   <button disabled>Next</button>
@@ -862,8 +862,8 @@ export default function admin() {
               </div>
 
               <p>
-                Showing <span>{data.meta?.from}</span> to{" "}
-                <span>{data.meta?.to}</span> of <span>{data.meta?.total}</span>{" "}
+                Showing <span>{data.meta.from}</span> to{" "}
+                <span>{data.meta.to}</span> of <span>{data.meta.total}</span>{" "}
                 entries
               </p>
 
@@ -873,11 +873,11 @@ export default function admin() {
                   ref={goToPageRef}
                   type="number"
                   min={1}
-                  max={data.meta?.last_page}
-                  placeholder={data.meta?.current_page}
+                  max={data.meta.last_page}
+                  placeholder={data.meta.current_page}
                   onChange={(e) => {
-                    if (e.target.value > data.meta?.last_page) {
-                      e.target.value = data.meta?.last_page
+                    if (e.target.value > data.meta.last_page) {
+                      e.target.value = data.meta.last_page
                     }
 
                     if (e.target.value < 1) {
@@ -885,7 +885,7 @@ export default function admin() {
                     }
 
                     if (e.target.value === "") {
-                      e.target.value = data.meta?.current_page
+                      e.target.value = data.meta.current_page
                     }
                   }}
                 />

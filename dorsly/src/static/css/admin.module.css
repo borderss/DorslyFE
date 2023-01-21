@@ -1,5 +1,4 @@
 .main-container {
-  display: flex;
   height: -webkit-fill-available;
   width: 100%;
   padding-top: 63px;
@@ -7,13 +6,12 @@
 
 .side-navbar {
   display: flex;
+  position: absolute;
   flex-direction: column;
-
   height: -webkit-fill-available;
   background-color: #fefefe;
   width: 310px;
-
-  flex: 0 0 auto;
+  z-index: 2;
 }
 
 .greeting {
@@ -54,26 +52,17 @@
 
 .side-navbar > p {
   position: relative;
-  line-height: 35px;
-  padding: 10px;
-  padding-left: 65px;
-  margin-right: -30px !important;
-  text-decoration: none;
   cursor: pointer;
-  transition: filter 0.2s;
   border-block: 1px solid transparent;
   border-left: 5px solid transparent;
   border-top: 1px solid #f7f7f7;
   font-weight: 300;
-
-  width: 87%;
-  height: 45px;
-  line-height: 45px;
-
-  color: initial;
+  width: 235px;
+  padding-left: 70px;
+  height: 65px;
+  line-height: 67px;
   text-decoration: none;
   font-family: Lexend;
-
   margin-block: 0;
   user-select: none;
 }
@@ -117,10 +106,9 @@
 
 .side-navbar > p:hover {
   background-color: #fffdfa;
-  padding-left: 65px;
   color: #ffb82e;
   border-block: 1px solid #ffe6b5;
-  border-left: 5px solid #ffe6b5;
+  /* border-left: 5px solid #ffe6b5; */
 }
 
 .navbar-item-active::before {
@@ -157,14 +145,10 @@
 }
 
 .content-section {
-  width: 1250px;
-  max-width: 70%;
-  height: -webkit-fill-available;
-
-  margin-inline: auto;
+  margin-left: 470px;
+  margin-right: 150px;
   padding-bottom: 120px;
   overflow-y: scroll;
-
   font-family: Lexend;
   color: #3d3d3d;
 }
