@@ -90,7 +90,7 @@ export default function home() {
               Register now
             </Link>
             <Link
-              to="/contact"
+              to="/error"
               className={[style["link"], style["inverted"]].join(" ")}>
               Register as a business
             </Link>

@@ -66,18 +66,18 @@ export default function header() {
           </div>
           <div className={style["profile-dropdown"]}>
             <Link
-              to="/profile"
+              to="/error"
               style={{ "--background-icon": `url(${SecondaryProfileIcon})` }}>
               Profile
             </Link>
             <Link
-              to="/settings"
+              to="/error"
               style={{ "--background-icon": `url(${SettingsIcon})` }}>
               Settings
             </Link>
             {userContext.user?.is_admin == 1 && (
               <Link
-                to="/admin"
+                to="/error"
                 style={{ "--background-icon": `url(${AdminIcon})` }}>
                 Admin
               </Link>
@@ -112,10 +112,10 @@ export default function header() {
               <img src={LogoIcon} alt="Dorsly" />
             </div>
           </Link>
-          <Link to="/about_us">
+          <Link to="/error">
             <div className={style["about-us"]}>About us</div>
           </Link>
-          <Link to="/contact">
+          <Link to="/error">
             <div className={style["contact"]}>Contact</div>
           </Link>
           <Link to="/products">
