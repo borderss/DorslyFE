@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, useContext } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { apiMethod, defaultHeaders } from "../static/js/util"
 
@@ -12,12 +12,20 @@ import RatingLeftHollow from "/assets/svg/ratinglefthollow.svg"
 import RatingRight from "/assets/svg/ratingright.svg"
 import RatingRightHollow from "/assets/svg/ratingrighthollow.svg"
 import Star from "/assets/svg/star.svg"
+import IncrementUp from "/assets/svg/incrementup.svg"
+import IncrementDown from "/assets/svg/incrementdown.svg"
 
 import style from "../static/css/place.module.css"
 
 import Header from "../components/header"
 
-export default function place(props) {
+import { UserContext } from "../contexts/userContext"
+import { CartContext } from "../contexts/cartContext"
+
+export default function place() {
+  const { user, token, setUser, setToken } = useContext(UserContext)
+  const { cart, setCart } = useContext(CartContext)
+  
   const location = useLocation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -29,10 +37,8 @@ export default function place(props) {
   const [reviewData, setReviewData] = useState([])
   const [productData, setProductData] = useState([])
   const [userRating, setUserRating] = useState(4)
-  const [bgImage, setBgImage] = useState(
-    `https://picsum.photos/1920/1080/?random&t=${new Date().getTime()}`
-  )
-  const [section, setSection] = useState("products")
+  const [bgImage, setBgImage] = useState(`https://picsum.photos/1920/1080/?random&t=${new Date().getTime()}`)
+  const [section, setSection] = useState("cart")
 
   useEffect(() => {
     if (
@@ -100,11 +106,180 @@ export default function place(props) {
     })
   }, [userRating])
 
+  const renderCartSection = () => {
+    const handleIncrement = (item, dif) => {
+      console.log(cart)
+
+      let newCart = {
+        items: [...cart?.items],
+        total: cart?.total,
+        totalItems: cart?.totalItems
+      }
+
+      newCart.items.forEach((cartItem) => {
+        if (cartItem.id == item.id) {
+          cartItem.amount += dif
+          newCart.totalItems += dif
+          
+          if (cartItem.amount < 1) {
+            newCart.items.splice(newCart.items.indexOf(cartItem), 1)
+          }
+        }
+      })
+
+      newCart.total = 0
+
+      newCart.items.forEach((cartItem) => {
+        newCart.total += cartItem.price * cartItem.amount
+        newCart.total = Math.round(newCart.total*100)/100
+      })
+
+      console.log(newCart)
+
+      setCart(newCart)
+    }
+
+    const removeItem = (item) => {
+      let newCart = {
+        items: [...cart?.items],
+        total: cart?.total,
+        totalItems: cart?.totalItems
+      }
+
+      newCart.items.forEach((cartItem) => {
+        if (cartItem.id == item.id) {
+          newCart.totalItems -= cartItem.amount
+          newCart.items.splice(newCart.items.indexOf(cartItem), 1)
+        }
+      })
+
+      newCart.total = 0
+
+      newCart.items.forEach((cartItem) => {
+        newCart.total += cartItem.price * cartItem.amount
+        newCart.total = Math.round(newCart.total*100)/100
+      })
+
+      setCart(newCart)
+    }
+
+    return (
+      <div className={style["cart"]}>
+        <h1>Here's your cart</h1>
+
+        <table className={style["table"]}>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Amount</th>
+              <th>Total</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(cart?.items || []).map((item, id) => {
+              return (
+                <tr key={id}>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
+                  <td>
+                    {item.amount}
+                    <span className={style["amount-increment"]}>
+                      <img src={IncrementUp} onClick={e => handleIncrement(item, 1)}/>
+                      <img src={IncrementDown} onClick={e => handleIncrement(item, -1)}/>
+                    </span>
+                  </td>
+                  <td>{Math.round(item.price * item.amount *100)/100}</td>
+                  <td>
+                    <button className={style["remove"]} onClick={e => removeItem(item)}>Remove</button>
+                  </td>
+                </tr>
+              )
+            })}
+            {
+              <tr>
+                <td></td>
+                <td></td>
+                <td >Total:</td>
+                <td>{cart?.total.toFixed(2) || '0.00'}</td>
+                <td><button className={style["remove"]}>Pay now</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
   const renderProducts = () => {
     const renderSectionProducts = () => {
       return productData.map((product, id) => {
+        const handleProductClick = (e, p) => {
+          // handle state manangement
+          let newCart = {
+            items: [...cart?.items],
+            total: cart?.total,
+            totalItems: cart?.totalItems
+          }
+
+          let found = false
+          newCart.items.forEach((item) => {
+            if (item.id == p.id) {
+              found = true
+            }
+          })
+
+          if (!found) {
+            newCart.items.push({
+              id: p.id,
+              name: p.name,
+              description: p.description,
+              price: p.price,
+              image: p.image,
+              amount: 1,
+            })
+
+            newCart.total += parseFloat(p.price)
+            newCart.totalItems++
+          } else {
+            newCart.items.forEach((item) => {
+              if (item.id == p.id) {
+                newCart.total -= parseFloat(item.price)
+
+                if (newCart.total < 0) {
+                  newCart.total = 0
+                }
+
+                newCart.items.splice(newCart.items.indexOf(item), 1)
+              }
+            })
+
+            newCart.totalItems--
+          }
+
+          setCart(newCart)
+
+          // handle visuals
+          let target = e.target
+
+          if (!target.classList.contains(style["product"])) {
+            target = target.parentNode
+            if (!target.classList.contains(style["product"])) {
+              target = target.parentNode
+            }
+          }
+
+          target.classList.toggle(style["product-active"])
+        }
+
         return (
-          <div key={id} className={style["product"]}>
+          <div
+            key={id}
+            className={style["product"]}
+            onClick={(e) => {
+              handleProductClick(e, product)
+            }}>
             <div
               className={style["product-image"]}
               style={{ "--product-image": "url(" + product.image + ")" }}></div>
@@ -171,8 +346,8 @@ export default function place(props) {
           {reviewData.length > 0 ? (
             reviewData.map((review, id) => {
               return (
-                <div className={style["review"]}>
-                  <div key={id} className={style["review-container"]}>
+                <div key={id} className={style["review"]}>
+                  <div className={style["review-container"]}>
                     <p className={style["review-user-name"]}>
                       {review.user.first_name} {review.user.last_name}
                     </p>
@@ -289,11 +464,11 @@ export default function place(props) {
             <div className={style["right"]}>
               <div onClick={(e) => onLowerNavbarItemClick(e, "cart")}>
                 <p>Cart</p>
-                <div className={style["info-display"]}>3</div>
+                <div className={style["info-display"]}>{cart?.totalItems || 0}</div>
               </div>
               <div onClick={(e) => onLowerNavbarItemClick(e, "pay")}>
                 <div>Pay</div>
-                <div className={style["info-display"]}>€13,24</div>
+                <div className={style["info-display"]}>€{cart?.total || 0}</div>
               </div>
             </div>
           </div>
@@ -301,6 +476,7 @@ export default function place(props) {
             {section == "products" && renderProducts()}
             {section == "info" && renderInfoSection()}
             {section == "reviews" && renderReviewSection()}
+            {section == "cart" && renderCartSection()}
             <br />
           </div>
         </div>
