@@ -7,7 +7,9 @@ use App\Http\Requests\CommmentRequest;
 use App\Http\Resources\CommentResourse;
 use App\Http\Resources\FilterCommentResourse;
 use App\Models\Comment;
+use App\Models\PointOfInterest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -29,7 +31,13 @@ class CommentController extends Controller
      */
     public function store(CommmentRequest $request)
     {
-        $comment = Comment::create($request->validated());
+        $request_create = $request->validated();
+        $request_create['user_id'] = Auth::user()->id;
+
+        $comment = Comment::create($request_create);
+
+        $count = Comment::where('point_of_interest_id', $request->point_of_interest_id)->count();
+        PointOfInterest::find($request->point_of_interest_id)->update(['review_count' => $count]);
 
         return new CommentResourse($comment);
     }

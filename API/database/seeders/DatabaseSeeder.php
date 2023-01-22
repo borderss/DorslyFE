@@ -10,6 +10,7 @@ use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use mysql_xdevapi\Warning;
 
 class DatabaseSeeder extends Seeder
 {
@@ -48,8 +49,16 @@ class DatabaseSeeder extends Seeder
 
          User::factory(33)->create();
          PointOfInterest::factory(70)->create();
-         Product::factory(50)->create();
+         Product::factory(250)->create();
          Rating::factory(1450)->create();
-         Comment::factory(30)->create();
+         Comment::factory(120)->create();
+
+        PointOfInterest::all()->map(function ($point){
+            $count = Comment::where('point_of_interest_id', $point->id)->count();
+
+            $point->update(['review_count' => $count]);
+
+            return $point;
+        });
     }
 }

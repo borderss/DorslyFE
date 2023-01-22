@@ -24,7 +24,6 @@ class CommmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'=>'required',
             'point_of_interest_id'=>'required',
             'text'=>'required',
         ];

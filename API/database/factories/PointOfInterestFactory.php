@@ -29,7 +29,7 @@ class PointOfInterestFactory extends Factory
             'is_takeaway' => $this->faker->boolean,
             'is_on_location' => $this->faker->boolean,
             'available_seats' => $this->faker->randomDigit(),
-            'review_count' => $this->faker->randomDigit(),
+            'review_count' => 0,
         ];
     }
 }
