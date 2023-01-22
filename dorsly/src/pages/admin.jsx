@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { apiMethod, bearerHeaders } from "../static/js/util"
-import { useNavigate, useLocation } from "react-router-dom"
 
 import Header from "../components/header"
 
@@ -21,6 +21,8 @@ export default function admin() {
   const searchRef = useRef(null)
   const entryRef = useRef(null)
   const goToPageRef = useRef(null)
+
+  const [reloadCounter, setReloadCounter] = useState(0)
 
   const tableMetaData = {
     users: [
@@ -254,23 +256,29 @@ export default function admin() {
     let safe = true
     if (!token) {
       safe = false
-      navigate("/")
+
+      setReloadCounter(reloadCounter + 1)
+
+      if (reloadCounter > 3) {
+        navigate("/")
+      }
     }
 
-    if (safe) apiMethod("/filter_users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(defaultPostBody),
-    })
-      .then((data) => {
-        console.log(data)
-        setData(data)
+    if (safe)
+      apiMethod("/filter_users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(defaultPostBody),
       })
-      .catch((error) => console.log(error))
+        .then((data) => {
+          console.log(data)
+          setData(data)
+        })
+        .catch((error) => console.log(error))
   }, [token])
 
   useEffect(() => {

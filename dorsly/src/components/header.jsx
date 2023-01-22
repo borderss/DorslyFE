@@ -77,7 +77,7 @@ export default function header() {
             </Link>
             {userContext.user?.is_admin == 1 && (
               <Link
-                to="/error"
+                to="/admin"
                 style={{ "--background-icon": `url(${AdminIcon})` }}>
                 Admin
               </Link>
