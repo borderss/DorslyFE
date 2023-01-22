@@ -345,12 +345,13 @@
   cursor: pointer;
   margin-inline: auto;
   transition: 0.2s;
-  box-shadow: 0px 0px 0px 0px #ace8b3;
+  box-shadow: 0px 0px 0px 0px #e2e2e2;
 }
 
 .product-section .product:hover {
   transform: scale(1.02);
-  background-color: #ededed;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px 0 #e2e2e2;
 }
 
 .product-section .product-image {
@@ -440,4 +441,109 @@
 .product-active {
   box-shadow: 0px 0px 1px 2px #ace8b3 !important;
   background: #f4fef4 !important;
+}
+
+.cart {
+  width: 70%;
+  margin-inline: auto;
+  min-height: 400px;
+  margin-block: 50px;
+}
+
+.cart > h1 {
+  font-size: 30px;
+  margin-bottom: 40px;
+}
+
+.cart > table {
+  width: 100%;
+  margin-inline: auto;
+  border-collapse: collapse;
+}
+
+.cart thead {
+  height: 40px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #292929;
+  border-bottom: 2px solid #ccc;
+}
+
+.cart td {
+  text-align:center;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.cart td:nth-child(1) {
+  width: 400px;
+}
+
+.cart td:nth-child(3) {
+  display: flex;
+  padding: 15px;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart tr:last-child > td {
+  border-bottom: none;
+  height: 55px;
+}
+
+.cart tr:last-child > td:nth-child(3) {
+  justify-content: right;
+  border-bottom: none;
+}
+
+.cart tr:last-child > td:nth-child(4) {
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.cart tr:last-child > td:nth-child(5) > button {
+  background-color: #25c94e;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cart td > span {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.amount-increment > img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0.1);
+  transform: translateY(0);
+  cursor: pointer;
+  transition: 0.075s;
+}
+
+.amount-increment > img:first-child:active {
+  filter: brightness(0.3);
+  transform: translateY(-5px);
+  transition: 0.075s;
+}
+
+.amount-increment > img:last-child:active {
+  filter: brightness(0.3);
+  transform: translateY(5px);
+  transition: 0.075s;
+}
+
+.cart td:has(button) {
+  width: 240px;
+}
+
+.cart button {
+  min-height: 20px;
+  height: 35px;
+  border-radius: 5px;
+  padding-inline: 15px;
+  margin: 5px;
 }
