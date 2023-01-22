@@ -16,8 +16,7 @@ export default function UserContextProvider(props) {
     }
   }, [user, token, setUser, setToken])
 
-  window.addEventListener("load", (event) => {
-    console.log("page is fully loaded")
+  window.addEventListener("load", () => {
     const token = window.localStorage.getItem("access_token")
 
     if (!token) {

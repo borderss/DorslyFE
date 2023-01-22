@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, useContext } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { apiMethod, defaultHeaders } from "../static/js/util"
 
@@ -17,7 +17,10 @@ import style from "../static/css/place.module.css"
 
 import Header from "../components/header"
 
-export default function place(props) {
+import { UserContext } from "../contexts/userContext"
+import { CartContext } from "../contexts/cartContext"
+
+export default function place() {
   const location = useLocation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -29,11 +32,15 @@ export default function place(props) {
   const [reviewData, setReviewData] = useState([])
   const [productData, setProductData] = useState([])
   const [userRating, setUserRating] = useState(4)
-  const [bgImage, setBgImage] = useState(
-    `https://picsum.photos/1920/1080/?random&t=${new Date().getTime()}`
-  )
+  const [bgImage, setBgImage] = useState(`https://picsum.photos/1920/1080/?random&t=${new Date().getTime()}`)
   const [section, setSection] = useState("products")
 
+  const [totalCartCount, setTotalCartCount] = useState(0)
+  const [totalCartPrice, setTotalCartPrice] = useState(0)
+
+  const { user, token, setUser, setToken } = useContext(UserContext)
+  const { cart, setCart } = useContext(CartContext)
+  
   useEffect(() => {
     if (
       searchParams.get("p") == null ||
@@ -100,11 +107,78 @@ export default function place(props) {
     })
   }, [userRating])
 
+  useEffect(() => {
+    console.log(cart)
+    setTotalCartCount(cart.totalItems)
+    setTotalCartPrice(cart.total)
+  }, [cart])
+
   const renderProducts = () => {
     const renderSectionProducts = () => {
       return productData.map((product, id) => {
+        const handleProductClick = (e, p) => {
+          // handle state manangement
+          let newCart = cart
+          let found = false
+          newCart.items.forEach((item) => {
+            if (item.id == p.id) {
+              found = true
+            }
+          })
+
+          if (!found) {
+            newCart.items.push({
+              id: p.id,
+              name: p.name,
+              description: p.description,
+              price: p.price,
+              image: p.image,
+              amount: 1,
+            })
+
+            newCart.total += parseFloat(p.price)
+            newCart.totalItems++
+          } else {
+            newCart.items.forEach((item) => {
+              if (item.id == p.id) {
+                newCart.total -= parseFloat(item.price)
+
+                if (newCart.total < 0) {
+                  newCart.total = 0
+                }
+
+                newCart.items.splice(newCart.items.indexOf(item), 1)
+              }
+            })
+
+            newCart.totalItems--
+          }
+
+          setTotalCartCount(cart.totalItems)
+          setTotalCartPrice(cart.total)
+
+          setCart(newCart)
+
+          // handle visuals
+          let target = e.target
+
+          if (!target.classList.contains(style["product"])) {
+            target = target.parentNode
+            if (!target.classList.contains(style["product"])) {
+              target = target.parentNode
+            }
+          }
+
+          target.classList.toggle(style["product-active"])
+        }
+
         return (
-          <div key={id} className={style["product"]}>
+          <div
+            key={id}
+            className={style["product"]}
+            onClick={(e) => {
+              handleProductClick(e, product)
+            }}>
             <div
               className={style["product-image"]}
               style={{ "--product-image": "url(" + product.image + ")" }}></div>
@@ -171,8 +245,8 @@ export default function place(props) {
           {reviewData.length > 0 ? (
             reviewData.map((review, id) => {
               return (
-                <div className={style["review"]}>
-                  <div key={id} className={style["review-container"]}>
+                <div key={id} className={style["review"]}>
+                  <div className={style["review-container"]}>
                     <p className={style["review-user-name"]}>
                       {review.user.first_name} {review.user.last_name}
                     </p>
@@ -289,11 +363,11 @@ export default function place(props) {
             <div className={style["right"]}>
               <div onClick={(e) => onLowerNavbarItemClick(e, "cart")}>
                 <p>Cart</p>
-                <div className={style["info-display"]}>3</div>
+                <div className={style["info-display"]}>{cart.totalItems}</div>
               </div>
               <div onClick={(e) => onLowerNavbarItemClick(e, "pay")}>
                 <div>Pay</div>
-                <div className={style["info-display"]}>€13,24</div>
+                <div className={style["info-display"]}>€{cart.total.toFixed(2)}</div>
               </div>
             </div>
           </div>

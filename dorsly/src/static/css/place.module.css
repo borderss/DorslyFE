@@ -345,6 +345,7 @@
   cursor: pointer;
   margin-inline: auto;
   transition: 0.2s;
+  box-shadow: 0px 0px 0px 0px #ace8b3;
 }
 
 .product-section .product:hover {
@@ -434,4 +435,9 @@
   width: 100%;
   padding-left: 5px;
   border-bottom: 1px solid #e7e7e7;
+}
+
+.product-active {
+  box-shadow: 0px 0px 1px 2px #ace8b3 !important;
+  background: #f4fef4 !important;
 }
