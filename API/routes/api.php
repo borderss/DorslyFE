@@ -33,6 +33,7 @@ Route::middleware('auth:api')->group(function () {
 
     // authenticated crud
     Route::apiResource('comments',CommentController::class);
+    Route::apiResource('users',UserController::class);
     Route::apiResource('deals',DealsController::class);
     Route::apiResource('ratings',RatingController::class);
 
