@@ -25,7 +25,6 @@
 }
 
 .container > a:hover {
-  margin-top: 3px;
   transform: scale(1.1);
   color: #ffcb63;
 }
