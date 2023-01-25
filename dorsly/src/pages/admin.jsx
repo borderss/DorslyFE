@@ -607,64 +607,6 @@ export default function admin() {
         body: JSON.stringify(saveData),
       })
     }
-
-    // if (Math.random() > 0.5) {
-    //   // FAILED SAVE
-
-    //   e.target.innerText = "fail"
-    //   e.target.style["padding-inline"] = "15px"
-    //   e.target.style["background-color"] = "#ee5a5a"
-    //   e.target.style["transition"] = "0.2s"
-    //   e.target.disabled = true
-
-    //   editedHTMLData.childNodes.forEach((cell, i) => {
-    //     if (i === editedHTMLData.childNodes.length - 1) return
-
-    //     cell.innerText = initialData[tableMetaData[section][i].field]
-
-    //     cell.contentEditable = false
-    //     cell.style["border-block"] = "initial"
-    //     cell.style["border-bottom"] = "1px solid #f1f1f1"
-    //   })
-
-    //   setTimeout(() => {
-    //     e.target.innerText = "Edit"
-    //     e.target.style["padding-inline"] = "15px"
-    //     e.target.style["background-color"] = "#ffb82e"
-    //     e.target.style["transition"] = "0.2s"
-    //     e.target.disabled = false
-
-    //     let new_element = e.target.cloneNode(true)
-    //     e.target.parentNode.replaceChild(new_element, e.target)
-
-    //     new_element.addEventListener("click", (e) => {
-    //       handleEditClick(e)
-    //     })
-    //   }, 2000)
-    // } else {
-    //   // SUCCESSFUL SAVE
-
-    //   console.log("save", e.target)
-    //   e.target.innerText = "Edit"
-    //   e.target.style["padding-inline"] = "15px"
-    //   e.target.style["background-color"] = "#ffb82e"
-    //   e.target.style["transition"] = "0.2s"
-
-    //   editedHTMLData.childNodes.forEach((cell, i) => {
-    //     if (i === editedHTMLData.childNodes.length - 1) return
-
-    //     cell.contentEditable = false
-    //     cell.style["border-block"] = "initial"
-    //     cell.style["border-bottom"] = "1px solid #f1f1f1"
-    //   })
-
-    //   let new_element = e.target.cloneNode(true)
-    //   e.target.parentNode.replaceChild(new_element, e.target)
-
-    //   new_element.addEventListener("click", (e) => {
-    //     handleEditClick(e)
-    //   })
-    // }
   }
 
   const handleEditClick = (e) => {
