@@ -18,10 +18,9 @@ export default function App() {
         <Route path="/admin" element={<Admin/>} />
         <Route path="/login" element={<Authentificaton page="login"/>} />
         <Route path="/register" element={<Authentificaton page="register"/>} />
-
         <Route path="/products" element={<MainProductPage/>} />
         <Route path="/place" element={<Place />} />
-        
+        <Route path="/payment" element={<PaymentGateway />} />
         <Route path="/error" element={<Error/>} />
       </Routes>
     </BrowserRouter>
