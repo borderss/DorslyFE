@@ -216,7 +216,6 @@ export default function place() {
     const renderSectionProducts = () => {
       return productData.map((product, id) => {
         const handleProductClick = (e, p) => {
-          // handle state manangement
           let newCart = {
             items: [...cart?.items],
             total: cart?.total,
@@ -463,12 +462,9 @@ export default function place() {
 
             <div className={style["right"]}>
               <div onClick={(e) => onLowerNavbarItemClick(e, "cart")}>
-                <p>Cart</p>
+                <p>Your order</p>
                 <div className={style["info-display"]}>{cart?.totalItems || 0}</div>
-              </div>
-              <div onClick={(e) => onLowerNavbarItemClick(e, "pay")}>
-                <div>Pay</div>
-                <div className={style["info-display"]}>€{cart?.total || 0}</div>
+                <div className={style["info-display"]}>€{cart?.total.toFixed(2) || 0}</div>
               </div>
             </div>
           </div>
