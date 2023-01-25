@@ -15,37 +15,42 @@ class StripeController extends Controller
         $stripe = new \Stripe\StripeClient(config('app.stripe_secret'));
         $validated = $request->validate([
             'products' => 'required|array',
+            'products.*.product_id' => 'required|numeric',
+            'products.*.amount' => 'required|numeric',
         ]);
-        $total = 0;
 
-        foreach ($validated['products'] as $productId) {
-            $product = Product::find($productId);
-            error_log($pointOfInterest);
-            if ($product['point_of_interest_id'] !== $pointOfInterest['id']) {
-                return response()->json([
-                    'data' => 'Product is not from same point of interest',
-                ], 403);
-            }
-            $total += $product['price'];
+        $stripeLineItems = [];
+
+        foreach ($validated['products'] as $productRow) {
+            $product = Product::find($productRow['product_id']);
+
+            $stripeLineItem = [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => round($product->price * 100),
+                    'product_data' => [
+                        'name' => $product->name,
+                        'description' => 'eur',
+                        'images' => [
+                            $product->image
+                        ],
+                    ],
+                ],
+                'quantity' => $productRow['amount'],
+            ];
+
+            $stripeLineItems[] = $stripeLineItem;
         }
 
         $session = $stripe->checkout->sessions->create([
             'line_items' => [
-                [
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'unit_amount' => round($total * 100),
-                        'product_data' => [
-                            'name' => $pointOfInterest['name'],
-                        ],
-                    ],
-                    'quantity' => 1,
-                ],
+                $stripeLineItems
             ],
             'mode' => 'payment',
-            'success_url' => 'https://dorsly.com/page'.'?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => 'https://lossesly.com/#home',
+            'success_url' => 'https://dorsly.com/payment'.'?poi='.$pointOfInterest->id.'&session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => 'https://dorsly.com/error',
         ]);
+
         return response()->json([
             'url' => $session['url'],
         ]);

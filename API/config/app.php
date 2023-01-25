@@ -6,7 +6,6 @@ return [
 
     'stripe_secret' => env('STRIPE_SECRET'),
 
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
