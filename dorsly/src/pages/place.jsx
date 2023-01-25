@@ -95,6 +95,15 @@ export default function place() {
   }, [])
 
   useEffect(() => {
+    // read state from navigate
+    if (location.state?.paymentSuccess) {
+      console.log("payment success!")
+    } else {
+      console.log("payment failed!")
+    }
+  }, [location])
+
+  useEffect(() => {
     ratingRef.current.childNodes.forEach((star) => {
       star.childNodes.forEach((half) => {
         if (half.getAttribute("selectionindex") == userRating) {
@@ -163,6 +172,35 @@ export default function place() {
       setCart(newCart)
     }
 
+    const handlePayment = () => {
+      let sessionData = []
+
+      cart.items.forEach((item) => {
+        sessionData.push({
+          product_id: item.id,
+          amount: item.amount
+        })
+      })
+
+      apiMethod("/getSession/" + searchParams.get("p"), {
+        method: "POST",
+        headers: defaultHeaders(),
+        body: JSON.stringify({
+          "products": sessionData
+        })
+      }).then((data) => {
+        console.log(data)
+
+        data?.url && window.open(data?.url, "_blank")
+
+        setCart({
+          items: [],
+          total: 0,
+          totalItems: 0
+        })
+      })
+    }
+
     return (
       <div className={style["cart"]}>
         <h1>Here's your cart</h1>
@@ -203,7 +241,7 @@ export default function place() {
                 <td></td>
                 <td >Total:</td>
                 <td>{cart?.total.toFixed(2) || '0.00'}</td>
-                <td><button className={style["remove"]}>Pay now</button></td>
+                <td><button className={style["remove"]} onClick={e => handlePayment()}>Pay now</button></td>
               </tr>
             }
           </tbody>
@@ -390,7 +428,7 @@ export default function place() {
           <div className={style["content"]}>
             <div className={style["rating"]}>
               <img src={Star} />
-              <p>{data.avg && Math.round(data.avg * 10) / 10}</p>
+              <p>{data.avg && data.avg.toFixed(1)}</p>
               <div
                 ref={ratingRef}
                 className={style["place-rating"]}

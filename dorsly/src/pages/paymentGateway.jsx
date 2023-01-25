@@ -6,7 +6,9 @@ export default function paymentGateway() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const sessionId = searchParams.get("session_id")
+  const poiID = searchParams.get("poi")
 
+  console.log("session id", sessionId)
 
   React.useEffect(() => {
     if (sessionId) {
@@ -18,13 +20,13 @@ export default function paymentGateway() {
         }),
       }).then((data) => {
         console.log(data)
-        navigate(-1, { state: { paymentSuccess: true } })
+        navigate('/place?p='+poiID, { state: { paymentSuccess: true } })
       }).catch((err) => {
         console.log(err)
-        navigate(-1, { state: { paymentSuccess: false } })
+        navigate('/place?p='+poiID, { state: { paymentSuccess: false } })
       })
     }
-  }, [sessionId])
+  }, [navigate])
 
   return <div>Loading...</div>
 }
