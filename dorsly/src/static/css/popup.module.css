@@ -1,0 +1,134 @@
+.popup-container {
+  width: 570px;
+  height: 230px;
+  display: flex;
+  background-color: transparent;
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  z-index: 9999999999999;
+  user-select: none;
+  overflow: hidden;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.popup-container:not(:has(.popup-card)) {
+  display: none;
+}
+
+.popup-card {
+  width: 550px;
+  height: 200px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
+  margin-block: 15px;
+  font-family: "Lexend";
+  position: relative;
+  overflow: hidden;
+  transition: 0.2s;
+}
+
+.popup-card.remove {
+  animation: remove 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+@keyframes remove {
+  0% {
+    margin-top: 15px;
+  }
+  100% {
+    margin-top: -220px;
+  }
+}
+
+.popup-card:hover {
+  scale: 1.02;
+}
+
+.popup-card-header {
+  width: 100%;
+  height: 50px;
+  background-color: #f5f5f5;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.popup-card-icon {
+  width: 35px;
+  height: 35px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.popup-card-icon > img {
+  width: 100%;
+  height: 100%;
+}
+
+.popup-card-title {
+  color: #2f2f2f;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.popup-card-body {
+  margin: 10px 20px 0 20px;
+  font-size: 17px;
+  padding-inline: 10px;
+  font-weight: 400;
+}
+
+.popup-card-footer {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  width: calc(100% - 30px);
+  padding-inline: 15px;
+  bottom: 15px;
+  position: absolute;
+}
+
+.popup-card-footer > button {
+  padding-inline: 30px;
+  padding-block: 0;
+  min-height: 45px;
+  border-radius: 7px;
+  height: 7px;
+}
+
+/* 
+<div className={style["popup-card"]} key={index}>
+  <div className={style["popup-card-header"]}>
+    <div className={style["popup-card-icon"]}>
+      <img src={iconDecal}/>
+    </div>
+    <div className={style["popup-card-title"]}>{popup.title}</div>
+  </div>
+  <div className={style["popup-card-body"]}>{popup.description}</div>
+  <div className={style["popup-card-footer"]}>
+    {popup.buttons.map((button, index) => {
+      return (
+        <button
+          className={style[`popup-card-button ${button.style}`]}
+          key={index}
+          onClick={(e) => button.onClick(popup.id)}>
+          {button.text}
+        </button>
+      )
+    })}
+  </div>
+</div> 
+*/

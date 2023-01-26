@@ -1,5 +1,5 @@
 import React from "react"
-import { useNavigate, useLocation, useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { apiMethod, defaultHeaders } from "../static/js/util"
 
 export default function paymentGateway() {
@@ -20,10 +20,18 @@ export default function paymentGateway() {
         }),
       }).then((data) => {
         console.log(data)
-        navigate('/place?p='+poiID, { state: { paymentSuccess: true } })
+        navigate('/place?p='+poiID, {
+          state: {
+            paymentSuccess: true
+          } 
+        })
       }).catch((err) => {
         console.log(err)
-        navigate('/place?p='+poiID, { state: { paymentSuccess: false } })
+        navigate('/place?p='+poiID, {
+          state: {
+            paymentSuccess: true
+          } 
+        })
       })
     }
   }, [navigate])

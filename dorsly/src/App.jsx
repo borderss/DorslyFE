@@ -3,13 +3,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 
 import "../src/static/css/general.css"
 
+import Admin from "./pages/admin"
 import Authentificaton from "./pages/authentificaton"
+import Error from "./pages/error"
+import Home from "./pages/home"
 import MainProductPage from "./pages/mainProductPage"
 import PaymentGateway from "./pages/paymentGateway"
-import Admin from "./pages/admin"
-import Error from "./pages/error"
 import Place from "./pages/place"
-import Home from "./pages/home"
 
 export default function App() {
   return (
