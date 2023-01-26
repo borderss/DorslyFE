@@ -58,10 +58,13 @@ class StripeController extends Controller
 
     public function successPayment (Request $request) {
         $stripe = new StripeClient(config('app.stripe_secret'));
-        $stripe->checkout->sessions->retrieve($request->get('session_id'));
+        $session = $stripe->checkout->sessions->retrieve($request->get('session_id'));
 
         return response()->json([
-            'data' => 'success payment'
+            'data' => [
+                "paymentSuccess" =>  $session->status,
+                "customerDetails" => $session->customer_details,
+            ]
         ]);
     }
 }
