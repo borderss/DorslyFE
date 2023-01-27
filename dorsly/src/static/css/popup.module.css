@@ -1,11 +1,11 @@
 .popup-container {
-  width: 570px;
-  height: 230px;
+  width: 590px;
+  height: 300px;
   display: flex;
   background-color: transparent;
   position: absolute;
-  bottom: 5px;
-  right: 10px;
+  bottom: 0px;
+  right: 0px;
   z-index: 9999999999999;
   user-select: none;
   overflow: hidden;
@@ -16,35 +16,49 @@
   transition: 0.2s;
 }
 
+.popup-container > .popup-card-container {
+  display: flex;
+  position: relative;
+  top: 0px;
+  height: 300px;
+  align-items: flex-end;
+}
+
 .popup-container:not(:has(.popup-card)) {
   display: none;
 }
 
 .popup-card {
   width: 550px;
-  height: 200px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
-  margin-block: 15px;
+  margin: 20px;
   font-family: "Lexend";
   position: relative;
   overflow: hidden;
   transition: 0.2s;
 }
 
-.popup-card.remove {
-  animation: remove 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+.popup-card-container:has(.popup-card.remove) {
+  animation: removeDiv 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
-@keyframes remove {
+@keyframes removeDiv {
   0% {
-    margin-top: 15px;
+    margin-top: 0px;
+    right: 0px;
+  }
+  50% {
+    margin-top: 0px;
+    right: -590px;
   }
   100% {
-    margin-top: -220px;
+    margin-top: -300px;
+    right: -590px;
   }
 }
+
 
 .popup-card:hover {
   scale: 1.02;
@@ -84,7 +98,7 @@
 }
 
 .popup-card-body {
-  margin: 10px 20px 0 20px;
+  margin: 10px 20px 75px 20px;
   font-size: 17px;
   padding-inline: 10px;
   font-weight: 400;

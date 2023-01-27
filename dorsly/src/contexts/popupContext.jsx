@@ -16,10 +16,10 @@ export default function PopupContextProvider(props) {
     popupCard.classList.add(style["remove"])
 
     setTimeout(() => {
-      popupCard.remove()
+      popupCard.parentElement.remove()
 
       setPopupCards((oldPopupCards) => {
-        return oldPopupCards.filter((popup) => popup.id !== index-1)
+        return oldPopupCards.filter((popup) => popup.id !== index - 1)
       })
     }, 500)
   }
@@ -110,25 +110,27 @@ export default function PopupContextProvider(props) {
       }
 
       return (
-        <div id={`popup-item-${popup.id}`} className={style["popup-card"]} key={index}>
-          <div className={style["popup-card-header"]}>
-            <div className={style["popup-card-icon"]}>
-              <img src={iconDecal}/>
+        <div className={style["popup-card-container"]}>
+          <div key={index} id={`popup-item-${popup.id}`} className={style["popup-card"]}>
+            <div className={style["popup-card-header"]}>
+              <div className={style["popup-card-icon"]}>
+                <img src={iconDecal} />
+              </div>
+              <div className={style["popup-card-title"]}>{popup.title}</div>
             </div>
-            <div className={style["popup-card-title"]}>{popup.title}</div>
-          </div>
-          <div className={style["popup-card-body"]}>{popup.description}</div>
-          <div className={style["popup-card-footer"]}>
-            {popup.buttons.map((button, index) => {
-              return (
-                <button
-                  className={style[`popup-card-button ${button.style}`]}
-                  key={index}
-                  onClick={(e) => button.onClick(popup.id)}>
-                  {button.text}
-                </button>
-              )
-            })}
+            <div className={style["popup-card-body"]}>{popup.description}</div>
+            <div className={style["popup-card-footer"]}>
+              {popup.buttons.map((button, index) => {
+                return (
+                  <button
+                    className={style[`popup-card-button ${button.style}`]}
+                    key={index}
+                    onClick={(e) => button.onClick(popup.id)}>
+                    {button.text}
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </div>
       )
@@ -180,7 +182,7 @@ export default function PopupContextProvider(props) {
             secondaryButtonHandler && secondaryButtonHandler()
             removeHandler(index)
           },
-        }
+        },
       ],
     }
   }
