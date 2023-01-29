@@ -84,7 +84,9 @@ export default function PopupContextProvider(props) {
     setPopupCards(popupCardArr)
 
     document.querySelectorAll('.' + style["popup-card-container"]).forEach((popupCardContainer) => {
-      popupCardContainer.querySelector('.' + style["popup-card"]).classList.remove(style["remove"])
+      document.querySelectorAll('.' + style["popup-card-container"]).length > 1 && (
+        popupCardContainer.querySelector('.' + style["popup-card"]).classList.remove(style["remove"])
+      )
     })
   }, [popupData])
 
