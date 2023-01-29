@@ -14,10 +14,12 @@ import SecondaryProfileIcon from "/assets/svg/secondaryProfileIcon.svg"
 import SettingsIcon from "/assets/svg/settings.svg"
 
 import { UserContext } from "../contexts/userContext"
+import { PopupContext } from "../contexts/popupContext"
 
 export default function header() {
   const userContext = useContext(UserContext)
   const {user, token, setUser, setToken} = useContext(UserContext)
+  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
 
   const [userOptions, setUserOptions] = useState(
     <>
@@ -112,12 +114,38 @@ export default function header() {
               <img src={LogoIcon} alt="Dorsly" />
             </div>
           </Link>
-          <Link to="/error">
+          <a onClick={e => {
+            e.preventDefault()
+            createPopup(    
+              "Not implemented yet",
+              <p>This feature hasn't been implemented yet. Sorry!</p>,
+              "error",
+              "Close",
+              () => {
+                console.log("close")
+              })
+          }}>
+            <div className={style["about-us"]}>About us</div>
+          </a>
+          <a onClick={e => {
+            e.preventDefault()
+            createPopup(    
+              "Not implemented yet",
+              <p>This feature hasn't been implemented yet. Sorry!</p>,
+              "error",
+              "Close",
+              () => {
+                console.log("close")
+              })
+          }}>
+            <div className={style["contact"]}>Contact</div>
+          </a>
+          {/* <Link to="/error">
             <div className={style["about-us"]}>About us</div>
           </Link>
           <Link to="/error">
             <div className={style["contact"]}>Contact</div>
-          </Link>
+          </Link> */}
           <Link to="/products">
             <div className={style["reserve-now"]}>Reserve now</div>
           </Link>

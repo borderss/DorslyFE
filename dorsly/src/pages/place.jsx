@@ -101,8 +101,16 @@ export default function place() {
   useEffect(() => {
     // read state from navigate
     if (location.state?.paymentSuccess) {
+      createPopup(    
+        "Payment Successful",
+        <p>Your payment was successful!</p>,
+        "success",
+        "Close",
+        () => {
+          console.log("close")
+        })
       console.log("payment success!")
-    } else {
+    } else if (location.state?.paymentSuccess == false) {
       createPopup(    
         "Payment Failed",
         <p>Your payment was not successful. Please try again or contact customer support.</p>,
@@ -547,7 +555,7 @@ export default function place() {
           </div>
         </div>
 
-        <div className={style["alert"]}>
+        {/* <div className={style["alert"]}>
           {location.state?.paymentSuccess ? (
               <>
                 <h2>Payment successful!</h2>
@@ -560,7 +568,7 @@ export default function place() {
             </>
             )
           }
-        </div>
+        </div> */}
       </div>
     </>
   )

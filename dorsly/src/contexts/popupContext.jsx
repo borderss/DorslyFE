@@ -11,92 +11,31 @@ export const PopupContext = createContext()
 
 export default function PopupContextProvider(props) {
   const removeHandler = (index) => {
-    let popupCard = document.querySelector(`#popup-item-${index}`)
+    let popupCard = document.querySelectorAll('.' + style['popup-card-container'])[0].querySelector('.' + style['popup-card'])
 
     popupCard.classList.add(style["remove"])
 
     setTimeout(() => {
-      popupCard.parentElement.remove()
+      // popupCard.parentElement.remove()
 
-      setPopupCards((oldPopupCards) => {
-        return oldPopupCards.filter((popup) => popup.id !== index - 1)
+      setPopupData((oldPopupData) => {
+        let newPopupData = [...oldPopupData]
+
+        console.log(newPopupData)
+        newPopupData.shift()
+
+        return newPopupData
       })
     }, 500)
   }
 
-  const defaultPopupData = [
-    {
-      id: 1,
-      title: "React Popup Title 1",
-      description: (
-        <p>
-          A short description of the popup, <b>this is a test</b> popup. Here's
-          a <a>link.</a>
-        </p>
-      ),
-      icon: "success",
-      intonation: "success",
-      buttons: [
-        {
-          text: "Close",
-          style: "primary",
-          onClick: (index) => {
-            removeHandler(index)
-          },
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: "React Popup Title 2",
-      description: (
-        <p>
-          A short description of the popup, <b>this is a test</b> popup. Here's
-          a <a>link.</a>
-        </p>
-      ),
-      icon: "success",
-      intonation: "success",
-      buttons: [
-        {
-          text: "Close",
-          style: "primary",
-          onClick: (index) => {
-            removeHandler(index)
-          },
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: "React Popup Title 3",
-      description: (
-        <p>
-          A short description of the popup, <b>this is a test</b> popup. Here's
-          a <a>link.</a>
-        </p>
-      ),
-      icon: "success",
-      intonation: "success",
-      buttons: [
-        {
-          text: "Close",
-          style: "primary",
-          onClick: (index) => {
-            removeHandler(index)
-          },
-        },
-      ],
-    },
-  ]
-
-  const [popupData, setPopupData] = useState(defaultPopupData)
+  const [popupData, setPopupData] = useState([])
   const [popupCards, setPopupCards] = useState([])
 
   useEffect(() => {
     console.log("popupData changed")
 
-    var popupCardArr = popupData?.map((popup, index) => {
+    var popupCardArr = popupData?.map((popup, i) => {
       var iconDecal
 
       if (popup.intonation == "warning") {
@@ -110,8 +49,14 @@ export default function PopupContextProvider(props) {
       }
 
       return (
-        <div className={style["popup-card-container"]}>
-          <div key={index} id={`popup-item-${popup.id}`} className={style["popup-card"]}>
+        <div key={i} className={style["popup-card-container"]}>
+          <div
+            id={`popup-item-${popup.id}`}
+            className={
+              popupCards.length > 0
+                ? style["popup-card"]
+                : [style["popup-card"], style["float-in"]].join(" ")
+            }>
             <div className={style["popup-card-header"]}>
               <div className={style["popup-card-icon"]}>
                 <img src={iconDecal} />
@@ -120,13 +65,13 @@ export default function PopupContextProvider(props) {
             </div>
             <div className={style["popup-card-body"]}>{popup.description}</div>
             <div className={style["popup-card-footer"]}>
-              {popup.buttons.map((button, index) => {
+              {popup.buttons.map((btn, index) => {
                 return (
                   <button
-                    className={style[`popup-card-button ${button.style}`]}
+                    className={style[`popup-card-button ${btn?.style}`]}
                     key={index}
-                    onClick={(e) => button.onClick(popup.id)}>
-                    {button.text}
+                    onClick={(e) => btn?.onClick(popup.id)}>
+                    {btn?.text}
                   </button>
                 )
               })}
@@ -137,6 +82,10 @@ export default function PopupContextProvider(props) {
     })
 
     setPopupCards(popupCardArr)
+
+    document.querySelectorAll('.' + style["popup-card-container"]).forEach((popupCardContainer) => {
+      popupCardContainer.querySelector('.' + style["popup-card"]).classList.remove(style["remove"])
+    })
   }, [popupData])
 
   const createPopup = (
@@ -160,8 +109,10 @@ export default function PopupContextProvider(props) {
       iconDecal = infoIcon
     }
 
+    console.log(popupData.length)
+
     const newPopup = {
-      id: 1,
+      id: popupData.length,
       title: title,
       description: descriptionHTML,
       icon: iconDecal,
@@ -175,16 +126,23 @@ export default function PopupContextProvider(props) {
             removeHandler(index)
           },
         },
-        secondaryButtonText && {
-          text: secondaryButtonText,
-          style: "secondary",
-          onClick: (index) => {
-            secondaryButtonHandler && secondaryButtonHandler()
-            removeHandler(index)
-          },
-        },
       ],
     }
+
+    if (secondaryButtonText && secondaryButtonHandler) {
+      newPopup.buttons.push({
+        text: secondaryButtonText,
+        style: "secondary",
+        onClick: (index) => {
+          secondaryButtonHandler && secondaryButtonHandler()
+          removeHandler(index)
+        },
+      })
+    }
+
+    setPopupData((oldPopupData) => {
+      return [...oldPopupData, newPopup]
+    })
   }
 
   const contextValue = useMemo(

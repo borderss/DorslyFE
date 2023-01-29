@@ -41,10 +41,14 @@
 }
 
 .popup-card-container:has(.popup-card.remove) {
-  animation: removeDiv 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation: remove 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
-@keyframes removeDiv {
+.popup-card-container:has(.popup-card.float-in) {
+  animation: float-in 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+@keyframes remove {
   0% {
     margin-top: 0px;
     right: 0px;
@@ -56,6 +60,15 @@
   100% {
     margin-top: -300px;
     right: -590px;
+  }
+}
+
+@keyframes float-in {
+  0% {
+    top: 230px;
+  }
+  100% {
+    top: 0px;
   }
 }
 
