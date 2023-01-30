@@ -16,10 +16,13 @@ import TwitterLogo from "/assets/svg/Twitter.svg"
 
 import LabeledInputField from "../components/labeledInputField"
 
+import { PopupContext } from "../contexts/popupContext"
 import { UserContext } from "../contexts/userContext"
 
 export default function authentificaton(props) {
   const { user, token, setUser, setToken } = useContext(UserContext)
+  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
+
   const navigate = useNavigate()
 
   const [loginData, setLoginData] = useState({
@@ -40,7 +43,8 @@ export default function authentificaton(props) {
   let submitButtonRef = useRef(null)
 
   useEffect(() => {
-    document.body.style.backgroundImage = 'url("/assets/svg/backgroundlines.svg")'
+    document.body.style.backgroundImage =
+      'url("/assets/svg/backgroundlines.svg")'
   }, [])
 
   useEffect(() => {
@@ -295,7 +299,71 @@ export default function authentificaton(props) {
         </button>
         <p className={auth["sectionSeperator"]}>or</p>
         <div className={auth["third-party-auth-options"]}>
-          <Link to="/facebookauth">
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
+            <img src={FacebookLogo} />
+          </a>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
+            <img src={GoogleLogo} />
+          </a>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
+            <img src={TwitterLogo} />
+          </a>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
+            <img src={AppleLogo} />
+          </a>
+          {/* <Link to="/facebookauth">
             <img src={FacebookLogo} />
           </Link>
           <Link to="googleauth">
@@ -306,7 +374,7 @@ export default function authentificaton(props) {
           </Link>
           <Link to="appleauth">
             <img src={AppleLogo} />
-          </Link>
+          </Link> */}
         </div>
         <p>
           Don't have an account? <Link to="/register">Register</Link>
@@ -368,7 +436,71 @@ export default function authentificaton(props) {
         </button>
         <p className={auth["sectionSeperator"]}>or</p>
         <div className={auth["third-party-auth-options"]}>
-          <Link to="/facebookauth">
+        <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
+            <img src={FacebookLogo} />
+          </a>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
+            <img src={GoogleLogo} />
+          </a>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
+            <img src={TwitterLogo} />
+          </a>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
+            <img src={AppleLogo} />
+          </a>
+          {/* <Link to="/facebookauth">
             <img src={FacebookLogo} />
           </Link>
           <Link to="googleauth">
@@ -379,7 +511,7 @@ export default function authentificaton(props) {
           </Link>
           <Link to="appleauth">
             <img src={AppleLogo} />
-          </Link>
+          </Link> */}
         </div>
         <p>
           Already have an account? <Link to="/login">Login</Link>

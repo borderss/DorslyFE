@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { UserContext } from "../contexts/userContext"
 import { apiMethod, defaultHeaders } from "../static/js/util"
 
 import "../static/css/general.css"
@@ -20,8 +19,12 @@ import WalletIllustration from "/assets/svg/walletillustration.svg"
 import PhoneIllustration from "/assets/svg/phoneillustration.svg"
 // import Footer from "../components/footer"
 
+import { UserContext } from "../contexts/userContext"
+import { PopupContext } from "../contexts/popupContext"
+
 export default function home() {
   const { user, token, setUser, setToken } = useContext(UserContext)
+  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
 
   const [cardData, setCardData] = React.useState([])
   const [cards, setCards] = React.useState([])
@@ -89,11 +92,28 @@ export default function home() {
             <Link to="/register" className={style["link"]}>
               Register now
             </Link>
-            <Link
+            <a
+              href="/"
+              className={[style["link"], style["inverted"]].join(" ")}
+              onClick={(e) => {
+                e.preventDefault()
+                createPopup(
+                  "Not implemented yet",
+                  <p>This feature hasn't been implemented yet. Sorry!</p>,
+                  "error",
+                  "Close",
+                  () => {
+                    console.log("close")
+                  }
+                )
+              }}>
+              Register as a business
+            </a>
+            {/* <Link
               to="/error"
               className={[style["link"], style["inverted"]].join(" ")}>
               Register as a business
-            </Link>
+            </Link> */}
           </div>
         </div>
 

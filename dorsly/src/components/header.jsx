@@ -13,12 +13,12 @@ import LogoutIcon from "/assets/svg/logout.svg"
 import SecondaryProfileIcon from "/assets/svg/secondaryProfileIcon.svg"
 import SettingsIcon from "/assets/svg/settings.svg"
 
-import { UserContext } from "../contexts/userContext"
 import { PopupContext } from "../contexts/popupContext"
+import { UserContext } from "../contexts/userContext"
 
 export default function header() {
   const userContext = useContext(UserContext)
-  const {user, token, setUser, setToken} = useContext(UserContext)
+  const { user, token, setUser, setToken } = useContext(UserContext)
   const { popupData, createPopup, setPopupData } = useContext(PopupContext)
 
   const [userOptions, setUserOptions] = useState(
@@ -67,16 +67,50 @@ export default function header() {
             <span>{userContext.user?.last_name}</span>
           </div>
           <div className={style["profile-dropdown"]}>
-            <Link
+            <a
+              href="/"
+              style={{ "--background-icon": `url(${SecondaryProfileIcon})` }}
+              onClick={(e) => {
+                e.preventDefault()
+                createPopup(
+                  "Not implemented yet",
+                  <p>This feature hasn't been implemented yet. Sorry!</p>,
+                  "error",
+                  "Close",
+                  () => {
+                    console.log("close")
+                  }
+                )
+              }}>
+              Profile
+            </a>
+            {/* <Link
               to="/error"
               style={{ "--background-icon": `url(${SecondaryProfileIcon})` }}>
               Profile
-            </Link>
-            <Link
+            </Link> */}
+            <a
+              href="/"
+              style={{ "--background-icon": `url(${SettingsIcon})` }}
+              onClick={(e) => {
+                e.preventDefault()
+                createPopup(
+                  "Not implemented yet",
+                  <p>This feature hasn't been implemented yet. Sorry!</p>,
+                  "error",
+                  "Close",
+                  () => {
+                    console.log("close")
+                  }
+                )
+              }}>
+              Settings
+            </a>
+            {/* <Link
               to="/error"
               style={{ "--background-icon": `url(${SettingsIcon})` }}>
               Settings
-            </Link>
+            </Link> */}
             {userContext.user?.is_admin == 1 && (
               <Link
                 to="/admin"
@@ -114,30 +148,34 @@ export default function header() {
               <img src={LogoIcon} alt="Dorsly" />
             </div>
           </Link>
-          <a onClick={e => {
-            e.preventDefault()
-            createPopup(    
-              "Not implemented yet",
-              <p>This feature hasn't been implemented yet. Sorry!</p>,
-              "error",
-              "Close",
-              () => {
-                console.log("close")
-              })
-          }}>
+          <a
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
             <div className={style["about-us"]}>About us</div>
           </a>
-          <a onClick={e => {
-            e.preventDefault()
-            createPopup(    
-              "Not implemented yet",
-              <p>This feature hasn't been implemented yet. Sorry!</p>,
-              "error",
-              "Close",
-              () => {
-                console.log("close")
-              })
-          }}>
+          <a
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
             <div className={style["contact"]}>Contact</div>
           </a>
           {/* <Link to="/error">
@@ -149,13 +187,39 @@ export default function header() {
           <Link to="/products">
             <div className={style["reserve-now"]}>Reserve now</div>
           </Link>
-          <div className={style["search-logo"]}>
+          <div
+            className={style["search-logo"]}
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
             <img src={SearchIcon} alt="Search" />
           </div>
         </div>
         <div className={style["right-side"]}>
           {userOptions}
-          <div className={style["gps-logo"]}>
+          <div
+            className={style["gps-logo"]}
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close",
+                () => {
+                  console.log("close")
+                }
+              )
+            }}>
             <img src={GpsIcon} alt="GPS" />
           </div>
         </div>
