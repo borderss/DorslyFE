@@ -316,19 +316,24 @@ export default function place() {
             newCart.total += parseFloat(p.price)
             newCart.totalItems++
           } else {
+            // remove all items of this type from cart
+
             newCart.items.forEach((item) => {
               if (item.id == p.id) {
-                newCart.total -= parseFloat(item.price)
-
+                newCart.total -= item.price * item.amount
                 if (newCart.total < 0) {
                   newCart.total = 0
                 }
-
-                newCart.items.splice(newCart.items.indexOf(item), 1)
+                newCart.totalItems -= item.amount
+                if (newCart.totalItems < 0) {
+                  newCart.totalItems = 0
+                }
               }
             })
 
-            newCart.totalItems--
+            newCart.items = newCart.items.filter((item) => {
+              return item.id != p.id
+            })
           }
 
           setCart(newCart)
@@ -346,10 +351,18 @@ export default function place() {
           target.classList.toggle(style["product-active"])
         }
 
+        var isProductInCart = false
+
+        cart?.items.forEach((item) => {
+          if (item.id == product.id) {
+            isProductInCart = true
+          }
+        })
+
         return (
           <div
             key={id}
-            className={style["product"]}
+            className={!isProductInCart ? style["product"] : style["product"] + " " + style["product-active"]}
             onClick={(e) => {
               handleProductClick(e, product)
             }}>
