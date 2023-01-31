@@ -490,13 +490,18 @@ export default function admin() {
   }
 
   const handleGoToPageClick = (e) => {
-    let page = parseInt(e.target.parentElement.children[1].value)
+    let pageIndex = goToPageRef.current.value
 
-    let pageLink = data.meta?.links[page].url
+    let pageTemplate = data.meta?.links[1].url
 
-    page = pageLink.substring(pageLink.lastIndexOf("/") + 1)
+    pageTemplate = pageTemplate.substring(pageTemplate.lastIndexOf("/") + 1)
 
-    apiMethod("/" + page, {
+    pageTemplate = pageTemplate.split("=")[0]
+    console.log(pageTemplate)
+    console.log("/" + pageTemplate + "=" + pageIndex)
+
+
+    apiMethod("/" + pageTemplate + "=" + pageIndex, {
       method: "POST",
       headers: bearerHeaders(token),
       body: JSON.stringify(postBody),
@@ -621,7 +626,13 @@ export default function admin() {
         handleEditClick(e)
       })
 
-      await apiMethod("/" + section + "/" + editedHTMLData.id, {
+      let deleteEndpointSection = section
+
+      if (section === "reviews") {
+        deleteEndpointSection = "comments"
+      }
+
+      await apiMethod("/" + deleteEndpointSection + "/" + editedHTMLData.id, {
         method: "PUT",
         headers: bearerHeaders(token),
         body: JSON.stringify(saveData),
@@ -860,6 +871,9 @@ export default function admin() {
                     if (e.target.value === "") {
                       e.target.value = data.meta.current_page
                     }
+
+                    console.log(e.target.value)
+                    console.log(data)
                   }}
                 />
 
