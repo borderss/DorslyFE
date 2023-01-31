@@ -14,6 +14,7 @@ import CommentIcon from "/assets/svg/reviewlogo.svg"
 import TakeawayIcon from "/assets/svg/takeaway.svg"
 
 import { UserContext } from "../contexts/userContext"
+import { PopupContext } from "../contexts/popupContext"
 
 export default function admin() {
   const navigate = useNavigate()
@@ -21,6 +22,9 @@ export default function admin() {
   const searchRef = useRef(null)
   const entryRef = useRef(null)
   const goToPageRef = useRef(null)
+
+  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
+  const { user, token, setUser, setToken } = useContext(UserContext)
 
   const [reloadCounter, setReloadCounter] = useState(0)
 
@@ -109,7 +113,7 @@ export default function admin() {
         field: "available_seats",
       },
       {
-        title: "Available seats",
+        title: "Review count",
         field: "review_count",
       },
     ],
@@ -232,8 +236,6 @@ export default function admin() {
     value: "_",
     paginate: 10,
   }
-
-  const { user, token, setUser, setToken } = useContext(UserContext)
 
   const [section, setSection] = useState("users")
 
@@ -537,11 +539,21 @@ export default function admin() {
         setPostBody({
           ...postBody,
           by: "all",
-          value: searchText,
+          value: searchValue,
         })
 
+        createPopup(
+          "Invalid search parameter",
+          <p>You appear to have specified a search parameter "<b>{searchBy}</b>". It will be ignored, and a general search for "<b>{searchValue}</b>" will be made.</p>,
+          "error",
+          "Close",
+          () => {
+            console.log("close")
+          }
+        )
+
         searchBy = "all"
-        searchValue = searchText
+        searchValue = searchValue
       }
     } else {
       searchBy = "all"
@@ -609,7 +621,7 @@ export default function admin() {
         handleEditClick(e)
       })
 
-      let editData = await apiMethod("/" + section + "/" + editedHTMLData.id, {
+      await apiMethod("/" + section + "/" + editedHTMLData.id, {
         method: "PUT",
         headers: bearerHeaders(token),
         body: JSON.stringify(saveData),
@@ -659,7 +671,13 @@ export default function admin() {
 
     let deleteData = data.data.find((row) => row.id == rowItemIndex)
 
-    let apiData = await apiMethod("/" + section + "/" + deleteData.id, {
+    let deleteEndpointSection = section
+    
+    if (section === "reviews") {
+      deleteEndpointSection = "comments"
+    }
+    
+    let apiData = await apiMethod("/" + deleteEndpointSection + "/" + deleteData.id, {
       method: "DELETE",
       headers: bearerHeaders(token),
     })
@@ -672,6 +690,7 @@ export default function admin() {
         data: new_data,
         meta: {
           ...data.meta,
+          to: data.meta?.to - 1,
           total: data.meta?.total - 1,
         },
       })
