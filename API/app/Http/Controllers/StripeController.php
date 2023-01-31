@@ -47,8 +47,8 @@ class StripeController extends Controller
                 $stripeLineItems
             ],
             'mode' => 'payment',
-            'success_url' => 'https://dorsly.com/payment'.'?poi='.$pointOfInterest->id.'&session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => 'https://dorsly.com/error',
+            'success_url' => 'http://127.0.0.1:5173/payment'.'?poi='.$pointOfInterest->id.'&session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => 'http://127.0.0.1:5173/error',
         ]);
 
         return response()->json([

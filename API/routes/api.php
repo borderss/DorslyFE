@@ -14,16 +14,6 @@ use App\Http\Controllers\StripeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -33,11 +23,24 @@ Route::middleware('auth:api')->group(function () {
 
     // authenticated crud
     Route::apiResource('comments',CommentController::class);
-    Route::apiResource('users',UserController::class);
-    Route::apiResource('deals',DealsController::class);
-    Route::apiResource('ratings',RatingController::class);
+    // index, store, update(only his own comment)
 
-    // filtering
+    Route::apiResource('users',UserController::class);
+    // non-admin can't do anything here
+
+    Route::apiResource('deals',DealsController::class);
+    // store:
+    //  - only if type=="reservation"
+    //  - also get user_id from auth instead of resource
+
+    Route::apiResource('ratings',RatingController::class);
+    // store:
+    //  - only if user has made a deal of type "reservation" or "pre-purchase" at the POI.
+    //    If user already has a rating for the POI, change the old rating to the new rating.
+    //  - also get user_id from auth instead of resource
+
+
+    // filtering (only accessible to admins (used for admin panel))
     Route::post('/filter_users',[UserController::class, 'filter']);
     Route::post('/filter_comments',[CommentController::class, 'filter']);
     Route::post('/filter_deals',[DealsController::class, 'filter']);
@@ -45,21 +48,24 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/filter_products',[ProductController::class, 'filter']);
 });
 
-// crud
+// crud (only accessible to admins)
 Route::apiResource('points_of_interest',PointOfInterestController::class);
 Route::apiResource('products',ProductController::class);
 Route::apiResource('title_photos',TitlePhotoController::class);
 
-// util
+
+// util (public methods, available for everyone)
 Route::get('/point_of_interest/images/{point_of_interest}',[PointOfInterestController::class,'getFile'])->name('point_of_interest.images');
 Route::get('/title_photos/image/{title_photos}',[TitlePhotoController::class,'getFile'])->name('title_photos.image');
-Route::post('/getSession/{pointOfInterest}',[StripeController::class, 'getSession']);
-Route::post('/successPayment', [StripeController::class, 'successPayment']);
-Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);
 
 Route::get('/todays_deals', [PointOfInterestController::class, 'getTodaysSelection']);
 Route::get('/popular_choices', [PointOfInterestController::class, 'getPopularSelection']);
 
-
 Route::get('/points_of_interest/{id}/comments', [PointOfInterestController::class, 'getComments']);
 Route::get('/points_of_interest/{id}/products', [PointOfInterestController::class, 'getProducts']);
+
+
+// stripe (only accessible to registered users)
+Route::post('/getSession/{pointOfInterest}',[StripeController::class, 'getSession']);
+Route::post('/successPayment', [StripeController::class, 'successPayment']);
+Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);
