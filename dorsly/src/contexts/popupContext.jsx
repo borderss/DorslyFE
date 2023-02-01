@@ -33,8 +33,6 @@ export default function PopupContextProvider(props) {
   const [popupCards, setPopupCards] = useState([])
 
   useEffect(() => {
-    console.log("popupData changed")
-
     var popupCardArr = popupData?.map((popup, i) => {
       var iconDecal
 
@@ -110,8 +108,6 @@ export default function PopupContextProvider(props) {
     } else {
       iconDecal = infoIcon
     }
-
-    console.log(popupData.length)
 
     const newPopup = {
       id: popupData.length,

@@ -28,7 +28,7 @@ const apiMethod = async (endpoint = "", requestParams) => {
 }
 
 const loginUser = async (loginData, user, token, setUser, setToken) => {
-  if (user == null && token == null ) {
+  if (!user && !token) {
     return apiMethod("/login", {
       method: "POST",
       headers: defaultHeaders(),

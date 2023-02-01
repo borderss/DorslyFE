@@ -11,9 +11,8 @@ export default function CartContextProvider(props) {
   }
   const [cart, setCart] = useState(defaultCart)
 
-  useEffect(() => {
-    console.log("cart changed")
-  }, [cart])
+  // useEffect(() => {
+  // }, [cart])
 
   const contextValue = useMemo((e) => {
     return {
