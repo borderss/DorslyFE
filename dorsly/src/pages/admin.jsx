@@ -13,8 +13,8 @@ import PeopleIcon from "/assets/svg/people.svg"
 import CommentIcon from "/assets/svg/reviewlogo.svg"
 import TakeawayIcon from "/assets/svg/takeaway.svg"
 
-import { UserContext } from "../contexts/userContext"
 import { PopupContext } from "../contexts/popupContext"
+import { UserContext } from "../contexts/userContext"
 
 export default function admin() {
   const navigate = useNavigate()
@@ -255,18 +255,20 @@ export default function admin() {
   })
 
   useEffect(() => {
-    let safe = true
-    if (!token) {
-      safe = false
-
-      setReloadCounter(reloadCounter + 1)
-
-      if (reloadCounter > 3) {
-        navigate("/")
+    console.log(user)
+    if (user === null || token === null) {
+      navigate("/")
+      return
+    } else {
+      if (user === false || token === false) {
+        return
       }
-    }
 
-    if (safe)
+      if (user.is_admin === 0) {
+        navigate("/")
+        return
+      }
+
       apiMethod("/filter_users", {
         method: "POST",
         headers: {
@@ -275,13 +277,12 @@ export default function admin() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(defaultPostBody),
-      })
-        .then((data) => {
+      }).then((data) => {
           console.log(data)
           setData(data)
-        })
-        .catch((error) => console.log(error))
-  }, [token])
+      }).catch((error) => console.log(error))
+    }
+  }, [user])
 
   useEffect(() => {
     if (!token) return
@@ -497,9 +498,6 @@ export default function admin() {
     pageTemplate = pageTemplate.substring(pageTemplate.lastIndexOf("/") + 1)
 
     pageTemplate = pageTemplate.split("=")[0]
-    console.log(pageTemplate)
-    console.log("/" + pageTemplate + "=" + pageIndex)
-
 
     apiMethod("/" + pageTemplate + "=" + pageIndex, {
       method: "POST",
@@ -549,7 +547,11 @@ export default function admin() {
 
         createPopup(
           "Invalid search parameter",
-          <p>You appear to have specified a search parameter "<b>{searchBy}</b>". It will be ignored, and a general search for "<b>{searchValue}</b>" will be made.</p>,
+          <p>
+            You appear to have specified a search parameter "<b>{searchBy}</b>".
+            It will be ignored, and a general search for "<b>{searchValue}</b>"
+            will be made.
+          </p>,
           "error",
           "Close",
           () => {
@@ -683,15 +685,18 @@ export default function admin() {
     let deleteData = data.data.find((row) => row.id == rowItemIndex)
 
     let deleteEndpointSection = section
-    
+
     if (section === "reviews") {
       deleteEndpointSection = "comments"
     }
-    
-    let apiData = await apiMethod("/" + deleteEndpointSection + "/" + deleteData.id, {
-      method: "DELETE",
-      headers: bearerHeaders(token),
-    })
+
+    let apiData = await apiMethod(
+      "/" + deleteEndpointSection + "/" + deleteData.id,
+      {
+        method: "DELETE",
+        headers: bearerHeaders(token),
+      }
+    )
 
     if (apiData && apiData.data.id == deleteData?.id) {
       let new_data = data.data.filter((item) => item.id != deleteData.id)
@@ -709,7 +714,12 @@ export default function admin() {
   }
 
   return (
-    <>
+    (user === false || token === false) ? (
+      <div>
+        loading...
+      </div>
+    ) : (
+      <>
       <Header />
       <div className={style["main-container"]}>
         <div className={style["side-navbar"]}>
@@ -871,9 +881,6 @@ export default function admin() {
                     if (e.target.value === "") {
                       e.target.value = data.meta.current_page
                     }
-
-                    console.log(e.target.value)
-                    console.log(data)
                   }}
                 />
 
@@ -884,5 +891,6 @@ export default function admin() {
         </div>
       </div>
     </>
+    )
   )
 }

@@ -67,28 +67,11 @@ export default function header() {
             <span>{userContext.user?.last_name}</span>
           </div>
           <div className={style["profile-dropdown"]}>
-            <a
-              href="/"
-              style={{ "--background-icon": `url(${SecondaryProfileIcon})` }}
-              onClick={(e) => {
-                e.preventDefault()
-                createPopup(
-                  "Not implemented yet",
-                  <p>This feature hasn't been implemented yet. Sorry!</p>,
-                  "error",
-                  "Close",
-                  () => {
-                    console.log("close")
-                  }
-                )
-              }}>
-              Profile
-            </a>
-            {/* <Link
-              to="/error"
+            <Link
+              to="/profile"
               style={{ "--background-icon": `url(${SecondaryProfileIcon})` }}>
               Profile
-            </Link> */}
+            </Link>
             <a
               href="/"
               style={{ "--background-icon": `url(${SettingsIcon})` }}

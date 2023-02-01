@@ -10,6 +10,7 @@ import Home from "./pages/home"
 import MainProductPage from "./pages/mainProductPage"
 import PaymentGateway from "./pages/paymentGateway"
 import Place from "./pages/place"
+import Profile from "./pages/profile"
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/products" element={<MainProductPage/>} />
         <Route path="/payment" element={<PaymentGateway />} />
         <Route path="/place" element={<Place />} />
+        <Route path="/profile" element={<Profile/>} />
         <Route path="/error" element={<Error/>} />
         <Route path="/admin" element={<Admin/>} />
         <Route path="/" element={<Home/>} />

@@ -4,8 +4,8 @@ import { apiMethod, bearerHeaders } from "../static/js/util"
 export const UserContext = createContext()
 
 export default function UserContextProvider(props) {
-  const [user, setUser] = useState(null)
-  const [token, setToken] = useState(null)
+  const [user, setUser] = useState(false)
+  const [token, setToken] = useState(false)
 
   const contextValue = useMemo(() => {
     return {
@@ -20,6 +20,8 @@ export default function UserContextProvider(props) {
     const token = window.localStorage.getItem("access_token")
 
     if (!token) {
+      setUser(null)
+      setUser(null)
       return
     }
 
@@ -28,8 +30,8 @@ export default function UserContextProvider(props) {
       headers: bearerHeaders(token)
     })
       .then((res) => {
-      console.log("user returned with token")
-      console.log(res)
+      // console.log("user returned with token")
+      // console.log(res)
 
       if (!res.message) {
         setUser(res)

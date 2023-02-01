@@ -32,8 +32,6 @@ export default function home() {
   useEffect(() => {
     document.body.style.backgroundImage = ""
 
-    window.scrollTo(0, 0)
-
     apiMethod("/popular_choices", {
       method: "GET",
       headers: defaultHeaders(),
@@ -52,6 +50,7 @@ export default function home() {
 
   const carouselPlaceholderData = [
     <div
+      key={1}
       style={{
         width: "100%",
         height: "100%",
