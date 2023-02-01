@@ -30,8 +30,6 @@ export default function mainProductPage() {
   const [todaysDealsCards, setTodaysDealsCards] = useState()
   const [popularChoicesCards, setPopularChoicesCards] = useState()
 
-  console.log("asdasd")
-
   useEffect(() => {
     window.scrollTo(0, 0)
 
@@ -249,7 +247,7 @@ export default function mainProductPage() {
       <Header />
 
       <div className={style["content"]}>
-        {location?.state?.data?.length > 0 && (
+        {location?.state?.data?.length > 0 ? (
           <div
             className={style["section"]}
             style={{ "--background-img": `url(${Results})` }}>
@@ -259,7 +257,18 @@ export default function mainProductPage() {
             </div>
             <img src={PageSeperator} />
           </div>
-        )}
+        ) : (
+          <div
+            className={style["section"]}
+            style={{ "--background-img": `url(${Results})` }}>
+            <h1 className={style["section-title"]}>Search results:</h1>
+            <div className={style["card-data-list"]}>
+              <h1>No results found.</h1>
+            </div>
+            <img src={PageSeperator} />
+          </div>
+        )
+      }
 
         <div
           className={style["section"]}
