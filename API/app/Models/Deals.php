@@ -9,14 +9,19 @@ class Deals extends Model
 {
     protected $fillable = [
         'user_id',
-        'point_of_interest_id',
-        'type',
-        'prices',
+        'reservation_id',
+        'pre_purchase_id',
         'status',
     ];
 
     public function PointOfInterest(){
-        return $this->belongsTo(PointOfInterest::class ,'point_of_interest_id');
+        $reservation = $this->belongsTo(Reservation::class, 'reservation_id');
+
+        return $reservation->belongsTo(PointOfInterest::class, 'point_of_interest_id');
+    }
+
+    public function Reservation(){
+        return $this->belongsTo(Reservation::class, 'reservation_id');
     }
 
     public function user(){

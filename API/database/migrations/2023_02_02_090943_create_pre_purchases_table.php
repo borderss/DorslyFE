@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('deals', function (Blueprint $table) {
+        Schema::create('pre_purchases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('reservation_id');
-            $table->foreignId('pre_purchase_id')->nullable();
-            $table->string('status')->default("active");
+            $table->foreignId('point_of_interest_id');
+            $table->json('products');
+            $table->string('status')->default("inactive");
+            $table->string('payment_status')->default("inactive");
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deals');
+        Schema::dropIfExists('pre_purchases');
     }
 };
