@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\PointOfInterest;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
@@ -12,53 +14,38 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function reservationAvailable(Request $request)
     {
-        // return user's reservations
+        $validated = $request->validate([
+            'point_of_interest_id' => 'required|integer',
+            'date' => 'required|date',
+            'time' => 'required|date_format:H:i',
+            'people' => 'required|integer',
+        ]);
+
+        $point_of_interest = PointOfInterest::find($validated['point_of_interest_id']);
+
+        if ($point_of_interest->is_open_round_the_clock) {
+            $reservations = Reservation::where('point_of_interest_id', $validated['point_of_interest_id'])
+                ->where('date', $validated['date'])
+                ->get();
+        } else {
+            $reservations = Reservation::where('point_of_interest_id', $validated['point_of_interest_id'])
+                ->where('date', $validated['date'])
+                ->where('opens_at', '<', $validated['time'])
+                ->where('closes_at', '>', $validated['time'])
+                ->get();
+        }
+
+        $available = true;
+
+        if ($reservations->count() >= $point_of_interest->max_people) {
+            $available = false;
+        }
+
+        return response()->json([
+            'available' => $available,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

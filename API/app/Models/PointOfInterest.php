@@ -15,6 +15,11 @@ class PointOfInterest extends Model
         return $this->provideFilter(\App\ModelFilters\PointOfInterestFilter::class);
     }
 
+    protected $casts = [
+        'opens_at'=> 'datetime:H:i',
+        'closes_at'=> 'datetime:H:i',
+    ];
+
     protected $fillable = [
         'name',
         'description',
@@ -24,7 +29,7 @@ class PointOfInterest extends Model
         'images',
         'opens_at',
         'closes_at',
-        'i_open_round_the_clock',
+        'is_open_round_the_clock',
         'is_takeaway',
         'is_on_location',
         'available_seats',

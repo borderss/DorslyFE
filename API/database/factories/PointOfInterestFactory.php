@@ -16,6 +16,22 @@ class PointOfInterestFactory extends Factory
      */
     public function definition()
     {
+        $round_the_clock = $this->faker->boolean;
+
+        if ($round_the_clock) {
+            $opens_at = null;
+            $closes_at = null;
+        } else {
+            $opens_at = $this->faker->time($format = 'H:i');
+            $closes_at = $this->faker->time($format = 'H:i');
+
+            if ($opens_at > $closes_at) {
+                $temp = $opens_at;
+                $opens_at = $closes_at;
+                $closes_at = $temp;
+            }
+        }
+
         return[
             'name' => $this->faker->name(),
             'description' => $this->faker->text($maxNbChars = 200),
@@ -23,9 +39,9 @@ class PointOfInterestFactory extends Factory
             'gps_lat' => $this->faker->latitude($min = -90, $max = 90),
             'country' => $this->faker->country(),
             'images' => $this->faker->imageUrl(1920, 1080, 'food'),
-            'opens_at' => $this->faker->time($format = 'H:i:s', $max = 'now'),
-            'closes_at' => $this->faker->time($format = 'H:i:s', $max = 'now'),
-            'is_open_round_the_clock' => $this->faker->boolean,
+            'opens_at' => $opens_at,
+            'closes_at' => $closes_at,
+            'is_open_round_the_clock' => $round_the_clock,
             'is_takeaway' => $this->faker->boolean,
             'is_on_location' => $this->faker->boolean,
             'available_seats' => $this->faker->randomDigit(),
