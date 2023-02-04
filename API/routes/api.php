@@ -5,8 +5,10 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DealsController;
 use App\Http\Controllers\Api\PointOfInterestController;
+use App\Http\Controllers\Api\PrePurchaseController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RatingController;
+use App\Http\Controllers\Api\ReservationController;
 use App\Http\Controllers\Api\TestMailController;
 use App\Http\Controllers\Api\TitlePhotoController;
 use App\Http\Controllers\Api\UserController;
@@ -46,6 +48,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/filter_deals',[DealsController::class, 'filter']);
     Route::post('/filter_points_of_interest',[PointOfInterestController::class, 'filter']);
     Route::post('/filter_products',[ProductController::class, 'filter']);
+
+    // TESTING
+    Route::post('/reservationAvailable',[ReservationController::class, 'reservationAvailable']); // check if available
+    Route::post('/createDeal', [DealsController::class, 'createDeal']); // create reservation
+    Route::post('/createPrePurchase', [PrePurchaseController::class, 'createPrePurchase']); // create pre-purchase (Requires deal to exist)
+    Route::get('/getDealFromPointOfInterest/{id}', [DealsController::class, 'getDealFromPointOfInterest']); // get deal from point of interest
 });
 
 // crud (only accessible to admins)
@@ -69,3 +77,4 @@ Route::get('/points_of_interest/{id}/products', [PointOfInterestController::clas
 Route::post('/getSession/{pointOfInterest}',[StripeController::class, 'getSession']);
 Route::post('/successPayment', [StripeController::class, 'successPayment']);
 Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);
+

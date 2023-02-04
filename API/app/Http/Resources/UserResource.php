@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -23,8 +24,8 @@ class UserResource extends JsonResource
             'gps_lng' => $this->gps_lng,
             'gps_lat' => $this->gps_lat,
             'is_admin' => $this->is_admin,
-            'created_at' => \Carbon\Carbon::parse($this->created_at)->format('d/m/Y H:i:s'),
-            'updated_at' => \Carbon\Carbon::parse($this->updated_at)->format('d/m/Y H:i:s'),
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
     }
 }

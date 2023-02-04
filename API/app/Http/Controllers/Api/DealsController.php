@@ -6,35 +6,64 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DealsRequest;
 use App\Http\Resources\DealsResourse;
 use App\Models\Deal;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 class DealsController extends Controller
 {
-    public function index()
+    public function getDealFromPointOfInterest($id)
     {
-        return DealsResourse::collection(Deal::paginate(10));
-    }
-    public function store(DealsRequest $request)
-    {
+        $deals = Deal::where('user_id', auth()->user()->id)
+            ->where('status', 'active')
+            ->WhereHas('reservation', function ($query) use ($id) {
+                $query->where('point_of_interest_id', $id);
+            })
+            ->get();
 
-    }
-
-    public function show($id)
-    {
-        return new DealsResourse(Deal::find($id));
+        return DealsResourse::collection($deals);
     }
 
-    public function update(DealsRequest $request, $id)
+    public function createDeal(Request $request)
     {
-        Deal::find($id)->update($request->validated());
+        $validated = $request->validate([
+            'point_of_interest_id' => 'required|integer',
+            'date' => 'required|date_format:Y-m-d H:i|after_or_equal:today',
+            'people' => 'required|integer',
+        ]);
 
-        return new DealsResourse(Deal::find($id));
-    }
+        $active_deals = Deal::where('user_id', auth()->user()->id)
+            ->where('status', 'active')
+            ->WhereHas('reservation', function ($query) use ($validated) {
+                $query->where('point_of_interest_id', $validated['point_of_interest_id']);
+            })
+            ->get();
 
-    public function destroy($id)
-    {
-        $deal = Deal::find($id);
-        $deal->delete();
+        if ($active_deals->count() > 0) {
+            return response()->json([
+                'message' => 'You already have an active deal here.',
+            ], 400);
+        }
+
+        if (!(new ReservationController)->reservationAvailable($request)->original['available']) {
+            return response()->json([
+                'message' => 'Reservation could not be created.',
+            ], 400);
+        }
+
+        $reservation = Reservation::create([
+            'point_of_interest_id' => $validated['point_of_interest_id'],
+            'date' => $validated['date'],
+            'number_of_people' => $validated['people'],
+        ]);
+
+        $deal = Deal::create([
+            'user_id' => auth()->user()->id,
+            'point_of_interest_id' => $reservation->point_of_interest_id,
+            'reservation_id' => $reservation->id,
+            'pre_purchase_id' => null,
+            'status' => 'active',
+        ]);
+
         return new DealsResourse($deal);
     }
 
@@ -49,10 +78,11 @@ class DealsController extends Controller
         if ($validated['by'] == 'all'){
             $users = Deal::where('id', "LIKE", "%{$validated['value']}%")
                 ->orWhere('user_id', "LIKE", "%{$validated['value']}%")
-                ->orWhere('point_of_interest_id', "LIKE", "%{$validated['value']}%")
-                ->orWhere('type', "LIKE", "%{$validated['value']}%")
-                ->orWhere('prices', "LIKE", "%{$validated['value']}%")
+                ->orWhere('reservation_id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('pre_purchase_id', "LIKE", "%{$validated['value']}%")
                 ->orWhere('status', "LIKE", "%{$validated['value']}%")
+                ->orWhere('created_at', "LIKE", "%{$validated['value']}%")
+                ->orWhere('updated_at', "LIKE", "%{$validated['value']}%")
                 ->paginate($validated['paginate']);
         } else {
             $users = Deal::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);

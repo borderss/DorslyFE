@@ -12,6 +12,7 @@ class PrePurchase extends Model
     protected $fillable = [
         'point_of_interest_id',
         'products',
+        'total_price',
         'status',
         'payment_status',
     ];

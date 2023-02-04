@@ -87,6 +87,8 @@ class ProductController extends Controller
                 ->orWhere('point_of_interest_id', "LIKE", "%{$validated['value']}%")
                 ->orWhere('ingredients', "LIKE", "%{$validated['value']}%")
                 ->orWhere('price', "LIKE", "%{$validated['value']}%")
+                ->orWhere('created_at', "LIKE", "%{$validated['value']}%")
+                ->orWhere('updated_at', "LIKE", "%{$validated['value']}%")
                 ->paginate($validated['paginate']);
         } else {
             $users = Product::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);

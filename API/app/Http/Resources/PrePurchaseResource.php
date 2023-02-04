@@ -17,10 +17,11 @@ class PrePurchaseResource extends JsonResource
         return [
             'id' => $this->id,
             'products' => $this->products,
+            'total_price' => $this->total_price,
             'status' => $this->status,
             'payment_status' => $this->payment_status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
     }
 }

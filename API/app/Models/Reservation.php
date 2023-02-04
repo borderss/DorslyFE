@@ -12,7 +12,6 @@ class Reservation extends Model
     protected $fillable = [
         'point_of_interest_id',
         'date',
-        'time',
         'number_of_people',
     ];
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -90,6 +91,8 @@ class UserController extends Controller
                 ->orWhere('phone_number', "LIKE", "%{$validated['value']}%")
                 ->orWhere('email', "LIKE", "%{$validated['value']}%")
                 ->orWhere('is_admin', "LIKE", "%{$validated['value']}%")
+                ->orWhere('created_at', "LIKE", "%{$validated['value']}%")
+                ->orWhere('updated_at', "LIKE", "%{$validated['value']}%")
                 ->paginate($validated['paginate']);
         } else {
             $users = User::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);

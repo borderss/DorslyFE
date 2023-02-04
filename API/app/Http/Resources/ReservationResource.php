@@ -20,8 +20,8 @@ class ReservationResource extends JsonResource
             'date' => $this->date,
             'time' => $this->time,
             'number_of_people' => $this->number_of_people,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
     }
 }
