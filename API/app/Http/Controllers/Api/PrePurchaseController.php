@@ -20,46 +20,46 @@ class PrePurchaseController extends Controller
             'products.*.quantity' => 'required|integer',
         ]);
 
-        $user_deal = Deal::where('status', 'active')
+        $userDeal = Deal::where('status', 'active')
             ->where('user_id', auth()->user()->id)
             ->whereHas('reservation', function ($query) use ($validated){
                 $query->where('point_of_interest_id', $validated['point_of_interest_id']);
             })->first();
 
-        if (!$user_deal){
+        if (!$userDeal){
             return response()->json([
                 'message' => 'You do not have an active deal (reservation) here.'
             ], 400);
         }
 
-        if ($user_deal->pre_purchase_id){
+        if ($userDeal->pre_purchase_id){
             return response()->json([
                 'message' => 'You already have a pre-purchase here.'
             ], 400);
         }
 
-        $valid_products = Product::where('point_of_interest_id', $validated['point_of_interest_id'])->get();
-        $total_price = 0.00;
+        $validProducts = Product::where('point_of_interest_id', $validated['point_of_interest_id'])->get();
+        $totalPrice = 0.00;
 
         foreach ($validated['products'] as $product){
-            if (!$valid_products->contains($product['id'])){
+            if (!$validProducts->contains($product['id'])){
                 return response()->json([
                     'message' => 'Invalid product id'
                 ], 400);
             }
 
-            $total_price += $product['quantity'] * $valid_products->find($product['id'])->price;
+            $totalPrice += $product['quantity'] * $validProducts->find($product['id'])->price;
         }
 
         $prePurchase = PrePurchase::create([
             'point_of_interest_id' => $validated['point_of_interest_id'],
             'products' => json_encode($validated['products']),
-            'total_price' => $total_price,
+            'total_price' => $totalPrice,
             'status' => 'pending',
             'payment_status' => 'pending',
         ]);
 
-        $user_deal->update([
+        $userDeal->update([
             'pre_purchase_id' => $prePurchase->id,
         ]);
 

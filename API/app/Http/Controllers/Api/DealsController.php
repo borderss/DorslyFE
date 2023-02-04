@@ -31,14 +31,14 @@ class DealsController extends Controller
             'people' => 'required|integer',
         ]);
 
-        $active_deals = Deal::where('user_id', auth()->user()->id)
+        $activeDeals = Deal::where('user_id', auth()->user()->id)
             ->where('status', 'active')
             ->WhereHas('reservation', function ($query) use ($validated) {
                 $query->where('point_of_interest_id', $validated['point_of_interest_id']);
             })
             ->get();
 
-        if ($active_deals->count() > 0) {
+        if ($activeDeals->count() > 0) {
             return response()->json([
                 'message' => 'You already have an active deal here.',
             ], 400);

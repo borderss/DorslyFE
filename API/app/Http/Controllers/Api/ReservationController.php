@@ -24,22 +24,19 @@ class ReservationController extends Controller
             'people' => 'required|integer',
         ]);
 
-        $point_of_interest = PointOfInterest::find($validated['point_of_interest_id']);
+        $pointOfInterest = PointOfInterest::find($validated['point_of_interest_id']);
 
-        $time_lower_bound = Carbon::createFromFormat('Y-m-d H:i', $validated['date'])->subMinutes(10);
-        $time_upper_bound = Carbon::createFromFormat('Y-m-d H:i', $validated['date'])->addMinutes(10);
+        $timeLowerBound = Carbon::createFromFormat('Y-m-d H:i', $validated['date'])->subMinutes(10);
+        $timeUpperBound = Carbon::createFromFormat('Y-m-d H:i', $validated['date'])->addMinutes(10);
 
         $reservations_in_range = Reservation::where('point_of_interest_id', $validated['point_of_interest_id'])
-            ->where('date', '>=', $time_lower_bound)
-            ->where('date', '<=', $time_upper_bound)
+            ->where('date', '>=', $timeLowerBound)
+            ->where('date', '<=', $timeUpperBound)
             ->get();
 
         $available = true;
 
-        error_log($reservations_in_range->count());
-        error_log($point_of_interest->available_seats);
-
-        if ($reservations_in_range->count() >= $point_of_interest->available_seats) {
+        if ($reservations_in_range->count() >= $pointOfInterest->available_seats) {
             $available = false;
         };
 
