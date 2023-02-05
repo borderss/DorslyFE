@@ -11,6 +11,15 @@ use Illuminate\Http\Request;
 
 class DealsController extends Controller
 {
+    public function getDeals()
+    {
+        $deals = Deal::where('user_id', auth()->user()->id)
+            ->where('status', 'active')
+            ->get();
+
+        return DealsResourse::collection($deals);
+    }
+
     public function getDealFromPointOfInterest($id)
     {
         $deals = Deal::where('user_id', auth()->user()->id)

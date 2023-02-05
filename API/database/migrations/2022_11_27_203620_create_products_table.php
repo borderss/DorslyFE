@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->foreignId('point_of_interest_id')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreignId('point_of_interest_id')->onDelete('SET NULL')->onUpdate('CASCADE')->constrained();
             $table->string('ingredients');
             $table->string('image');
             $table->decimal('price');

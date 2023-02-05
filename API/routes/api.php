@@ -54,6 +54,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/createDeal', [DealsController::class, 'createDeal']); // create reservation
     Route::post('/createPrePurchase', [PrePurchaseController::class, 'createPrePurchase']); // create pre-purchase (Requires deal to exist)
     Route::get('/getDealFromPointOfInterest/{id}', [DealsController::class, 'getDealFromPointOfInterest']); // get deal from point of interest
+    Route::get('/getDeals', [DealsController::class, 'getDeals']); // get user's deals
+
+    // STRIPE
+    Route::post('/getSession/{pointOfInterest}',[StripeController::class, 'getSession']);
+    Route::post('/successPayment', [StripeController::class, 'successPayment']);
+    Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);
 });
 
 // crud (only accessible to admins)
@@ -71,10 +77,3 @@ Route::get('/popular_choices', [PointOfInterestController::class, 'getPopularSel
 
 Route::get('/points_of_interest/{id}/comments', [PointOfInterestController::class, 'getComments']);
 Route::get('/points_of_interest/{id}/products', [PointOfInterestController::class, 'getProducts']);
-
-
-// stripe (only accessible to registered users)
-Route::post('/getSession/{pointOfInterest}',[StripeController::class, 'getSession']);
-Route::post('/successPayment', [StripeController::class, 'successPayment']);
-Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);
-

@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             'is_email_allowed' => true,
         ]);
 
-         User::factory(33)->create();
+         User::factory(133)->create();
          PointOfInterest::factory(70)->create();
          Product::factory(550)->create();
          Rating::factory(1450)->create();

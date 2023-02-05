@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->onDelete('SET NULL')->onUpdate('CASCADE');
-            $table->foreignId('point_of_interest_id')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreignId('user_id')->onDelete('SET NULL')->onUpdate('CASCADE')->constrained();
+            $table->foreignId('point_of_interest_id')->onDelete('SET NULL')->onUpdate('CASCADE')->constrained();
             $table->integer('rating');
             $table->timestamps();
         });

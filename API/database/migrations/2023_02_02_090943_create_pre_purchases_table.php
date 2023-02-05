@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pre_purchases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('point_of_interest_id');
+            $table->foreignId('point_of_interest_id')->constrained();
             $table->json('products');
             $table->decimal('total_price', 8, 2)->default(0.00);
             $table->string('status')->default("inactive");

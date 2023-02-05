@@ -142,6 +142,7 @@
       <path value="$PROJECT_DIR$/API/vendor/symfony/polyfill-intl-icu" />
       <path value="$PROJECT_DIR$/api/vendor/doctrine/deprecations" />
       <path value="$PROJECT_DIR$/API/vendor/tucker-eric/eloquentfilter" />
+      <path value="$PROJECT_DIR$/API/vendor/doctrine/deprecations" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">

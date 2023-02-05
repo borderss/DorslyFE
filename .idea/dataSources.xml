@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="dorsly@localhost" uuid="8b66cffa-3cf9-4eef-bc85-692db55f61bd">
+    <data-source source="LOCAL" name="dorsly@localhost [2]" uuid="f85606f4-acc1-45ae-b221-968e59983bd1">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5433/dorsly</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/dorsly</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

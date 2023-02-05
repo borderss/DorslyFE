@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreignId('user_id')->onDelete('SET NULL')->onUpdate('CASCADE')->constrained();
             $table->string('name');
             $table->string('stripe_id')->unique();
             $table->string('stripe_status');
