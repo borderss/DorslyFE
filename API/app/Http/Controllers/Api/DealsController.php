@@ -11,25 +11,42 @@ use Illuminate\Http\Request;
 
 class DealsController extends Controller
 {
+    private function updateDealStatus($deal)
+    {
+        $reservation = Reservation::find($deal->reservation_id);
+
+        if ($reservation->date < now()) {
+            $deal->status = 'completed';
+            $deal->save();
+            return false;
+        }
+
+        return true;
+    }
+
     public function getDeals()
     {
-        $deals = Deal::where('user_id', auth()->user()->id)
-            ->where('status', 'active')
-            ->get();
+        $deals = Deal::where('user_id', auth()->user()->id)->get();
+
+        if ($deals->count() > 0) {
+            foreach ($deals as $deal) {
+                $this->updateDealStatus($deal);
+            }
+        }
 
         return DealsResourse::collection($deals);
     }
 
     public function getDealFromPointOfInterest($id)
     {
-        $deals = Deal::where('user_id', auth()->user()->id)
+        $deal = Deal::where('user_id', auth()->user()->id)
             ->where('status', 'active')
             ->WhereHas('reservation', function ($query) use ($id) {
                 $query->where('point_of_interest_id', $id);
             })
             ->get();
 
-        return DealsResourse::collection($deals);
+        return DealsResourse::collection($deal);
     }
 
     public function createDeal(Request $request)

@@ -2,6 +2,7 @@
 
 namespace App\ModelFilters;
 
+use Carbon\Carbon;
 use EloquentFilter\ModelFilter;
 
 class PointOfInterestFilter extends ModelFilter
@@ -21,18 +22,25 @@ class PointOfInterestFilter extends ModelFilter
 
     public function name($name)
     {
-        return $this->whereLike('name', $name);
+        return $this->where('name', 'ilike', "%$name%");
     }
 
     public function country($country)
     {
-        return $this->whereLike('country', $country);
+        return $this->where('country', 'ilike', "%$country%");
     }
 
-    public function jobtime($jobtime)
+    public function date($dateTime)
     {
-        $this->where('opens_at', '<=', $jobtime)
-            ->where('closes_at', '>', $jobtime);
+        $time = Carbon::createFromDate($dateTime)->format('H:i:s');
+
+        return $this->where(function ($query) use ($time) {
+            $query->where('is_open_round_the_clock', true)
+                ->orWhere([
+                    ['opens_at', '<=', $time],
+                    ['closes_at', '>', $time]
+                ]);
+        })->get();
     }
 
     public function open($open)
@@ -47,7 +55,7 @@ class PointOfInterestFilter extends ModelFilter
 
     public function seats($seats)
     {
-        return $this->where('available_seats', '<=', $seats);
+        return $this->where('available_seats', '>=', $seats);
     }
 
     public function review($review)

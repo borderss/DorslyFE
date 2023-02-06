@@ -15,10 +15,10 @@ class PointOfInterest extends Model
         return $this->provideFilter(\App\ModelFilters\PointOfInterestFilter::class);
     }
 
-    protected $casts = [
-        'opens_at'=> 'datetime:H:i',
-        'closes_at'=> 'datetime:H:i',
-    ];
+//    protected $casts = [
+//        'opens_at'=> 'datetime:H:i',
+//        'closes_at'=> 'datetime:H:i',
+//    ];
 
     protected $fillable = [
         'name',

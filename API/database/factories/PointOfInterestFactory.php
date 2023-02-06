@@ -22,8 +22,8 @@ class PointOfInterestFactory extends Factory
             $opens_at = null;
             $closes_at = null;
         } else {
-            $opens_at = $this->faker->time($format = 'H:i');
-            $closes_at = $this->faker->time($format = 'H:i');
+            $opens_at = $this->faker->time('H:i');
+            $closes_at = $this->faker->time('H:i');
 
             if ($opens_at > $closes_at) {
                 $temp = $opens_at;

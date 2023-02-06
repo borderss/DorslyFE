@@ -21,8 +21,8 @@ return new class extends Migration
             $table->float('gps_lat');
             $table->string('country');
             $table->string('images');
-            $table->string('opens_at')->nullable();
-            $table->string('closes_at')->nullable();
+            $table->time('opens_at')->nullable();
+            $table->time('closes_at')->nullable();
             $table->boolean('is_open_round_the_clock');
             $table->boolean('is_takeaway');
             $table->boolean('is_on_location');
