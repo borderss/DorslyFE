@@ -1,6 +1,6 @@
 .header-content {
   position: relative;
-  background-image: url("/assets/svg/homebackground.svg");
+  background-image: url("/assets/svg/homeBackground.svg");
   background-size: 100% auto;
   width: min(1920px, 100vw);
   aspect-ratio: 1920/2310;
