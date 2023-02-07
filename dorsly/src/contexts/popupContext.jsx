@@ -11,7 +11,9 @@ export const PopupContext = createContext()
 
 export default function PopupContextProvider(props) {
   const removeHandler = (index) => {
-    let popupCard = document.querySelectorAll('.' + style['popup-card-container'])[0].querySelector('.' + style['popup-card'])
+    let popupCard = document
+      .querySelectorAll("." + style["popup-card-container"])[0]
+      .querySelector("." + style["popup-card"])
 
     popupCard.classList.add(style["remove"])
 
@@ -66,7 +68,7 @@ export default function PopupContextProvider(props) {
               {popup.buttons.map((btn, index) => {
                 return (
                   <button
-                    className={style[`popup-card-button ${btn?.style}`]}
+                    className={style[`popup-card-button-${btn?.style}`]}
                     key={index}
                     onClick={(e) => btn?.onClick(popup.id)}>
                     {btn?.text}
@@ -81,11 +83,15 @@ export default function PopupContextProvider(props) {
 
     setPopupCards(popupCardArr)
 
-    document.querySelectorAll('.' + style["popup-card-container"]).forEach((popupCardContainer) => {
-      document.querySelectorAll('.' + style["popup-card-container"]).length > 1 && (
-        popupCardContainer.querySelector('.' + style["popup-card"]).classList.remove(style["remove"])
-      )
-    })
+    document
+      .querySelectorAll("." + style["popup-card-container"])
+      .forEach((popupCardContainer) => {
+        document.querySelectorAll("." + style["popup-card-container"]).length >
+          1 &&
+          popupCardContainer
+            .querySelector("." + style["popup-card"])
+            .classList.remove(style["remove"])
+      })
   }, [popupData])
 
   const createPopup = (
