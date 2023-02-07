@@ -1,6 +1,6 @@
-var api = "http://127.0.0.1:8000/api"
+var api = "http://127.0.0.1/api"
 
-if (import.meta.env.MODE == "production" || true) {
+if (import.meta.env.MODE == "production") {
   api = "https://api.dorsly.com/api"
 }
 

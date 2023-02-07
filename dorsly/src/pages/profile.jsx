@@ -16,7 +16,7 @@ export default function profile() {
 
   const [section, setSection] = useState("reservations")
 
-  const navigate = useNavigate()
+  const navigate = useNavigate() 
 
   useEffect(() => {
     document.body.style.backgroundImage = ""

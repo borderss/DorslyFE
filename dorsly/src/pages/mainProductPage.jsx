@@ -47,6 +47,8 @@ export default function mainProductPage() {
       setPopularChociesCardData(data.data)
     })
 
+    console.log(location?.state?.data)
+
     const searchCardsData = location?.state?.data?.map((card, id) => {
       return <Card key={id} data={card} />
     })
@@ -247,26 +249,30 @@ export default function mainProductPage() {
       <Header />
 
       <div className={style["content"]}>
-        {location?.state?.data?.length > 0 ? (
-          <div
-            className={style["section"]}
-            style={{ "--background-img": `url(${Results})` }}>
-            <h1 className={style["section-title"]}>Search results:</h1>
-            <div className={style["card-data-list"]}>
-                {searchCards}
+        {location?.state?.data ? (
+          location?.state?.data?.length > 0 ? (
+            <div
+              className={style["section"]}
+              style={{ "--background-img": `url(${Results})` }}>
+              <h1 className={style["section-title"]}>Search results:</h1>
+              <div className={style["card-data-list"]}>
+                  {searchCards}
+              </div>
+              <img src={PageSeperator} />
             </div>
-            <img src={PageSeperator} />
-          </div>
+          ) : (
+            <div
+              className={style["section"]}
+              style={{ "--background-img": `url(${Results})` }}>
+              <h1 className={style["section-title"]}>Search results:</h1>
+              <div className={style["card-data-list"]}>
+                <h1>No results found.</h1>
+              </div>
+              <img src={PageSeperator} />
+            </div>
+          )
         ) : (
-          <div
-            className={style["section"]}
-            style={{ "--background-img": `url(${Results})` }}>
-            <h1 className={style["section-title"]}>Search results:</h1>
-            <div className={style["card-data-list"]}>
-              <h1>No results found.</h1>
-            </div>
-            <img src={PageSeperator} />
-          </div>
+          null
         )
       }
 
