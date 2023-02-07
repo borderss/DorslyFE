@@ -84,14 +84,18 @@ export default function mainSearchBar() {
   const handleSubmit = (e) => {
     e.preventDefault()
     let formData = new FormData(e.target)
-    let data = Object.fromEntries(formData.entries()) // convert formData to object
+    let data = Object.fromEntries(formData.entries())
     data.personCount = parseInt(data.personCount)
 
     console.log(data)
-  }
 
-  const handleSearchClick = (_) => {
-    apiMethod(`/points_of_interest/?jobtime=${time}&seats=${time}` +  (searchText ? `&name=${searchText}` : ""), {
+    let date = data.date.split("-")
+    let time = data.time.split(":")
+
+    let dateTime = `${date[0]}-${date[1]}-${date[2]} ${time[0]}:${time[1]}`
+    console.log(dateTime)
+
+    apiMethod(`/points_of_interest${ (searchText ? `?name=${searchText}&` : "?")}date=${dateTime}&seats=${data.personCount}`, {
       method: "GET",
       headers: defaultHeaders(),
     }).then((data) => {
@@ -153,7 +157,7 @@ export default function mainSearchBar() {
           onChange={handleSearchTextChange}
           placeholder="Search..."
         />
-        <button onClick={(e) => handleSearchClick(e)}>Search</button>
+        <button>Search</button>
       </div>
     </form>
   )
