@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('total_price', 8, 2)->default(0.00);
             $table->string('status')->default("inactive");
             $table->string('payment_status')->default("inactive");
+            $table->string('payment_id')->nullable();
             $table->timestamps();
         });
     }

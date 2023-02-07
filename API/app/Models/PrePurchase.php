@@ -15,5 +15,6 @@ class PrePurchase extends Model
         'total_price',
         'status',
         'payment_status',
+        'payment_id',
     ];
 }

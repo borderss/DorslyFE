@@ -43,6 +43,7 @@ class PrePurchaseFactory extends Factory
             $payment_status = 'payment_failed';
         } else if ($status === 'accepted') {
             $payment_status = 'succeeded';
+            $payment_id = $this->faker->uuid;
         } else {
             $payment_status = $this->faker->randomElement(['processing', 'amount_capturable_updated']);
         }
@@ -52,6 +53,7 @@ class PrePurchaseFactory extends Factory
             'products'=> json_encode($products),
             'status'=>$status,
             'payment_status'=> $payment_status,
+            'payment_id'=> $payment_id ?? null,
         ];
     }
 }
