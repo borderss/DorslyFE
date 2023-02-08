@@ -36,7 +36,7 @@ class ReservationController extends Controller
 
         $available = true;
 
-        if ($reservations_in_range->count() >= $pointOfInterest->available_seats) {
+        if ($validated['people'] > $pointOfInterest->available_seats) {
             $available = false;
         };
 

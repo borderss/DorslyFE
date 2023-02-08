@@ -15,6 +15,20 @@ class DealsResourse extends JsonResource
      */
     public function toArray($request)
     {
+        if (!$this->prePurchase){
+            return[
+                'id' => $this->id,
+                'point_of_interest_id' => $this->pointOfInterest->id,
+                'reservation' => [
+                    'id' => $this->reservation->id,
+                    'date' => $this->reservation->date,
+                    'number_of_people' => $this->reservation->number_of_people,
+                ],
+                'user_id'=> $this->user->id,
+                'status' => $this->status,
+            ];
+        }
+
         return[
             'id' => $this->id,
             'point_of_interest_id' => $this->pointOfInterest->id,
@@ -29,6 +43,7 @@ class DealsResourse extends JsonResource
                 'total_price' => $this->prePurchase->total_price,
                 'status' => $this->prePurchase->status,
                 'payment_status' => $this->prePurchase->payment_status,
+                'payment_id' => $this->prePurchase->payment_id,
             ],
             'user_id'=> $this->user->id,
             'status' => $this->status,

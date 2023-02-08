@@ -16,7 +16,7 @@ class PrePurchaseResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'products' => $this->products,
+            'products' => json_decode($this->products),
             'total_price' => $this->total_price,
             'status' => $this->status,
             'payment_status' => $this->payment_status,

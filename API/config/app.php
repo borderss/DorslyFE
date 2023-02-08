@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Facade;
 return [
 
     'stripe_secret' => env('STRIPE_SECRET'),
+    'stripe_webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
 
     /*
     |--------------------------------------------------------------------------

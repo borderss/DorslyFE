@@ -6,19 +6,36 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DealsRequest;
 use App\Http\Resources\DealsResourse;
 use App\Models\Deal;
+use App\Models\PrePurchase;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Stripe\StripeClient;
 
 class DealsController extends Controller
 {
     private function updateDealStatus($deal)
     {
+        $stripe = new StripeClient(config('app.stripe_secret'));
         $reservation = Reservation::find($deal->reservation_id);
 
         if ($reservation->date < now()) {
             $deal->status = 'completed';
             $deal->save();
             return false;
+        }
+
+        if ($deal->pre_purchase_id !== null) {
+            $pre_purchase = PrePurchase::find($deal->pre_purchase_id);
+
+            if ($pre_purchase->payment_id !== null) {
+                $session = $stripe->checkout->sessions->retrieve($pre_purchase->payment_id);
+
+                if ($pre_purchase && $session->status === 'complete' && $pre_purchase->status !== 'complete') {
+                    $pre_purchase->status = 'complete';
+                    $pre_purchase->save();
+                    return false;
+                }
+            }
         }
 
         return true;

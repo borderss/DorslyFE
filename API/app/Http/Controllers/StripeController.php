@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Deal;
 use App\Models\PointOfInterest;
 use App\Models\Product;
 use App\Models\User;
@@ -11,54 +12,15 @@ use Stripe\StripeClient;
 
 class StripeController extends Controller
 {
-    public function getSession(Request $request, PointOfInterest $pointOfInterest) {
-        $stripe = new \Stripe\StripeClient(config('app.stripe_secret'));
-        $validated = $request->validate([
-            'products' => 'required|array',
-            'products.*.product_id' => 'required|numeric',
-            'products.*.amount' => 'required|numeric',
-        ]);
-
-        $stripeLineItems = [];
-
-        foreach ($validated['products'] as $productRow) {
-            $product = Product::find($productRow['product_id']);
-
-            $stripeLineItem = [
-                'price_data' => [
-                    'currency' => 'eur',
-                    'unit_amount' => round($product->price * 100),
-                    'product_data' => [
-                        'name' => $product->name,
-                        'description' => 'eur',
-                        'images' => [
-                            $product->image
-                        ],
-                    ],
-                ],
-                'quantity' => $productRow['amount'],
-            ];
-
-            $stripeLineItems[] = $stripeLineItem;
-        }
-
-        $session = $stripe->checkout->sessions->create([
-            'line_items' => [
-                $stripeLineItems
-            ],
-            'mode' => 'payment',
-            'success_url' => 'https://www.dorsly.com/payment'.'?poi='.$pointOfInterest->id.'&session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => 'https://www.dorsly.com/error',
-        ]);
-
-        return response()->json([
-            'url' => $session['url'],
-        ]);
-    }
-
     public function successPayment (Request $request) {
         $stripe = new StripeClient(config('app.stripe_secret'));
         $session = $stripe->checkout->sessions->retrieve($request->get('session_id'));
+
+        if ($session->status === 'paid') {
+            $user_id = auth()->user()->id;
+            $user_deal = Deal::where('user_id', $user_id);
+            $user_deal->save();
+        }
 
         return response()->json([
             'data' => [
