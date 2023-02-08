@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
-import { apiMethod, defaultHeaders } from "../static/js/util"
+import { apiMethod, bearerHeaders, defaultHeaders } from "../static/js/util"
 
 import Map from "../components/map"
 import ReservationBar from "../components/reservationBar"
@@ -101,24 +101,29 @@ export default function place() {
   useEffect(() => {
     // read state from navigate
     if (location.state?.paymentSuccess) {
-      createPopup(    
+      createPopup(
         "Payment Successful",
         <p>Your payment was successful!</p>,
         "success",
         "Close",
         () => {
           console.log("close")
-        })
+        }
+      )
       console.log("payment success!")
     } else if (location.state?.paymentSuccess == false) {
-      createPopup(    
+      createPopup(
         "Payment Failed",
-        <p>Your payment was not successful. Please try again or contact customer support.</p>,
+        <p>
+          Your payment was not successful. Please try again or contact customer
+          support.
+        </p>,
         "error",
         "Close",
         () => {
           console.log("close")
-        })
+        }
+      )
       console.log("payment failed!")
     }
   }, [location])
@@ -193,6 +198,23 @@ export default function place() {
     }
 
     const handlePayment = () => {
+      if (!user) {
+        createPopup(
+          "Login Required",
+          <p>You must be logged in to purchase items.</p>,
+          "error",
+          "Login Now",
+          () => {
+            navigate("/login")
+          },
+          "Close",
+          () => {
+            console.log("close")
+          }
+        )
+        return
+      }
+
       let sessionData = []
 
       cart.items.forEach((item) => {
@@ -204,7 +226,7 @@ export default function place() {
 
       apiMethod("/getSession/" + searchParams.get("p"), {
         method: "POST",
-        headers: defaultHeaders(),
+        headers: bearerHeaders(token),
         body: JSON.stringify({
           products: sessionData,
         }),
@@ -362,7 +384,11 @@ export default function place() {
         return (
           <div
             key={id}
-            className={!isProductInCart ? style["product"] : style["product"] + " " + style["product-active"]}
+            className={
+              !isProductInCart
+                ? style["product"]
+                : style["product"] + " " + style["product-active"]
+            }
             onClick={(e) => {
               handleProductClick(e, product)
             }}>

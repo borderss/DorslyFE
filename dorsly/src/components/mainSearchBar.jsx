@@ -95,7 +95,7 @@ export default function mainSearchBar() {
     let dateTime = `${date[0]}-${date[1]}-${date[2]} ${time[0]}:${time[1]}`
     console.log(dateTime)
 
-    apiMethod(`/points_of_interest${ (searchText ? `?name=${searchText}&` : "?")}date=${dateTime}&seats=${data.personCount}`, {
+    apiMethod(`/points_of_interest?date=${dateTime}&seats=${data.personCount}${(searchText ? `&name=${searchText}` : "")}`, {
       method: "GET",
       headers: defaultHeaders(),
     }).then((data) => {

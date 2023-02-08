@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import style from "../static/css/reservationBar.module.css"
@@ -7,7 +7,13 @@ import CalendarIcon from "/assets/svg/calendar.svg"
 import ClockIcon from "/assets/svg/clock.svg"
 import PersonIcon from "/assets/svg/person.svg"
 
+import { PopupContext } from "../contexts/popupContext"
+import { UserContext } from "../contexts/userContext"
+
 export default function mainSearchBar() {
+  const { user, token, setUser, setToken } = useContext(UserContext)
+  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
+
   const navigate = useNavigate()
 
   const [date, setDate] = useState(new Date())
@@ -77,21 +83,31 @@ export default function mainSearchBar() {
   const handleSubmit = (e) => {
     e.preventDefault()
     let formData = new FormData(e.target)
-    let data = Object.fromEntries(formData.entries()) // convert formData to object
+    let data = Object.fromEntries(formData.entries())
     data.personCount = parseInt(data.personCount)
 
-    console.log(data)
-  }
+    if (!user) {
+      createPopup(
+        "Login Required",
+        <p>You must be logged in to make a reservation.</p>,
+        "error",
+        "Login Now",
+        () => {
+          navigate("/login")
+        },
+        "Close",
+        () => {
+          console.log("close")
+        }
+      )
+      return
+    }
 
-  const handleReserveClick = (_) => {
     console.log({
       date: date,
       time: time,
       personCount: personCount,
     })
-    
-
-    console.log("Reserved: " + date + " " + time + " " + personCount + " people")
   }
 
   return (
@@ -131,11 +147,7 @@ export default function mainSearchBar() {
         <span>{personText}</span>
       </div>
 
-      <button
-        onClick={(e) => handleReserveClick(e)}
-        style={{ "marginBlock": "3px" }}>
-        Reserve
-      </button>
+      <button style={{ marginBlock: "3px" }}>Reserve</button>
     </form>
   )
 }

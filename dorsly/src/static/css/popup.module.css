@@ -36,7 +36,6 @@
   margin: 20px;
   font-family: "Lexend";
   position: relative;
-  overflow: hidden;
   transition: 0.2s;
 }
 
@@ -72,7 +71,6 @@
   }
 }
 
-
 .popup-card:hover {
   scale: 1.02;
 }
@@ -85,7 +83,6 @@
   border-top-right-radius: 10px;
   display: flex;
   align-items: center;
-  padding: 0 10px;
 }
 
 .popup-card-icon {
@@ -96,7 +93,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 10px;
+  margin-inline: 10px;
 }
 
 .popup-card-icon > img {
@@ -136,26 +133,29 @@
   height: 7px;
 }
 
-/* 
-<div className={style["popup-card"]} key={index}>
-  <div className={style["popup-card-header"]}>
-    <div className={style["popup-card-icon"]}>
-      <img src={iconDecal}/>
-    </div>
-    <div className={style["popup-card-title"]}>{popup.title}</div>
-  </div>
-  <div className={style["popup-card-body"]}>{popup.description}</div>
-  <div className={style["popup-card-footer"]}>
-    {popup.buttons.map((button, index) => {
-      return (
-        <button
-          className={style[`popup-card-button ${button.style}`]}
-          key={index}
-          onClick={(e) => button.onClick(popup.id)}>
-          {button.text}
-        </button>
-      )
-    })}
-  </div>
-</div> 
-*/
+.popup-card-button-secondary {
+  background: none;
+  color: #737373;
+  font-weight: 300;
+}
+
+.popup-card-button-secondary:hover {
+  background: none;
+  color: #616161;
+}
+
+.popup-card-count {
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  line-height: 45px;
+  background-color: #ffffff;
+  box-shadow: 0px 5px 15px 0px #ccc;
+  color: #4f4f4f;
+  font-size: 19px;
+  font-weight: 500;
+  border-radius: 100px;
+}

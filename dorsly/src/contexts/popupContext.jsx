@@ -11,13 +11,17 @@ export const PopupContext = createContext()
 
 export default function PopupContextProvider(props) {
   const removeHandler = (index) => {
-    let popupCard = document.querySelectorAll('.' + style['popup-card-container'])[0].querySelector('.' + style['popup-card'])
+    let popupCard = document
+      .querySelectorAll("." + style["popup-card-container"])[0]
+      .querySelector("." + style["popup-card"])
 
     popupCard.classList.add(style["remove"])
 
-    setTimeout(() => {
-      // popupCard.parentElement.remove()
+    setPopupCount((oldPopupCount) => {
+      return oldPopupCount - 1
+    })
 
+    setTimeout(() => {
       setPopupData((oldPopupData) => {
         let newPopupData = [...oldPopupData]
 
@@ -29,6 +33,7 @@ export default function PopupContextProvider(props) {
     }, 500)
   }
 
+  const [popupCount, setPopupCount] = useState(0)
   const [popupData, setPopupData] = useState([])
   const [popupCards, setPopupCards] = useState([])
 
@@ -59,14 +64,19 @@ export default function PopupContextProvider(props) {
               <div className={style["popup-card-icon"]}>
                 <img src={iconDecal} />
               </div>
-              <div className={style["popup-card-title"]}>{popup.title}</div>
+              <div>
+                <div className={style["popup-card-title"]}>{popup.title}</div>
+                {popupCount > 1 && (
+                  <div className={style["popup-card-count"]}>{popupCount}</div>
+                )}
+              </div>
             </div>
             <div className={style["popup-card-body"]}>{popup.description}</div>
             <div className={style["popup-card-footer"]}>
               {popup.buttons.map((btn, index) => {
                 return (
                   <button
-                    className={style[`popup-card-button ${btn?.style}`]}
+                    className={style[`popup-card-button-${btn?.style}`]}
                     key={index}
                     onClick={(e) => btn?.onClick(popup.id)}>
                     {btn?.text}
@@ -81,11 +91,15 @@ export default function PopupContextProvider(props) {
 
     setPopupCards(popupCardArr)
 
-    document.querySelectorAll('.' + style["popup-card-container"]).forEach((popupCardContainer) => {
-      document.querySelectorAll('.' + style["popup-card-container"]).length > 1 && (
-        popupCardContainer.querySelector('.' + style["popup-card"]).classList.remove(style["remove"])
-      )
-    })
+    document
+      .querySelectorAll("." + style["popup-card-container"])
+      .forEach((popupCardContainer) => {
+        document.querySelectorAll("." + style["popup-card-container"]).length >
+          1 &&
+          popupCardContainer
+            .querySelector("." + style["popup-card"])
+            .classList.remove(style["remove"])
+      })
   }, [popupData])
 
   const createPopup = (
@@ -97,6 +111,10 @@ export default function PopupContextProvider(props) {
     secondaryButtonText = null,
     secondaryButtonHandler = null
   ) => {
+    setPopupCount((oldPopupCount) => {
+      return oldPopupCount + 1
+    })
+
     var iconDecal
 
     if (intonation == "warning") {
