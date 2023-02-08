@@ -17,9 +17,11 @@ export default function PopupContextProvider(props) {
 
     popupCard.classList.add(style["remove"])
 
-    setTimeout(() => {
-      // popupCard.parentElement.remove()
+    setPopupCount((oldPopupCount) => {
+      return oldPopupCount - 1
+    })
 
+    setTimeout(() => {
       setPopupData((oldPopupData) => {
         let newPopupData = [...oldPopupData]
 
@@ -31,6 +33,7 @@ export default function PopupContextProvider(props) {
     }, 500)
   }
 
+  const [popupCount, setPopupCount] = useState(0)
   const [popupData, setPopupData] = useState([])
   const [popupCards, setPopupCards] = useState([])
 
@@ -61,7 +64,12 @@ export default function PopupContextProvider(props) {
               <div className={style["popup-card-icon"]}>
                 <img src={iconDecal} />
               </div>
-              <div className={style["popup-card-title"]}>{popup.title}</div>
+              <div>
+                <div className={style["popup-card-title"]}>{popup.title}</div>
+                {popupCount > 1 && (
+                  <div className={style["popup-card-count"]}>{popupCount}</div>
+                )}
+              </div>
             </div>
             <div className={style["popup-card-body"]}>{popup.description}</div>
             <div className={style["popup-card-footer"]}>
@@ -103,6 +111,10 @@ export default function PopupContextProvider(props) {
     secondaryButtonText = null,
     secondaryButtonHandler = null
   ) => {
+    setPopupCount((oldPopupCount) => {
+      return oldPopupCount + 1
+    })
+
     var iconDecal
 
     if (intonation == "warning") {
