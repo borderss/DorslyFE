@@ -18,24 +18,28 @@ class DealsController extends Controller
         $stripe = new StripeClient(config('app.stripe_secret'));
         $reservation = Reservation::find($deal->reservation_id);
 
-        if ($reservation->date < now()) {
-            $deal->status = 'completed';
-            $deal->save();
-            return false;
-        }
-
         if ($deal->pre_purchase_id !== null) {
             $pre_purchase = PrePurchase::find($deal->pre_purchase_id);
 
             if ($pre_purchase->payment_id !== null) {
                 $session = $stripe->checkout->sessions->retrieve($pre_purchase->payment_id);
 
-                if ($pre_purchase && $session->status === 'complete' && $pre_purchase->status !== 'complete') {
-                    $pre_purchase->status = 'complete';
-                    $pre_purchase->save();
-                    return false;
-                }
+                $pre_purchase->status = $session->status;
+                $pre_purchase->save();
+                return false;
             }
+        }
+
+        if ($reservation->date < now()) {
+            if(PrePurchase::find($deal->pre_purchase_id)->status !== 'complete'){
+                $deal->status = 'expired';
+                $deal->save();
+            } else {
+                $deal->status = 'completed';
+                $deal->save();
+            }
+            $deal->save();
+            return false;
         }
 
         return true;

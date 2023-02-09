@@ -18,7 +18,12 @@ class DealsResourse extends JsonResource
         if (!$this->prePurchase){
             return[
                 'id' => $this->id,
-                'point_of_interest_id' => $this->pointOfInterest->id,
+                'point_of_interest' => [
+                    'id' => $this->pointOfInterest->id,
+                    'name' => $this->pointOfInterest->name,
+                    'description' => $this->pointOfInterest->description,
+                    'images' => $this->pointOfInterest->images,
+                ],
                 'reservation' => [
                     'id' => $this->reservation->id,
                     'date' => $this->reservation->date,
@@ -31,7 +36,12 @@ class DealsResourse extends JsonResource
 
         return[
             'id' => $this->id,
-            'point_of_interest_id' => $this->pointOfInterest->id,
+            'point_of_interest' => [
+                'id' => $this->pointOfInterest->id,
+                'name' => $this->pointOfInterest->name,
+                'description' => $this->pointOfInterest->description,
+                'images' => $this->pointOfInterest->images,
+            ],
             'reservation' => [
                 'id' => $this->reservation->id,
                 'date' => $this->reservation->date,
