@@ -129,3 +129,131 @@
   background-color: #fafafa;
   box-shadow: inset 0px -3px 0px 0px #ffb82e;
 }
+
+/* 
+<div className={style["deal"]} key={index}>
+  <div className={style["reservation-data"]}>
+    <img src={deal.point_of_interest.images} />
+    <div className={style["reservation-data-content"]}>
+      <h1>{deal.point_of_interest.name}</h1>
+      <p>{deal.point_of_interest.description}</p>
+    </div>
+    <div className={style["reservation-secondary-data-content"]}>
+      <div>
+        <p>Reservation date</p>
+        <p>{deal.reservation.date}</p>
+      </div>
+      <div>
+        <p>Number of people</p>
+        <p>{deal.reservation.number_of_people}</p>
+      </div>
+      <div>
+        <p>Reservation status</p>
+        <p>{deal.status}</p>
+      </div>
+    </div>
+  </div>
+  <div
+    aria-hidden={true}
+    className={style["pre-purchase-data"]}></div>
+</div>
+*/
+
+.deal {
+  display: flex;
+  flex-direction: column;
+  width: 1500px;
+  margin-inline: auto;
+  font-family: "Lexend";
+  border-radius: 15px;
+  margin-bottom: 25px;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px 0 #ececec;
+  overflow: hidden;
+}
+
+.reservation-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.reservation-data > img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 7px;
+  margin: 10px;
+}
+
+.reservation-data-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+  margin-top: 10px;
+  padding-inline: 25px;
+}
+
+.reservation-data-content > h1 {
+  font-size: 21px;
+  margin-block: 12px;
+  color: #6e6e6e;
+}
+
+.reservation-data-content > p {
+  font-size: 21px;
+  margin-block: 12px;
+  color: #6e6e6e;
+}
+
+.reservation-secondary-data-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 60%;
+  background-color: #fcfcfc;
+  border-left: 1px solid #F2F2F2;
+  padding-inline: 25px;
+}
+
+.reservation-secondary-data-content > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 30%;
+  width: 100%;
+  transition: 0.2s;
+  border-radius: 7px;
+}
+
+.reservation-secondary-data-content > div > p {
+  font-size: 21px;
+  margin-block: 5px;
+  color: #6e6e6e;
+}
+
+.reservation-secondary-data-content > div > p:nth-child(1) {
+  font-weight: 500;
+}
+
+.reservation-secondary-data-content > div > p:nth-child(2) {
+  font-weight: 300;
+  color: #808080;
+}
+
+.pre-purchase-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-inline: 25px;
+}
