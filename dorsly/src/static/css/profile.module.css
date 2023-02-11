@@ -189,11 +189,9 @@
 }
 
 .reservation-data-content {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100%;
   width: 100%;
   margin-top: 10px;
   padding-inline: 25px;
@@ -202,7 +200,7 @@
 .reservation-data-content > h1 {
   font-size: 21px;
   margin-block: 12px;
-  color: #6e6e6e;
+  color: #2b2b2b;
 }
 
 .reservation-data-content > p {
@@ -295,11 +293,27 @@ button.delete-entry:hover {
 .pre-purchase-data {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: stretch;
-  height: 100%;
-  width: 88.6%;
-  margin-inline: auto;
+  overflow: hidden;
+  border-top: 2px solid #f3f3f3;
+  transition: 0.5s ease-in-out;
+}
+
+
+.pre-purchase-data[aria-hidden=true] {
+  max-height: 0px;
+}
+
+.pre-purchase-data[aria-hidden=false] {
+  max-height: var(--height);
+}
+
+.pre-purchase-data > h1 {
+  font-size: 28px;
+  margin-block: 16px;
+  margin-left: 20px;
+  color: #2b2b2b;
 }
 
 .section-title {
@@ -339,7 +353,12 @@ button.delete-entry:hover {
   align-items: center;
   height: 100%;
   width: 100%;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
+  border: 1px solid #f3f3f3;
+}
+
+.product:last-child {
+  margin-bottom: 0px;
 }
 
 .product > img {
@@ -353,20 +372,56 @@ button.delete-entry:hover {
 .product-content {
   height: 100%;
   width: 100%;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   padding-inline: 25px;
   display: flex;
   justify-content: space-between;
 }
 
-.product-content > h1 {
+.product-content > div > h1 {
+  font-size: 21px;
+  margin-block: 5px;
+  color: #2b2b2b;
+}
+
+.product-content > div > h1:nth-child(1) {
+  margin-top: 12px;
+}
+
+.product-content > div > p {
   font-size: 21px;
   margin-block: 12px;
   color: #6e6e6e;
 }
 
-.product-content > p {
-  font-size: 21px;
+.product-content > div:nth-child(2) > p {
+  font-size: 19px;
   margin-block: 12px;
   color: #6e6e6e;
+}
+
+.product-content > div:nth-child(2) > p > b {
+  font-weight: 500;
+  color: #2b2b2b;
+}
+
+.expand-indicator {
+  position: absolute;
+  font-size: 14px;
+  color: #ccc;
+  font-weight: 200;
+  bottom: 5px;
+  right: 50%;
+  translate: 50%;
+  width: 720px;
+  height: 41px;
+  line-height: 4;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.expand-indicator:hover {
+  color: #999;
 }

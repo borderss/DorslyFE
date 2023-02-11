@@ -209,46 +209,6 @@ export default function profile() {
     switch (section) {
       case "reservations":
         const renderDeals = () => {
-          // {
-          //   id: 70,
-          //   point_of_interest: {
-          //     id: 3,
-          //     name: "William Rosenbaum",
-          //     description:
-          //       "Beatae sed cupiditate et dolorem natus et impedit. Ipsum quia officiis ad sed asperiores nemo. Consectetur quia illo doloribus.",
-          //     images:
-          //       "https://via.placeholder.com/1920x1080.png/001100?text=food+placeat",
-          //   },
-          //   reservation: {
-          //     id: 70,
-          //     date: "2023-02-09 12:42:00",
-          //     number_of_people: 1,
-          //   },
-          //   pre_purchase: {
-          //     id: 70,
-          //     products: [
-          //       {
-          //         id: 40,
-          //         quantity: 4,
-          //       },
-          //       {
-          //         id: 63,
-          //         quantity: 3,
-          //       },
-          //       {
-          //         id: 282,
-          //         quantity: 1,
-          //       },
-          //     ],
-          //     total_price: "41.15",
-          //     status: "pending",
-          //     payment_status: "pending",
-          //     payment_id: null,
-          //   },
-          //   user_id: 1,
-          //   status: "expired",
-          // }
-
           const renderButtons = (deal) => {
             let result = []
 
@@ -294,6 +254,22 @@ export default function profile() {
           }
 
           return exampleDealData.map((deal, index) => {
+            const handleExpandClick = (e) => {
+              let target = e.target.parentElement.parentElement.parentElement.querySelector("." + style["pre-purchase-data"])
+
+              let height = 140 * (deal.pre_purchase.products.length) + 25 + 66
+
+              target.style = "--height: " + height + "px"
+
+              if (target.getAttribute("aria-hidden") === "true") {
+                e.target.innerHTML = "click to collapse"
+                target.setAttribute("aria-hidden", "false")
+              } else {
+                e.target.innerHTML = "click to expand"
+                target.setAttribute("aria-hidden", "true")
+              }
+            }
+
             return (
               <div className={style["deal"]} key={index}>
                 <div className={style["reservation-data"]}>
@@ -301,6 +277,11 @@ export default function profile() {
                   <div className={style["reservation-data-content"]}>
                     <h1>{deal.point_of_interest.name}</h1>
                     <p>{deal.point_of_interest.description}</p>
+                    {deal.pre_purchase && (
+                      <div className={style["expand-indicator"]} onClick={e => handleExpandClick(e)}>
+                        click to expand
+                      </div>
+                    )}
                   </div>
                   <div className={style["reservation-secondary-data-content"]}>
                     <div>
@@ -337,14 +318,21 @@ export default function profile() {
                                 </p>
                               </div>
                               <div>
-                                <p>Quantity: <b>{product.quantity}</b></p>
-                                <p>Price: <b>€{product.price || "2.41"}</b></p>
                                 <p>
-                                  Product sum: €<b>
-                                  {(
-                                    parseFloat(product.price) *
-                                      product.quantity || 2.41 * 5
-                                  ).toFixed(2)}</b>
+                                  Quantity: <b>{product.quantity}</b>
+                                </p>
+                                <p>
+                                  Price: <b>€{product.price || "2.41"}</b>
+                                </p>
+                                <p>
+                                  Product sum:{" "}
+                                  <b>
+                                    €
+                                    {(
+                                      parseFloat(product.price) *
+                                        product.quantity || 2.41 * 5
+                                    ).toFixed(2)}
+                                  </b>
                                 </p>
                               </div>
                             </div>
