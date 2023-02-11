@@ -107,7 +107,7 @@ export default function PopupContextProvider(props) {
     descriptionHTML,
     intonation,
     primaryButtonText,
-    primaryButtonHandler,
+    primaryButtonHandler = null,
     secondaryButtonText = null,
     secondaryButtonHandler = null
   ) => {
@@ -138,7 +138,7 @@ export default function PopupContextProvider(props) {
           text: primaryButtonText,
           style: "primary",
           onClick: (index) => {
-            primaryButtonHandler()
+            primaryButtonHandler && primaryButtonHandler()
             removeHandler(index)
           },
         },

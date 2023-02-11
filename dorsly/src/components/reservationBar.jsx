@@ -95,10 +95,7 @@ export default function mainSearchBar() {
         () => {
           navigate("/login")
         },
-        "Close",
-        () => {
-          console.log("close")
-        }
+        "Close"
       )
       return
     }

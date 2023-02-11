@@ -105,10 +105,7 @@ export default function place() {
         "Payment Successful",
         <p>Your payment was successful!</p>,
         "success",
-        "Close",
-        () => {
-          console.log("close")
-        }
+        "Close"
       )
       console.log("payment success!")
     } else if (location.state?.paymentSuccess == false) {
@@ -119,10 +116,7 @@ export default function place() {
           support.
         </p>,
         "error",
-        "Close",
-        () => {
-          console.log("close")
-        }
+        "Close"
       )
       console.log("payment failed!")
     }
@@ -207,10 +201,7 @@ export default function place() {
           () => {
             navigate("/login")
           },
-          "Close",
-          () => {
-            console.log("close")
-          }
+          "Close"
         )
         return
       }

@@ -250,7 +250,7 @@
   flex-direction: row-reverse;
 }
 
-button {
+.button-container > button {
   min-height: 20px;
   height: 35px;
   border-radius: 5px;
@@ -258,11 +258,11 @@ button {
   margin: 5px;
 }
 
-button:hover {
+.button-container > button:hover {
   background-color: var(--accent-light);
 }
 
-button.finalize-payment {
+.button-container > button.finalize-payment {
   background-color: #25c94e;
   color: #ffffff;
   border: none;
@@ -270,7 +270,7 @@ button.finalize-payment {
   transition: 0.2s;
 }
 
-button[disabled] {
+.button-container > button[disabled] {
   background-color: #cccccc;
   color: #ffffff;
   border: none;
@@ -278,7 +278,7 @@ button[disabled] {
   transition: 0.2s;
 }
 
-button.delete-entry {
+.button-container > button.delete-entry {
   background-color: #ff4444;
   color: #ffffff;
   border: none;
@@ -286,7 +286,7 @@ button.delete-entry {
   transition: 0.2s;
 }
 
-button.delete-entry:hover {
+.button-container > button.delete-entry:hover {
   background-color: #ff0000;
 }
 
@@ -382,6 +382,10 @@ button.delete-entry:hover {
   font-size: 21px;
   margin-block: 5px;
   color: #2b2b2b;
+}
+
+.product-content > div:nth-child(1) {
+  width: 960px;
 }
 
 .product-content > div > h1:nth-child(1) {

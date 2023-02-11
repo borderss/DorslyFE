@@ -81,10 +81,7 @@ export default function header() {
                   "Not implemented yet",
                   <p>This feature hasn't been implemented yet. Sorry!</p>,
                   "error",
-                  "Close",
-                  () => {
-                    console.log("close")
-                  }
+                  "Close"
                 )
               }}>
               Settings
@@ -138,10 +135,7 @@ export default function header() {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <div className={style["about-us"]}>About us</div>
@@ -153,10 +147,7 @@ export default function header() {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <div className={style["contact"]}>Contact</div>
@@ -178,10 +169,7 @@ export default function header() {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={SearchIcon} alt="Search" />
@@ -197,10 +185,7 @@ export default function header() {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={GpsIcon} alt="GPS" />

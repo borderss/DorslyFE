@@ -307,10 +307,7 @@ export default function authentificaton(props) {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={FacebookLogo} />
@@ -339,10 +336,7 @@ export default function authentificaton(props) {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={TwitterLogo} />
@@ -355,10 +349,7 @@ export default function authentificaton(props) {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={AppleLogo} />
@@ -444,10 +435,7 @@ export default function authentificaton(props) {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={FacebookLogo} />
@@ -460,10 +448,7 @@ export default function authentificaton(props) {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={GoogleLogo} />
@@ -476,10 +461,7 @@ export default function authentificaton(props) {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={TwitterLogo} />
@@ -492,10 +474,7 @@ export default function authentificaton(props) {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={AppleLogo} />

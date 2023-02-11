@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { apiMethod } from "../static/js/util"
 
 import "../static/css/general.css"
 import style from "../static/css/profile.module.css"
@@ -14,173 +15,8 @@ export default function profile() {
   const { user, token, setUser, setToken } = useContext(UserContext)
   const { popupData, createPopup, setPopupData } = useContext(PopupContext)
 
-  const exampleDealData = [
-    {
-      id: 70,
-      point_of_interest: {
-        id: 3,
-        name: "William Rosenbaum",
-        description:
-          "Beatae sed cupiditate et dolorem natus et impedit. Ipsum quia officiis ad sed asperiores nemo. Consectetur quia illo doloribus.",
-        images:
-          "https://via.placeholder.com/1920x1080.png/001100?text=food+placeat",
-      },
-      reservation: {
-        id: 70,
-        date: "2023-02-09 12:42:00",
-        number_of_people: 1,
-      },
-      pre_purchase: {
-        id: 70,
-        products: [
-          {
-            id: 40,
-            quantity: 4,
-          },
-          {
-            id: 63,
-            quantity: 3,
-          },
-          {
-            id: 282,
-            quantity: 1,
-          },
-        ],
-        total_price: "41.15",
-        status: "pending",
-        payment_status: "pending",
-        payment_id: null,
-      },
-      user_id: 1,
-      status: "expired",
-    },
-    {
-      id: 71,
-      point_of_interest: {
-        id: 7,
-        name: "Jessy Kozey",
-        description:
-          "Libero facere perferendis sequi consequatur. Itaque voluptas et consequatur et voluptatibus corrupti voluptate pariatur. Quas culpa ut eos nisi rerum aut. Delectus totam consequatur rerum ut neque.",
-        images:
-          "https://via.placeholder.com/1920x1080.png/00aa33?text=food+rerum",
-      },
-      reservation: {
-        id: 71,
-        date: "2023-02-09 12:42:00",
-        number_of_people: 1,
-      },
-      pre_purchase: {
-        id: 71,
-        products: [
-          {
-            id: 87,
-            quantity: 4,
-          },
-          {
-            id: 128,
-            quantity: 3,
-          },
-        ],
-        total_price: "89.62",
-        status: "pending",
-        payment_status: "pending",
-        payment_id: null,
-      },
-      user_id: 1,
-      status: "expired",
-    },
-    {
-      id: 72,
-      point_of_interest: {
-        id: 9,
-        name: "Keyon Brakus",
-        description:
-          "Quo ut doloribus eos et voluptatem ut veniam. Alias alias laudantium velit eum quae deleniti. Debitis debitis modi nesciunt cumque tempora.",
-        images:
-          "https://via.placeholder.com/1920x1080.png/00cc77?text=food+sunt",
-      },
-      reservation: {
-        id: 72,
-        date: "2023-02-09 12:42:00",
-        number_of_people: 1,
-      },
-      pre_purchase: {
-        id: 72,
-        products: [
-          {
-            id: 54,
-            quantity: 2,
-          },
-          {
-            id: 62,
-            quantity: 3,
-          },
-        ],
-        total_price: "19.17",
-        status: "pending",
-        payment_status: "open",
-        payment_id: null,
-      },
-      user_id: 1,
-      status: "expired",
-    },
-    {
-      id: 73,
-      point_of_interest: {
-        id: 10,
-        name: "Muhammad Turcotte",
-        description:
-          "Aliquid non minus voluptatibus aut qui. Dolorum qui expedita harum omnis veniam repellendus. Neque labore aliquid qui quidem. Ut dolor est ea eum dolor ex.",
-        images:
-          "https://via.placeholder.com/1920x1080.png/005500?text=food+est",
-      },
-      reservation: {
-        id: 73,
-        date: "2023-02-09 12:42:00",
-        number_of_people: 1,
-      },
-      pre_purchase: {
-        id: 73,
-        products: [
-          {
-            id: 152,
-            quantity: 2,
-          },
-          {
-            id: 205,
-            quantity: 3,
-          },
-        ],
-        total_price: "50.33",
-        status: "complete",
-        payment_status: "open",
-        payment_id:
-          "cs_test_b1gVgoOUecfQLEF1LDBUcR987tenkG5tBeLeYaT4Rn6uBt4eZL8dXQln2V",
-      },
-      user_id: 1,
-      status: "completed",
-    },
-    {
-      id: 74,
-      point_of_interest: {
-        id: 14,
-        name: "Alaina Hauck MD",
-        description:
-          "Ut ea porro perspiciatis labore ipsam est et. Assumenda voluptatibus ea totam eligendi eius repellendus ipsam. Tempore minus quis corporis impedit voluptates. Minus maxime iusto qui ut a.",
-        images:
-          "https://via.placeholder.com/1920x1080.png/0022dd?text=food+consequatur",
-      },
-      reservation: {
-        id: 74,
-        date: "2023-02-10 12:42:00",
-        number_of_people: 5,
-      },
-      user_id: 1,
-      status: "active",
-    },
-  ]
-
   const [section, setSection] = useState("reservations")
+  const [dealData, setDealData] = useState([])
 
   const navigate = useNavigate()
 
@@ -192,6 +28,23 @@ export default function profile() {
     if (user === null) {
       navigate("/login")
     }
+
+    if (user === false || token === false) {
+      return
+    }
+
+    apiMethod("/getDeals/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((data) => {
+        setDealData(data)
+      })
+      .catch((error) => console.log(error))
   }, [user])
 
   const onLowerNavbarItemClick = (e, section) => {
@@ -212,10 +65,101 @@ export default function profile() {
           const renderButtons = (deal) => {
             let result = []
 
+            const deleteRow = async (e, id) => {
+              e.target.disabled = true
+
+              let promise = await apiMethod(`/deleteDeal/${id}`, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                  accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+              })
+
+              if (promise.status === 'success') {
+                e.target.disabled = false
+                setDealData((prev) => {
+                  return prev.filter((deal) => deal.id !== id)
+                })
+
+                createPopup(
+                  "Successfully cancelled",
+                  <p>
+                    Your reservation has been cancelled successfully. You can
+                    make a new reservation there at any time!
+                  </p>,
+                  "success",
+                  "Close"
+                )
+              } else {
+                createPopup(
+                  "Deletion unsuccessful",
+                  <p>{promise.message}</p>,
+                  "error",
+                  "Close",
+                  () => {
+                    e.target.disabled = false
+                  }
+                )
+              }
+            }
+
+            const calcelReservation = async (e, id) => {
+              e.target.disabled = true
+
+              setDealData((prev) => {
+                return prev.filter((deal) => deal.id !== id)
+              })
+
+              let promise = await apiMethod(`/cancelReservation/${id}`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+              })
+
+              if (promise.status === 'success') {
+                e.target.disabled = false
+                setDealData((prev) => {
+                  return prev.filter((deal) => deal.id !== id)
+                })
+
+                createPopup(
+                  "Successfully cancelled",
+                  <p>
+                    Your reservation has been cancelled successfully. You can
+                    make a new reservation there at any time!
+                  </p>,
+                  "success",
+                  "Close"
+                )
+              } else {
+                createPopup(
+                  "Deletion unsuccessful",
+                  <p>{promise.message}</p>,
+                  "error",
+                  "Close",
+                  () => {
+                    e.target.disabled = false
+                  }
+                )
+              }
+            }
+
             switch (deal.status) {
               case "active":
                 result = []
-                result.push(<button>Cancel reservation</button>)
+                result.push(
+                  <button
+                    onClick={(e) => {
+                      calcelReservation(e, deal.id)
+                    }}>
+                    Cancel reservation
+                  </button>
+                )
                 break
 
               case "completed":
@@ -223,7 +167,18 @@ export default function profile() {
                 result.push(
                   <button
                     onClick={(e) => {
-                      console.log("removing entry: ", deal.id)
+                      deleteRow(e, deal.id)
+                    }}>
+                    Remove entry
+                  </button>
+                )
+                break
+
+              case "payment expired":
+                result.push(
+                  <button
+                    onClick={(e) => {
+                      deleteRow(e, deal.id)
                     }}>
                     Remove entry
                   </button>
@@ -233,31 +188,58 @@ export default function profile() {
 
             switch (deal?.pre_purchase?.status) {
               case "pending":
-                result = []
-
-                result.push(
+                result.unshift(
                   <>
                     <button disabled>Payment not recieved</button>
-                    <button
-                      className={style["delete-entry"]}
-                      onClick={(e) => {
-                        console.log("deleting entry: ", deal.id)
-                      }}>
-                      Delete entry
-                    </button>
                   </>
                 )
+                break
+
+              case "payment_failed":
+                if (deal.status != "payment expired") {
+                  result = []
+
+                  result.unshift(
+                    <>
+                      <button
+                        className={style["delete-entry"]}
+                        onClick={(e) => {
+                          deleteRow(e, deal.id)
+                        }}>
+                        Delete entry
+                      </button>
+                    </>
+                  )
+                } else {
+                  result = []
+
+                  result.unshift(
+                    <>
+                      <button disabled>Payment failed</button>
+                      <button
+                        className={style["delete-entry"]}
+                        onClick={(e) => {
+                          deleteRow(e, deal.id)
+                        }}>
+                        Delete entry
+                      </button>
+                    </>
+                  )
+                }
                 break
             }
 
             return result
           }
 
-          return exampleDealData.map((deal, index) => {
+          return dealData?.map((deal, index) => {
             const handleExpandClick = (e) => {
-              let target = e.target.parentElement.parentElement.parentElement.querySelector("." + style["pre-purchase-data"])
+              let target =
+                e.target.parentElement.parentElement.parentElement.querySelector(
+                  "." + style["pre-purchase-data"]
+                )
 
-              let height = 140 * (deal.pre_purchase.products.length) + 25 + 66
+              let height = 140 * deal.pre_purchase.products.length + 25 + 66
 
               target.style = "--height: " + height + "px"
 
@@ -278,7 +260,9 @@ export default function profile() {
                     <h1>{deal.point_of_interest.name}</h1>
                     <p>{deal.point_of_interest.description}</p>
                     {deal.pre_purchase && (
-                      <div className={style["expand-indicator"]} onClick={e => handleExpandClick(e)}>
+                      <div
+                        className={style["expand-indicator"]}
+                        onClick={(e) => handleExpandClick(e)}>
                         click to expand
                       </div>
                     )}
@@ -296,14 +280,16 @@ export default function profile() {
                       <p>Status</p>
                       <p>{deal.status}</p>
                     </div>
-                    <div>{renderButtons(deal)}</div>
+                    <div className={style["button-container"]}>
+                      {renderButtons(deal)}
+                    </div>
                   </div>
                 </div>
                 {deal.pre_purchase && (
                   <div
                     aria-hidden={true}
                     className={style["pre-purchase-data"]}>
-                    <h1>Pre-purchase</h1>
+                    <h1>Products</h1>
                     <div className={style["pre-purchase-data-content"]}>
                       {deal.pre_purchase.products.map((product, index) => {
                         return (
@@ -330,7 +316,7 @@ export default function profile() {
                                     €
                                     {(
                                       parseFloat(product.price) *
-                                        product.quantity || 2.41 * 5
+                                      product.quantity
                                     ).toFixed(2)}
                                   </b>
                                 </p>
@@ -381,7 +367,9 @@ export default function profile() {
 
             <div className={style["profile-info"]}>
               <div className={style["profile-info-item"]}>
-                <h2 className={style["profile-info-item-title"]}>0</h2>
+                <h2 className={style["profile-info-item-title"]}>
+                  {dealData.length || 0}
+                </h2>
                 <p className={style["profile-info-item-text"]}>Reservations</p>
               </div>
               <div className={style["profile-info-item"]}>
@@ -389,7 +377,22 @@ export default function profile() {
                 <p className={style["profile-info-item-text"]}>Reviews</p>
               </div>
               <div className={style["profile-info-item"]}>
-                <h2 className={style["profile-info-item-title"]}>0.00$</h2>
+                <h2 className={style["profile-info-item-title"]}>
+                  {(
+                    dealData.reduce((acc, deal) => {
+                      if (!deal?.pre_purchase) {
+                        return acc
+                      }
+
+                      return (
+                        acc +
+                        deal.pre_purchase.products.reduce((acc2, product) => {
+                          return acc2 + product.quantity * product.price
+                        }, 0)
+                      )
+                    }, 0) || 0
+                  ).toFixed(2)}
+                </h2>
                 <p className={style["profile-info-item-text"]}>Total Spent</p>
               </div>
             </div>
