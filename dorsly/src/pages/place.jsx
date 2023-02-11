@@ -20,8 +20,8 @@ import style from "../static/css/place.module.css"
 import Header from "../components/header"
 
 import { CartContext } from "../contexts/cartContext"
-import { UserContext } from "../contexts/userContext"
 import { PopupContext } from "../contexts/popupContext"
+import { UserContext } from "../contexts/userContext"
 
 export default function place() {
   const { user, token, setUser, setToken } = useContext(UserContext)
@@ -191,7 +191,7 @@ export default function place() {
       setCart(newCart)
     }
 
-    const handlePayment = () => {
+    const handlePayment = async () => {
       if (!user) {
         createPopup(
           "Login Required",
@@ -206,32 +206,45 @@ export default function place() {
         return
       }
 
-      let sessionData = []
+      let sessionData = {
+        point_of_interest_id: searchParams.get("p"),
+        products: []
+      }
 
       cart.items.forEach((item) => {
-        sessionData.push({
-          product_id: item.id,
-          amount: item.amount,
+        sessionData.products.push({
+          id: item.id,
+          quantity: item.amount,
         })
       })
 
-      apiMethod("/getSession/" + searchParams.get("p"), {
+      let promise = await apiMethod("/createPrePurchase", {
         method: "POST",
         headers: bearerHeaders(token),
-        body: JSON.stringify({
-          products: sessionData,
-        }),
-      }).then((data) => {
-        console.log(data)
+        body: JSON.stringify(sessionData)
+      })
 
-        data?.url && window.open(data?.url, "_blank")
+      if (promise?.stripe_url) {
+        console.log(promise)
+
+        promise?.stripe_url && window.open(promise?.stripe_url, "_self")
 
         setCart({
           items: [],
           total: 0,
           totalItems: 0,
         })
-      })
+      } else {
+        createPopup(
+          "Payment Failed",
+          <p>
+            Your payment was not successful. Please try again or contact customer
+            support.
+          </p>,
+          "error",
+          "Close"
+        )
+      }
     }
 
     return (
@@ -538,7 +551,7 @@ export default function place() {
           </div>
           <h1>{data.name}</h1>
           <p>{data.description}</p>
-          <ReservationBar />
+          <ReservationBar poi_id={parseInt(searchParams.get('p'))}/>
           <div className={style["scroll-encouragement"]}>
             Scroll down to see more
             <img src={MouseArrow} />
@@ -584,21 +597,6 @@ export default function place() {
             <br />
           </div>
         </div>
-
-        {/* <div className={style["alert"]}>
-          {location.state?.paymentSuccess ? (
-              <>
-                <h2>Payment successful!</h2>
-                <p>{location.state?.desc}</p>
-              </>
-            ) : (
-              <>
-              <h2>Payment failed!</h2>
-              <p>{location.state?.desc}</p>
-            </>
-            )
-          }
-        </div> */}
       </div>
     </>
   )

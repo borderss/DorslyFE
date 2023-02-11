@@ -321,9 +321,10 @@
   width: 1500px;
   font-family: Lexend;
   font-size: 39px;
+  font-weight: 550;
   margin-top: 60px;
   margin-bottom: 35px;
-  color: #292929;
+  color: #242424;
 }
 
 .pre-purchase-data-content {
@@ -428,4 +429,18 @@
 
 .expand-indicator:hover {
   color: #999;
+}
+
+.no-reservations-warning {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  font-family: Lexend;
+  font-size: 21px;
+  font-weight: 300;
+  color: #6e6e6e;
 }

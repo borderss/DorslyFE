@@ -33,18 +33,31 @@ export default function profile() {
       return
     }
 
-    apiMethod("/getDeals/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((data) => {
-        setDealData(data)
+    async function fetchData() {
+      await apiMethod("/getDeals", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .catch((error) => console.log(error))
+        .then((res) => {
+          let result = []
+
+          Object.keys(res).forEach((key) => {
+            result.push(res[key])
+          })
+
+          console.log(result)
+
+          setDealData(result)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+    fetchData()
   }, [user])
 
   const onLowerNavbarItemClick = (e, section) => {
@@ -77,7 +90,7 @@ export default function profile() {
                 },
               })
 
-              if (promise.status === 'success') {
+              if (promise.status === "success") {
                 e.target.disabled = false
                 setDealData((prev) => {
                   return prev.filter((deal) => deal.id !== id)
@@ -121,7 +134,7 @@ export default function profile() {
                 },
               })
 
-              if (promise.status === 'success') {
+              if (promise.status === "success") {
                 e.target.disabled = false
                 setDealData((prev) => {
                   return prev.filter((deal) => deal.id !== id)
@@ -163,6 +176,18 @@ export default function profile() {
                 break
 
               case "completed":
+                result = []
+                result.push(
+                  <button
+                    onClick={(e) => {
+                      deleteRow(e, deal.id)
+                    }}>
+                    Remove entry
+                  </button>
+                )
+                break
+
+              case "cancelled":
                 result = []
                 result.push(
                   <button
@@ -232,105 +257,110 @@ export default function profile() {
             return result
           }
 
-          return dealData?.map((deal, index) => {
-            const handleExpandClick = (e) => {
-              let target =
-                e.target.parentElement.parentElement.parentElement.querySelector(
-                  "." + style["pre-purchase-data"]
-                )
+          if (dealData.length > 0) {
+            return dealData.map((deal, index) => {
+              const handleExpandClick = (e) => {
+                let target =
+                  e.target.parentElement.parentElement.parentElement.querySelector(
+                    "." + style["pre-purchase-data"]
+                  )
 
-              let height = 140 * deal.pre_purchase.products.length + 25 + 66
+                let height = 140 * deal.pre_purchase.products.length + 25 + 66
 
-              target.style = "--height: " + height + "px"
+                target.style = "--height: " + height + "px"
 
-              if (target.getAttribute("aria-hidden") === "true") {
-                e.target.innerHTML = "click to collapse"
-                target.setAttribute("aria-hidden", "false")
-              } else {
-                e.target.innerHTML = "click to expand"
-                target.setAttribute("aria-hidden", "true")
+                if (target.getAttribute("aria-hidden") === "true") {
+                  e.target.innerHTML = "click to collapse"
+                  target.setAttribute("aria-hidden", "false")
+                } else {
+                  e.target.innerHTML = "click to expand"
+                  target.setAttribute("aria-hidden", "true")
+                }
               }
-            }
 
-            return (
-              <div className={style["deal"]} key={index}>
-                <div className={style["reservation-data"]}>
-                  <img src={deal.point_of_interest.images} />
-                  <div className={style["reservation-data-content"]}>
-                    <h1>{deal.point_of_interest.name}</h1>
-                    <p>{deal.point_of_interest.description}</p>
-                    {deal.pre_purchase && (
-                      <div
-                        className={style["expand-indicator"]}
-                        onClick={(e) => handleExpandClick(e)}>
-                        click to expand
+              return (
+                <div className={style["deal"]} key={index}>
+                  <div className={style["reservation-data"]}>
+                    <img src={deal.point_of_interest.images} />
+                    <div className={style["reservation-data-content"]}>
+                      <h1>{deal.point_of_interest.name}</h1>
+                      <p>{deal.point_of_interest.description}</p>
+                      {deal.pre_purchase && (
+                        <div
+                          className={style["expand-indicator"]}
+                          onClick={(e) => handleExpandClick(e)}>
+                          click to expand
+                        </div>
+                      )}
+                    </div>
+                    <div
+                      className={style["reservation-secondary-data-content"]}>
+                      <div>
+                        <p>Reservation date</p>
+                        <p>{deal.reservation.date}</p>
                       </div>
-                    )}
-                  </div>
-                  <div className={style["reservation-secondary-data-content"]}>
-                    <div>
-                      <p>Reservation date</p>
-                      <p>{deal.reservation.date}</p>
-                    </div>
-                    <div>
-                      <p>Number of people</p>
-                      <p>{deal.reservation.number_of_people}</p>
-                    </div>
-                    <div>
-                      <p>Status</p>
-                      <p>{deal.status}</p>
-                    </div>
-                    <div className={style["button-container"]}>
-                      {renderButtons(deal)}
+                      <div>
+                        <p>Number of people</p>
+                        <p>{deal.reservation.number_of_people}</p>
+                      </div>
+                      <div>
+                        <p>Status</p>
+                        <p>{deal.status}</p>
+                      </div>
+                      <div className={style["button-container"]}>
+                        {renderButtons(deal)}
+                      </div>
                     </div>
                   </div>
-                </div>
-                {deal.pre_purchase && (
-                  <div
-                    aria-hidden={true}
-                    className={style["pre-purchase-data"]}>
-                    <h1>Products</h1>
-                    <div className={style["pre-purchase-data-content"]}>
-                      {deal.pre_purchase.products.map((product, index) => {
-                        return (
-                          <div className={style["product"]}>
-                            <img src="https://via.placeholder.com/1920x1080.png/00aa33?text=food+rerum" />
-                            <div className={style["product-content"]}>
-                              <div>
-                                <h1>{product.name || "Placeholder Name"}</h1>
-                                <p>
-                                  {product.description ||
-                                    "Placeholder Description"}
-                                </p>
-                              </div>
-                              <div>
-                                <p>
-                                  Quantity: <b>{product.quantity}</b>
-                                </p>
-                                <p>
-                                  Price: <b>€{product.price || "2.41"}</b>
-                                </p>
-                                <p>
-                                  Product sum:{" "}
-                                  <b>
-                                    €
-                                    {(
-                                      parseFloat(product.price) *
-                                      product.quantity
-                                    ).toFixed(2)}
-                                  </b>
-                                </p>
+                  {deal.pre_purchase && (
+                    <div
+                      aria-hidden={true}
+                      className={style["pre-purchase-data"]}>
+                      <h1>Products</h1>
+                      <div className={style["pre-purchase-data-content"]}>
+                        {deal.pre_purchase.products.map((product, index) => {
+                          return (
+                            <div className={style["product"]}>
+                              <img src="https://via.placeholder.com/1920x1080.png/00aa33?text=food+rerum" />
+                              <div className={style["product-content"]}>
+                                <div>
+                                  <h1>{product.name || "Placeholder Name"}</h1>
+                                  <p>
+                                    {product.description ||
+                                      "Placeholder Description"}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p>
+                                    Quantity: <b>{product.quantity}</b>
+                                  </p>
+                                  <p>
+                                    Price: <b>€{product.price || "2.41"}</b>
+                                  </p>
+                                  <p>
+                                    Product sum:{" "}
+                                    <b>
+                                      €
+                                      {(
+                                        parseFloat(product.price) *
+                                        product.quantity
+                                      ).toFixed(2)}
+                                    </b>
+                                  </p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )
-                      })}
+                          )
+                        })}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            )
-          })
+                  )}
+                </div>
+              )
+            })
+          } else {
+            return <p className={style["no-reservations-warning"]}>No reservations found...</p>
+          }
         }
 
         return (
@@ -378,20 +408,25 @@ export default function profile() {
               </div>
               <div className={style["profile-info-item"]}>
                 <h2 className={style["profile-info-item-title"]}>
-                  {(
-                    dealData.reduce((acc, deal) => {
-                      if (!deal?.pre_purchase) {
-                        return acc
-                      }
+                  {dealData.length > 0
+                    ? (
+                        dealData.reduce((acc, deal) => {
+                          if (!deal?.pre_purchase) {
+                            return acc
+                          }
 
-                      return (
-                        acc +
-                        deal.pre_purchase.products.reduce((acc2, product) => {
-                          return acc2 + product.quantity * product.price
-                        }, 0)
-                      )
-                    }, 0) || 0
-                  ).toFixed(2)}
+                          return (
+                            acc +
+                            deal.pre_purchase.products.reduce(
+                              (acc2, product) => {
+                                return acc2 + product.quantity * product.price
+                              },
+                              0
+                            )
+                          )
+                        }, 0) || 0
+                      ).toFixed(2)
+                    : 0}
                 </h2>
                 <p className={style["profile-info-item-text"]}>Total Spent</p>
               </div>
