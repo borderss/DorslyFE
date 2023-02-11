@@ -181,8 +181,8 @@
 }
 
 .reservation-data > img {
-  width: 180px;
   height: 180px;
+  aspect-ratio: 19/12;
   object-fit: cover;
   border-radius: 7px;
   margin: 10px;
@@ -218,7 +218,7 @@
   align-items: flex-start;
   width: 60%;
   background-color: #fcfcfc;
-  border-left: 1px solid #F2F2F2;
+  border-left: 1px solid #f2f2f2;
   padding-inline: 25px;
 }
 
@@ -227,7 +227,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 30%;
+  height: 45px;
   width: 100%;
   transition: 0.2s;
   border-radius: 7px;
@@ -248,12 +248,125 @@
   color: #808080;
 }
 
+.reservation-secondary-data-content > div:has(button) {
+  flex-direction: row-reverse;
+}
+
+button {
+  min-height: 20px;
+  height: 35px;
+  border-radius: 5px;
+  padding-inline: 15px;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: var(--accent-light);
+}
+
+button.finalize-payment {
+  background-color: #25c94e;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button[disabled] {
+  background-color: #cccccc;
+  color: #ffffff;
+  border: none;
+  cursor: not-allowed;
+  transition: 0.2s;
+}
+
+button.delete-entry {
+  background-color: #ff4444;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button.delete-entry:hover {
+  background-color: #ff0000;
+}
+
 .pre-purchase-data {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: stretch;
+  height: 100%;
+  width: 88.6%;
+  margin-inline: auto;
+}
+
+.section-title {
+  margin-inline: auto;
+  width: 1500px;
+  font-family: Lexend;
+  font-size: 39px;
+  margin-top: 60px;
+  margin-bottom: 35px;
+  color: #292929;
+}
+
+.pre-purchase-data-content {
+  height: 100%;
+  padding: 0px 25px 25px 25px;
+}
+
+.pre-purchase-data-content > div {
+  transition: 0.2s;
+  border-radius: 7px;
+}
+
+.pre-purchase-data-content > div > p {
+  font-size: 21px;
+  margin-block: 5px;
+  color: #6e6e6e;
+}
+
+.pre-purchase-data-content > div > p:nth-child(1) {
+  font-weight: 500;
+}
+
+.product {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   height: 100%;
   width: 100%;
+  margin-bottom: 25px;
+}
+
+.product > img {
+  height: 110px;
+  aspect-ratio: 19/12;
+  object-fit: cover;
+  border-radius: 7px;
+  margin: 10px;
+}
+
+.product-content {
+  height: 100%;
+  width: 100%;
+  margin-top: 10px;
   padding-inline: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.product-content > h1 {
+  font-size: 21px;
+  margin-block: 12px;
+  color: #6e6e6e;
+}
+
+.product-content > p {
+  font-size: 21px;
+  margin-block: 12px;
+  color: #6e6e6e;
 }

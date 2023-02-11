@@ -249,6 +249,50 @@ export default function profile() {
           //   status: "expired",
           // }
 
+          const renderButtons = (deal) => {
+            let result = []
+
+            switch (deal.status) {
+              case "active":
+                result = []
+                result.push(<button>Cancel reservation</button>)
+                break
+
+              case "completed":
+                result = []
+                result.push(
+                  <button
+                    onClick={(e) => {
+                      console.log("removing entry: ", deal.id)
+                    }}>
+                    Remove entry
+                  </button>
+                )
+                break
+            }
+
+            switch (deal?.pre_purchase?.status) {
+              case "pending":
+                result = []
+
+                result.push(
+                  <>
+                    <button disabled>Payment not recieved</button>
+                    <button
+                      className={style["delete-entry"]}
+                      onClick={(e) => {
+                        console.log("deleting entry: ", deal.id)
+                      }}>
+                      Delete entry
+                    </button>
+                  </>
+                )
+                break
+            }
+
+            return result
+          }
+
           return exampleDealData.map((deal, index) => {
             return (
               <div className={style["deal"]} key={index}>
@@ -271,11 +315,45 @@ export default function profile() {
                       <p>Status</p>
                       <p>{deal.status}</p>
                     </div>
+                    <div>{renderButtons(deal)}</div>
                   </div>
                 </div>
-                <div
-                  aria-hidden={true}
-                  className={style["pre-purchase-data"]}></div>
+                {deal.pre_purchase && (
+                  <div
+                    aria-hidden={true}
+                    className={style["pre-purchase-data"]}>
+                    <h1>Pre-purchase</h1>
+                    <div className={style["pre-purchase-data-content"]}>
+                      {deal.pre_purchase.products.map((product, index) => {
+                        return (
+                          <div className={style["product"]}>
+                            <img src="https://via.placeholder.com/1920x1080.png/00aa33?text=food+rerum" />
+                            <div className={style["product-content"]}>
+                              <div>
+                                <h1>{product.name || "Placeholder Name"}</h1>
+                                <p>
+                                  {product.description ||
+                                    "Placeholder Description"}
+                                </p>
+                              </div>
+                              <div>
+                                <p>Quantity: <b>{product.quantity}</b></p>
+                                <p>Price: <b>€{product.price || "2.41"}</b></p>
+                                <p>
+                                  Product sum: €<b>
+                                  {(
+                                    parseFloat(product.price) *
+                                      product.quantity || 2.41 * 5
+                                  ).toFixed(2)}</b>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             )
           })
@@ -283,7 +361,7 @@ export default function profile() {
 
         return (
           <>
-            <h1>Reservations</h1>
+            <h1 className={style["section-title"]}>Your Reservations</h1>
 
             <div className={style["deals"]}>{renderDeals()}</div>
           </>
