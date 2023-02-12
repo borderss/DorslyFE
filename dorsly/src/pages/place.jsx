@@ -38,7 +38,7 @@ export default function place() {
   const [data, setData] = useState([])
   const [reviewData, setReviewData] = useState([])
   const [productData, setProductData] = useState([])
-  const [userRating, setUserRating] = useState(4)
+  const [userRating, setUserRating] = useState(1)
   const [bgImage, setBgImage] = useState(
     `https://picsum.photos/1920/1080/?random&t=${new Date().getTime()}`
   )
@@ -59,18 +59,86 @@ export default function place() {
   }, [navigate])
 
   useEffect(() => {
+    if (user === null) {
+      navigate("/login")
+    }
+
+    if (user === false || token === false) {
+      return
+    }
+
+    async function fetchData() {
+      let promise = await apiMethod(
+        "/getUsersPointOfInterestRating/" + searchParams.get("p"),
+        {
+          method: "GET",
+          headers: bearerHeaders(token),
+        }
+      )
+
+      if (promise.status == "success") {
+        setUserRating(promise.rating)
+      } else {
+        if (promise.message != "User has not rated this point of interest.") {
+          createPopup(
+            "Something went wrong",
+            <p>We couldn't get the rating: {promise.message}</p>,
+            promise.status,
+            "Close"
+          )
+        }
+      }
+    }
+    fetchData()
+  }, [user])
+
+  useEffect(() => {
+    if (user === null) {
+      navigate("/login")
+    }
+
+    if (user === false || token === false) {
+      return
+    }
+
     if (ratingRef.current != null) {
       ratingRef.current.childNodes.forEach((star) => {
         star?.childNodes.forEach((icon) => {
-          icon.addEventListener("click", (e) => {
+          icon.addEventListener("click", async (e) => {
             console.log(e.target.getAttribute("selectionindex"))
-            setUserRating(e.target.getAttribute("selectionindex"))
 
-            ratingResultRef.current.classList.add(style["result-active"])
+            let promise = await apiMethod(`/ratings`, {
+              method: "POST",
+              headers: bearerHeaders(token),
+              body: JSON.stringify({
+                point_of_interest_id: parseInt(searchParams.get("p")),
+                rating: parseInt(e.target.getAttribute("selectionindex")),
+              }),
+            })
 
-            setTimeout(() => {
-              ratingResultRef.current.classList.remove(style["result-active"])
-            }, 1500)
+            if (promise.status == "success") {
+              setUserRating(e.target.getAttribute("selectionindex"))
+
+              createPopup(
+                "Rating set successfully",
+                <p>{promise.message}</p>,
+                "success",
+                "Close"
+              )
+
+              ratingResultRef.current.classList.add(style["result-active"])
+
+              setTimeout(() => {
+                ratingResultRef.current.classList.remove(style["result-active"])
+              }, 1500)
+            } else {
+              createPopup(
+                "Unable to set rating",
+                <p>We couldn't set the rating: {promise.message}</p>,
+                promise.status,
+                "Close"
+              )
+            }
           })
         })
       })
@@ -96,7 +164,7 @@ export default function place() {
     }).then((data) => {
       setProductData(data.data)
     })
-  }, [])
+  }, [user])
 
   useEffect(() => {
     // read state from navigate

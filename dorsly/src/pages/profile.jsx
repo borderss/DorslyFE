@@ -21,6 +21,11 @@ export default function profile() {
   const [dealData, setDealData] = useState([])
   const [reviewData, setReviewData] = useState([])
   const [ratingData, setRatingData] = useState([])
+  const [statistics, setStatistics] = useState({
+    dealCount: 0,
+    reviewCount: 0,
+    totalSpent: 0,
+  })
 
   const navigate = useNavigate()
 
@@ -38,7 +43,12 @@ export default function profile() {
     }
 
     async function fetchData() {
-      let [deals, ratings, comments] = await Promise.all([
+      let [statistics, deals, ratings, comments] = await Promise.all([
+        fetch(url("/profileStatistics"), {
+          method: "GET",
+          headers: bearerHeaders(token),
+        }).then((response) => response.json()),
+
         fetch(url("/getDeals"), {
           method: "GET",
           headers: bearerHeaders(token),
@@ -66,6 +76,8 @@ export default function profile() {
       setRatingData(ratings.data)
 
       setReviewData(comments.data)
+
+      setStatistics(statistics)
     }
 
     fetchData()
@@ -105,6 +117,11 @@ export default function profile() {
                 e.target.disabled = false
                 setDealData((prev) => {
                   return prev.filter((deal) => deal.id !== id)
+                })
+
+                setStatistics((prev) => {
+                  prev.dealCount--
+                  return prev
                 })
 
                 createPopup(
@@ -232,7 +249,9 @@ export default function profile() {
               case "pending":
                 result.unshift(
                   <>
-                    <button disabled>Payment not recieved</button>
+                    <button key={result.length} disabled>
+                      Payment not recieved
+                    </button>
                   </>
                 )
                 break
@@ -244,6 +263,7 @@ export default function profile() {
                   result.unshift(
                     <>
                       <button
+                        key={result.length}
                         className={style["delete-entry"]}
                         onClick={(e) => {
                           deleteRow(e, deal.id)
@@ -259,6 +279,7 @@ export default function profile() {
                     <>
                       <button disabled>Payment failed</button>
                       <button
+                        key={result.length}
                         className={style["delete-entry"]}
                         onClick={(e) => {
                           deleteRow(e, deal.id)
@@ -403,8 +424,36 @@ export default function profile() {
 
       case "reviews":
         const renderReviews = () => {
-          const removeReview = (e, id) => {
-            console.log("Removing comment: " + id)
+          const removeReview = async (e, id) => {
+            let promise = await apiMethod(`/comments/${id}`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                accept: "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            })
+
+            if (promise.data.id == id) {
+              setReviewData(reviewData.filter((review) => review.id !== id))
+
+              createPopup(
+                "Successfully removed!",
+                <p>
+                  Your review has been successfully removed! You can always
+                  create a new one.
+                </p>,
+                "success",
+                "Close"
+              )
+            } else {
+              createPopup(
+                "Deletion unsuccessful",
+                <p>We couldn't delete this entry. {promise.message}</p>,
+                "error",
+                "Close"
+              )
+            }
           }
 
           if (reviewData.length > 0) {
@@ -448,8 +497,36 @@ export default function profile() {
 
       case "ratings":
         const renderRatings = () => {
-          const removeRating = (e, id) => {
-            console.log("Removing rating: " + id)
+          const removeRating = async (e, id) => {
+            let promise = await apiMethod(`/ratings/${id}`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                accept: "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            })
+
+            if (promise.data.id == id) {
+              setRatingData(ratingData.filter((rating) => rating.id !== id))
+
+              createPopup(
+                "Successfully removed!",
+                <p>
+                  Your rating has been successfully removed! You can always
+                  create a new one.
+                </p>,
+                "success",
+                "Close"
+              )
+            } else {
+              createPopup(
+                "Deletion unsuccessful",
+                <p>We couldn't delete this entry. {promise.message}</p>,
+                "error",
+                "Close"
+              )
+            }
           }
 
           if (ratingData.length > 0) {
@@ -508,37 +585,19 @@ export default function profile() {
             <div className={style["profile-info"]}>
               <div className={style["profile-info-item"]}>
                 <h2 className={style["profile-info-item-title"]}>
-                  {dealData.length || 0}
+                  {statistics?.dealCount || 0}
                 </h2>
                 <p className={style["profile-info-item-text"]}>Reservations</p>
               </div>
               <div className={style["profile-info-item"]}>
                 <h2 className={style["profile-info-item-title"]}>
-                  {reviewData.length}
+                  {statistics?.reviewCount || 0}
                 </h2>
                 <p className={style["profile-info-item-text"]}>Reviews</p>
               </div>
               <div className={style["profile-info-item"]}>
                 <h2 className={style["profile-info-item-title"]}>
-                  {dealData.length > 0
-                    ? (
-                        dealData.reduce((acc, deal) => {
-                          if (!deal?.pre_purchase) {
-                            return acc
-                          }
-
-                          return (
-                            acc +
-                            deal.pre_purchase.products.reduce(
-                              (acc2, product) => {
-                                return acc2 + product.quantity * product.price
-                              },
-                              0
-                            )
-                          )
-                        }, 0) || 0
-                      ).toFixed(2)
-                    : 0}
+                  {statistics?.totalSpent || 0.0}€
                 </h2>
                 <p className={style["profile-info-item-text"]}>Total Spent</p>
               </div>

@@ -4,6 +4,10 @@
   margin-inline: auto;
 }
 
+.container > div:first-child {
+  display: contents;
+}
+
 .profile-header {
   display: flex;
   flex-direction: row;
@@ -88,8 +92,6 @@
   top: 63px;
   z-index: 10;
   background-color: #ffffff;
-  border-block: 1px solid #ebebeb;
-  font-family: "DM Sans";
   border-block: 1px solid #ebebeb;
   font-family: "DM Sans";
 }
