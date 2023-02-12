@@ -1,137 +1,114 @@
-let api = "http://127.0.0.1:5173/api"
+var api = "http://127.0.0.1/api"
+
+if (import.meta.env.MODE == "production") {
+  api = "https://api.dorsly.com/api"
+}
+
+const url = (path) => {
+  return api + path
+}
+
+const defaultHeaders = () => {
+  return {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    accept: "application/json",
+  }
+}
+
+const bearerHeaders = (token) => {
+  return {
+    "Content-Type": "application/json",
+    accept: "application/json",
+    Authorization: `Bearer ${token}`,
+  }
+}
 
 const apiMethod = async (endpoint = "", requestParams) => {
-  const response = await fetch(api + endpoint, requestParams)
+  const response = await fetch(url(endpoint), requestParams)
   const data = await response.json()
 
   return data
 }
 
-const setLS = (key, value) => {
-  window.localStorage.setItem(key, JSON.stringify(value))
-}
-
-const getLS = (key) => {
-  let value = window.localStorage.getItem(key)
-
-  return value != undefined ? JSON.parse(value) : null
-}
-
-const removeLS = (key) => {
-  window.localStorage.removeItem(key)
-}
-
-const getUser = () => {
-  return getLS("user") != undefined ? getLS("user") : null
-}
-
-const getToken = () => {
-  let user = getLS("user")
-
-  if (user) {
-    return user.access_token
-  }
-}
-
-const loginUser = (email, password) => {
-  if (!userExists()) {
-    apiMethod("/login", {
+const loginUser = async (loginData, user, token, setUser, setToken) => {
+  if (!user && !token) {
+    return apiMethod("/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: defaultHeaders(),
       body: JSON.stringify({
-        email: email,
-        password: password,
+        email: loginData.email,
+        password: loginData.password,
       }),
-    }).then((data) => {
-      setLS("user", data)
-      location.reload()
-      return data
     })
+      .then((data) => {
+        setUser(data.user)
+        setToken(data.token)
+
+        return data
+      })
+      .catch((error) => error)
   } else {
     console.warn("Logging in with a user token")
     return null
   }
 }
 
-const registerUser = (name, email, password) => {
-  if (!userExists()) {
-    apiMethod("/register", {
+const registerUser = async (registerData, user, token, setUser, setToken) => {
+  if (
+    user == null &&
+    token == null &&
+    registerData.password == registerData.passwordConfirm
+  ) {
+    return apiMethod("/register", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: defaultHeaders(),
       body: JSON.stringify({
-        name: name,
-        email: email,
-        password: password,
+        first_name: registerData.firstName,
+        last_name: registerData.lastName,
+        email: registerData.email,
+        phone_number: registerData.phoneNumber,
+        password: registerData.password,
       }),
-    }).then((data) => {
-      location.reload()
-      return data
     })
+      .then((data) => {
+        setUser(data.user)
+        setToken(data.token)
+        return data
+      })
+      .catch((error) => error)
   } else {
     console.warn("Registering with a user token")
     return null
   }
 }
 
-const logoutUser = () => {
-  if (userExists()) {
-    apiMethod("/logout", {
+const logoutUser = (user, token, setUser, setToken) => {
+  if (user && token) {
+    return apiMethod("/logout", {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-    }).then((data) => {
-      removeLS("user")
-      location.reload()
-      return data
+      headers: bearerHeaders(token),
     })
+      .then((data) => {
+        window.localStorage.removeItem("access_token")
+        setUser(null)
+        setToken(null)
+        window.location.href = "/"
+        return data
+      })
+      .catch((error) => error)
   } else {
     console.warn("logging out without an user existing")
     return null
   }
 }
 
-const userExists = () => {
-  let user = getUser()
-  if (user) {
-    return true
-  } else {
-    return false
-  }
-}
-
-const examplePost = (var1, var2) => {
-  if (userExists()) {
-    apiMethod("/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-      body: JSON.stringify({
-        param1: var1,
-        param2: var2,
-      }),
-    }).then(() => {
-      location.reload()
-    })
-  } else {
-    console.warn("Invalid data")
-    return null
-  }
-}
-
 export {
+  url,
   apiMethod,
-  setLS,
-  getLS,
-  removeLS,
-  getUser,
-  getToken,
+  defaultHeaders,
+  bearerHeaders,
   loginUser,
   registerUser,
   logoutUser,
-  userExists,
-  examplePost,
 }

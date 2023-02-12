@@ -1,6 +1,6 @@
 .header-content {
   position: relative;
-  background-image: url("/assets/svg/homebackground.svg");
+  background-image: url("/assets/svg/homeBackground.svg");
   background-size: 100% auto;
   width: min(1920px, 100vw);
   aspect-ratio: 1920/2310;
@@ -9,6 +9,81 @@
   background-repeat: no-repeat;
 
   font-family: "Lexend";
+}
+
+*::selection {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+.link {
+  height: 3em;
+  min-height: 3em;
+  padding-inline: 30px;
+  background-color: var(--accent);
+
+  color: var(--white);
+  font-family: "Lexend";
+  font-size: 18px;
+
+  line-height: 53px;
+
+  border: none;
+  border-radius: 100vw;
+  text-decoration: none;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.link:hover {
+  background-color: var(--accent-light);
+}
+
+.link::selection{
+  background-color: transparent;
+  color: inherit;
+}
+
+.link {
+  height: 3em;
+  min-height: 3em;
+  padding-inline: 30px;
+  background-color: var(--accent);
+
+  color: var(--white);
+  font-family: "Lexend";
+  font-size: 18px;
+
+  line-height: 53px;
+
+  border: none;
+  border-radius: 100vw;
+  text-decoration: none;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.link:hover {
+  background-color: var(--accent-light);
+}
+
+.link::selection{
+  background-color: transparent;
+  color: inherit;
+}
+
+.inverted {
+  background-color: transparent;
+  color: var(--accent);
+  border: 3px solid var(--accent);
+}
+
+.inverted:hover {
+  background-color: transparent;
+  color: var(--accent-light);
+  border: 3px solid var(--accent-light);
 }
 
 .phoneIllustration {
@@ -22,16 +97,23 @@
 
 .header-content > div {
   position: relative;
-  top: 9rem;
+  top: 13rem;
   left: min(5vw, 5rem);
 
   width: fit-content;
+}
+
+.header-content > div:nth-child(3) {
+  width: 100%;
+  left: 0px;
 }
 
 .header-content > div > h1 {
   font-size: 61px;
   font-weight: 400;
   line-height: 70px;
+
+  user-select: none;
 
   color: var(--accent);
 
@@ -101,7 +183,7 @@
   flex-direction: row-reverse;
   font-family: "Lexend";
   color: #4a4a4a;
-  width: 190px;
+  width: 205px;
   font-weight: 300;
   font-size: 17px;
   user-select: none;
@@ -112,6 +194,17 @@
   padding-left: 15px;
   gap: 8px;
   cursor: pointer;
+}
+
+.search-field > input:-webkit-autofill,
+.search-field > input:-webkit-autofill:hover,
+.search-field > input:-webkit-autofill:focus,
+.search-field > input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.search-field > input:-webkit-autofill{
+  -webkit-text-fill-color: inherit !important;
 }
 
 .date {
@@ -151,7 +244,7 @@ input::-webkit-datetime-edit-ampm-field:focus {
 
 .time {
   padding: 5px !important;
-  width: 160px !important;
+  width: 180px !important;
   border-right: 2px solid #ebebeb;
   cursor: pointer;
 }
@@ -183,16 +276,21 @@ input::-webkit-datetime-edit-ampm-field:focus {
   width: 12px;
   border: none;
   outline: none;
-  font-family: "Lexend"	;
+  font-family: "Lexend";
   background-color: transparent;
   font-size: 17px;
   font-weight: 300;
   color: #4a4a4a;
   cursor: pointer;
-  margin-right: 5px;
+  margin-right: 2px;
   margin-top: 2px;
   border-bottom: 2px solid #fff;
   transition: 0.2s;
+}
+
+.person-box > input::selection{
+  background-color: transparent;
+  color: inherit;
 }
 
 .person-box > input:focus {
@@ -203,11 +301,11 @@ input::-webkit-datetime-edit-ampm-field:focus {
 }
 
 .search {
-  display: flex;;
+  display: flex;
   border-radius: 0 200px 200px 0;
   width: auto;
   flex: 1 0 auto;
-  
+
   background-image: var(--mainSearchIcon) !important;
   background-repeat: no-repeat !important;
   background-position: 15px 50% !important;
@@ -272,19 +370,6 @@ input::-webkit-datetime-edit-ampm-field:focus {
   border: 3px solid var(--accent);
   color: var(--accent);
   font-weight: 300;
-}
-
-.carousel {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 50px;
-  width: 1600px !important;
-  height: 580px;
-  left: initial !important;
-  margin-inline: auto;
-  margin-top: 405px;
-  background-color: transparent;
 }
 
 .description {

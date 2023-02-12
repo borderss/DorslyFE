@@ -1,0 +1,30 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Lexend;
+  font-size: 22px;
+  color: var(--accent);
+}
+
+.container > p {
+  color: #ffcb63;
+  margin-top: 0px;
+  margin-bottom: 70px;
+}
+
+.container > a {
+  margin-top: 5px;
+  text-underline-offset: 7px;
+  color: #ffcb63;
+  transform: scale(1);
+  transition: 0.2s;
+}
+
+.container > a:hover {
+  transform: scale(1.1);
+  color: #ffcb63;
+}

@@ -1,13 +1,16 @@
-import React from "react"
+import React, { useContext, useEffect } from "react"
+import { Link } from "react-router-dom"
+import { apiMethod, defaultHeaders } from "../static/js/util"
 
 import "../static/css/general.css"
 import style from "../static/css/home.module.css"
+import carouselStyle from "../static/css/homeCarouselStyle.module.css"
 
-import Header from "../components/header"
-import Partner from "../components/partner"
-import MainSarchBar from "../components/mainSearchBar"
 import Card from "../components/card"
-
+import Carousel from "../components/carousel"
+import Header from "../components/header"
+import MainSarchBar from "../components/mainSearchBar"
+import Partner from "../components/partner"
 
 import CalendarIllustration from "/assets/svg/calendarillustration.svg"
 import PhoneGlobeIllustration from "/assets/svg/phoneglobeillustration.svg"
@@ -16,44 +19,50 @@ import WalletIllustration from "/assets/svg/walletillustration.svg"
 import PhoneIllustration from "/assets/svg/phoneillustration.svg"
 // import Footer from "../components/footer"
 
+import { UserContext } from "../contexts/userContext"
+import { PopupContext } from "../contexts/popupContext"
+
 export default function home() {
-  const fakedata = [
-    {
-      star: "5.6",
-      name: "Burgeru Cehs",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      star: "5.6",
-      name: "kebab",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
-    {
-      star: "5.6",
-      name: "pica",
-      desc: "Lieli un garšīgi burgeri, labākā ātrā uzskoda baltijas valstu robežās.",
-      time: "6:00 - 24:00",
-      place: "Takeaway or on location",
-      seats: "25 available seats",
-      gps: "1.3km away",
-      comments: "253 reviews",
-      imgurl:
-        "https://secretldn.com/wp-content/uploads/2021/08/shutterstock_1009968298-2.jpg",
-    },
+  const { user, token, setUser, setToken } = useContext(UserContext)
+  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
+
+  const [cardData, setCardData] = React.useState([])
+  const [cards, setCards] = React.useState([])
+
+  useEffect(() => {
+    document.body.style.backgroundImage = ""
+
+    apiMethod("/popular_choices", {
+      method: "GET",
+      headers: defaultHeaders(),
+    }).then((data) => {
+      setCardData(data.data)
+    })
+  }, [])
+
+  useEffect(() => {
+    let cardsTemp = cardData.map((card, id) => {
+      return <Card key={id} data={card} />
+    })
+
+    setCards(cardsTemp)
+  }, [cardData])
+
+  const carouselPlaceholderData = [
+    <div
+      key={1}
+      style={{
+        width: "100%",
+        height: "100%",
+        color: "#FFF",
+        lineHeight: "532px",
+        textAlign: "center",
+        fontSize: "40px",
+        fontFamily: "Lexend",
+        fontWeight: "450",
+      }}>
+      Loading Cards...
+    </div>,
   ]
 
   return (
@@ -79,19 +88,36 @@ export default function home() {
 
           <p className={style["seperator"]}>Alternatively,</p>
           <div className={style["actions"]}>
-            <button>Register now</button>
-            <button className={style["inverted"]}>
+            <Link to="/register" className={style["link"]}>
+              Register now
+            </Link>
+            <a
+              href="/"
+              className={[style["link"], style["inverted"]].join(" ")}
+              onClick={(e) => {
+                e.preventDefault()
+                createPopup(
+                  "Not implemented yet",
+                  <p>This feature hasn't been implemented yet. Sorry!</p>,
+                  "error",
+                  "Close"
+                )
+              }}>
               Register as a business
-            </button>
+            </a>
+            {/* <Link
+              to="/error"
+              className={[style["link"], style["inverted"]].join(" ")}>
+              Register as a business
+            </Link> */}
           </div>
         </div>
 
-        <div className={style["carousel"]}>
-          <Card data={fakedata[0]} />
-          <Card data={fakedata[0]} />
-          <Card data={fakedata[0]} />
-          <Card data={fakedata[0]} />
-        </div>
+        {cards.length > 0 ? (
+          <Carousel data={cards} stylesheet={carouselStyle} />
+        ) : (
+          <Carousel data={carouselPlaceholderData} stylesheet={carouselStyle} />
+        )}
 
         <div className={style["description"]}>
           <div>

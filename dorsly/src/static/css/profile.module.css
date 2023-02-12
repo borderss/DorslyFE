@@ -1,0 +1,568 @@
+.container {
+  padding-top: 63px;
+  width: min(1920px, 100vw);
+  margin-inline: auto;
+}
+
+.container > div:first-child {
+  display: contents;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 200px;
+  padding-inline: 173px;
+  background: linear-gradient(54deg, #ffe4b0 0%, #ffe7e7 50%, #e9f5ff 100%);
+  font-family: "DM Sans";
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.full-name {
+  font-size: 70px;
+  color: #fff;
+  filter: drop-shadow(0px 4px 10px #00000025);
+  transition: 0.2s;
+  user-select: none;
+}
+
+.full-name:hover {
+  filter: drop-shadow(0px 10px 10px #00000025);
+  transform: translateY(-5px);
+}
+
+.profile-info-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 104px;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0px 4px 10px #0000000f;
+  transition: 0.2s;
+  user-select: none;
+}
+
+.profile-info-item:hover {
+  box-shadow: 0px 10px 10px #00000010;
+  transform: translateY(-5px);
+}
+
+.profile-info-item-title {
+  font-size: 21px;
+  margin-block: 12px;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  color: #6e6e6e;
+  display: flex;
+  background: #f9f9f9;
+  border-bottom: 1px solid #f2f2f2;
+  align-items: center;
+  border-radius: 7px 7px 0px 0px;
+  justify-content: center;
+}
+
+.profile-info-item-text {
+  font-size: 21px;
+  margin-block: 12px;
+  color: #6e6e6e;
+}
+
+.lower-navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding-left: 173px;
+  padding-right: 88px;
+  position: sticky;
+  top: 63px;
+  z-index: 10;
+  background-color: #ffffff;
+  border-block: 1px solid #ebebeb;
+  font-family: "DM Sans";
+}
+
+.lower-navbar > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  color: #6e6e6e;
+  font-size: 21px;
+  box-shadow: inset 0px 0px 0px 0px #ffb82e;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.lower-navbar > div > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding-inline: 25px;
+  color: #6e6e6e;
+  font-size: 21px;
+  box-shadow: inset 0px 0px 0px 0px #ffb82e;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.lower-navbar > div > div:hover {
+  background-color: #fafafa;
+  box-shadow: inset 0px -3px 0px 0px #ffb82e;
+}
+
+.lower-navbar > div > div.active {
+  background-color: #fafafa;
+  box-shadow: inset 0px -3px 0px 0px #ffb82e;
+}
+
+/* 
+<div className={style["deal"]} key={index}>
+  <div className={style["reservation-data"]}>
+    <img src={deal.point_of_interest.images} />
+    <div className={style["reservation-data-content"]}>
+      <h1>{deal.point_of_interest.name}</h1>
+      <p>{deal.point_of_interest.description}</p>
+    </div>
+    <div className={style["reservation-secondary-data-content"]}>
+      <div>
+        <p>Reservation date</p>
+        <p>{deal.reservation.date}</p>
+      </div>
+      <div>
+        <p>Number of people</p>
+        <p>{deal.reservation.number_of_people}</p>
+      </div>
+      <div>
+        <p>Reservation status</p>
+        <p>{deal.status}</p>
+      </div>
+    </div>
+  </div>
+  <div
+    aria-hidden={true}
+    className={style["pre-purchase-data"]}></div>
+</div>
+*/
+
+.deal {
+  display: flex;
+  flex-direction: column;
+  width: 1500px;
+  margin-inline: auto;
+  font-family: "Lexend";
+  border-radius: 15px;
+  margin-bottom: 25px;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px 0 #ececec;
+  overflow: hidden;
+}
+
+.reservation-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.reservation-data > img {
+  height: 180px;
+  aspect-ratio: 19/12;
+  object-fit: cover;
+  border-radius: 7px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.reservation-data-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+  padding-inline: 25px;
+}
+
+.reservation-data-content > h1 {
+  font-size: 21px;
+  margin-block: 12px;
+  color: #2b2b2b;
+  cursor: pointer;
+}
+
+.reservation-data-content > p {
+  font-size: 21px;
+  margin-block: 12px;
+  color: #6e6e6e;
+}
+
+.reservation-secondary-data-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 60%;
+  background-color: #fcfcfc;
+  border-left: 1px solid #f2f2f2;
+  padding-inline: 25px;
+}
+
+.reservation-secondary-data-content > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 45px;
+  width: 100%;
+  transition: 0.2s;
+  border-radius: 7px;
+}
+
+.reservation-secondary-data-content > div > p {
+  font-size: 21px;
+  margin-block: 5px;
+  color: #6e6e6e;
+}
+
+.reservation-secondary-data-content > div > p:nth-child(1) {
+  font-weight: 500;
+}
+
+.reservation-secondary-data-content > div > p:nth-child(2) {
+  font-weight: 300;
+  color: #808080;
+}
+
+.reservation-secondary-data-content > div:has(button) {
+  flex-direction: row-reverse;
+}
+
+.button-container > button {
+  min-height: 20px;
+  height: 35px;
+  border-radius: 5px;
+  padding-inline: 15px;
+  margin: 5px;
+}
+
+.button-container > button:hover {
+  background-color: var(--accent-light);
+}
+
+.button-container > button.finalize-payment {
+  background-color: #25c94e;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.button-container > button[disabled] {
+  background-color: #cccccc;
+  color: #ffffff;
+  border: none;
+  cursor: not-allowed;
+  transition: 0.2s;
+}
+
+.button-container > button.delete-entry {
+  background-color: #ff4444;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.button-container > button.delete-entry:hover {
+  background-color: #ff0000;
+}
+
+.pre-purchase-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+  overflow: hidden;
+  border-top: 2px solid #f3f3f3;
+  transition: 0.5s ease-in-out;
+}
+
+.pre-purchase-data[aria-hidden="true"] {
+  max-height: 0px;
+}
+
+.pre-purchase-data[aria-hidden="false"] {
+  max-height: var(--height);
+}
+
+.pre-purchase-data > h1 {
+  font-size: 28px;
+  margin-block: 16px;
+  margin-left: 20px;
+  color: #2b2b2b;
+}
+
+.section-title {
+  margin-inline: auto;
+  width: 1500px;
+  font-family: Lexend;
+  font-size: 39px;
+  font-weight: 550;
+  margin-top: 60px;
+  margin-bottom: 35px;
+  color: #242424;
+}
+
+.pre-purchase-data-content {
+  height: 100%;
+  padding: 0px 25px 25px 25px;
+}
+
+.pre-purchase-data-content > div {
+  transition: 0.2s;
+  border-radius: 7px;
+}
+
+.pre-purchase-data-content > div > p {
+  font-size: 21px;
+  margin-block: 5px;
+  color: #6e6e6e;
+}
+
+.pre-purchase-data-content > div > p:nth-child(1) {
+  font-weight: 500;
+}
+
+.product {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid #f3f3f3;
+}
+
+.product:last-child {
+  margin-bottom: 0px;
+}
+
+.product > img {
+  height: 110px;
+  aspect-ratio: 19/12;
+  object-fit: cover;
+  border-radius: 7px;
+  margin: 10px;
+}
+
+.product-content {
+  height: 100%;
+  width: 100%;
+  /* margin-top: 10px; */
+  padding-inline: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.product-content > div > h1 {
+  font-size: 21px;
+  margin-block: 5px;
+  color: #2b2b2b;
+}
+
+.product-content > div:nth-child(1) {
+  width: 960px;
+}
+
+.product-content > div > h1:nth-child(1) {
+  margin-top: 12px;
+}
+
+.product-content > div > p {
+  font-size: 21px;
+  margin-block: 12px;
+  color: #6e6e6e;
+}
+
+.product-content > div:nth-child(2) > p {
+  font-size: 19px;
+  margin-block: 12px;
+  color: #6e6e6e;
+}
+
+.product-content > div:nth-child(2) > p > b {
+  font-weight: 500;
+  color: #2b2b2b;
+}
+
+.expand-indicator {
+  position: absolute;
+  font-size: 14px;
+  color: #ccc;
+  font-weight: 200;
+  bottom: 5px;
+  right: 50%;
+  translate: 50%;
+  width: 720px;
+  height: 41px;
+  line-height: 4;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.expand-indicator:hover {
+  color: #999;
+}
+
+.no-data-warning {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  font-family: Lexend;
+  font-size: 21px;
+  font-weight: 300;
+  color: #6e6e6e;
+}
+
+.reviews {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: hidden;
+  border-top: 2px solid #f3f3f3;
+  transition: 0.5s ease-in-out;
+}
+
+/* 
+<div className={style["review"]}>
+  <div className={style["content"]}>
+    <div className={style["header"]}>
+      <h1>{review.point_of_interest.name}</h1>
+
+      <div className={style["rating"]}>
+        <img src={Star} alt="" />
+        <p>{review.rating}</p>
+      </div>
+
+      <p>{review.date}</p>
+    </div>
+
+    <p>{review.review_text}</p>
+  </div>
+  <div className={style["actions"]}>
+    <button>Update</button>
+    <button>Delete</button>
+  </div>
+</div>
+*/
+
+.reviews {
+  border: none;
+}
+
+.review {
+  display: flex;
+  flex-direction: row;
+  width: 1500px;
+  max-width: 80vw;
+  margin-inline: auto;
+  font-family: "Lexend";
+  border-radius: 15px;
+  margin-bottom: 25px;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px 0 #ececec;
+  overflow: hidden;
+}
+
+.content {
+  width: 100%;
+  padding: 10px 25px 10px 25px;
+}
+
+.content > p {
+  font-size: 18px;
+  margin: 5px;
+}
+
+.header {
+  display: flex;
+}
+
+.header > h1 {
+  font-size: 21px;
+  line-height: 37px;
+  margin-block: 5px;
+  color: #2b2b2b;
+}
+
+.header > .rating {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header > .rating > img {
+  height: 41px;
+  margin-right: 2px;
+  margin-left: 10px;
+}
+
+.header > .rating > p {
+  font-size: 21px;
+  line-height: 30px;
+  margin-top: 5px;
+  margin-bottom: 8px;
+  color: #2b2b2b;
+}
+
+.header > p {
+  font-size: 15px;
+  margin: 14px 0px 0px 15px;
+  color: #bbbbbb;
+  font-weight: 200;
+}
+
+.review.content > p {
+  font-size: 21px;
+  margin-block: 5px;
+  color: #6e6e6e;
+}
+
+.actions {
+  padding: 10px 10px 10px 25px;
+}
+
+.actions > button {
+  min-height: 20px;
+  height: 35px;
+  width: 230px;
+  border-radius: 5px;
+  padding-inline: 15px;
+  margin: 5px;
+}

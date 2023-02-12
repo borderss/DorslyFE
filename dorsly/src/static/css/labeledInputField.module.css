@@ -56,16 +56,20 @@
   border-bottom: 2px solid var(--accent);
 }
 
-.labeled-text-input-box > input:-webkit-autofill,
-.labeled-text-input-box > input:-webkit-autofill:hover,
-.labeled-text-input-box > input:-webkit-autofill:focus,
-.labeled-text-input-box > input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-}
-
 input:-webkit-autofill{
   -webkit-text-fill-color: inherit !important;
+  box-shadow: 0 0 0px 1000px #fff inset;
 }
+
+input::placeholder{
+  color: transparent;
+  transition: 0.2s;
+}
+
+.labeled-text-input-box:has(:focus-within) > input::placeholder{
+  color: #ccc;
+}
+
 
 :-internal-autofill-previewed {
   font-size: 20px !important;

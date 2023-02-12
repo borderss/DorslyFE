@@ -1,19 +1,23 @@
-import React from "react"
+import React, { useCallback, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { apiMethod, defaultHeaders } from "../static/js/util.js"
 
 import style from "../static/css/home.module.css"
 
-import { useEffect, useState } from "react"
 import CalendarIcon from "/assets/svg/calendar.svg"
 import ClockIcon from "/assets/svg/clock.svg"
 import MainSearchIcon from "/assets/svg/mainsearch.svg"
 import PersonIcon from "/assets/svg/person.svg"
 
 export default function mainSearchBar() {
+  const navigate = useNavigate()
+
   const [date, setDate] = useState(new Date())
   const [time, setTime] = useState(new Date())
   const [personCount, setPersonCount] = useState(1)
-  const [personText, setPersonText] = useState("Person")
   const [searchText, setSearchText] = useState("")
+  
+  const [personText, setPersonText] = useState("Person")
 
   useEffect(() => {
     const currdate = new Date()
@@ -60,8 +64,7 @@ export default function mainSearchBar() {
       }
 
       if (e.target.value.length > 1) {
-        console.log(e.target)
-        e.target.style.width = "25px"
+        e.target.style.width = "22px"
       } else {
         e.target.style.width = "17px"
       }
@@ -72,24 +75,46 @@ export default function mainSearchBar() {
 
   const handleSearchTextChange = (e) => {
     setSearchText(e.target.value)
-    console.log("Searching:", e.target.value)
+  }
+
+  const focusChildInput = (e) => {
+    e.target.closest("div").querySelector("input").focus()
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     let formData = new FormData(e.target)
-    let data = Object.fromEntries(formData)
-    console.log(data)
-  }
+    let data = Object.fromEntries(formData.entries())
+    data.personCount = parseInt(data.personCount)
 
-  const focusChildInput = (e) => {
-    e.target.closest(".person-count").focus()
+    console.log(data)
+
+    let date = data.date.split("-")
+    let time = data.time.split(":")
+
+    let dateTime = `${date[0]}-${date[1]}-${date[2]} ${time[0]}:${time[1]}`
+    console.log(dateTime)
+
+    apiMethod(`/points_of_interest?date=${dateTime}&seats=${data.personCount}${(searchText ? `&name=${searchText}` : "")}`, {
+      method: "GET",
+      headers: defaultHeaders(),
+    }).then((data) => {
+      console.log(data.data)
+
+      navigate("/products", {
+        replace: true,
+        state: {
+          data: data.data,
+        },
+      })
+    })
   }
 
   return (
     <form className={style["search-field"]} onSubmit={handleSubmit}>
       <input
         type="date"
+        name="date"
         className={style["date"]}
         value={date}
         onChange={handleDateChange}
@@ -97,6 +122,7 @@ export default function mainSearchBar() {
       />
       <input
         type="time"
+        name="time"
         className={style["time"]}
         value={time}
         onChange={handleTimeChange}
@@ -111,6 +137,7 @@ export default function mainSearchBar() {
         }}>
         <input
           type="text"
+          name="personCount"
           className={style["person-count"]}
           pattern="[0-9]*"
           placeholder="1"
@@ -125,6 +152,7 @@ export default function mainSearchBar() {
         style={{ "--mainSearchIcon": `url(${MainSearchIcon})` }}>
         <input
           type="text"
+          name="searchText"
           className={style["search-input"]}
           onChange={handleSearchTextChange}
           placeholder="Search..."
