@@ -29,14 +29,16 @@ class PrePurchaseController extends Controller
 
         if (!$userDeal){
             return response()->json([
+                'status' => 'error',
                 'message' => 'You do not have an active deal (reservation) here.'
-            ], 400);
+            ]);
         }
 
         if ($userDeal->pre_purchase_id){
             return response()->json([
+                'status' => 'error',
                 'message' => 'You already have a pre-purchase here.'
-            ], 400);
+            ]);
         }
 
         $validProducts = Product::where('point_of_interest_id', $validated['point_of_interest_id'])->get();
@@ -46,8 +48,9 @@ class PrePurchaseController extends Controller
         foreach ($validated['products'] as $product){
             if (!$validProducts->contains($product['id'])){
                 return response()->json([
+                    'status' => 'error',
                     'message' => 'Invalid product id'
-                ], 400);
+                ]);
             }
 
             $productData = Product::find($product['id']);

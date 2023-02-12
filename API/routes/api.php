@@ -55,6 +55,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/createPrePurchase', [PrePurchaseController::class, 'createPrePurchase']); // create pre-purchase (Requires deal to exist)
     Route::get('/getDealFromPointOfInterest/{id}', [DealsController::class, 'getDealFromPointOfInterest']); // get deal from point of interest
     Route::get('/getDeals', [DealsController::class, 'getDeals']); // get user's deals
+    Route::get('/cancelReservation/{id}', [DealsController::class, 'cancelReservation']); // get user's deals
+    Route::delete('/deleteDeal/{id}', [DealsController::class, 'delete']); // delete deal
 
     // STRIPE
     Route::post('/getSession/{pointOfInterest}',[StripeController::class, 'getSession']);

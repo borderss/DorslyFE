@@ -24,6 +24,8 @@ class ReservationController extends Controller
             'people' => 'required|integer',
         ]);
 
+        $reason = '';
+
         $pointOfInterest = PointOfInterest::find($validated['point_of_interest_id']);
 
         $timeLowerBound = Carbon::createFromFormat('Y-m-d H:i', $validated['date'])->subMinutes(10);
@@ -36,12 +38,19 @@ class ReservationController extends Controller
 
         $available = true;
 
+        if ($reservations_in_range->count() > 0) {
+            $available = false;
+            $reason = 'Reservation already exists in this time range.';
+        }
+
         if ($validated['people'] > $pointOfInterest->available_seats) {
             $available = false;
+            $reason = 'Not enough seats available.';
         };
 
         return response()->json([
             'available' => $available,
+            'reason' => $reason,
         ]);
     }
 

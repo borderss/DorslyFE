@@ -31,8 +31,8 @@ class DealsController extends Controller
         }
 
         if ($reservation->date < now()) {
-            if(PrePurchase::find($deal->pre_purchase_id)->status !== 'complete'){
-                $deal->status = 'expired';
+            if(PrePurchase::find($deal->pre_purchase_id)?->status === 'payment_failed'){
+                $deal->status = 'payment expired';
                 $deal->save();
             } else {
                 $deal->status = 'completed';
@@ -55,7 +55,7 @@ class DealsController extends Controller
             }
         }
 
-        return DealsResourse::collection($deals);
+        return DealsResourse::collection($deals)->sortByDesc('created_at');
     }
 
     public function getDealFromPointOfInterest($id)
@@ -91,9 +91,12 @@ class DealsController extends Controller
             ], 400);
         }
 
-        if (!(new ReservationController)->reservationAvailable($request)->original['available']) {
+        $availability = (new ReservationController)->reservationAvailable($request)->getData();
+
+
+        if ($availability->available === false) {
             return response()->json([
-                'message' => 'Reservation could not be created.',
+                'message' => 'Reservation could not be created: ' . $availability->reason,
             ], 400);
         }
 
@@ -112,6 +115,65 @@ class DealsController extends Controller
         ]);
 
         return new DealsResourse($deal);
+    }
+
+    public function delete($id)
+    {
+        $deal = Deal::find($id);
+
+        if (!$deal) {
+            return response()->json([
+                'message' => 'Deal not found.',
+            ], 400);
+        }
+
+        if ($deal->user_id !== auth()->user()->id) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You are not allowed to delete this deal.',
+            ]);
+        }
+
+        $deal->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Deal deleted successfully.',
+        ]);
+    }
+
+    public function cancelReservation($id)
+    {
+        $deal = Deal::find($id);
+
+        if (!$deal) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Deal not found.',
+            ], 400);
+        }
+
+        if ($deal->user_id !== auth()->user()->id) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You are not allowed to cancel this reservation.',
+            ], 400);
+        }
+
+        if ($deal->status !== 'active') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You can only cancel active reservations.',
+            ], 400);
+        }
+
+        $deal->status = 'cancelled';
+        $deal->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Reservation cancelled successfully.',
+        ]);
     }
 
     public function filter(Request $request)
