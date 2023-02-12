@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CommmentRequest;
 use App\Http\Resources\CommentResourse;
 use App\Http\Resources\FilterCommentResourse;
+use App\Http\Resources\UserCommentResource;
 use App\Models\Comment;
 use App\Models\PointOfInterest;
 use Illuminate\Http\Request;
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+    public function getUserComments(){
+        $user = auth()->user();
+        $comments = Comment::where('user_id', $user->id)->get();
+        return UserCommentResource::collection($comments);
+    }
+
     /**
      * Display a listing of the resource.
      *

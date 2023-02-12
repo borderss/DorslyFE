@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RatingResourse extends JsonResource
+class UserRatingResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +14,13 @@ class RatingResourse extends JsonResource
      */
     public function toArray($request)
     {
+        $poi = new PointOfInterestResouce($this->PointOfInterest);
+
         return[
             'id' => $this->id,
-            'point_of_interest_id' => $this->point_of_interest_id,
+            'point_of_interest' => [
+                'name' => $poi->name,
+            ],
             'rating' => $this->rating,
         ];
     }

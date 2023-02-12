@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
-use App\Models\User;
+use App\Models\PointOfInterest;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RatingResourse extends JsonResource
+class UserCommentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +16,15 @@ class RatingResourse extends JsonResource
      */
     public function toArray($request)
     {
+        $poi = PointOfInterest::find($this->point_of_interest_id);
+
         return[
             'id' => $this->id,
-            'point_of_interest_id' => $this->point_of_interest_id,
-            'rating' => $this->rating,
+            'point_of_interest' => [
+                'name' => $poi->name,
+            ],
+            'date' => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i'),
+            'text' => $this->text,
         ];
     }
 }

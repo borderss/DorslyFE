@@ -24,9 +24,8 @@ class RatingRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'=> 'required',
-            'point_of_interest_id' => 'required',
-            'rating' => 'required',
+            'point_of_interest_id' => 'required|numeric',
+            'rating' => 'required|numeric',
         ];
     }
 }

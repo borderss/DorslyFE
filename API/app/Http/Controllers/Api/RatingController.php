@@ -5,11 +5,45 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RatingRequest;
 use App\Http\Resources\RatingResourse;
+use App\Http\Resources\UserRatingResource;
+use App\Models\Deal;
+use App\Models\PointOfInterest;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
+    public function getUserRatings(){
+        $user = auth()->user();
+        $ratings = Rating::where('user_id', $user->id)->get();
+        return UserRatingResource::collection($ratings);
+    }
+
+    public function getUsersPointOfInterestRating($id){
+        $user = auth()->user();
+
+        if (!PointOfInterest::find($id)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Point of interest does not exist.'
+            ], 404);
+        }
+
+        if (Rating::where('user_id', $user->id)->where('point_of_interest_id', $id)->doesntExist()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User has not rated this point of interest.'
+            ], 404);
+        }
+
+        $rating = Rating::where('user_id', $user->id)->where('point_of_interest_id', $id)->first();
+        return response()->json([
+            'status' => 'success',
+            'rating' => $rating->rating,
+            'message' => 'Rating fetched successfully!'
+        ], 200);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,9 +62,54 @@ class RatingController extends Controller
      */
     public function store(RatingRequest $request)
     {
-        $rating = Rating::create($request->validated());
+        $validated = $request->validated();
+        $user_id = auth()->user()->id;
+        $validated['user_id'] = $user_id;
 
-        return new RatingResourse($rating);
+
+        if (!PointOfInterest::find($validated['point_of_interest_id'])) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Point of interest does not exist.'
+            ], 404);
+        }
+
+        if ($validated['rating'] > 10 || $validated['rating'] < 1) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Rating must be between 1 and 10.'
+            ], 404);
+        }
+
+        if (!Deal::where('user_id', $user_id)->where('point_of_interest_id', $validated['point_of_interest_id'])->exists()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You must have either an active or past deal with this point of interest to rate it.'
+            ], 404);
+        }
+
+
+        if (Rating::where('user_id', $user_id)->where('point_of_interest_id', $validated['point_of_interest_id'])->exists()) {
+            Rating::where('user_id', $user_id)
+                ->where('point_of_interest_id', $validated['point_of_interest_id'])
+                ->update(['rating' => $validated['rating']]);
+
+            return response()->json([
+                'status' => 'success',
+                'rating' => Rating::where('user_id', $user_id)
+                    ->where('point_of_interest_id', $validated['point_of_interest_id'])->first()->rating,
+                'message' => 'Rating updated successfully!'
+            ], 200);
+        } else {
+            Rating::create($validated);
+
+            return response()->json([
+                'status' => 'success',
+                'rating' => Rating::where('user_id', $user_id)
+                    ->where('point_of_interest_id', $validated['point_of_interest_id'])->first()->rating,
+                'message' => 'Rating created successfully!'
+            ], 200);
+        }
     }
 
     /**

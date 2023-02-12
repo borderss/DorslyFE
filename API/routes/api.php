@@ -36,6 +36,8 @@ Route::middleware('auth:api')->group(function () {
     //  - also get user_id from auth instead of resource
 
     Route::apiResource('ratings',RatingController::class);
+    Route::get('/getUsersPointOfInterestRating/{id}',[RatingController::class, 'getUsersPointOfInterestRating']);
+
     // store:
     //  - only if user has made a deal of type "reservation" or "pre-purchase" at the POI.
     //    If user already has a rating for the POI, change the old rating to the new rating.
@@ -49,7 +51,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/filter_points_of_interest',[PointOfInterestController::class, 'filter']);
     Route::post('/filter_products',[ProductController::class, 'filter']);
 
-    // TESTING
+    // Deals
     Route::post('/reservationAvailable',[ReservationController::class, 'reservationAvailable']); // check if available
     Route::post('/createDeal', [DealsController::class, 'createDeal']); // create reservation
     Route::post('/createPrePurchase', [PrePurchaseController::class, 'createPrePurchase']); // create pre-purchase (Requires deal to exist)
@@ -57,6 +59,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/getDeals', [DealsController::class, 'getDeals']); // get user's deals
     Route::get('/cancelReservation/{id}', [DealsController::class, 'cancelReservation']); // get user's deals
     Route::delete('/deleteDeal/{id}', [DealsController::class, 'delete']); // delete deal
+
+    Route::get('/getUserRatings', [RatingController::class, 'getUserRatings']); // get user's reviews
+    Route::get('/getUserComments', [CommentController::class, 'getUserComments']); // get user's comments
+    Route::get('/profileStatistics', [UserController::class, 'profileStatistics']);
 
     // STRIPE
     Route::post('/getSession/{pointOfInterest}',[StripeController::class, 'getSession']);

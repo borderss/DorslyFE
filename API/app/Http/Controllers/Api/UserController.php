@@ -4,12 +4,36 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\Comment;
+use App\Models\Deal;
+use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function profileStatistics(){
+        $user = auth()->user();
+
+        $userDeals = Deal::where('user_id', $user->id)->get();
+
+        $dealCount = $userDeals->count();
+        $reviewCount = Comment::where('user_id', $user->id)->count();
+        $totalSpent = 0;
+
+        forEach($userDeals as $deal) {
+            $totalSpent += $deal->prePurchase()->sum('total_price');
+        }
+
+
+        return response()->json([
+            'dealCount' => $dealCount,
+            'reviewCount' => $reviewCount,
+            'totalSpent' => round($totalSpent, 2),
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
