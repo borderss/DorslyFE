@@ -186,6 +186,7 @@
   object-fit: cover;
   border-radius: 7px;
   margin: 10px;
+  cursor: pointer;
 }
 
 .reservation-data-content {
@@ -201,6 +202,7 @@
   font-size: 21px;
   margin-block: 12px;
   color: #2b2b2b;
+  cursor: pointer;
 }
 
 .reservation-data-content > p {
@@ -300,12 +302,11 @@
   transition: 0.5s ease-in-out;
 }
 
-
-.pre-purchase-data[aria-hidden=true] {
+.pre-purchase-data[aria-hidden="true"] {
   max-height: 0px;
 }
 
-.pre-purchase-data[aria-hidden=false] {
+.pre-purchase-data[aria-hidden="false"] {
   max-height: var(--height);
 }
 

@@ -121,10 +121,6 @@ export default function profile() {
             const calcelReservation = async (e, id) => {
               e.target.disabled = true
 
-              setDealData((prev) => {
-                return prev.filter((deal) => deal.id !== id)
-              })
-
               let promise = await apiMethod(`/cancelReservation/${id}`, {
                 method: "GET",
                 headers: {
@@ -137,14 +133,20 @@ export default function profile() {
               if (promise.status === "success") {
                 e.target.disabled = false
                 setDealData((prev) => {
-                  return prev.filter((deal) => deal.id !== id)
+                  prev.forEach((deal) => {
+                    if (deal.id === id) {
+                      deal.status = "cancelled"
+                    }
+                  })
+
+                  return prev
                 })
 
                 createPopup(
                   "Successfully cancelled",
                   <p>
                     Your reservation has been cancelled successfully. You can
-                    make a new reservation there at any time!
+                    delete the entry if you wish.
                   </p>,
                   "success",
                   "Close"
@@ -278,13 +280,22 @@ export default function profile() {
                 }
               }
 
+              const handleDealClick = (e) => {
+                navigate(`/place?p=${deal.point_of_interest.id}`)
+              }
+
               return (
                 <div className={style["deal"]} key={index}>
                   <div className={style["reservation-data"]}>
-                    <img src={deal.point_of_interest.images} />
+                    <img
+                      src={deal?.point_of_interest?.images}
+                      onClick={(e) => handleDealClick(e)}
+                    />
                     <div className={style["reservation-data-content"]}>
-                      <h1>{deal.point_of_interest.name}</h1>
-                      <p>{deal.point_of_interest.description}</p>
+                      <h1 onClick={(e) => handleDealClick(e)}>
+                        {deal?.point_of_interest.name}
+                      </h1>
+                      <p>{deal?.point_of_interest.description}</p>
                       {deal.pre_purchase && (
                         <div
                           className={style["expand-indicator"]}
@@ -359,7 +370,11 @@ export default function profile() {
               )
             })
           } else {
-            return <p className={style["no-reservations-warning"]}>No reservations found...</p>
+            return (
+              <p className={style["no-reservations-warning"]}>
+                No reservations found...
+              </p>
+            )
           }
         }
 

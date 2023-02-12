@@ -111,10 +111,7 @@ export default function place() {
     } else if (location.state?.paymentSuccess == false) {
       createPopup(
         "Payment Failed",
-        <p>
-          Your payment was not successful. Please try again or contact customer
-          support.
-        </p>,
+        <p>Your payment was not successful: {promise?.message}</p>,
         "error",
         "Close"
       )
@@ -208,7 +205,7 @@ export default function place() {
 
       let sessionData = {
         point_of_interest_id: searchParams.get("p"),
-        products: []
+        products: [],
       }
 
       cart.items.forEach((item) => {
@@ -221,7 +218,7 @@ export default function place() {
       let promise = await apiMethod("/createPrePurchase", {
         method: "POST",
         headers: bearerHeaders(token),
-        body: JSON.stringify(sessionData)
+        body: JSON.stringify(sessionData),
       })
 
       if (promise?.stripe_url) {
@@ -237,10 +234,7 @@ export default function place() {
       } else {
         createPopup(
           "Payment Failed",
-          <p>
-            Your payment was not successful. Please try again or contact customer
-            support.
-          </p>,
+          <p>Your payment was not successful: {promise?.message}</p>,
           "error",
           "Close"
         )
@@ -551,7 +545,7 @@ export default function place() {
           </div>
           <h1>{data.name}</h1>
           <p>{data.description}</p>
-          <ReservationBar poi_id={parseInt(searchParams.get('p'))}/>
+          <ReservationBar poi_id={parseInt(searchParams.get("p"))} />
           <div className={style["scroll-encouragement"]}>
             Scroll down to see more
             <img src={MouseArrow} />
