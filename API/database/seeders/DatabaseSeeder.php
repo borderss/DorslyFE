@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
          User::factory(133)->create();
-         PointOfInterest::factory(70)->create();
+         PointOfInterest::factory(150)->create();
          Product::factory(550)->create();
          Rating::factory(1450)->create();
          Comment::factory(120)->create();

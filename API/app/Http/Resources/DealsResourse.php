@@ -19,10 +19,10 @@ class DealsResourse extends JsonResource
         $response = [
             'id' => $this->id,
             'point_of_interest' => [
-                'id' => $this->pointOfInterest->id,
-                'name' => $this->pointOfInterest->name,
-                'description' => $this->pointOfInterest->description,
-                'images' => $this->pointOfInterest->images,
+                'id' => $this?->pointOfInterest->id,
+                'name' => $this?->pointOfInterest->name,
+                'description' => $this?->pointOfInterest->description,
+                'images' => $this?->pointOfInterest->images,
             ],
             'reservation' => [
                 'id' => $this->reservation->id,
