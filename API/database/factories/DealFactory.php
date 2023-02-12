@@ -20,7 +20,7 @@ class DealFactory extends Factory
         return [
             'user_id'=>$this->faker->numberBetween($min = 1, $max = 69),
             'reservation_id'=>$this->faker->numberBetween($min = 1, $max = 69),
-            'pre_purchase_id'=>$this->faker->numberBetween($min = 1, $max = 69),
+            'pre_purchase_id'=>null,
             'status'=>$this->faker->randomElement(['accepted', 'canceled', 'failed']),
         ];
     }

@@ -57,7 +57,6 @@ class DatabaseSeeder extends Seeder
          Comment::factory(120)->create();
 
          Reservation::factory(69)->create();
-         PrePurchase::factory(69)->create();
          Deal::factory(69)->create();
 
         PointOfInterest::all()->map(function ($point){
