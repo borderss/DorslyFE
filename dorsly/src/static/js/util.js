@@ -4,6 +4,10 @@ if (import.meta.env.MODE == "production") {
   api = "https://api.dorsly.com/api"
 }
 
+const url = (path) => {
+  return api + path
+}
+
 const defaultHeaders = () => {
   return {
     "Content-Type": "application/json",
@@ -21,7 +25,7 @@ const bearerHeaders = (token) => {
 }
 
 const apiMethod = async (endpoint = "", requestParams) => {
-  const response = await fetch(api + endpoint, requestParams)
+  const response = await fetch(url(endpoint), requestParams)
   const data = await response.json()
 
   return data
@@ -38,7 +42,7 @@ const loginUser = async (loginData, user, token, setUser, setToken) => {
       }),
     })
       .then((data) => {
-        setUser(data.user) 
+        setUser(data.user)
         setToken(data.token)
 
         return data
@@ -51,7 +55,11 @@ const loginUser = async (loginData, user, token, setUser, setToken) => {
 }
 
 const registerUser = async (registerData, user, token, setUser, setToken) => {
-  if (user == null && token == null && registerData.password == registerData.passwordConfirm) {
+  if (
+    user == null &&
+    token == null &&
+    registerData.password == registerData.passwordConfirm
+  ) {
     return apiMethod("/register", {
       method: "POST",
       headers: defaultHeaders(),
@@ -64,7 +72,7 @@ const registerUser = async (registerData, user, token, setUser, setToken) => {
       }),
     })
       .then((data) => {
-        setUser(data.user) 
+        setUser(data.user)
         setToken(data.token)
         return data
       })
@@ -96,6 +104,7 @@ const logoutUser = (user, token, setUser, setToken) => {
 }
 
 export {
+  url,
   apiMethod,
   defaultHeaders,
   bearerHeaders,

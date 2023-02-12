@@ -1,9 +1,11 @@
 import React, { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { apiMethod } from "../static/js/util"
+import { apiMethod, bearerHeaders, url } from "../static/js/util"
 
 import "../static/css/general.css"
 import style from "../static/css/profile.module.css"
+
+import Star from "/assets/svg/star.svg"
 
 import Header from "../components/header"
 
@@ -15,8 +17,10 @@ export default function profile() {
   const { user, token, setUser, setToken } = useContext(UserContext)
   const { popupData, createPopup, setPopupData } = useContext(PopupContext)
 
-  const [section, setSection] = useState("reservations")
+  const [section, setSection] = useState("reviews")
   const [dealData, setDealData] = useState([])
+  const [reviewData, setReviewData] = useState([])
+  const [ratingData, setRatingData] = useState([])
 
   const navigate = useNavigate()
 
@@ -34,29 +38,36 @@ export default function profile() {
     }
 
     async function fetchData() {
-      await apiMethod("/getDeals", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+      let [deals, ratings, comments] = await Promise.all([
+        fetch(url("/getDeals"), {
+          method: "GET",
+          headers: bearerHeaders(token),
+        }).then((response) => response.json()),
+
+        fetch(url("/getUserRatings"), {
+          method: "GET",
+          headers: bearerHeaders(token),
+        }).then((response) => response.json()),
+
+        fetch(url("/getUserComments"), {
+          method: "GET",
+          headers: bearerHeaders(token),
+        }).then((response) => response.json()),
+      ])
+
+      let result = []
+
+      Object.keys(deals).forEach((key) => {
+        result.push(deals[key])
       })
-        .then((res) => {
-          let result = []
 
-          Object.keys(res).forEach((key) => {
-            result.push(res[key])
-          })
+      setDealData(result)
 
-          console.log(result)
+      setRatingData(ratings.data)
 
-          setDealData(result)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      setReviewData(comments.data)
     }
+
     fetchData()
   }, [user])
 
@@ -169,6 +180,7 @@ export default function profile() {
                 result = []
                 result.push(
                   <button
+                    key={result.length}
                     onClick={(e) => {
                       calcelReservation(e, deal.id)
                     }}>
@@ -181,6 +193,7 @@ export default function profile() {
                 result = []
                 result.push(
                   <button
+                    key={result.length}
                     onClick={(e) => {
                       deleteRow(e, deal.id)
                     }}>
@@ -193,6 +206,7 @@ export default function profile() {
                 result = []
                 result.push(
                   <button
+                    key={result.length}
                     onClick={(e) => {
                       deleteRow(e, deal.id)
                     }}>
@@ -204,6 +218,7 @@ export default function profile() {
               case "payment expired":
                 result.push(
                   <button
+                    key={result.length}
                     onClick={(e) => {
                       deleteRow(e, deal.id)
                     }}>
@@ -371,7 +386,7 @@ export default function profile() {
             })
           } else {
             return (
-              <p className={style["no-reservations-warning"]}>
+              <p className={style["no-data-warning"]}>
                 No reservations found...
               </p>
             )
@@ -387,10 +402,90 @@ export default function profile() {
         )
 
       case "reviews":
-        return <p>Reviews</p>
+        const renderReviews = () => {
+          const removeReview = (e, id) => {
+            console.log("Removing comment: " + id)
+          }
+
+          if (reviewData.length > 0) {
+            return reviewData.map((review, index) => {
+              return (
+                <div key={index} className={style["review"]}>
+                  <div className={style["content"]}>
+                    <div className={style["header"]}>
+                      <h1>{review.point_of_interest.name}</h1>
+
+                      <div className={style["rating"]}>
+                        <img src={Star} alt="" />
+                        <p>{review.rating}</p>
+                      </div>
+
+                      <p>{review.date}</p>
+                    </div>
+
+                    <p>{review.text}</p>
+                  </div>
+                  <div
+                    className={style["actions"]}
+                    onClick={(e) => removeReview(e, review.id)}>
+                    <button>Remove your review</button>
+                  </div>
+                </div>
+              )
+            })
+          } else {
+            return <p className={style["no-data-warning"]}>Loading...</p>
+          }
+        }
+
+        return (
+          <>
+            <h1 className={style["section-title"]}>Your Reviews</h1>
+
+            <div className={style["reviews"]}>{renderReviews()}</div>
+          </>
+        )
 
       case "ratings":
-        return <p>Ratings</p>
+        const renderRatings = () => {
+          const removeRating = (e, id) => {
+            console.log("Removing rating: " + id)
+          }
+
+          if (ratingData.length > 0) {
+            return ratingData.map((review, index) => {
+              return (
+                <div key={index} className={style["review"]}>
+                  <div className={style["content"]}>
+                    <div className={style["header"]}>
+                      <h1>{review.point_of_interest.name}</h1>
+
+                      <div className={style["rating"]}>
+                        <img src={Star} alt="" />
+                        <p>{review.rating}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className={style["actions"]}
+                    onClick={(e) => removeRating(e, review.id)}>
+                    <button>Remove your rating</button>
+                  </div>
+                </div>
+              )
+            })
+          } else {
+            return <p className={style["no-data-warning"]}>Loading...</p>
+          }
+        }
+
+        return (
+          <>
+            <h1 className={style["section-title"]}>Your Reviews</h1>
+
+            <div className={style["reviews"]}>{renderRatings()}</div>
+          </>
+        )
 
       case "settings":
         return <p>Settings</p>
@@ -418,7 +513,9 @@ export default function profile() {
                 <p className={style["profile-info-item-text"]}>Reservations</p>
               </div>
               <div className={style["profile-info-item"]}>
-                <h2 className={style["profile-info-item-title"]}>0</h2>
+                <h2 className={style["profile-info-item-title"]}>
+                  {reviewData.length}
+                </h2>
                 <p className={style["profile-info-item-text"]}>Reviews</p>
               </div>
               <div className={style["profile-info-item"]}>

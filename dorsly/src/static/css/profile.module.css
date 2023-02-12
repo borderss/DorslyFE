@@ -432,7 +432,7 @@
   color: #999;
 }
 
-.no-reservations-warning {
+.no-data-warning {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -444,4 +444,123 @@
   font-size: 21px;
   font-weight: 300;
   color: #6e6e6e;
+}
+
+.reviews {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: hidden;
+  border-top: 2px solid #f3f3f3;
+  transition: 0.5s ease-in-out;
+}
+
+/* 
+<div className={style["review"]}>
+  <div className={style["content"]}>
+    <div className={style["header"]}>
+      <h1>{review.point_of_interest.name}</h1>
+
+      <div className={style["rating"]}>
+        <img src={Star} alt="" />
+        <p>{review.rating}</p>
+      </div>
+
+      <p>{review.date}</p>
+    </div>
+
+    <p>{review.review_text}</p>
+  </div>
+  <div className={style["actions"]}>
+    <button>Update</button>
+    <button>Delete</button>
+  </div>
+</div>
+*/
+
+.reviews {
+  border: none;
+}
+
+.review {
+  display: flex;
+  flex-direction: row;
+  width: 1500px;
+  max-width: 80vw;
+  margin-inline: auto;
+  font-family: "Lexend";
+  border-radius: 15px;
+  margin-bottom: 25px;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px 0 #ececec;
+  overflow: hidden;
+}
+
+.content {
+  width: 100%;
+  padding: 10px 25px 10px 25px;
+}
+
+.content > p {
+  font-size: 18px;
+  margin: 5px;
+}
+
+.header {
+  display: flex;
+}
+
+.header > h1 {
+  font-size: 21px;
+  line-height: 37px;
+  margin-block: 5px;
+  color: #2b2b2b;
+}
+
+.header > .rating {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header > .rating > img {
+  height: 41px;
+  margin-right: 2px;
+  margin-left: 10px;
+}
+
+.header > .rating > p {
+  font-size: 21px;
+  line-height: 30px;
+  margin-top: 5px;
+  margin-bottom: 8px;
+  color: #2b2b2b;
+}
+
+.header > p {
+  font-size: 15px;
+  margin: 14px 0px 0px 15px;
+  color: #bbbbbb;
+  font-weight: 200;
+}
+
+.review.content > p {
+  font-size: 21px;
+  margin-block: 5px;
+  color: #6e6e6e;
+}
+
+.actions {
+  padding: 10px 10px 10px 25px;
+}
+
+.actions > button {
+  min-height: 20px;
+  height: 35px;
+  width: 230px;
+  border-radius: 5px;
+  padding-inline: 15px;
+  margin: 5px;
 }
