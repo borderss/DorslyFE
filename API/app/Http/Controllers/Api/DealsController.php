@@ -24,25 +24,17 @@ class DealsController extends Controller
             if ($pre_purchase->payment_id !== null) {
                 $session = $stripe->checkout->sessions->retrieve($pre_purchase->payment_id);
 
-                $pre_purchase->status = $session->status;
-                $pre_purchase->save();
-                return false;
+                $pre_purchase->update(['status' => $session->status]);
             }
         }
 
         if ($reservation->date < now()) {
-            if(PrePurchase::find($deal->pre_purchase_id)?->status === 'payment_failed'){
-                $deal->status = 'payment expired';
-                $deal->save();
+            if(PrePurchase::find($deal->pre_purchase_id)?->status == 'payment_failed'){
+                $deal->update(['status' => 'payment expired']);
             } else {
-                $deal->status = 'completed';
-                $deal->save();
+                $deal->update(['status' => 'completed']);
             }
-            $deal->save();
-            return false;
         }
-
-        return true;
     }
 
     public function getDeals()
@@ -54,6 +46,8 @@ class DealsController extends Controller
                 $this->updateDealStatus($deal);
             }
         }
+
+        $deals = Deal::where('user_id', auth()->user()->id)->get();
 
         return DealsResourse::collection($deals)->sortByDesc('created_at');
     }

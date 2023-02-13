@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Deal;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -16,27 +17,31 @@ class DealsResourse extends JsonResource
      */
     public function toArray($request)
     {
+        $poi = $this->pointOfInterest;
+        $reservation = $this->reservation;
+        $pre_purchase = $this->prePurchase;
+
         $response = [
             'id' => $this->id,
             'point_of_interest' => [
-                'id' => $this?->pointOfInterest->id,
-                'name' => $this?->pointOfInterest->name,
-                'description' => $this?->pointOfInterest->description,
-                'images' => $this?->pointOfInterest->images,
+                'id' => $this->point_of_interest_id,
+                'name' => $poi->name,
+                'description' => $poi->description,
+                'images' => $poi->images,
             ],
             'reservation' => [
-                'id' => $this->reservation->id,
-                'date' => $this->reservation->date,
-                'number_of_people' => $this->reservation->number_of_people,
+                'id' => $reservation->id,
+                'date' => $reservation->date,
+                'number_of_people' => $reservation->number_of_people,
             ],
             'user_id'=> $this->user->id,
             'status' => $this->status,
         ];
 
-        if ($this->prePurchase){
+        if ($pre_purchase){
             $productArray = [];
 
-            foreach (json_decode($this->prePurchase->products) as $productRow) {
+            foreach (json_decode($pre_purchase->products) as $productRow) {
                 $product = Product::find($productRow->id);
                 $productArray[] = [
                     'id' => $product->id,
@@ -49,12 +54,12 @@ class DealsResourse extends JsonResource
             }
 
             $response['pre_purchase'] = [
-                'id' => $this->prePurchase->id,
+                'id' => $pre_purchase->id,
                 'products' => $productArray,
-                'total_price' => $this->prePurchase->total_price,
-                'status' => $this->prePurchase->status,
-                'payment_status' => $this->prePurchase->payment_status,
-                'payment_id' => $this->prePurchase->payment_id,
+                'total_price' => $pre_purchase->total_price,
+                'status' => $pre_purchase->status,
+                'payment_status' => $pre_purchase->payment_status,
+                'payment_id' => $pre_purchase->payment_id,
             ];
         }
 
