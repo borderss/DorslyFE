@@ -16,7 +16,7 @@ class CommentController extends Controller
 {
     public function getUserComments(){
         $user = auth()->user();
-        $comments = Comment::where('user_id', $user->id)->get();
+        $comments = Comment::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
         return UserCommentResource::collection($comments);
     }
 
@@ -34,15 +34,42 @@ class CommentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return CommentResourse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(CommmentRequest $request)
     {
-        $request_create = $request->validated();
-        $request_create['user_id'] = Auth::user()->id;
+        $validated = $request->validated();
+        $validated['user_id'] = Auth::user()->id;
 
-        $comment = Comment::create($request_create);
+        if (strlen($validated['text']) < 10) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Comment must be at least 10 characters long.'
+            ],400);
+        } else if (strlen($validated['text']) > 255) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Comment must be at most 255 characters long.'
+            ],400);
+        }
 
+        if (!PointOfInterest::find($validated['point_of_interest_id'])) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Point of interest does not exist, something went wrong...'
+            ],400);
+        }
+
+//        if (Comment::where('user_id', $validated['user_id'])->where('point_of_interest_id', $validated['point_of_interest_id'])->exists()) {
+//            return response()->json([
+//                'status' => 'error',
+//                'message' => 'You have already reviewed this point of interest. Delete your previous review to add a new one.'
+//            ],400);
+//        }
+
+        $comment = Comment::create($validated);
+
+        // update POI review count
         $count = Comment::where('point_of_interest_id', $request->point_of_interest_id)->count();
         PointOfInterest::find($request->point_of_interest_id)->update(['review_count' => $count]);
 
@@ -83,6 +110,14 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $comment = Comment::find($id);
+
+        if ($comment->user_id != Auth::user()->id) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You are not authorized to delete this comment.'
+            ],400);
+        }
+
         $comment->delete();
         return new CommentResourse($comment);
     }

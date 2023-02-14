@@ -171,7 +171,7 @@ class PointOfInterestController extends Controller
     }
 
     public function getComments($id) {
-        $comments = Comment::where('point_of_interest_id', $id);
+        $comments = Comment::where('point_of_interest_id', $id)->orderBy('created_at', 'desc');
 
         return CommentResourse::collection($comments->get());
     }

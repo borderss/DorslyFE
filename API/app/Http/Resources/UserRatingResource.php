@@ -19,6 +19,7 @@ class UserRatingResource extends JsonResource
         return[
             'id' => $this->id,
             'point_of_interest' => [
+                'id' => $poi->id,
                 'name' => $poi->name,
             ],
             'rating' => $this->rating,

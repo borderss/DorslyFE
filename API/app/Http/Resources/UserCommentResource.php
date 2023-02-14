@@ -21,6 +21,7 @@ class UserCommentResource extends JsonResource
         return[
             'id' => $this->id,
             'point_of_interest' => [
+                'id' => $poi->id,
                 'name' => $poi->name,
             ],
             'date' => Carbon::createFromDate($this->created_at)->format('Y-m-d H:i'),

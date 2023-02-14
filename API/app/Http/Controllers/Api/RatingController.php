@@ -15,7 +15,7 @@ class RatingController extends Controller
 {
     public function getUserRatings(){
         $user = auth()->user();
-        $ratings = Rating::where('user_id', $user->id)->get();
+        $ratings = Rating::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
         return UserRatingResource::collection($ratings);
     }
 

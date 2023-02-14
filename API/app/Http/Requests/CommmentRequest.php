@@ -24,8 +24,8 @@ class CommmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'point_of_interest_id'=>'required',
-            'text'=>'required',
+            'point_of_interest_id' => 'required|integer',
+            'text' => 'required|string',
         ];
     }
 }
