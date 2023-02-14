@@ -1,13 +1,13 @@
 .popup-container {
   width: 590px;
-  height: 300px;
+  height: 100vh;
   display: flex;
   background-color: transparent;
   position: absolute;
   bottom: 0px;
   right: 0px;
   z-index: 9999999999999;
-  user-select: none;
+  pointer-events: none;
   overflow: hidden;
   flex-direction: row;
   flex-wrap: wrap;
@@ -19,8 +19,9 @@
 .popup-container > .popup-card-container {
   display: flex;
   position: relative;
+  pointer-events: none;
   top: 0px;
-  height: 300px;
+  height: 100vh;
   align-items: flex-end;
 }
 
@@ -29,6 +30,7 @@
 }
 
 .popup-card {
+  pointer-events: all;
   width: 550px;
   background-color: #fff;
   border-radius: 8px;
@@ -57,7 +59,7 @@
     right: -590px;
   }
   100% {
-    margin-top: -300px;
+    margin-top: -100vh;
     right: -590px;
   }
 }

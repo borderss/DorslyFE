@@ -517,9 +517,135 @@ export default function place() {
   }
 
   const renderReviewSection = () => {
+    const validateReviewText = (text) => {
+      if (text.length < 10) {
+        createPopup(
+          "Review too short",
+          <p>Your review is too short. Please write at least 10 characters.</p>,
+          "error",
+          "Close"
+        )
+
+        return false
+      }
+
+      if (text.length > 512) {
+        createPopup(
+          "Review too long",
+          <p>
+            Your review is too long. Please write less than 255 characters.
+          </p>,
+          "error",
+          "Close"
+        )
+
+        return false
+      }
+
+      return true
+    }
+
+    const handleReviewSubmit = async (target) => {
+      if (validateReviewText(target.value)) {
+        let promise = await apiMethod("/comments/", {
+          method: "POST",
+          headers: bearerHeaders(token),
+          body: JSON.stringify({
+            point_of_interest_id: parseInt(searchParams.get("p")),
+            text: target.value,
+          }),
+        })
+
+        if (promise?.data) {
+          target.value = ""
+
+          // append new review as the first review
+
+          let review = promise?.data
+
+          let newReviewData = [review, ...reviewData]
+
+          console.log(newReviewData)
+
+          setReviewData(newReviewData)
+        } else {
+          createPopup(
+            "Something went wrong",
+            <p>We couldn't post your review: {promise.message}</p>,
+            promise.status,
+            "Close"
+          )
+        }
+      }
+    }
+
+    const handleDeleteReview = async (review) => {
+      let promise = await apiMethod("/comments/" + review.id, {
+        method: "DELETE",
+        headers: bearerHeaders(token),
+      })
+
+      if (promise?.data) {
+        // remove review from reviewData
+
+        let newReviewData = reviewData.filter((r) => {
+          return r.id != review.id
+        })
+
+        setReviewData(newReviewData)
+      } else {
+        createPopup(
+          "Something went wrong",
+          <p>We couldn't delete your review: {promise.message}</p>,
+          promise.status,
+          "Close"
+        )
+      }
+    }
+
+    const renderDeleteButton = (review) => {
+      console.log(review)
+
+      if (review.user.id == user.id) {
+        return (
+          <button
+            className={style["delete-button"]}
+            onClick={(e) => {
+              e.preventDefault()
+
+              handleDeleteReview(review)
+            }}>
+            Delete
+          </button>
+        )
+      }
+    }
+
     return (
       <div className={style["product-section"]}>
         <h2 className={style["section-title"]}>Reviews</h2>
+        <form className={style["review-form"]} action="">
+          <h1>Leave a review!</h1>
+          <textarea
+            name="review"
+            id="review"
+            cols="30"
+            rows="10"
+            placeholder="Write your review here..."></textarea>
+
+          <button
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault()
+
+              handleReviewSubmit(document.querySelector("#review"))
+            }}>
+            Submit review
+          </button>
+        </form>
+
+        <h2 className={style["section-title"]}>Most recent reviews</h2>
+
         <div className={style["reviews"]}>
           {reviewData.length > 0 ? (
             reviewData.map((review, id) => {
@@ -531,6 +657,7 @@ export default function place() {
                     </p>
                     <p className={style["review-text"]}>{review.text}</p>
                   </div>
+                  {renderDeleteButton(review)}
                 </div>
               )
             })

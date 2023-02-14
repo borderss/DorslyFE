@@ -456,18 +456,38 @@ export default function profile() {
             }
           }
 
+          const renderRating = (review) => {
+            if (ratingData.length > 0) {
+              let rating = ratingData.filter(
+                (rating) =>
+                  rating.point_of_interest.id === review.point_of_interest.id
+              )
+
+              if (rating.length > 0) {
+                return (
+                  <div className={style["rating"]}>
+                    <img src={Star} alt="" />
+                    <p>{rating[0].rating}</p>
+                  </div>
+                )
+              }
+            }
+          }
+
           if (reviewData.length > 0) {
             return reviewData.map((review, index) => {
               return (
                 <div key={index} className={style["review"]}>
                   <div className={style["content"]}>
                     <div className={style["header"]}>
-                      <h1>{review.point_of_interest.name}</h1>
+                      <h1
+                        onClick={(e) =>
+                          navigate(`/place?p=${review.point_of_interest.id}`)
+                        }>
+                        {review.point_of_interest.name}
+                      </h1>
 
-                      <div className={style["rating"]}>
-                        <img src={Star} alt="" />
-                        <p>{review.rating}</p>
-                      </div>
+                      {renderRating(review)}
 
                       <p>{review.date}</p>
                     </div>
