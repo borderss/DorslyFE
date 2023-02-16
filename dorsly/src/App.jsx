@@ -3,28 +3,30 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 
 import "../src/static/css/general.css"
 
-import Admin from "./pages/admin"
-import Authentificaton from "./pages/authentificaton"
-import Error from "./pages/error"
-import Home from "./pages/home"
 import MainProductPage from "./pages/mainProductPage"
+import Authentificaton from "./pages/authentificaton"
 import PaymentGateway from "./pages/paymentGateway"
-import Place from "./pages/place"
+import Instruction from "./pages/instruction"
 import Profile from "./pages/profile"
+import Place from "./pages/place"
+import Error from "./pages/error"
+import Admin from "./pages/admin"
+import Home from "./pages/home"
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes history={history}>
-        <Route path="/register" element={<Authentificaton page="register"/>} />
-        <Route path="/login" element={<Authentificaton page="login"/>} />
-        <Route path="/products" element={<MainProductPage/>} />
+        <Route path="/instruction" element={<Instruction />} />
+        <Route path="/products" element={<MainProductPage />} />
+        <Route path="/register" element={<Authentificaton page="register" />} />
         <Route path="/payment" element={<PaymentGateway />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Authentificaton page="login" />} />
         <Route path="/place" element={<Place />} />
-        <Route path="/profile" element={<Profile/>} />
-        <Route path="/error" element={<Error/>} />
-        <Route path="/admin" element={<Admin/>} />
-        <Route path="/" element={<Home/>} />
+        <Route path="/error" element={<Error />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
   )
