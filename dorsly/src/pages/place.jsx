@@ -559,20 +559,22 @@ export default function place() {
         if (promise?.data) {
           target.value = ""
 
-          // append new review as the first review
-
           let review = promise?.data
-
           let newReviewData = [review, ...reviewData]
 
-          console.log(newReviewData)
-
           setReviewData(newReviewData)
+
+          createPopup(
+            "Review posted",
+            <p>Your review has been posted.</p>,
+            "success",
+            "Close"
+          )
         } else {
           createPopup(
             "Something went wrong",
             <p>We couldn't post your review: {promise.message}</p>,
-            promise.status,
+            "info",
             "Close"
           )
         }
@@ -586,13 +588,18 @@ export default function place() {
       })
 
       if (promise?.data) {
-        // remove review from reviewData
-
         let newReviewData = reviewData.filter((r) => {
           return r.id != review.id
         })
 
         setReviewData(newReviewData)
+
+        createPopup(
+          "Review deleted",
+          <p>Your review has been deleted.</p>,
+          "success",
+          "Close"
+        )
       } else {
         createPopup(
           "Something went wrong",
@@ -604,8 +611,6 @@ export default function place() {
     }
 
     const renderDeleteButton = (review) => {
-      console.log(review)
-
       if (review.user.id == user.id) {
         return (
           <button
