@@ -1,4 +1,5 @@
 .container {
+  font-family: Lexend;
   padding-top: 63px;
   width: min(1920px, 100vw);
   margin-inline: auto;
