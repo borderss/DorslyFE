@@ -1,7 +1,6 @@
 .container {
   position: relative;
   width: min(1920px, 100vw);
-  /* aspect-ratio: 1920/3310; */
   margin-inline: auto;
   background-repeat: no-repeat;
   font-family: "Lexend";
