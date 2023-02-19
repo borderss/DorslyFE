@@ -17,7 +17,7 @@ export default function profile() {
   const { user, token, setUser, setToken } = useContext(UserContext)
   const { popupData, createPopup, setPopupData } = useContext(PopupContext)
 
-  const [section, setSection] = useState("reviews")
+  const [section, setSection] = useState("reservations")
   const [dealData, setDealData] = useState([])
   const [reviewData, setReviewData] = useState([])
   const [ratingData, setRatingData] = useState([])
