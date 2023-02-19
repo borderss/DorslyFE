@@ -86,8 +86,7 @@
   align-items: center;
   justify-content: space-between;
   height: 60px;
-  padding-left: 173px;
-  padding-right: 88px;
+  padding-inline: 173px;
   position: sticky;
   top: 63px;
   z-index: 10;
@@ -499,12 +498,13 @@
   overflow: hidden;
 }
 
-.content {
+.rating-content,
+.review-content {
   width: 100%;
   padding: 10px 25px 10px 25px;
 }
 
-.content > p {
+.rating-content > p {
   font-size: 18px;
   margin: 5px;
 }
@@ -571,4 +571,57 @@
   border-radius: 5px;
   padding-inline: 15px;
   margin: 5px;
+}
+
+.settings {
+  font-family: Lexend;
+  width: min(650px, 90vw);
+  margin-inline: auto;
+  margin-top: 25px;
+  padding: 25px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px 0 #ececec;
+
+  display: flex;
+
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  font-size: 21px;
+  font-weight: 300;
+  color: #2b2b2b;
+
+  transition: 0.2s;
+}
+
+.settings-section {
+  width: 100%;
+  margin-bottom: 50px;
+  border-bottom: 2px solid #f3f3f3;
+}
+
+.settings-section > h2 {
+  font-size: 26px;
+  margin-block: 5px;
+  color: #2b2b2b;
+}
+
+.settings-section > p {
+  font-size: 18px;
+  margin-block: 15px 25px;
+  color: #6e6e6e;
+}
+
+.account-details {
+  margin-top: 45px;
+}
+
+.account-details > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
 }

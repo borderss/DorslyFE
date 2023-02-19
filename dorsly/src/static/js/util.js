@@ -50,7 +50,10 @@ const loginUser = async (loginData, user, token, setUser, setToken) => {
       .catch((error) => error)
   } else {
     console.warn("Logging in with a user token")
-    return null
+    return {
+      error:
+        "You are already logged in. Clear your cookies with <b>Ctrl + Shift + Delete</b>",
+    }
   }
 }
 
@@ -78,8 +81,10 @@ const registerUser = async (registerData, user, token, setUser, setToken) => {
       })
       .catch((error) => error)
   } else {
-    console.warn("Registering with a user token")
-    return null
+    return {
+      error:
+        "You are already logged in. Clear your cookies with <b>Ctrl + Shift + Delete</b>",
+    }
   }
 }
 
@@ -98,8 +103,11 @@ const logoutUser = (user, token, setUser, setToken) => {
       })
       .catch((error) => error)
   } else {
-    console.warn("logging out without an user existing")
-    return null
+    window.location.href = "/"
+    return {
+      error:
+        "Something went wrong, but you should be fine if you go back to the home page.",
+    }
   }
 }
 
