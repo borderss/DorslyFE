@@ -8,6 +8,7 @@ import style from "../static/css/profile.module.css"
 import Star from "/assets/svg/star.svg"
 
 import Header from "../components/header"
+import LabeledInputField from "../components/labeledInputField"
 
 import { useEffect } from "react"
 import { PopupContext } from "../contexts/popupContext"
@@ -17,7 +18,7 @@ export default function profile() {
   const { user, token, setUser, setToken } = useContext(UserContext)
   const { popupData, createPopup, setPopupData } = useContext(PopupContext)
 
-  const [section, setSection] = useState("reservations")
+  const [section, setSection] = useState("settings")
   const [dealData, setDealData] = useState([])
   const [reviewData, setReviewData] = useState([])
   const [ratingData, setRatingData] = useState([])
@@ -95,6 +96,8 @@ export default function profile() {
   }
 
   const renderSection = (section) => {
+    const [loading, setLoading] = useState(false)
+
     switch (section) {
       case "reservations":
         const renderDeals = () => {
@@ -478,7 +481,7 @@ export default function profile() {
             return reviewData.map((review, index) => {
               return (
                 <div key={index} className={style["review"]}>
-                  <div className={style["content"]}>
+                  <div className={style["review-content"]}>
                     <div className={style["header"]}>
                       <h1
                         onClick={(e) =>
@@ -553,7 +556,7 @@ export default function profile() {
             return ratingData.map((review, index) => {
               return (
                 <div key={index} className={style["review"]}>
-                  <div className={style["content"]}>
+                  <div className={style["rating-content"]}>
                     <div className={style["header"]}>
                       <h1>{review.point_of_interest.name}</h1>
 
@@ -585,7 +588,65 @@ export default function profile() {
         )
 
       case "settings":
-        return <p>Settings</p>
+        const renderSettings = () => {
+          const handleTest = (name, value) => {
+            if (value != "firstname") {
+              return false
+            } else {
+              return true
+            }
+          }
+
+          return (
+            <form>
+              <div className={style["settings-section"]}>
+                <h2>General settings</h2>
+                <p>
+                  Here you can change your general settings, such as your name,
+                  email, password, etc.
+                </p>
+
+                <div className={style["account-details"]}>
+                  <div>
+                    <LabeledInputField
+                      label="First Name"
+                      inputName="firstName"
+                      defaultValue={user?.first_name}
+                      handleInputChange={handleTest}
+                    />
+                    <LabeledInputField
+                      label="Last Name"
+                      inputName="lastName"
+                      defaultValue={user?.last_name}
+                      handleInputChange={handleTest}
+                    />
+                  </div>
+
+                  <LabeledInputField
+                    label="Email"
+                    inputName="email"
+                    inputType="email"
+                    defaultValue={user?.email}
+                    handleInputChange={handleTest}
+                  />
+                  <LabeledInputField
+                    label="Phone number"
+                    inputName="phoneNumber"
+                    defaultValue={user?.phone_number}
+                    placeholder="+1 123 456 7890"
+                    handleInputChange={handleTest}
+                  />
+                </div>
+              </div>
+            </form>
+          )
+        }
+
+        return (
+          <>
+            <div className={style["settings"]}>{renderSettings()}</div>
+          </>
+        )
 
       default:
         return <p>Reservations</p>

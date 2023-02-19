@@ -215,8 +215,16 @@ export default function authentificaton(props) {
   const handleLogin = async (e) => {
     e.preventDefault()
     loginUser(loginData, user, token, setUser, setToken).then((res) => {
-      if (res === null) {
-        console.log("Error logging in")
+      if (res?.error) {
+        createPopup(
+          "Error",
+          <p
+            dangerouslySetInnerHTML={{
+              __html: `We encountered an error: ${res.error}`,
+            }}></p>,
+          "error",
+          "Close"
+        )
         return
       }
 
@@ -245,8 +253,17 @@ export default function authentificaton(props) {
     }
 
     registerUser(registerData, user, token, setUser, setToken).then((res) => {
-      if (res === null) {
-        console.log("Error registering user")
+      if (res?.error) {
+        createPopup(
+          "Error",
+          <p
+            dangerouslySetInnerHTML={{
+              __html: `We encountered an error: ${res.error}`,
+            }}></p>,
+          "error",
+          "Close"
+        )
+
         return
       }
 
@@ -427,7 +444,7 @@ export default function authentificaton(props) {
         </button>
         <p className={auth["sectionSeperator"]}>or</p>
         <div className={auth["third-party-auth-options"]}>
-        <a
+          <a
             href="/"
             onClick={(e) => {
               e.preventDefault()
