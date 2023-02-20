@@ -598,47 +598,91 @@ export default function profile() {
           }
 
           return (
-            <form>
-              <div className={style["settings-section"]}>
-                <h2>General settings</h2>
-                <p>
-                  Here you can change your general settings, such as your name,
-                  email, password, etc.
-                </p>
+            <div>
+              <form name="general-settings" className={style["settings-form"]}>
+                <div className={style["settings-section"]}>
+                  <h2>General settings</h2>
+                  <p>
+                    Here you can change your general settings, such as your
+                    name, email, password, etc.
+                  </p>
 
-                <div className={style["account-details"]}>
-                  <div>
+                  <div className={style["account-details"]}>
+                    <div>
+                      <LabeledInputField
+                        label="First Name"
+                        inputName="firstName"
+                        defaultValue={user?.first_name}
+                        handleInputChange={handleTest}
+                      />
+                      <LabeledInputField
+                        label="Last Name"
+                        inputName="lastName"
+                        defaultValue={user?.last_name}
+                        handleInputChange={handleTest}
+                      />
+                    </div>
+
                     <LabeledInputField
-                      label="First Name"
-                      inputName="firstName"
-                      defaultValue={user?.first_name}
+                      label="Email"
+                      inputName="email"
+                      inputType="email"
+                      defaultValue={user?.email}
                       handleInputChange={handleTest}
                     />
                     <LabeledInputField
-                      label="Last Name"
-                      inputName="lastName"
-                      defaultValue={user?.last_name}
+                      label="Phone number"
+                      inputName="phoneNumber"
+                      defaultValue={user?.phone_number}
+                      placeholder="+1 123 456 7890"
                       handleInputChange={handleTest}
                     />
                   </div>
-
-                  <LabeledInputField
-                    label="Email"
-                    inputName="email"
-                    inputType="email"
-                    defaultValue={user?.email}
-                    handleInputChange={handleTest}
-                  />
-                  <LabeledInputField
-                    label="Phone number"
-                    inputName="phoneNumber"
-                    defaultValue={user?.phone_number}
-                    placeholder="+1 123 456 7890"
-                    handleInputChange={handleTest}
-                  />
                 </div>
-              </div>
-            </form>
+              </form>
+
+              <form>
+                <div className={style["settings-section"]}>
+                  <h2>General settings</h2>
+                  <p>
+                    Here you can change your general settings, such as your
+                    name, email, password, etc.
+                  </p>
+
+                  <div className={style["account-details"]}>
+                    <div>
+                      <LabeledInputField
+                        label="First Name"
+                        inputName="firstName"
+                        defaultValue={user?.first_name}
+                        handleInputChange={handleTest}
+                      />
+                      <LabeledInputField
+                        label="Last Name"
+                        inputName="lastName"
+                        defaultValue={user?.last_name}
+                        handleInputChange={handleTest}
+                      />
+                    </div>
+
+                    <LabeledInputField
+                      label="Email"
+                      inputName="email"
+                      inputType="email"
+                      defaultValue={user?.email}
+                      handleInputChange={handleTest}
+                    />
+                    <LabeledInputField
+                      label="Phone number"
+                      inputName="phoneNumber"
+                      defaultValue={user?.phone_number}
+                      placeholder="+1 123 456 7890"
+                      handleInputChange={handleTest}
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
           )
         }
 
