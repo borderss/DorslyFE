@@ -10,7 +10,9 @@ import Home from "./pages/home"
 import MainProductPage from "./pages/mainProductPage"
 import PaymentGateway from "./pages/paymentGateway"
 import Place from "./pages/place"
-import Profile from "./pages/profile"
+import Profile from "./pages/profile";
+import AboutUs from "./pages/aboutUs";
+
 
 export default function App() {
   return (
@@ -24,6 +26,7 @@ export default function App() {
         <Route path="/profile" element={<Profile/>} />
         <Route path="/error" element={<Error/>} />
         <Route path="/admin" element={<Admin/>} />
+        <Route path="/aboutUs" element={<AboutUs/>} />
         <Route path="/" element={<Home/>} />
       </Routes>
     </BrowserRouter>
