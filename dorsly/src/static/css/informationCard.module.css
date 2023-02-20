@@ -1,0 +1,28 @@
+.Card{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    max-width: 329px;
+    overflow-wrap: break-word;
+    padding: 60px 25px 25px 25px;
+    color: whitesmoke;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    font-family: "Lexend";
+    text-align: center;
+}
+
+.Logo {
+    height: 78px;
+}
+
+.Card > h3{
+    color: #4E4E4E;
+    font-weight: normal;
+    font-size: 28px;
+}
+
+.Card > p{
+    color: #868686;
+    font-size: 19px;
+    font-weight: lighter;
+}
