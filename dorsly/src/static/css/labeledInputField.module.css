@@ -2,8 +2,8 @@
   --label-color: #ffb82e;
 
   position: relative;
-  width: 75%;
-  min-height: 39px;
+  width: 100%;
+  min-height: 46px;
   margin-bottom: 25px;
 }
 
@@ -15,7 +15,7 @@
   pointer-events: none;
 
   font-size: 16px;
-  top: -16px;
+  top: -18px;
   left: 0px;
 
   font-weight: 300;
@@ -25,30 +25,31 @@
 
 .labeled-text-input-box > input {
   width: 100%;
-  height: 100%;
+  height: 46px;
   border: none;
   border-bottom: 2px solid #ffdd98;
   outline: none;
-  padding-inline: 6px;
   font-size: 18px;
+  padding-inline: 0px;
+  text-indent: 6px;
   transition: 0.2s;
 }
 
 .labeled-text-input-box:has(input:placeholder-shown)::before {
   font-size: 20px;
-  top: 8px;
+  top: 12px;
   left: 5px;
 }
 
 .labeled-text-input-box:has(:focus-within)::before {
   font-size: 16px !important;
-  top: -16px !important;
+  top: -18px !important;
   left: 0px !important;
 }
 
 .labeled-text-input-box:has(input:-webkit-autofill)::before {
   font-size: 16px !important;
-  top: -16px !important;
+  top: -18px !important;
   left: 0px !important;
 }
 
@@ -56,23 +57,20 @@
   border-bottom: 2px solid var(--accent);
 }
 
-input:-webkit-autofill{
+input:-webkit-autofill {
   -webkit-text-fill-color: inherit !important;
   box-shadow: 0 0 0px 1000px #fff inset;
 }
 
-input::placeholder{
+input::placeholder {
   color: transparent;
   transition: 0.2s;
 }
 
-.labeled-text-input-box:has(:focus-within) > input::placeholder{
+.labeled-text-input-box:has(:focus-within) > input::placeholder {
   color: #ccc;
 }
-
 
 :-internal-autofill-previewed {
   font-size: 20px !important;
 }
-
-

@@ -1,4 +1,4 @@
-body{
+body {
   background-size: cover;
   height: 100vh;
   min-height: 20px;
@@ -15,21 +15,16 @@ body{
 }
 
 .content-field {
-  /* display */
   display: flex;
-
-  /* size */
-  /* width: 70%; */
-  height: 80%;
+  width: 70%;
+  height: 85%;
   max-width: 1000px;
-  max-height: min(670px, 80%);
-  aspect-ratio: 1000/670;
-
-  /* misc */
+  max-height: min(715px, 85%);
+  aspect-ratio: 1000/680;
   border-radius: min(20px, 1vw);
   overflow: hidden;
   background-color: var(--white);
-  box-shadow: 0px 5px 100px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 5px 100px rgb(0 0 0 / 4%);
 }
 
 .illustration {

@@ -1,7 +1,6 @@
 .container {
   position: relative;
   width: min(1920px, 100vw);
-  /* aspect-ratio: 1920/3310; */
   margin-inline: auto;
   background-repeat: no-repeat;
   font-family: "Lexend";
@@ -240,8 +239,7 @@
   align-items: center;
   justify-content: space-between;
   height: 60px;
-  padding-left: 173px;
-  padding-right: 88px;
+  padding-inline: 173px;
   position: sticky;
   top: 63px;
   z-index: 10;
