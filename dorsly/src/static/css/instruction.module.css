@@ -9,23 +9,24 @@
   gap: 10px;
 }
 
-.button__container{
+.button_container{
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-top: 25px;
 }
 
-.instruction__button{
+.button_container>a{
   height: auto;
   color:gray;
   background-color: transparent;
   padding-inline: 0;
   width: 200px;
   text-align: left;
+  text-decoration: none;
 }
 
-.instruction__button:hover{
+.button_container>a:hover{
   color:#292929;
   background-color: transparent;
   transition: 0.5s;
