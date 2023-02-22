@@ -1,6 +1,32 @@
 .container {
+  color: #292929;
   font-family: Lexend;
   padding-top: 63px;
-  width: min(1920px, 100vw);
+  width: min(1000px, 90vw);
   margin-inline: auto;
+  margin-top: 80px;
+  display: flex;
+  gap: 10px;
+}
+
+.button__container{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.instruction__button{
+  height: auto;
+  color:gray;
+  background-color: transparent;
+  padding-inline: 0;
+  width: 200px;
+  text-align: left;
+}
+
+.instruction__button:hover{
+  color:#292929;
+  background-color: transparent;
+  transition: 0.5s;
 }
