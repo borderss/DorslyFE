@@ -1,7 +1,6 @@
 .container {
   position: relative;
   width: min(1920px, 100vw);
-  /* aspect-ratio: 1920/3310; */
   margin-inline: auto;
   background-repeat: no-repeat;
   font-family: "Lexend";
@@ -240,8 +239,7 @@
   align-items: center;
   justify-content: space-between;
   height: 60px;
-  padding-left: 173px;
-  padding-right: 88px;
+  padding-inline: 173px;
   position: sticky;
   top: 63px;
   z-index: 10;
@@ -287,7 +285,6 @@
   background-color: #fafafa;
   box-shadow: inset 0px -3px 0px 0px #ffb82e;
 }
-
 
 .info-display {
   display: flex;
@@ -433,9 +430,12 @@
 }
 
 .review {
+  display: flex;
   width: 100%;
   padding-left: 5px;
   border-bottom: 1px solid #e7e7e7;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .product-active {
@@ -470,7 +470,7 @@
 }
 
 .cart td {
-  text-align:center;
+  text-align: center;
   border-bottom: 1px solid #e7e7e7;
 }
 
@@ -546,4 +546,53 @@
   border-radius: 5px;
   padding-inline: 15px;
   margin: 5px;
+}
+
+.review-form {
+  width: 90%;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-block: 40px;
+}
+
+.review-form > h1 {
+  font-size: 30px;
+  font-weight: 400;
+  margin-block: 0px;
+}
+
+.review-form > textarea {
+  height: 150px;
+  border: 1px solid #e7e7e7;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 18px;
+  resize: none;
+}
+
+.review-form > button {
+  width: 200px;
+  margin-left: auto;
+  background-color: #25c94e;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button.delete-button {
+  background-color: #ff4444;
+  color: #ffffff;
+  min-height: 20px;
+  height: 35px;
+  width: 230px;
+  border-radius: 5px;
+  padding-inline: 15px;
+  margin: 5px;
+}
+
+button.delete-button:hover {
+  background-color: #ff0000;
 }

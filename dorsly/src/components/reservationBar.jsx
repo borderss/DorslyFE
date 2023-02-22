@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
+import { apiMethod, bearerHeaders, defaultHeaders } from "../static/js/util"
 
 import style from "../static/css/reservationBar.module.css"
 
@@ -10,7 +11,7 @@ import PersonIcon from "/assets/svg/person.svg"
 import { PopupContext } from "../contexts/popupContext"
 import { UserContext } from "../contexts/userContext"
 
-export default function mainSearchBar() {
+export default function reservationBar(props) {
   const { user, token, setUser, setToken } = useContext(UserContext)
   const { popupData, createPopup, setPopupData } = useContext(PopupContext)
 
@@ -80,7 +81,7 @@ export default function mainSearchBar() {
     e.target.closest("div").querySelector("input").focus()
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     let formData = new FormData(e.target)
     let data = Object.fromEntries(formData.entries())
@@ -95,19 +96,57 @@ export default function mainSearchBar() {
         () => {
           navigate("/login")
         },
-        "Close",
-        () => {
-          console.log("close")
-        }
+        "Close"
       )
       return
     }
 
+    // {
+    //   "point_of_interest_id": 10,
+    //   "date": "2023-02-15 12:42",
+    //   "people": 5
+    // }
+
     console.log({
-      date: date,
-      time: time,
-      personCount: personCount,
+      point_of_interest_id: props.poi_id,
+      date: `${date} ${time}`,
+      people: personCount,
     })
+
+    
+    let promise = await apiMethod("/createDeal", {
+      method: "POST",
+      headers: bearerHeaders(token),
+      body: JSON.stringify({
+        point_of_interest_id: props.poi_id,
+        date: `${date} ${time}`,
+        people: personCount,
+      })
+    })
+
+    console.log(promise.data)
+
+    if (!promise?.data?.id) {
+      createPopup(
+        "Reservation Failed",
+        <p>{promise.message}</p>,
+        "error",
+        "Close",
+        () => {
+          e.target.disabled = false
+        }
+      )
+    } else {
+      createPopup(
+        "Reservation Successful",
+        <p>Your reservation has been made! Go to <a href="/profile">Your profile</a> to check it out!</p>,
+        "success",
+        "Close",
+        () => {
+          e.target.disabled = false
+        }
+      )
+    }
   }
 
   return (

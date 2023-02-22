@@ -27,9 +27,12 @@ export default function labeledInputField(props) {
         name={props.inputName}
         placeholder={props.placeholder ? props.placeholder : " "}
         ref={inputRef}
+        defaultValue={props.defaultValue}
         onChange={(e) => handleInput(e)}
-        {...(props.inputType ? { type: props.inputType } : {})}
-        {...(props.inputType == "password" ? { autoComplete: "current-password" } : {})}
+        {...(props.inputType && { type: props.inputType })}
+        {...(props.inputType == "password" && {
+          autoComplete: "current-password",
+        })}
       />
     </div>
   )

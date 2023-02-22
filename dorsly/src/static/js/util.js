@@ -4,6 +4,10 @@ if (import.meta.env.MODE == "production") {
   api = "https://api.dorsly.com/api"
 }
 
+const url = (path) => {
+  return api + path
+}
+
 const defaultHeaders = () => {
   return {
     "Content-Type": "application/json",
@@ -21,7 +25,7 @@ const bearerHeaders = (token) => {
 }
 
 const apiMethod = async (endpoint = "", requestParams) => {
-  const response = await fetch(api + endpoint, requestParams)
+  const response = await fetch(url(endpoint), requestParams)
   const data = await response.json()
 
   return data
@@ -38,7 +42,7 @@ const loginUser = async (loginData, user, token, setUser, setToken) => {
       }),
     })
       .then((data) => {
-        setUser(data.user) 
+        setUser(data.user)
         setToken(data.token)
 
         return data
@@ -46,12 +50,19 @@ const loginUser = async (loginData, user, token, setUser, setToken) => {
       .catch((error) => error)
   } else {
     console.warn("Logging in with a user token")
-    return null
+    return {
+      error:
+        "You are already logged in. Clear your cookies with <b>Ctrl + Shift + Delete</b>",
+    }
   }
 }
 
 const registerUser = async (registerData, user, token, setUser, setToken) => {
-  if (user == null && token == null && registerData.password == registerData.passwordConfirm) {
+  if (
+    user == null &&
+    token == null &&
+    registerData.password == registerData.passwordConfirm
+  ) {
     return apiMethod("/register", {
       method: "POST",
       headers: defaultHeaders(),
@@ -64,14 +75,16 @@ const registerUser = async (registerData, user, token, setUser, setToken) => {
       }),
     })
       .then((data) => {
-        setUser(data.user) 
+        setUser(data.user)
         setToken(data.token)
         return data
       })
       .catch((error) => error)
   } else {
-    console.warn("Registering with a user token")
-    return null
+    return {
+      error:
+        "You are already logged in. Clear your cookies with <b>Ctrl + Shift + Delete</b>",
+    }
   }
 }
 
@@ -90,12 +103,16 @@ const logoutUser = (user, token, setUser, setToken) => {
       })
       .catch((error) => error)
   } else {
-    console.warn("logging out without an user existing")
-    return null
+    window.location.href = "/"
+    return {
+      error:
+        "Something went wrong, but you should be fine if you go back to the home page.",
+    }
   }
 }
 
 export {
+  url,
   apiMethod,
   defaultHeaders,
   bearerHeaders,

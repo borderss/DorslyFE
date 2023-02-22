@@ -100,10 +100,7 @@ export default function home() {
                   "Not implemented yet",
                   <p>This feature hasn't been implemented yet. Sorry!</p>,
                   "error",
-                  "Close",
-                  () => {
-                    console.log("close")
-                  }
+                  "Close"
                 )
               }}>
               Register as a business

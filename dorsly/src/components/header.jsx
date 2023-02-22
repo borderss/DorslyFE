@@ -15,6 +15,7 @@ import SettingsIcon from "/assets/svg/settings.svg"
 
 import { PopupContext } from "../contexts/popupContext"
 import { UserContext } from "../contexts/userContext"
+import AboutUs from "../pages/aboutUs.jsx";
 
 export default function header() {
   const userContext = useContext(UserContext)
@@ -81,10 +82,7 @@ export default function header() {
                   "Not implemented yet",
                   <p>This feature hasn't been implemented yet. Sorry!</p>,
                   "error",
-                  "Close",
-                  () => {
-                    console.log("close")
-                  }
+                  "Close"
                 )
               }}>
               Settings
@@ -131,42 +129,12 @@ export default function header() {
               <img src={LogoIcon} alt="Dorsly" />
             </div>
           </Link>
-          <a
-            onClick={(e) => {
-              e.preventDefault()
-              createPopup(
-                "Not implemented yet",
-                <p>This feature hasn't been implemented yet. Sorry!</p>,
-                "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
-              )
-            }}>
-            <div className={style["about-us"]}>About us</div>
-          </a>
-          <a
-            onClick={(e) => {
-              e.preventDefault()
-              createPopup(
-                "Not implemented yet",
-                <p>This feature hasn't been implemented yet. Sorry!</p>,
-                "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
-              )
-            }}>
-            <div className={style["contact"]}>Contact</div>
-          </a>
-          {/* <Link to="/error">
-            <div className={style["about-us"]}>About us</div>
+          <Link to="/aboutUs">
+            <div className={style["about_us"]}>About us</div>
           </Link>
-          <Link to="/error">
-            <div className={style["contact"]}>Contact</div>
-          </Link> */}
+            <Link to="/contact_us">
+            <div className={style["contact_us"]}>Contact</div>
+          </Link>
           <Link to="/products">
             <div className={style["reserve-now"]}>Reserve now</div>
           </Link>
@@ -178,10 +146,7 @@ export default function header() {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={SearchIcon} alt="Search" />
@@ -197,10 +162,7 @@ export default function header() {
                 "Not implemented yet",
                 <p>This feature hasn't been implemented yet. Sorry!</p>,
                 "error",
-                "Close",
-                () => {
-                  console.log("close")
-                }
+                "Close"
               )
             }}>
             <img src={GpsIcon} alt="GPS" />

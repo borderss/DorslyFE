@@ -20,8 +20,8 @@ import style from "../static/css/place.module.css"
 import Header from "../components/header"
 
 import { CartContext } from "../contexts/cartContext"
-import { UserContext } from "../contexts/userContext"
 import { PopupContext } from "../contexts/popupContext"
+import { UserContext } from "../contexts/userContext"
 
 export default function place() {
   const { user, token, setUser, setToken } = useContext(UserContext)
@@ -38,7 +38,7 @@ export default function place() {
   const [data, setData] = useState([])
   const [reviewData, setReviewData] = useState([])
   const [productData, setProductData] = useState([])
-  const [userRating, setUserRating] = useState(4)
+  const [userRating, setUserRating] = useState(1)
   const [bgImage, setBgImage] = useState(
     `https://picsum.photos/1920/1080/?random&t=${new Date().getTime()}`
   )
@@ -59,18 +59,86 @@ export default function place() {
   }, [navigate])
 
   useEffect(() => {
+    if (user === null) {
+      navigate("/login")
+    }
+
+    if (user === false || token === false) {
+      return
+    }
+
+    async function fetchData() {
+      let promise = await apiMethod(
+        "/getUsersPointOfInterestRating/" + searchParams.get("p"),
+        {
+          method: "GET",
+          headers: bearerHeaders(token),
+        }
+      )
+
+      if (promise.status == "success") {
+        setUserRating(promise.rating)
+      } else {
+        if (promise.message != "User has not rated this point of interest.") {
+          createPopup(
+            "Something went wrong",
+            <p>We couldn't get the rating: {promise.message}</p>,
+            promise.status,
+            "Close"
+          )
+        }
+      }
+    }
+    fetchData()
+  }, [user])
+
+  useEffect(() => {
+    if (user === null) {
+      navigate("/login")
+    }
+
+    if (user === false || token === false) {
+      return
+    }
+
     if (ratingRef.current != null) {
       ratingRef.current.childNodes.forEach((star) => {
         star?.childNodes.forEach((icon) => {
-          icon.addEventListener("click", (e) => {
+          icon.addEventListener("click", async (e) => {
             console.log(e.target.getAttribute("selectionindex"))
-            setUserRating(e.target.getAttribute("selectionindex"))
 
-            ratingResultRef.current.classList.add(style["result-active"])
+            let promise = await apiMethod(`/ratings`, {
+              method: "POST",
+              headers: bearerHeaders(token),
+              body: JSON.stringify({
+                point_of_interest_id: parseInt(searchParams.get("p")),
+                rating: parseInt(e.target.getAttribute("selectionindex")),
+              }),
+            })
 
-            setTimeout(() => {
-              ratingResultRef.current.classList.remove(style["result-active"])
-            }, 1500)
+            if (promise.status == "success") {
+              setUserRating(e.target.getAttribute("selectionindex"))
+
+              createPopup(
+                "Rating set successfully",
+                <p>{promise.message}</p>,
+                "success",
+                "Close"
+              )
+
+              ratingResultRef.current.classList.add(style["result-active"])
+
+              setTimeout(() => {
+                ratingResultRef.current.classList.remove(style["result-active"])
+              }, 1500)
+            } else {
+              createPopup(
+                "Unable to set rating",
+                <p>We couldn't set the rating: {promise.message}</p>,
+                promise.status,
+                "Close"
+              )
+            }
           })
         })
       })
@@ -96,7 +164,7 @@ export default function place() {
     }).then((data) => {
       setProductData(data.data)
     })
-  }, [])
+  }, [user])
 
   useEffect(() => {
     // read state from navigate
@@ -105,24 +173,15 @@ export default function place() {
         "Payment Successful",
         <p>Your payment was successful!</p>,
         "success",
-        "Close",
-        () => {
-          console.log("close")
-        }
+        "Close"
       )
       console.log("payment success!")
     } else if (location.state?.paymentSuccess == false) {
       createPopup(
         "Payment Failed",
-        <p>
-          Your payment was not successful. Please try again or contact customer
-          support.
-        </p>,
+        <p>Your payment was not successful: {promise?.message}</p>,
         "error",
-        "Close",
-        () => {
-          console.log("close")
-        }
+        "Close"
       )
       console.log("payment failed!")
     }
@@ -197,7 +256,7 @@ export default function place() {
       setCart(newCart)
     }
 
-    const handlePayment = () => {
+    const handlePayment = async () => {
       if (!user) {
         createPopup(
           "Login Required",
@@ -207,40 +266,47 @@ export default function place() {
           () => {
             navigate("/login")
           },
-          "Close",
-          () => {
-            console.log("close")
-          }
+          "Close"
         )
         return
       }
 
-      let sessionData = []
+      let sessionData = {
+        point_of_interest_id: searchParams.get("p"),
+        products: [],
+      }
 
       cart.items.forEach((item) => {
-        sessionData.push({
-          product_id: item.id,
-          amount: item.amount,
+        sessionData.products.push({
+          id: item.id,
+          quantity: item.amount,
         })
       })
 
-      apiMethod("/getSession/" + searchParams.get("p"), {
+      let promise = await apiMethod("/createPrePurchase", {
         method: "POST",
         headers: bearerHeaders(token),
-        body: JSON.stringify({
-          products: sessionData,
-        }),
-      }).then((data) => {
-        console.log(data)
+        body: JSON.stringify(sessionData),
+      })
 
-        data?.url && window.open(data?.url, "_blank")
+      if (promise?.stripe_url) {
+        console.log(promise)
+
+        promise?.stripe_url && window.open(promise?.stripe_url, "_self")
 
         setCart({
           items: [],
           total: 0,
           totalItems: 0,
         })
-      })
+      } else {
+        createPopup(
+          "Payment Failed",
+          <p>Your payment was not successful: {promise?.message}</p>,
+          "error",
+          "Close"
+        )
+      }
     }
 
     return (
@@ -451,9 +517,140 @@ export default function place() {
   }
 
   const renderReviewSection = () => {
+    const validateReviewText = (text) => {
+      if (text.length < 10) {
+        createPopup(
+          "Review too short",
+          <p>Your review is too short. Please write at least 10 characters.</p>,
+          "error",
+          "Close"
+        )
+
+        return false
+      }
+
+      if (text.length > 512) {
+        createPopup(
+          "Review too long",
+          <p>
+            Your review is too long. Please write less than 255 characters.
+          </p>,
+          "error",
+          "Close"
+        )
+
+        return false
+      }
+
+      return true
+    }
+
+    const handleReviewSubmit = async (target) => {
+      if (validateReviewText(target.value)) {
+        let promise = await apiMethod("/comments/", {
+          method: "POST",
+          headers: bearerHeaders(token),
+          body: JSON.stringify({
+            point_of_interest_id: parseInt(searchParams.get("p")),
+            text: target.value,
+          }),
+        })
+
+        if (promise?.data) {
+          target.value = ""
+
+          let review = promise?.data
+          let newReviewData = [review, ...reviewData]
+
+          setReviewData(newReviewData)
+
+          createPopup(
+            "Review posted",
+            <p>Your review has been posted.</p>,
+            "success",
+            "Close"
+          )
+        } else {
+          createPopup(
+            "Something went wrong",
+            <p>We couldn't post your review: {promise.message}</p>,
+            "info",
+            "Close"
+          )
+        }
+      }
+    }
+
+    const handleDeleteReview = async (review) => {
+      let promise = await apiMethod("/comments/" + review.id, {
+        method: "DELETE",
+        headers: bearerHeaders(token),
+      })
+
+      if (promise?.data) {
+        let newReviewData = reviewData.filter((r) => {
+          return r.id != review.id
+        })
+
+        setReviewData(newReviewData)
+
+        createPopup(
+          "Review deleted",
+          <p>Your review has been deleted.</p>,
+          "success",
+          "Close"
+        )
+      } else {
+        createPopup(
+          "Something went wrong",
+          <p>We couldn't delete your review: {promise.message}</p>,
+          promise.status,
+          "Close"
+        )
+      }
+    }
+
+    const renderDeleteButton = (review) => {
+      if (review.user.id == user.id) {
+        return (
+          <button
+            className={style["delete-button"]}
+            onClick={(e) => {
+              e.preventDefault()
+
+              handleDeleteReview(review)
+            }}>
+            Delete
+          </button>
+        )
+      }
+    }
+
     return (
       <div className={style["product-section"]}>
         <h2 className={style["section-title"]}>Reviews</h2>
+        <form className={style["review-form"]} action="">
+          <h1>Leave a review!</h1>
+          <textarea
+            name="review"
+            id="review"
+            cols="30"
+            rows="10"
+            placeholder="Write your review here..."></textarea>
+
+          <button
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault()
+
+              handleReviewSubmit(document.querySelector("#review"))
+            }}>
+            Submit review
+          </button>
+        </form>
+
+        <h2 className={style["section-title"]}>Most recent reviews</h2>
+
         <div className={style["reviews"]}>
           {reviewData.length > 0 ? (
             reviewData.map((review, id) => {
@@ -465,6 +662,7 @@ export default function place() {
                     </p>
                     <p className={style["review-text"]}>{review.text}</p>
                   </div>
+                  {renderDeleteButton(review)}
                 </div>
               )
             })
@@ -547,7 +745,7 @@ export default function place() {
           </div>
           <h1>{data.name}</h1>
           <p>{data.description}</p>
-          <ReservationBar />
+          <ReservationBar poi_id={parseInt(searchParams.get("p"))} />
           <div className={style["scroll-encouragement"]}>
             Scroll down to see more
             <img src={MouseArrow} />
@@ -593,21 +791,6 @@ export default function place() {
             <br />
           </div>
         </div>
-
-        {/* <div className={style["alert"]}>
-          {location.state?.paymentSuccess ? (
-              <>
-                <h2>Payment successful!</h2>
-                <p>{location.state?.desc}</p>
-              </>
-            ) : (
-              <>
-              <h2>Payment failed!</h2>
-              <p>{location.state?.desc}</p>
-            </>
-            )
-          }
-        </div> */}
       </div>
     </>
   )

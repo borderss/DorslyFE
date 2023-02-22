@@ -6,6 +6,7 @@ import "../src/static/css/general.css"
 import MainProductPage from "./pages/mainProductPage"
 import Authentificaton from "./pages/authentificaton"
 import PaymentGateway from "./pages/paymentGateway"
+import AboutUs from "./pages/aboutUs";
 import Instruction from "./pages/instruction"
 import Profile from "./pages/profile"
 import Place from "./pages/place"
@@ -24,9 +25,11 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Authentificaton page="login" />} />
         <Route path="/place" element={<Place />} />
-        <Route path="/error" element={<Error />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile/>} />
+        <Route path="/error" element={<Error/>} />
+        <Route path="/admin" element={<Admin/>} />
+        <Route path="/aboutUs" element={<AboutUs/>} />
+        <Route path="/" element={<Home/>} />
       </Routes>
     </BrowserRouter>
   )
