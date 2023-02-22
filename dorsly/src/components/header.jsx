@@ -15,7 +15,6 @@ import SettingsIcon from "/assets/svg/settings.svg"
 
 import { PopupContext } from "../contexts/popupContext"
 import { UserContext } from "../contexts/userContext"
-import AboutUs from "../pages/aboutUs.jsx";
 
 export default function header() {
   const userContext = useContext(UserContext)
@@ -70,28 +69,21 @@ export default function header() {
           <div className={style["profile-dropdown"]}>
             <Link
               to="/profile"
+              state={{
+                defaultSection: "reservations",
+              }}
               style={{ "--background-icon": `url(${SecondaryProfileIcon})` }}>
               Profile
             </Link>
-            <a
-              href="/"
-              style={{ "--background-icon": `url(${SettingsIcon})` }}
-              onClick={(e) => {
-                e.preventDefault()
-                createPopup(
-                  "Not implemented yet",
-                  <p>This feature hasn't been implemented yet. Sorry!</p>,
-                  "error",
-                  "Close"
-                )
-              }}>
-              Settings
-            </a>
-            {/* <Link
-              to="/error"
+            // pass link with state
+            <Link
+              to="/profile"
+              state={{
+                defaultSection: "settings",
+              }}
               style={{ "--background-icon": `url(${SettingsIcon})` }}>
               Settings
-            </Link> */}
+            </Link>
             {userContext.user?.is_admin == 1 && (
               <Link
                 to="/admin"
@@ -132,7 +124,7 @@ export default function header() {
           <Link to="/aboutUs">
             <div className={style["about_us"]}>About us</div>
           </Link>
-            <Link to="/contact_us">
+          <Link to="/contact_us">
             <div className={style["contact_us"]}>Contact</div>
           </Link>
           <Link to="/products">

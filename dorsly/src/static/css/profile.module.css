@@ -597,7 +597,6 @@
 }
 
 .settings-section {
-  width: 100%;
   margin-bottom: 50px;
   border-bottom: 2px solid #f3f3f3;
 }
@@ -610,11 +609,16 @@
 
 .settings-section > p {
   font-size: 18px;
+  font-weight: 300;
   margin-block: 15px 25px;
+  user-select: text;
   color: #6e6e6e;
 }
 
 .account-details {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
   margin-top: 45px;
 }
 
@@ -624,4 +628,31 @@
   justify-content: space-between;
   align-items: center;
   gap: 40px;
+}
+
+.account-details div:has(> input) {
+  margin-bottom: 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-block: 20px;
+}
+
+.actions > button {
+  padding-inline: 15px;
+  margin: 5px;
+}
+
+form ~ h4 {
+  margin-block: 5px;
+  color: #f14141;
+}
+
+form ~ h4 + form {
+  border: 2px solid #f14141 !important;
+  border-radius: 7px;
+  padding: 10px;
 }

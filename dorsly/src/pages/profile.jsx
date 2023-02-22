@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { apiMethod, bearerHeaders, url } from "../static/js/util"
 
 import "../static/css/general.css"
@@ -18,7 +18,12 @@ export default function profile() {
   const { user, token, setUser, setToken } = useContext(UserContext)
   const { popupData, createPopup, setPopupData } = useContext(PopupContext)
 
-  const [section, setSection] = useState("settings")
+  const location = useLocation()
+  const { defaultSection } = location.state || {
+    defaultSection: "reservations",
+  }
+
+  const [section, setSection] = useState(defaultSection)
   const [dealData, setDealData] = useState([])
   const [reviewData, setReviewData] = useState([])
   const [ratingData, setRatingData] = useState([])
@@ -28,11 +33,17 @@ export default function profile() {
     totalSpent: 0,
   })
 
-  const navigate = useNavigate()
-
   useEffect(() => {
     document.body.style.backgroundImage = ""
   }, [])
+
+  useEffect(() => {
+    const { defaultSection } = location.state || {
+      defaultSection: "reservations",
+    }
+
+    setSection(defaultSection)
+  }, [location])
 
   useEffect(() => {
     if (user === null) {
@@ -599,88 +610,74 @@ export default function profile() {
 
           return (
             <div>
-              <form name="general-settings" className={style["settings-form"]}>
-                <div className={style["settings-section"]}>
-                  <h2>General settings</h2>
-                  <p>
-                    Here you can change your general settings, such as your
-                    name, email, password, etc.
-                  </p>
+              <form
+                name="general-settings"
+                className={style["settings-section"]}
+                onSubmit={(e) => {
+                  e.preventDefault()
 
-                  <div className={style["account-details"]}>
-                    <div>
-                      <LabeledInputField
-                        label="First Name"
-                        inputName="firstName"
-                        defaultValue={user?.first_name}
-                        handleInputChange={handleTest}
-                      />
-                      <LabeledInputField
-                        label="Last Name"
-                        inputName="lastName"
-                        defaultValue={user?.last_name}
-                        handleInputChange={handleTest}
-                      />
-                    </div>
+                  // get values from form submit event
+                  const form = e.target
+                  const data = new FormData(form)
+                  const values = Object.fromEntries(data.entries())
 
+                  console.log("submitted: ", values)
+                }}>
+                <h2>General settings</h2>
+                <p>
+                  Here you can change your general settings, such as your name,
+                  email, password, etc.
+                </p>
+
+                <div className={style["account-details"]}>
+                  <div>
                     <LabeledInputField
-                      label="Email"
-                      inputName="email"
-                      inputType="email"
-                      defaultValue={user?.email}
+                      label="First Name"
+                      inputName="firstName"
+                      defaultValue={user?.first_name}
                       handleInputChange={handleTest}
                     />
                     <LabeledInputField
-                      label="Phone number"
-                      inputName="phoneNumber"
-                      defaultValue={user?.phone_number}
-                      placeholder="+1 123 456 7890"
+                      label="Last Name"
+                      inputName="lastName"
+                      defaultValue={user?.last_name}
                       handleInputChange={handleTest}
                     />
                   </div>
+
+                  <LabeledInputField
+                    label="Email"
+                    inputName="email"
+                    inputType="email"
+                    defaultValue={user?.email}
+                    handleInputChange={handleTest}
+                  />
+                  <LabeledInputField
+                    label="Phone number"
+                    inputName="phoneNumber"
+                    defaultValue={user?.phone_number}
+                    placeholder="+1 123 456 7890"
+                    handleInputChange={handleTest}
+                  />
+                </div>
+
+                <div className={style["actions"]}>
+                  <button type="submit">Save changes</button>
                 </div>
               </form>
 
-              <form>
-                <div className={style["settings-section"]}>
-                  <h2>General settings</h2>
-                  <p>
-                    Here you can change your general settings, such as your
-                    name, email, password, etc.
-                  </p>
+              <h4>Danger zone</h4>
+              <form
+                className={[
+                  style["settings-section"],
+                  style["danger-warning"],
+                ].join(" ")}>
+                <h2>Security settings</h2>
+                <p>
+                  Here you can change your password, or delete your account.
+                </p>
 
-                  <div className={style["account-details"]}>
-                    <div>
-                      <LabeledInputField
-                        label="First Name"
-                        inputName="firstName"
-                        defaultValue={user?.first_name}
-                        handleInputChange={handleTest}
-                      />
-                      <LabeledInputField
-                        label="Last Name"
-                        inputName="lastName"
-                        defaultValue={user?.last_name}
-                        handleInputChange={handleTest}
-                      />
-                    </div>
-
-                    <LabeledInputField
-                      label="Email"
-                      inputName="email"
-                      inputType="email"
-                      defaultValue={user?.email}
-                      handleInputChange={handleTest}
-                    />
-                    <LabeledInputField
-                      label="Phone number"
-                      inputName="phoneNumber"
-                      defaultValue={user?.phone_number}
-                      placeholder="+1 123 456 7890"
-                      handleInputChange={handleTest}
-                    />
-                  </div>
-                </div>
+                <div className={style["account-details"]}></div>
               </form>
             </div>
           )
