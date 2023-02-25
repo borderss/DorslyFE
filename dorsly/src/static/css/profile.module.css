@@ -68,7 +68,7 @@
   color: #6e6e6e;
   display: flex;
   background: #f9f9f9;
-  border-bottom: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f5f5f5;
   align-items: center;
   border-radius: 7px 7px 0px 0px;
   justify-content: center;
@@ -565,8 +565,8 @@
   height: 35px;
   width: 230px;
   border-radius: 5px;
-  padding-inline: 15px;
-  margin: 5px;
+  padding-inline: 25px;
+  margin: 15px;
 }
 
 .settings {
@@ -593,8 +593,9 @@
 }
 
 .settings-section {
-  margin-bottom: 50px;
-  border-bottom: 2px solid #f3f3f3;
+  padding-bottom: 40px;
+  margin-bottom: 25px;
+  border-bottom: 2px dashed #f3f3f3;
 }
 
 .settings-section button {
@@ -637,28 +638,43 @@
 .actions {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-  padding-block: 32px 25px;
 }
 
-.actions > button {
+.settings-action > button {
+  min-height: 20px;
+  height: 35px;
+  width: 230px;
+  border-radius: 5px;
   padding-inline: 15px;
+}
+
+.settings-action {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 20px;
 }
 
 h4:has(~ .danger-warning) {
   margin-block: 5px;
-  color: #f14141;
+  color: #ff4f4f;
+  font-weight: 400;
 }
 
 .danger-warning {
-  border: 2px solid red !important;
+  border: 2px solid #ff6060 !important;
   border-radius: 7px;
-  padding: 15px 25px;
+}
+
+.danger-warning > .settings-section {
+  padding-inline: 20px;
+  padding-block: 10px;
 }
 
 .danger-warning > .settings-section:not(:last-child) {
-  margin-bottom: 40px;
+  margin-bottom: 5px;
   padding-bottom: 5px;
+  border-bottom: 2px solid #ff6060;
 }
 
 .danger-warning > .settings-section:last-child {
@@ -666,7 +682,7 @@ h4:has(~ .danger-warning) {
   border: none;
 }
 
-.actions:has(button.delete) {
+.settings-action:has(button.delete) {
   padding-block: 3px 15px;
 }
 
@@ -677,4 +693,12 @@ h4:has(~ .danger-warning) {
 
 .delete:hover {
   background-color: #e33a3a;
+}
+
+.checkboxes {
+  display: block !important;
+}
+
+.checkboxes > input[type="checkbox"] {
+  margin: 10px;
 }
