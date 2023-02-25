@@ -667,18 +667,54 @@ export default function profile() {
               </form>
 
               <h4>Danger zone</h4>
-              <form
-                className={[
-                  style["settings-section"],
-                  style["danger-warning"],
-                ].join(" ")}>
-                <h2>Security settings</h2>
-                <p>
-                  Here you can change your password, or delete your account.
-                </p>
+              <div className={style["danger-warning"]}>
+                <form className={style["settings-section"]}>
+                  <h2>Security settings</h2>
+                  <p>
+                    Here you can change your password, or delete your account.
+                  </p>
 
-                <div className={style["account-details"]}></div>
-              </form>
+                  <div className={style["account-details"]}>
+                    <div>
+                      <LabeledInputField
+                        label="New password"
+                        inputName="password"
+                        handleInputChange={handleTest}
+                      />
+                      <LabeledInputField
+                        label="Repeat new password"
+                        inputName="passwordRepeat"
+                        handleInputChange={handleTest}
+                      />
+                    </div>
+                  </div>
+
+                  <div className={style["actions"]}>
+                    <button type="submit">Change password</button>
+                  </div>
+                </form>
+
+                <form className={style["settings-section"]}>
+                  <h2>Account deletion</h2>
+                  <p>
+                    Use this option to delete your account. This action cannot
+                    be undone. All of your data including past and current
+                    payments.
+                    <br />
+                    <br />
+                    <strong>
+                      There will not be a confirmation prompt, so please be
+                      careful.
+                    </strong>
+                  </p>
+
+                  <div className={style["actions"]}>
+                    <button type="submit" className={style["delete"]}>
+                      Delete account
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           )
         }

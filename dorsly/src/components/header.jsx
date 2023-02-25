@@ -75,7 +75,6 @@ export default function header() {
               style={{ "--background-icon": `url(${SecondaryProfileIcon})` }}>
               Profile
             </Link>
-            // pass link with state
             <Link
               to="/profile"
               state={{
