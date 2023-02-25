@@ -560,10 +560,6 @@
   color: #6e6e6e;
 }
 
-.actions {
-  padding: 10px 10px 10px 25px;
-}
-
 .actions > button {
   min-height: 20px;
   height: 35px;
@@ -578,7 +574,7 @@
   width: min(650px, 90vw);
   margin-inline: auto;
   margin-top: 25px;
-  padding: 25px;
+  padding: 30px;
   border-radius: 15px;
   background-color: #ffffff;
   box-shadow: 0 0 20px 0 #ececec;
@@ -601,6 +597,10 @@
   border-bottom: 2px solid #f3f3f3;
 }
 
+.settings-section button {
+  margin: 0px;
+}
+
 .settings-section > h2 {
   font-size: 26px;
   margin-block: 5px;
@@ -619,7 +619,7 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
-  margin-top: 45px;
+  margin-top: 30px;
 }
 
 .account-details > div {
@@ -636,23 +636,45 @@
 
 .actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
-  padding-block: 20px;
+  padding-block: 32px 25px;
 }
 
 .actions > button {
   padding-inline: 15px;
-  margin: 5px;
 }
 
-form ~ h4 {
+h4:has(~ .danger-warning) {
   margin-block: 5px;
   color: #f14141;
 }
 
-form ~ h4 + form {
-  border: 2px solid #f14141 !important;
+.danger-warning {
+  border: 2px solid red !important;
   border-radius: 7px;
-  padding: 10px;
+  padding: 15px 25px;
+}
+
+.danger-warning > .settings-section:not(:last-child) {
+  margin-bottom: 40px;
+  padding-bottom: 5px;
+}
+
+.danger-warning > .settings-section:last-child {
+  margin: 0;
+  border: none;
+}
+
+.actions:has(button.delete) {
+  padding-block: 3px 15px;
+}
+
+.delete {
+  background-color: #f14141;
+  color: #ffffff;
+}
+
+.delete:hover {
+  background-color: #e33a3a;
 }
