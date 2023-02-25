@@ -33,6 +33,24 @@ export default function profile() {
     totalSpent: 0,
   })
 
+  const [userSettingsData, setUserSettingsData] = useState({
+    firstName: null,
+    lastName: null,
+    phoneNumber: null,
+    email: null,
+  })
+
+  const [passwordSettingsData, setPasswordSettingsData] = useState({
+    password: null,
+    passwordConfirm: null,
+  })
+
+  const [privacySettingsData, setPrivacySettingsData] = useState({
+    promotionEmails: false,
+    securityNotices: false,
+    reservationInfo: false,
+  })
+
   useEffect(() => {
     document.body.style.backgroundImage = ""
   }, [])
@@ -96,14 +114,7 @@ export default function profile() {
   }, [user])
 
   const onLowerNavbarItemClick = (e, section) => {
-    if (section === "logout") {
-      setUser(null)
-      setToken(null)
-      localStorage.removeItem("token")
-      navigate("/login")
-    } else {
-      setSection(section)
-    }
+    setSection(section)
   }
 
   const renderSection = (section) => {
@@ -571,7 +582,7 @@ export default function profile() {
                     <div className={style["header"]}>
                       <h1>{review.point_of_interest.name}</h1>
 
-                      <div className={style["rating"]}>
+                      <div className={style["actions"]}>
                         <img src={Star} alt="" />
                         <p>{review.rating}</p>
                       </div>
@@ -608,6 +619,115 @@ export default function profile() {
             }
           }
 
+          const handleSettingsInputChange = (inputName, value) => {
+            if (!value) {
+              return false
+            }
+
+            switch (inputName) {
+              case "firstName":
+                if (value.length > 0) {
+                  setUserSettingsData({ ...userSettingsData, firstName: value })
+                  return true
+                } else {
+                  setUserSettingsData({ ...userSettingsData, firstName: null })
+                  return false
+                }
+              case "lastName":
+                if (value.length > 0) {
+                  setUserSettingsData({ ...userSettingsData, lastName: value })
+                  return true
+                } else {
+                  setUserSettingsData({ ...userSettingsData, lastName: null })
+                  return false
+                }
+              case "phoneNumber":
+                let phoneNumRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/
+
+                if (value.match(phoneNumRegex)) {
+                  setUserSettingsData({
+                    ...userSettingsData,
+                    phoneNumber: value,
+                  })
+                  return true
+                } else {
+                  setUserSettingsData({
+                    ...userSettingsData,
+                    phoneNumber: null,
+                  })
+                  return false
+                }
+
+              case "email":
+                let emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+
+                if (value.match(emailRegex)) {
+                  setUserSettingsData({ ...userSettingsData, email: value })
+                  return true
+                } else {
+                  setUserSettingsData({ ...userSettingsData, email: null })
+                  return false
+                }
+              case "password":
+                if (value.length > 8) {
+                  setPasswordSettingsData({
+                    ...passwordSettingsData,
+                    password: value,
+                  })
+                  return true
+                } else {
+                  setPasswordSettingsData({
+                    ...passwordSettingsData,
+                    password: null,
+                  })
+                  return false
+                }
+              case "passwordConfirm":
+                if (
+                  value.length > 8 &&
+                  value == passwordSettingsData.password
+                ) {
+                  setPasswordSettingsData({
+                    ...passwordSettingsData,
+                    passwordConfirm: value,
+                  })
+                  return true
+                } else {
+                  setPasswordSettingsData({
+                    ...passwordSettingsData,
+                    passwordConfirm: null,
+                  })
+                  return false
+                }
+
+              default:
+                break
+            }
+          }
+
+          const handlePrivacySubmit = (e) => {}
+
+          const handleDeleteAccount = (e) => {
+            e.preventDefault()
+
+            createPopup(
+              "Are you sure?",
+              <p>
+                Are you sure you want to delete your account? This action is
+                irreversible.
+              </p>,
+              "warning",
+              "Delete my account",
+              () => {
+                console.log("delete account")
+              },
+              "Cancel",
+              () => {
+                console.log("cancel")
+              }
+            )
+          }
+
           return (
             <div>
               <form
@@ -616,12 +736,7 @@ export default function profile() {
                 onSubmit={(e) => {
                   e.preventDefault()
 
-                  // get values from form submit event
-                  const form = e.target
-                  const data = new FormData(form)
-                  const values = Object.fromEntries(data.entries())
-
-                  console.log("submitted: ", values)
+                  console.log("submitted: ", userSettingsData)
                 }}>
                 <h2>General settings</h2>
                 <p>
@@ -635,13 +750,13 @@ export default function profile() {
                       label="First Name"
                       inputName="firstName"
                       defaultValue={user?.first_name}
-                      handleInputChange={handleTest}
+                      handleInputChange={handleSettingsInputChange}
                     />
                     <LabeledInputField
                       label="Last Name"
                       inputName="lastName"
                       defaultValue={user?.last_name}
-                      handleInputChange={handleTest}
+                      handleInputChange={handleSettingsInputChange}
                     />
                   </div>
 
@@ -650,65 +765,133 @@ export default function profile() {
                     inputName="email"
                     inputType="email"
                     defaultValue={user?.email}
-                    handleInputChange={handleTest}
+                    handleInputChange={handleSettingsInputChange}
                   />
                   <LabeledInputField
                     label="Phone number"
                     inputName="phoneNumber"
                     defaultValue={user?.phone_number}
                     placeholder="+1 123 456 7890"
-                    handleInputChange={handleTest}
+                    handleInputChange={handleSettingsInputChange}
                   />
                 </div>
 
-                <div className={style["actions"]}>
+                <div className={style["settings-action"]}>
+                  <button type="submit">Save changes</button>
+                </div>
+              </form>
+
+              <form
+                className={style["settings-section"]}
+                onSubmit={(e) => {
+                  e.preventDefault()
+
+                  console.log("submitted: ", passwordSettingsData)
+                }}>
+                <h2>Security settings</h2>
+                <p>
+                  Here you can change your password, or delete your account.
+                </p>
+                <div className={style["account-details"]}>
+                  <div>
+                    <LabeledInputField
+                      label="New password"
+                      inputName="password"
+                      handleInputChange={handleSettingsInputChange}
+                    />
+                    <LabeledInputField
+                      label="Repeat new password"
+                      inputName="passwordConfirm"
+                      handleInputChange={handleSettingsInputChange}
+                    />
+                  </div>
+                </div>
+                <div className={style["settings-action"]}>
+                  <button type="submit">Change password</button>
+                </div>
+              </form>
+
+              <form
+                className={style["settings-section"]}
+                onSubmit={(e) => {
+                  e.preventDefault()
+
+                  console.log("submitted: ", privacySettingsData)
+                }}>
+                <h2>Privacy</h2>
+                <p>
+                  It's important to us that you feel safe and secure when using
+                  our services. Here you can change your privacy settings.
+                </p>
+                <div className={style["account-details"]}>
+                  <div className={style["checkboxes"]}>
+                    <input
+                      type="checkbox"
+                      name="promotion-emails"
+                      id="promotion-emails"
+                      onChange={(e) => {
+                        setPrivacySettingsData({
+                          ...privacySettingsData,
+                          promotionEmails: e.target.checked,
+                        })
+                      }}
+                    />
+                    <label htmlFor="promotion-emails">
+                      I want to receive emails about new features, updates and
+                      discounts.
+                    </label>
+
+                    <br></br>
+                    <input
+                      type="checkbox"
+                      name="security-warnings"
+                      id="security-warnings"
+                      onChange={(e) => {
+                        setPrivacySettingsData({
+                          ...privacySettingsData,
+                          securityNotices: e.target.checked,
+                        })
+                      }}
+                    />
+                    <label htmlFor="security-warnings">
+                      I want to receive emails about security warnings.
+                    </label>
+
+                    <br></br>
+                    <input
+                      type="checkbox"
+                      name="reservation-info"
+                      id="reservation-info"
+                      onChange={(e) => {
+                        setPrivacySettingsData({
+                          ...privacySettingsData,
+                          reservationInfo: e.target.checked,
+                        })
+                      }}
+                    />
+                    <label htmlFor="reservation-info">
+                      I want to receive emails about my reservations.
+                    </label>
+                  </div>
+                </div>
+                <div className={style["settings-action"]}>
                   <button type="submit">Save changes</button>
                 </div>
               </form>
 
               <h4>Danger zone</h4>
               <div className={style["danger-warning"]}>
-                <form className={style["settings-section"]}>
-                  <h2>Security settings</h2>
-                  <p>
-                    Here you can change your password, or delete your account.
-                  </p>
-
-                  <div className={style["account-details"]}>
-                    <div>
-                      <LabeledInputField
-                        label="New password"
-                        inputName="password"
-                        handleInputChange={handleTest}
-                      />
-                      <LabeledInputField
-                        label="Repeat new password"
-                        inputName="passwordRepeat"
-                        handleInputChange={handleTest}
-                      />
-                    </div>
-                  </div>
-
-                  <div className={style["actions"]}>
-                    <button type="submit">Change password</button>
-                  </div>
-                </form>
-
-                <form className={style["settings-section"]}>
+                <form
+                  className={style["settings-section"]}
+                  onSubmit={(e) => handleDeleteAccount(e)}>
                   <h2>Account deletion</h2>
                   <p>
                     Use this option to delete your account. This action cannot
                     be undone. All of your data including past and current
                     payments.
-                    <br />
-                    <br />
-                    <strong>
-                      There will not be a confirmation prompt, so please be
-                      careful.
-                    </strong>
                   </p>
 
-                  <div className={style["actions"]}>
+                  <div className={style["settings-action"]}>
                     <button type="submit" className={style["delete"]}>
                       Delete account
                     </button>
@@ -784,22 +967,15 @@ export default function profile() {
                 onClick={(e) => onLowerNavbarItemClick(e, "ratings")}>
                 ratings
               </div>
+            </div>
+
+            <div className={style["right"]}>
               <div
                 {...(section === "settings" && {
                   className: style["active"],
                 })}
                 onClick={(e) => onLowerNavbarItemClick(e, "settings")}>
                 Settings
-              </div>
-            </div>
-
-            <div className={style["right"]}>
-              <div
-                {...(section === "logout" && {
-                  className: style["active"],
-                })}
-                onClick={(e) => onLowerNavbarItemClick(e, "logout")}>
-                Logout
               </div>
             </div>
           </div>
