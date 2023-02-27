@@ -298,18 +298,20 @@ export default function authentificaton(props) {
         <img className={auth["sperator"]} src={Seperator} />
         <h2>Log in</h2>
 
-        <LabeledInputField
-          label="Email"
-          inputName="email"
-          inputType="email"
-          handleInputChange={handleLoginInputChange}
-        />
-        <LabeledInputField
-          label="Password"
-          inputName="password"
-          inputType="password"
-          handleInputChange={handleLoginInputChange}
-        />
+        <div className={auth["input-field-container"]}>
+          <LabeledInputField
+            label="Email"
+            inputName="email"
+            inputType="email"
+            handleInputChange={handleLoginInputChange}
+          />
+          <LabeledInputField
+            label="Password"
+            inputName="password"
+            inputType="password"
+            handleInputChange={handleLoginInputChange}
+          />
+        </div>
 
         <button ref={submitButtonRef} className={auth["actionBtn"]} disabled>
           Log in
@@ -396,48 +398,50 @@ export default function authentificaton(props) {
         <img className={auth["sperator"]} src={Seperator} />
         <h2>Register</h2>
 
-        {regSection == 0 ? (
-          <>
-            <LabeledInputField
-              label="First Name"
-              inputName="firstName"
-              handleInputChange={handleRegisterInputChange}
-            />
-            <LabeledInputField
-              label="Last Name"
-              inputName="lastName"
-              handleInputChange={handleRegisterInputChange}
-            />
-            <LabeledInputField
-              label="Phone number"
-              inputName="phoneNumber"
-              placeholder="+1 123 456 7890"
-              handleInputChange={handleRegisterInputChange}
-            />
-          </>
-        ) : null}
-        {regSection == 1 ? (
-          <>
-            <LabeledInputField
-              label="Email"
-              inputName="email"
-              inputType="email"
-              handleInputChange={handleRegisterInputChange}
-            />
-            <LabeledInputField
-              label="Password"
-              inputName="password"
-              inputType="password"
-              handleInputChange={handleRegisterInputChange}
-            />
-            <LabeledInputField
-              label="Password Confirmation"
-              inputName="passwordConfirm"
-              inputType="password"
-              handleInputChange={handleRegisterInputChange}
-            />
-          </>
-        ) : null}
+        <div className={auth["input-field-container"]}>
+          {regSection == 0 ? (
+            <>
+              <LabeledInputField
+                label="First Name"
+                inputName="firstName"
+                handleInputChange={handleRegisterInputChange}
+              />
+              <LabeledInputField
+                label="Last Name"
+                inputName="lastName"
+                handleInputChange={handleRegisterInputChange}
+              />
+              <LabeledInputField
+                label="Phone number"
+                inputName="phoneNumber"
+                placeholder="+1 123 456 7890"
+                handleInputChange={handleRegisterInputChange}
+              />
+            </>
+          ) : null}
+          {regSection == 1 ? (
+            <>
+              <LabeledInputField
+                label="Email"
+                inputName="email"
+                inputType="email"
+                handleInputChange={handleRegisterInputChange}
+              />
+              <LabeledInputField
+                label="Password"
+                inputName="password"
+                inputType="password"
+                handleInputChange={handleRegisterInputChange}
+              />
+              <LabeledInputField
+                label="Password Confirmation"
+                inputName="passwordConfirm"
+                inputType="password"
+                handleInputChange={handleRegisterInputChange}
+              />
+            </>
+          ) : null}
+        </div>
 
         <button ref={submitButtonRef} className={auth["actionBtn"]} disabled>
           Next step
