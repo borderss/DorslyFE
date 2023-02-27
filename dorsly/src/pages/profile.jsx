@@ -705,7 +705,23 @@ export default function profile() {
             }
           }
 
-          const handlePrivacySubmit = (e) => {}
+          const handleGeneralSubmit = (e) => {
+            e.preventDefault()
+
+            console.log("submitted: ", userSettingsData)
+          }
+
+          const handlePasswordSubmit = (e) => {
+            e.preventDefault()
+
+            console.log("submitted: ", passwordSettingsData)
+          }
+
+          const handlePrivacySubmit = (e) => {
+            e.preventDefault()
+
+            console.log("submitted: ", privacySettingsData)
+          }
 
           const handleDeleteAccount = (e) => {
             e.preventDefault()
@@ -733,11 +749,7 @@ export default function profile() {
               <form
                 name="general-settings"
                 className={style["settings-section"]}
-                onSubmit={(e) => {
-                  e.preventDefault()
-
-                  console.log("submitted: ", userSettingsData)
-                }}>
+                onSubmit={(e) => handleGeneralSubmit(e)}>
                 <h2>General settings</h2>
                 <p>
                   Here you can change your general settings, such as your name,
@@ -783,11 +795,7 @@ export default function profile() {
 
               <form
                 className={style["settings-section"]}
-                onSubmit={(e) => {
-                  e.preventDefault()
-
-                  console.log("submitted: ", passwordSettingsData)
-                }}>
+                onSubmit={(e) => handlePasswordSubmit(e)}>
                 <h2>Security settings</h2>
                 <p>
                   Here you can change your password, or delete your account.
@@ -813,11 +821,7 @@ export default function profile() {
 
               <form
                 className={style["settings-section"]}
-                onSubmit={(e) => {
-                  e.preventDefault()
-
-                  console.log("submitted: ", privacySettingsData)
-                }}>
+                onSubmit={(e) => handlePrivacySubmit(e)}>
                 <h2>Privacy</h2>
                 <p>
                   It's important to us that you feel safe and secure when using
