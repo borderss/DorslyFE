@@ -189,3 +189,9 @@ form > p > a {
 .third-party-auth-options > a:nth-child(4) > img {
   margin-bottom: 4px;
 }
+
+.input-field-container {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+}
