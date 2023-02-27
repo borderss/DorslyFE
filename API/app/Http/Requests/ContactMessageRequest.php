@@ -28,8 +28,8 @@ class ContactMessageRequest extends FormRequest
             'last_name' => 'required|string',
             'email' => 'required|string',
             'text' => 'required|string',
-            'terms_conditions' => 'required|string',
-            'entities' => 'required|string',
+            'terms_conditions' => 'required|boolean',
+            'entities' => 'required|boolean',
         ];
     }
 }
