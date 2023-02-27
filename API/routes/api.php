@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\ContactMessageController;
 use App\Http\Controllers\Api\DealsController;
 use App\Http\Controllers\Api\PointOfInterestController;
 use App\Http\Controllers\Api\PrePurchaseController;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::get('/logout', [AuthController::class, 'logout']);
@@ -34,6 +36,8 @@ Route::middleware('auth:api')->group(function () {
     // store:
     //  - only if type=="reservation"
     //  - also get user_id from auth instead of resource
+
+
 
     Route::apiResource('ratings',RatingController::class);
     Route::get('/getUsersPointOfInterestRating/{id}',[RatingController::class, 'getUsersPointOfInterestRating']);
@@ -70,10 +74,16 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);
 });
 
+
 // crud (only accessible to admins)
 Route::apiResource('points_of_interest',PointOfInterestController::class);
 Route::apiResource('products',ProductController::class);
 Route::apiResource('title_photos',TitlePhotoController::class);
+
+Route::get('contact',ContactMessageController::class);
+Route::delete('contact',ContactMessageController::class);
+
+
 
 
 // util (public methods, available for everyone)
@@ -85,3 +95,5 @@ Route::get('/popular_choices', [PointOfInterestController::class, 'getPopularSel
 
 Route::get('/points_of_interest/{id}/comments', [PointOfInterestController::class, 'getComments']);
 Route::get('/points_of_interest/{id}/products', [PointOfInterestController::class, 'getProducts']);
+
+Route::post('contact',ContactMessageController::class);
