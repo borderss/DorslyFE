@@ -699,6 +699,14 @@ h4:has(~ .danger-warning) {
   display: block !important;
 }
 
-.checkboxes > input[type="checkbox"] {
+.checkboxes > div > input[type="checkbox"] {
   margin: 10px;
+}
+
+.checkboxes > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
 }
