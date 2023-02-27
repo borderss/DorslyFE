@@ -825,53 +825,61 @@ export default function profile() {
                 </p>
                 <div className={style["account-details"]}>
                   <div className={style["checkboxes"]}>
-                    <input
-                      type="checkbox"
-                      name="promotion-emails"
-                      id="promotion-emails"
-                      onChange={(e) => {
-                        setPrivacySettingsData({
-                          ...privacySettingsData,
-                          promotionEmails: e.target.checked,
-                        })
-                      }}
-                    />
-                    <label htmlFor="promotion-emails">
-                      I want to receive emails about new features, updates and
-                      discounts.
-                    </label>
-
-                    <br></br>
-                    <input
-                      type="checkbox"
-                      name="security-warnings"
-                      id="security-warnings"
-                      onChange={(e) => {
-                        setPrivacySettingsData({
-                          ...privacySettingsData,
-                          securityNotices: e.target.checked,
-                        })
-                      }}
-                    />
-                    <label htmlFor="security-warnings">
-                      I want to receive emails about security warnings.
-                    </label>
-
-                    <br></br>
-                    <input
-                      type="checkbox"
-                      name="reservation-info"
-                      id="reservation-info"
-                      onChange={(e) => {
-                        setPrivacySettingsData({
-                          ...privacySettingsData,
-                          reservationInfo: e.target.checked,
-                        })
-                      }}
-                    />
-                    <label htmlFor="reservation-info">
-                      I want to receive emails about my reservations.
-                    </label>
+                    <div>
+                      <span>
+                        <input
+                          type="checkbox"
+                          name="promotion-emails"
+                          id="promotion-emails"
+                          onChange={(e) => {
+                            setPrivacySettingsData({
+                              ...privacySettingsData,
+                              promotionEmails: e.target.checked,
+                            })
+                          }}
+                        />
+                      </span>
+                      <label htmlFor="promotion-emails">
+                        I want to receive emails about new features, updates and
+                        discounts.
+                      </label>
+                    </div>
+                    <div>
+                      <span>
+                        <input
+                          type="checkbox"
+                          name="security-warnings"
+                          id="security-warnings"
+                          onChange={(e) => {
+                            setPrivacySettingsData({
+                              ...privacySettingsData,
+                              securityNotices: e.target.checked,
+                            })
+                          }}
+                        />
+                      </span>
+                      <label htmlFor="security-warnings">
+                        I want to receive emails about security warnings.
+                      </label>
+                    </div>
+                    <div>
+                      <span>
+                        <input
+                          type="checkbox"
+                          name="reservation-info"
+                          id="reservation-info"
+                          onChange={(e) => {
+                            setPrivacySettingsData({
+                              ...privacySettingsData,
+                              reservationInfo: e.target.checked,
+                            })
+                          }}
+                        />
+                      </span>
+                      <label htmlFor="reservation-info">
+                        I want to receive emails about my reservations.
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div className={style["settings-action"]}>
