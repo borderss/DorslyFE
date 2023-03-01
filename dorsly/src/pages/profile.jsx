@@ -898,9 +898,7 @@ export default function profile() {
                   onSubmit={(e) => handleDeleteAccount(e)}>
                   <h2>Account deletion</h2>
                   <p>
-                    Use this option to delete your account. This action cannot
-                    be undone. All of your data including past and current
-                    payments.
+                    Use this to delete your account. This action cannot be undone. All of your data including past and current payments.
                   </p>
 
                   <div className={style["settings-action"]}>
