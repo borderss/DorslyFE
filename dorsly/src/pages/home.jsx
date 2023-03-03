@@ -17,7 +17,6 @@ import PhoneGlobeIllustration from "/assets/svg/phoneglobeillustration.svg"
 import WalletIllustration from "/assets/svg/walletillustration.svg"
 
 import PhoneIllustration from "/assets/svg/phoneillustration.svg"
-// import Footer from "../components/footer"
 
 import { PopupContext } from "../contexts/popupContext"
 import { UserContext } from "../contexts/userContext"
@@ -157,7 +156,6 @@ export default function home() {
         </div>
       </div>
       <Partner />
-      {/* <Footer /> */}
     </>
   )
 }
