@@ -105,11 +105,6 @@ export default function home() {
               }}>
               Register as a business
             </a>
-            {/* <Link
-              to="/error"
-              className={[style["link"], style["inverted"]].join(" ")}>
-              Register as a business
-            </Link> */}
           </div>
         </div>
 
