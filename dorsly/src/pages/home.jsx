@@ -17,10 +17,9 @@ import PhoneGlobeIllustration from "/assets/svg/phoneglobeillustration.svg"
 import WalletIllustration from "/assets/svg/walletillustration.svg"
 
 import PhoneIllustration from "/assets/svg/phoneillustration.svg"
-// import Footer from "../components/footer"
 
-import { UserContext } from "../contexts/userContext"
 import { PopupContext } from "../contexts/popupContext"
+import { UserContext } from "../contexts/userContext"
 
 export default function home() {
   const { user, token, setUser, setToken } = useContext(UserContext)
@@ -105,11 +104,6 @@ export default function home() {
               }}>
               Register as a business
             </a>
-            {/* <Link
-              to="/error"
-              className={[style["link"], style["inverted"]].join(" ")}>
-              Register as a business
-            </Link> */}
           </div>
         </div>
 
@@ -162,7 +156,6 @@ export default function home() {
         </div>
       </div>
       <Partner />
-      {/* <Footer /> */}
     </>
   )
 }
