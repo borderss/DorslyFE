@@ -114,9 +114,7 @@ export default function home() {
           <div>
             <img src={CalendarIllustration} />
             <h2>
-              Schedule any hour
-              <br />
-              of any day
+              Schedule any hour<br />of any day
             </h2>
             <p>
               We try our best to help people the
