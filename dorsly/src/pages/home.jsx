@@ -14,9 +14,9 @@ import Partner from "../components/partner"
 
 import CalendarIllustration from "/assets/svg/calendarillustration.svg"
 import PhoneGlobeIllustration from "/assets/svg/phoneglobeillustration.svg"
-import WalletIllustration from "/assets/svg/walletillustration.svg"
-
 import PhoneIllustration from "/assets/svg/phoneillustration.svg"
+import QuestionMark from "/assets/svg/questionmark.svg"
+import WalletIllustration from "/assets/svg/walletillustration.svg"
 
 import { PopupContext } from "../contexts/popupContext"
 import { UserContext } from "../contexts/userContext"
@@ -104,6 +104,10 @@ export default function home() {
           </div>
         </div>
 
+        <Link to="/help" className={style["help-button"]}>
+          <img src={QuestionMark} />
+        </Link>
+
         {cards.length > 0 ? (
           <Carousel data={cards} stylesheet={carouselStyle} />
         ) : (
@@ -114,7 +118,9 @@ export default function home() {
           <div>
             <img src={CalendarIllustration} />
             <h2>
-              Schedule any hour<br />of any day
+              Schedule any hour
+              <br />
+              of any day
             </h2>
             <p>
               We try our best to help people the
