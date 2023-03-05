@@ -30,7 +30,6 @@ export default function home() {
 
   useEffect(() => {
     document.body.style.backgroundImage = ""
-
     apiMethod("/popular_choices", {
       method: "GET",
       headers: defaultHeaders(),
