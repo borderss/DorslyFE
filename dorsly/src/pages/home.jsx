@@ -81,9 +81,7 @@ export default function home() {
             <br />
             all of your reservations.
           </p>
-
           <MainSarchBar />
-
           <p className={style["seperator"]}>Alternatively,</p>
           <div className={style["actions"]}>
             <Link to="/register" className={style["link"]}>
