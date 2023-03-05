@@ -40,7 +40,7 @@
   background-color: var(--accent-light);
 }
 
-.link::selection{
+.link::selection {
   background-color: transparent;
   color: inherit;
 }
@@ -69,7 +69,7 @@
   background-color: var(--accent-light);
 }
 
-.link::selection{
+.link::selection {
   background-color: transparent;
   color: inherit;
 }
@@ -203,7 +203,7 @@
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-.search-field > input:-webkit-autofill{
+.search-field > input:-webkit-autofill {
   -webkit-text-fill-color: inherit !important;
 }
 
@@ -288,7 +288,7 @@ input::-webkit-datetime-edit-ampm-field:focus {
   transition: 0.2s;
 }
 
-.person-box > input::selection{
+.person-box > input::selection {
   background-color: transparent;
   color: inherit;
 }
@@ -401,4 +401,23 @@ input::-webkit-datetime-edit-ampm-field:focus {
   font-size: 21px;
   font-weight: 300;
   color: #777777;
+}
+
+.help-button {
+  width: 75px;
+  height: 75px;
+  position: absolute;
+  display: flex;
+  right: 30px;
+  top: 830px;
+  border-radius: 100%;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.help-button:hover {
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }

@@ -18,17 +18,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes history={history}>
-        <Route path="/instruction" element={<Instruction />} />
         <Route path="/products" element={<MainProductPage />} />
         <Route path="/register" element={<Authentificaton page="register" />} />
         <Route path="/payment" element={<PaymentGateway />} />
+        <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Authentificaton page="login" />} />
-        <Route path="/place" element={<Place />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/error" element={<Error />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/place" element={<Place />} />
+        <Route path="/help" element={<Instruction />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>

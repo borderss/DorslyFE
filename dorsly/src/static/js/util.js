@@ -58,11 +58,7 @@ const loginUser = async (loginData, user, token, setUser, setToken) => {
 }
 
 const registerUser = async (registerData, user, token, setUser, setToken) => {
-  if (
-    user == null &&
-    token == null &&
-    registerData.password == registerData.passwordConfirm
-  ) {
+  if (user == null && registerData.password == registerData.passwordConfirm) {
     return apiMethod("/register", {
       method: "POST",
       headers: defaultHeaders(),
