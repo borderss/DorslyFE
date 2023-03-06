@@ -28,8 +28,9 @@ class UserFactory extends Factory
             'gps_lng' => $this->faker->randomFloat(7, -180, 180),
             'gps_lat' => $this->faker->randomFloat(7, -90, 90),
             'is_admin' => $this->faker->boolean($chanceOfGettingTrue = 0),
-            'is_cookies_allowed' => $this->faker->boolean($chanceOfGettingTrue = 50),
-            'is_email_allowed' => $this->faker->boolean($chanceOfGettingTrue = 50),
+            'is_promotion_emails_allowed' => true,
+            'is_security_notices_allowed' => true,
+            'is_reservation_info_allowed' => true,
         ];
     }
 

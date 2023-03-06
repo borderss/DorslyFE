@@ -33,8 +33,9 @@ class DatabaseSeeder extends Seeder
             'gps_lng' => 34.1976253,
             'gps_lat' => 21.7612640,
             'is_admin' => true,
-            'is_cookies_allowed' => true,
-            'is_email_allowed' => true,
+            'is_promotion_emails_allowed' => true,
+            'is_security_notices_allowed' => true,
+            'is_reservation_info_allowed' => true,
         ]);
 
         User::create([
@@ -46,8 +47,9 @@ class DatabaseSeeder extends Seeder
             'gps_lng' => 122.87652482,
             'gps_lat' => 84.17625489,
             'is_admin' => false,
-            'is_cookies_allowed' => true,
-            'is_email_allowed' => true,
+            'is_promotion_emails_allowed' => true,
+            'is_security_notices_allowed' => true,
+            'is_reservation_info_allowed' => true,
         ]);
 
          User::factory(133)->create();

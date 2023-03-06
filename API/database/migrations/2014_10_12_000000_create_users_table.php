@@ -24,8 +24,11 @@ return new class extends Migration
             $table->float('gps_lng',10, 7)->nullable();
             $table->float('gps_lat',10, 7)->nullable();
             $table->boolean('is_admin')->default(false);
+            $table->boolean('is_promotion_emails_allowed')->default(false);
+            $table->boolean('is_security_notices_allowed')->default(true);
+            $table->boolean('is_reservation_info_allowed')->default(true);
             $table->boolean('is_cookies_allowed')->default(false);
-            $table->boolean('is_email_allowed')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

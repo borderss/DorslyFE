@@ -10,6 +10,7 @@ use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -123,5 +124,96 @@ class UserController extends Controller
         }
 
         return UserResource::collection($users);
+    }
+
+    public function updateUserGeneralSettings(Request $request) {
+        $validated = $request->validate([
+            'first_name' => 'sometimes|nullable',
+            'last_name' => 'sometimes|nullable',
+            'email' => 'sometimes|nullable|email|unique:users,email,' . auth()->user()->id,
+            'phone_number' => 'sometimes|nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+        ]);
+
+        $updateData = [];
+
+        foreach ($validated as $key => $value) {
+            if ($value) {
+                $updateData[$key] = $value;
+            }
+        }
+
+        $user = auth()->user();
+        $user->update($updateData);
+
+        return response()->json([
+            'data' => new UserResource($user)
+        ]);
+    }
+
+    public function updateUserPassword(Request $request) {
+        $validated = $request->validate([
+            'old_password' => 'required',
+            'password' => 'required|min:9',
+            'password_confirmation' => 'required|same:password',
+        ]);
+
+        $user = auth()->user();
+
+        if (!Hash::check($validated['old_password'], $user->password)) {
+            return response()->json([
+                'message' => 'Old password is incorrect',
+            ],403);
+        }
+
+        $user->update([
+            'password' => Hash::make($validated['password'])
+        ]);
+
+        return response()->json([
+            'data' => new UserResource($user)
+        ]);
+    }
+
+    public function updateUserPrivacySettings(Request $request) {
+        $validated = $request->validate([
+            'is_promotion_emails_allowed' => 'sometimes|nullable|boolean',
+            'is_security_notices_allowed' => 'sometimes|nullable|boolean',
+            'is_reservation_info_allowed' => 'sometimes|nullable|boolean',
+        ]);
+
+        $updateData = [];
+
+        foreach ($validated as $key => $value) {
+            if ($value) {
+                $updateData[$key] = $value;
+            }
+        }
+
+        $user = auth()->user();
+        $user->update($updateData);
+
+        return response()->json([
+            'data' => new UserResource($user)
+        ]);
+    }
+
+    public function handleUserAccountDelete(Request $request) {
+        $validated = $request->validate([
+            'password' => 'required',
+        ]);
+
+        $user = auth()->user();
+
+        if (!Hash::check($validated['password'], $user->password)) {
+            return response()->json([
+                'message' => 'Password is incorrect',
+            ],403);
+        }
+
+        $user->delete();
+
+        return response()->json([
+            'message' => 'Account deleted successfully',
+        ]);
     }
 }

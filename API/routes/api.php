@@ -23,38 +23,29 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::get('/logout', [AuthController::class, 'logout']);
 
-    // authenticated crud
+    Route::put('/updateUserGeneralSettings', [UserController::class, 'updateUserGeneralSettings']);
+    Route::put('/updateUserPassword', [UserController::class, 'updateUserPassword']);
+    Route::put('/updateUserPrivacySettings', [UserController::class, 'updateUserPrivacySettings']);
+    Route::delete('/deleteAccount', [UserController::class, 'handleUserAccountDelete']);
+
+
     Route::apiResource('comments',CommentController::class);
-    // index, store, update(only his own comment)
-
     Route::apiResource('users',UserController::class);
-    // non-admin can't do anything here
-
     Route::apiResource('deals',DealsController::class);
-    // store:
-    //  - only if type=="reservation"
-    //  - also get user_id from auth instead of resource
-
     Route::apiResource('ratings',RatingController::class);
+
     Route::get('/getUsersPointOfInterestRating/{id}',[RatingController::class, 'getUsersPointOfInterestRating']);
 
-    // store:
-    //  - only if user has made a deal of type "reservation" or "pre-purchase" at the POI.
-    //    If user already has a rating for the POI, change the old rating to the new rating.
-    //  - also get user_id from auth instead of resource
-
-
-    // filtering (only accessible to admins (used for admin panel))
     Route::post('/filter_users',[UserController::class, 'filter']);
     Route::post('/filter_comments',[CommentController::class, 'filter']);
     Route::post('/filter_deals',[DealsController::class, 'filter']);
     Route::post('/filter_points_of_interest',[PointOfInterestController::class, 'filter']);
     Route::post('/filter_products',[ProductController::class, 'filter']);
 
-    // Deals
     Route::post('/reservationAvailable',[ReservationController::class, 'reservationAvailable']); // check if available
     Route::post('/createDeal', [DealsController::class, 'createDeal']); // create reservation
     Route::post('/createPrePurchase', [PrePurchaseController::class, 'createPrePurchase']); // create pre-purchase (Requires deal to exist)
+
     Route::get('/getDealFromPointOfInterest/{id}', [DealsController::class, 'getDealFromPointOfInterest']); // get deal from point of interest
     Route::get('/getDeals', [DealsController::class, 'getDeals']); // get user's deals
     Route::get('/cancelReservation/{id}', [DealsController::class, 'cancelReservation']); // get user's deals

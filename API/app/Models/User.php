@@ -22,6 +22,9 @@ class User extends Authenticatable
         'phone_number',
         'email',
         'password',
+        'is_promotion_emails_allowed',
+        'is_security_notices_allowed',
+        'is_reservation_info_allowed',
         'is_admin',
     ];
 
