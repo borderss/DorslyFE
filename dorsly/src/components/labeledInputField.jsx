@@ -21,7 +21,10 @@ export default function labeledInputField(props) {
   }
 
   return (
-    <div className={style["labeled-text-input-box"]} input-name={props.label}>
+    <div
+      className={style["labeled-text-input-box"]}
+      input-name={props.label}
+      {...(props.style && { style: props.style })}>
       <input
         type="text"
         name={props.inputName}

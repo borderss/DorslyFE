@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react"
 import { useLocation } from "react-router-dom"
-import { apiMethod, bearerHeaders, url } from "../static/js/util"
+import { apiMethod, bearerHeaders, logoutUser, url } from "../static/js/util"
 
 import "../static/css/general.css"
 import style from "../static/css/profile.module.css"
@@ -41,14 +41,19 @@ export default function profile() {
   })
 
   const [passwordSettingsData, setPasswordSettingsData] = useState({
+    currentPassword: null,
     password: null,
     passwordConfirm: null,
   })
 
   const [privacySettingsData, setPrivacySettingsData] = useState({
-    promotionEmails: false,
-    securityNotices: false,
-    reservationInfo: false,
+    promotionEmails: user.is_promotion_emails_allowed || false,
+    securityNotices: user.is_security_notices_allowed || false,
+    reservationInfo: user.is_reservation_info_allowed || false,
+  })
+
+  const [accountDeleteData, setAccountDeleteData] = useState({
+    password: null,
   })
 
   useEffect(() => {
@@ -611,14 +616,6 @@ export default function profile() {
 
       case "settings":
         const renderSettings = () => {
-          const handleTest = (name, value) => {
-            if (value != "firstname") {
-              return false
-            } else {
-              return true
-            }
-          }
-
           const handleSettingsInputChange = (inputName, value) => {
             if (!value) {
               return false
@@ -700,31 +697,179 @@ export default function profile() {
                   return false
                 }
 
+              case "currentPassword":
+                if (value.length > 8) {
+                  setPasswordSettingsData({
+                    ...passwordSettingsData,
+                    currentPassword: value,
+                  })
+                  return true
+                } else {
+                  setPasswordSettingsData({
+                    ...passwordSettingsData,
+                    currentPassword: null,
+                  })
+                  return false
+                }
+
               default:
                 break
             }
           }
 
-          const handleGeneralSubmit = (e) => {
+          const handleAccountDeleteInputChange = (inputName, value) => {
+            if (!value) {
+              return false
+            }
+
+            switch (inputName) {
+              case "password":
+                console.log(accountDeleteData)
+
+                if (value.length > 8) {
+                  setAccountDeleteData({
+                    ...accountDeleteData,
+                    password: value,
+                  })
+                  return true
+                } else {
+                  setAccountDeleteData({
+                    ...accountDeleteData,
+                    password: null,
+                  })
+                  return false
+                }
+            }
+          }
+
+          const handleGeneralSubmit = async (e) => {
             e.preventDefault()
 
             console.log("submitted: ", userSettingsData)
+
+            let promise = await apiMethod("/updateUserGeneralSettings", {
+              method: "PUT",
+              headers: bearerHeaders(token),
+              body: JSON.stringify({
+                first_name: userSettingsData.firstName,
+                last_name: userSettingsData.lastName,
+                email: userSettingsData.email,
+                phone_number: userSettingsData.phoneNumber,
+              }),
+            })
+
+            if (promise?.data) {
+              setUser({
+                ...user,
+                first_name: promise.data.first_name,
+              })
+
+              createPopup(
+                "General settings updated succesfully",
+                <p>Your general settings have been updated succesfully.</p>,
+                "success",
+                "Close"
+              )
+            } else {
+              createPopup(
+                "Something went wrong",
+                <p>
+                  We couldn't update your general settings: {promise.message}
+                </p>,
+                "info",
+                "Close"
+              )
+            }
           }
 
-          const handlePasswordSubmit = (e) => {
+          const handlePasswordSubmit = async (e) => {
             e.preventDefault()
 
             console.log("submitted: ", passwordSettingsData)
+
+            let promise = await apiMethod("/updateUserPassword", {
+              method: "PUT",
+              headers: bearerHeaders(token),
+              body: JSON.stringify({
+                old_password: passwordSettingsData.currentPassword,
+                password: passwordSettingsData.password,
+                password_confirmation: passwordSettingsData.passwordConfirm,
+              }),
+            })
+
+            if (promise?.data) {
+              createPopup(
+                "Password updated succesfully",
+                <p>
+                  Your password has been updated succesfull. You will need to
+                  log in again.
+                </p>,
+                "success",
+                "Close"
+              )
+
+              logoutUser(user, token, setUser, setToken)
+            } else {
+              createPopup(
+                "Something went wrong",
+                <p>We couldn't change your password: {promise.message}</p>,
+                "info",
+                "Close"
+              )
+            }
           }
 
-          const handlePrivacySubmit = (e) => {
+          const handlePrivacySubmit = async (e) => {
             e.preventDefault()
 
             console.log("submitted: ", privacySettingsData)
+
+            let promise = await apiMethod("/updateUserGeneralSettings", {
+              method: "PUT",
+              headers: bearerHeaders(token),
+              body: JSON.stringify({
+                is_promotion_emails_allowed:
+                  privacySettingsData.promotionEmails,
+                is_security_notices_allowed:
+                  privacySettingsData.securityNotices,
+                is_reservation_info_allowed:
+                  privacySettingsData.reservationInfo,
+              }),
+            })
+
+            if (promise?.data) {
+              setPrivacySettingsData({
+                ...privacySettingsData,
+                promotionEmails: promise.data.is_promotion_emails_allowed,
+                securityNotices: promise.data.is_security_notices_allowed,
+                reservationInfo: promise.data.is_reservation_info_allowed,
+              })
+
+              createPopup(
+                "Privacy settings updated succesfully",
+                <p>Your privacy settings have been updated succesfully.</p>,
+                "success",
+                "Close"
+              )
+            } else {
+              createPopup(
+                "Something went wrong",
+                <p>
+                  We couldn't update your privacy settings: {promise.message}
+                </p>,
+                "info",
+                "Close"
+              )
+            }
           }
 
           const handleDeleteAccount = (e) => {
             e.preventDefault()
+            console.log("delete account", accountDeleteData.password)
+
+            if (accountDeleteData.password == null) {
+              return
+            }
 
             createPopup(
               "Are you sure?",
@@ -734,8 +879,32 @@ export default function profile() {
               </p>,
               "warning",
               "Delete my account",
-              () => {
+              async () => {
                 console.log("delete account")
+
+                let promise = await apiMethod("/deleteAccount", {
+                  method: "DELETE",
+                  headers: bearerHeaders(token),
+                  body: JSON.stringify({
+                    password: accountDeleteData.password,
+                  }),
+                })
+
+                if (promise?.data) {
+                  createPopup(
+                    "Account deleted succesfully",
+                    <p>Your account has been deleted succesfully.</p>,
+                    "success",
+                    "Close"
+                  )
+                } else {
+                  createPopup(
+                    "Something went wrong",
+                    <p>We couldn't delete your account: {promise.message}</p>,
+                    "info",
+                    "Close"
+                  )
+                }
               },
               "Cancel",
               () => {
@@ -801,15 +970,24 @@ export default function profile() {
                   Here you can change your password, or delete your account.
                 </p>
                 <div className={style["account-details"]}>
+                  <LabeledInputField
+                    label="Current password"
+                    inputName="currentPassword"
+                    inputType="password"
+                    style={{ width: "300px" }}
+                    handleInputChange={handleSettingsInputChange}
+                  />
                   <div>
                     <LabeledInputField
                       label="New password"
                       inputName="password"
+                      inputType="password"
                       handleInputChange={handleSettingsInputChange}
                     />
                     <LabeledInputField
                       label="Repeat new password"
                       inputName="passwordConfirm"
+                      inputType="password"
                       handleInputChange={handleSettingsInputChange}
                     />
                   </div>
@@ -835,6 +1013,7 @@ export default function profile() {
                           type="checkbox"
                           name="promotion-emails"
                           id="promotion-emails"
+                          defaultChecked={privacySettingsData.promotionEmails}
                           onChange={(e) => {
                             setPrivacySettingsData({
                               ...privacySettingsData,
@@ -854,6 +1033,7 @@ export default function profile() {
                           type="checkbox"
                           name="security-warnings"
                           id="security-warnings"
+                          defaultChecked={privacySettingsData.securityNotices}
                           onChange={(e) => {
                             setPrivacySettingsData({
                               ...privacySettingsData,
@@ -872,6 +1052,7 @@ export default function profile() {
                           type="checkbox"
                           name="reservation-info"
                           id="reservation-info"
+                          defaultChecked={privacySettingsData.reservationInfo}
                           onChange={(e) => {
                             setPrivacySettingsData({
                               ...privacySettingsData,
@@ -902,6 +1083,14 @@ export default function profile() {
                     undone. All of your data including past and current
                     payments.
                   </p>
+
+                  <LabeledInputField
+                    label="Current password"
+                    inputName="password"
+                    inputType="password"
+                    style={{ width: "400px" }}
+                    handleInputChange={handleAccountDeleteInputChange}
+                  />
 
                   <div className={style["settings-action"]}>
                     <button type="submit" className={style["delete"]}>
