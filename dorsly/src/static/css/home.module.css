@@ -95,7 +95,7 @@
   pointer-events: none;
 }
 
-.header-content > div {
+.header-content > div:first-of-type {
   position: relative;
   top: 13rem;
   left: min(5vw, 5rem);
