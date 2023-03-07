@@ -70,11 +70,8 @@ Route::apiResource('points_of_interest',PointOfInterestController::class);
 Route::apiResource('products',ProductController::class);
 Route::apiResource('title_photos',TitlePhotoController::class);
 
-Route::get('contact',ContactMessageController::class);
-Route::delete('contact',ContactMessageController::class);
-
-
-
+//Route::get('contact',ContactMessageController::class);
+//Route::delete('contact',ContactMessageController::class);
 
 // util (public methods, available for everyone)
 Route::get('/point_of_interest/images/{point_of_interest}',[PointOfInterestController::class,'getFile'])->name('point_of_interest.images');
