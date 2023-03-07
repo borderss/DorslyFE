@@ -16,7 +16,7 @@ export default function instruction() {
 
       <div className={style["container"]}>
         <div className={style["button_container"]}>
-          {user.is_admin == true && (
+          {user?.is_admin == true && (
             <>
               <a href="#admin nav">Administrācijas lapas navigācijas aile </a>
               <a href="#admin lapa">Admin lapas datu izvade </a>
@@ -32,7 +32,7 @@ export default function instruction() {
           <a href="#produkt">Produktu lapa </a>
         </div>
         <div>
-          {user.is_admin == true && (
+          {user?.is_admin == true && (
             <>
               <h1 id="admin nav">Administrācijas lapas navigācijas aile</h1>
               <p>
