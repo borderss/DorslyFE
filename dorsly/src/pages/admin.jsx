@@ -73,20 +73,28 @@ export default function admin() {
         field: "name",
       },
       {
-        title: "Description",
-        field: "description",
+        title: "Country",
+        field: "country",
       },
       {
-        title: "Longitue",
-        field: "gps_lng",
-      },
-      {
-        title: "Latitude",
+        title: "GPS latitude",
         field: "gps_lat",
       },
       {
-        title: "Country",
-        field: "country",
+        title: "GPS longitude",
+        field: "gps_lng",
+      },
+      {
+        title: "Is open round the clock",
+        field: "is_open_round_the_clock",
+      },
+      {
+        title: "Is on location",
+        field: "is_on_location",
+      },
+      {
+        title: "Is takeaway",
+        field: "is_takeaway",
       },
       {
         title: "Opens at",
@@ -97,24 +105,16 @@ export default function admin() {
         field: "closes_at",
       },
       {
-        title: "24h open",
-        field: "is_open_round_the_clock",
-      },
-      {
-        title: "Takeaway",
-        field: "is_takeaway",
-      },
-      {
-        title: "On location",
-        field: "is_on_location",
-      },
-      {
         title: "Available seats",
         field: "available_seats",
       },
       {
         title: "Review count",
         field: "review_count",
+      },
+      {
+        title: "Average rating",
+        field: "avg",
       },
     ],
     reservations: [
@@ -277,10 +277,12 @@ export default function admin() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(defaultPostBody),
-      }).then((data) => {
+      })
+        .then((data) => {
           console.log(data)
           setData(data)
-      }).catch((error) => console.log(error))
+        })
+        .catch((error) => console.log(error))
     }
   }, [user])
 
@@ -401,7 +403,7 @@ export default function admin() {
     let cells = new Array()
 
     tableMetaData[section].map((col, key) => {
-      cells.push(<td key={key}>{row[col.field].toString()}</td>)
+      cells.push(<td key={key}>{row[col.field]?.toString()}</td>)
     })
 
     cells.push(
@@ -713,13 +715,10 @@ export default function admin() {
     }
   }
 
-  return (
-    (user === false || token === false) ? (
-      <div>
-        loading...
-      </div>
-    ) : (
-      <>
+  return user === false || token === false ? (
+    <div>loading...</div>
+  ) : (
+    <>
       <Header />
       <div className={style["main-container"]}>
         <div className={style["side-navbar"]}>
@@ -891,6 +890,5 @@ export default function admin() {
         </div>
       </div>
     </>
-    )
   )
 }
