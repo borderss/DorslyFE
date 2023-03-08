@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DealsRequest;
 use App\Http\Resources\DealsResourse;
+use App\Http\Resources\FilterDealsResource;
 use App\Models\Deal;
 use App\Models\PrePurchase;
 use App\Models\Reservation;
@@ -191,6 +192,6 @@ class DealsController extends Controller
             $users = Deal::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);
         }
 
-        return DealsResourse::collection($users);
+        return FilterDealsResource::collection($users);
     }
 }

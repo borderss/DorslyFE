@@ -30,7 +30,7 @@ class DealsResourse extends JsonResource
                 'images' => $poi->images,
             ],
             'reservation' => [
-                'id' => $reservation->id,
+                'id' => $this->pointOfInterest,
                 'date' => $reservation->date,
                 'number_of_people' => $reservation->number_of_people,
             ],
