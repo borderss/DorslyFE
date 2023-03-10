@@ -1,127 +1,120 @@
-.main-container{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    background-image: url("/assets/svg/AboutUS_background.svg");
-    width: min(1920px, 100vw);
-    padding-top: 210px;
-    margin-inline: auto;
-    background-repeat: no-repeat;
-    font-family: "Lexend";
-    color: white;
+.main-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-image: url("/assets/svg/AboutUS_background.svg");
+  width: min(1920px, 100vw);
+  padding-top: 210px;
+  margin-inline: auto;
+  background-repeat: no-repeat;
+  font-family: "Lexend";
+  color: white;
 }
 
-
-.headerContent > div > h1{
-    font-weight: bold;
-    font-size: 68px;
+.headerContent > div > h1 {
+  font-weight: bold;
+  font-size: 68px;
 }
 
-.headerContent > div{
-    margin-inline: auto;
+.headerContent > div {
+  margin-inline: auto;
 }
 
-.headerContent > div > p{
-    font-weight: lighter;
-    font-size: 28px;
+.headerContent > div > p {
+  font-weight: lighter;
+  font-size: 28px;
 }
 
-.headerContent{
-    position: relative;
-    display: flex;
-    justify-content:space-between;
-    margin-inline: auto;
-    color: white;
+.headerContent {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-inline: auto;
+  color: white;
 }
 
-.PeopleIllustration{
-    justify-self: end;
+.PeopleIllustration {
+  justify-self: end;
 }
 
-.provide-section{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: min(1920px, 100vw);
-    padding-top: 210px;
-    margin: auto;
-    margin-inline: auto;
-    justify-content: center;
-    text-align: center;
-    background-repeat: no-repeat;
-    font-family: "Lexend";
+.provide-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(1920px, 100vw);
+  padding-top: 210px;
+  margin: auto;
+  margin-inline: auto;
+  justify-content: center;
+  text-align: center;
+  background-repeat: no-repeat;
+  font-family: "Lexend";
 }
 
-.provide-section > h1{
-    color:#FFB82E;
-    font-weight: normal;
-    font-size: 58px;
+.provide-section > h1 {
+  color: #ffb82e;
+  font-weight: normal;
+  font-size: 58px;
 }
 .provide-container {
-    padding: 20px 25px 25px 25px;
-    display: flex;
-    flex-wrap: wrap;
-    margin-inline: auto;
-    width: 1280px;
-    gap: 70px;
+  padding: 20px 25px 25px 25px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-inline: auto;
+  width: 1280px;
+  gap: 70px;
 }
 
 .question-section {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: min(1920px, 100vw);
-    padding-top: 100px;
-    padding-bottom: 210px;
-    margin: auto;
-    margin-inline: auto;
-    justify-content: center;
-    text-align: start;
-    background-repeat: no-repeat;
-    font-family: "Lexend";
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(1920px, 100vw);
+  padding-top: 100px;
+  padding-bottom: 210px;
+  margin: auto;
+  margin-inline: auto;
+  justify-content: center;
+  text-align: start;
+  background-repeat: no-repeat;
+  font-family: "Lexend";
 }
 
 .question-section > h1 {
-    padding-left: 140px;
-    color:#FFB82E;
-    font-weight: normal;
-    font-size: 58px;
+  padding-left: 140px;
+  color: #ffb82e;
+  font-weight: normal;
+  font-size: 58px;
 }
 
-.ContentIllustration{
-    width: 30px;
+.ContentIllustration {
+  width: 30px;
 }
 
-.faq{
-    max-width: 2000px;
-    padding-top: 2px;
-    margin-inline: auto;
-    cursor: pointer;
-    border-bottom: 2px solid #E9E9E9;
-    border-top: 2px solid #E9E9E9;
+.faq {
+  max-width: 2000px;
+  padding-top: 2px;
+  margin-inline: auto;
+  cursor: pointer;
+  border-bottom: 2px solid #e9e9e9;
+  border-top: 2px solid #e9e9e9;
 }
-.question{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .question > h3 {
-    padding-left: 20px;
-    color: #636363;
-    font-size: 23px;
-    font-weight: lighter;
+  padding-left: 20px;
+  color: #636363;
+  font-size: 23px;
+  font-weight: lighter;
 }
 
-.answer{
+.answer > p {
+  padding-left: 40px;
+  padding-right: 240px;
+  color: #9c9c9c;
+  font-size: 20px;
+  font-weight: lighter;
 }
-
-.answer > p{
-    padding-left: 40px;
-    padding-right: 240px;
-    color: #9C9C9C;
-    font-size: 20px;
-    font-weight: lighter;
-
-}
-
-

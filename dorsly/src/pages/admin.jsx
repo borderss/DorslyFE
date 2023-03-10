@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { apiMethod, bearerHeaders } from "../static/js/util"
 
 import Header from "../components/header"
@@ -18,15 +18,12 @@ import { UserContext } from "../contexts/userContext"
 
 export default function admin() {
   const navigate = useNavigate()
-  const location = useLocation()
   const searchRef = useRef(null)
   const entryRef = useRef(null)
   const goToPageRef = useRef(null)
 
-  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
-  const { user, token, setUser, setToken } = useContext(UserContext)
-
-  const [reloadCounter, setReloadCounter] = useState(0)
+  const { createPopup } = useContext(PopupContext)
+  const { user, token } = useContext(UserContext)
 
   const tableMetaData = {
     users: [
@@ -379,7 +376,7 @@ export default function admin() {
 
     setSection(e.target.id)
     ;[...document.querySelectorAll(`.${style["side-navbar"]} > p`)].forEach(
-      (el, i) => {
+      (el, _) => {
         el.classList.remove(style["navbar-item-active"])
       }
     )

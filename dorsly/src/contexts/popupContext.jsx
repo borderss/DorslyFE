@@ -10,7 +10,7 @@ import warningIcon from "/assets/svg/popupWarning.svg"
 export const PopupContext = createContext()
 
 export default function PopupContextProvider(props) {
-  const removeHandler = (index) => {
+  const removeHandler = () => {
     let popupCard = document
       .querySelectorAll("." + style["popup-card-container"])[0]
       .querySelector("." + style["popup-card"])
@@ -161,16 +161,13 @@ export default function PopupContextProvider(props) {
     })
   }
 
-  const contextValue = useMemo(
-    (e) => {
-      return {
-        popupData,
-        createPopup,
-        setPopupData,
-      }
-    },
-    [popupData, createPopup, setPopupData]
-  )
+  const contextValue = useMemo(() => {
+    return {
+      popupData,
+      createPopup,
+      setPopupData,
+    }
+  }, [popupData, createPopup, setPopupData])
 
   return (
     <PopupContext.Provider value={contextValue}>

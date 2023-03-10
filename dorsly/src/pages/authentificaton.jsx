@@ -21,7 +21,7 @@ import { UserContext } from "../contexts/userContext"
 
 export default function authentificaton(props) {
   const { user, token, setUser, setToken } = useContext(UserContext)
-  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
+  const { createPopup } = useContext(PopupContext)
 
   const navigate = useNavigate()
 
