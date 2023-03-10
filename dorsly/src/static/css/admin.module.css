@@ -217,7 +217,7 @@
 }
 
 .table > table > tbody > tr > td:focus-within {
-  background-color: #fffdf9;;
+  background-color: #fffdf9;
 }
 
 .table button {

@@ -2,7 +2,8 @@
   position: sticky;
   display: flex;
   flex: 0 0 auto;
-  filter: contrast(0) brightness(0) invert(69%) sepia(59%) saturate(623%) hue-rotate(343deg) brightness(106%) contrast(101%);
+  filter: contrast(0) brightness(0) invert(69%) sepia(59%) saturate(623%)
+    hue-rotate(343deg) brightness(106%) contrast(101%);
   width: 35px;
   cursor: pointer;
   transition: 0.2s;
@@ -46,7 +47,6 @@
   margin: 2px;
   cursor: pointer;
 }
-
 
 .carouselDots > div {
   width: 9px;
