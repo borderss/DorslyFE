@@ -27,12 +27,8 @@ export default function UserContextProvider(props) {
 
     apiMethod("/user", {
       method: "GET",
-      headers: bearerHeaders(token)
-    })
-      .then((res) => {
-      // console.log("user returned with token")
-      // console.log(res)
-
+      headers: bearerHeaders(token),
+    }).then((res) => {
       if (!res.message) {
         setUser(res)
         setToken(token)

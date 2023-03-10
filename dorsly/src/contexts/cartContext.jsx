@@ -1,5 +1,4 @@
 import React, { createContext, useMemo, useState } from "react"
-import { useEffect } from "react"
 
 export const CartContext = createContext()
 
@@ -11,15 +10,12 @@ export default function CartContextProvider(props) {
   }
   const [cart, setCart] = useState(defaultCart)
 
-  const contextValue = useMemo(
-    (e) => {
-      return {
-        cart,
-        setCart,
-      }
-    },
-    [cart, setCart]
-  )
+  const contextValue = useMemo(() => {
+    return {
+      cart,
+      setCart,
+    }
+  }, [cart, setCart])
 
   return (
     <CartContext.Provider value={contextValue}>
