@@ -13,14 +13,14 @@ import carouselStyle from "../static/css/mainProductPageCarousel.module.css"
 
 import PageSeperator from "/assets/svg/pageseperator.svg"
 import PopularChoices from "/assets/svg/popularchoices.svg"
-import TodaysDeals from "/assets/svg/todaysdeals.svg"
 import Results from "/assets/svg/results.svg"
+import TodaysDeals from "/assets/svg/todaysdeals.svg"
 
 import { UserContext } from "../contexts/userContext"
 
 export default function mainProductPage() {
   const location = useLocation()
-  const { user, token, setUser, setToken } = useContext(UserContext)
+  const { token } = useContext(UserContext)
 
   const [searchCards, setSearchCards] = useState()
 
@@ -255,9 +255,7 @@ export default function mainProductPage() {
               className={style["section"]}
               style={{ "--background-img": `url(${Results})` }}>
               <h1 className={style["section-title"]}>Search results:</h1>
-              <div className={style["card-data-list"]}>
-                  {searchCards}
-              </div>
+              <div className={style["card-data-list"]}>{searchCards}</div>
               <img src={PageSeperator} />
             </div>
           ) : (
@@ -271,10 +269,7 @@ export default function mainProductPage() {
               <img src={PageSeperator} />
             </div>
           )
-        ) : (
-          null
-        )
-      }
+        ) : null}
 
         <div
           className={style["section"]}
@@ -319,7 +314,11 @@ export default function mainProductPage() {
           style={{ "--background-img": `url(${PopularChoices})` }}>
           <h1 className={style["section-title"]}>Near you</h1>
 
-          <div className={style["card-data-list"]} style={{paddingBottom: "100px"}}>{tempCards}</div>
+          <div
+            className={style["card-data-list"]}
+            style={{ paddingBottom: "100px" }}>
+            {tempCards}
+          </div>
         </div>
       </div>
     </>

@@ -19,11 +19,9 @@ import QuestionMark from "/assets/svg/questionmark.svg"
 import WalletIllustration from "/assets/svg/walletillustration.svg"
 
 import { PopupContext } from "../contexts/popupContext"
-import { UserContext } from "../contexts/userContext"
 
 export default function home() {
-  const { user, token, setUser, setToken } = useContext(UserContext)
-  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
+  const { createPopup } = useContext(PopupContext)
 
   const [cardData, setCardData] = React.useState([])
   const [cards, setCards] = React.useState([])
