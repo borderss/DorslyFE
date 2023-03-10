@@ -23,10 +23,8 @@ export default function admin() {
   const entryRef = useRef(null)
   const goToPageRef = useRef(null)
 
-  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
-  const { user, token, setUser, setToken } = useContext(UserContext)
-
-  const [reloadCounter, setReloadCounter] = useState(0)
+  const { createPopup } = useContext(PopupContext)
+  const { user, token } = useContext(UserContext)
 
   const tableMetaData = {
     users: [
