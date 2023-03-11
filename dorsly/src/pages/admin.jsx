@@ -261,7 +261,7 @@ export default function admin() {
         return
       }
 
-      if (user.is_admin === 0) {
+      if (user.is_admin == false) {
         navigate("/")
         return
       }

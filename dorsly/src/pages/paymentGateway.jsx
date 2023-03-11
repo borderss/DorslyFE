@@ -18,21 +18,23 @@ export default function paymentGateway() {
         body: JSON.stringify({
           session_id: sessionId,
         }),
-      }).then((data) => {
-        console.log(data)
-        navigate('/place?p='+poiID, {
-          state: {
-            paymentSuccess: true
-          } 
-        })
-      }).catch((err) => {
-        console.log(err)
-        navigate('/place?p='+poiID, {
-          state: {
-            paymentSuccess: true
-          } 
-        })
       })
+        .then((data) => {
+          console.log(data)
+          navigate("/place?p=" + poiID, {
+            state: {
+              paymentSuccess: true,
+            },
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+          navigate("/place?p=" + poiID, {
+            state: {
+              paymentSuccess: true,
+            },
+          })
+        })
     }
   }, [navigate])
 

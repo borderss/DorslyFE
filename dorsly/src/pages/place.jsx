@@ -529,7 +529,7 @@ export default function place() {
         return false
       }
 
-      if (text.length > 512) {
+      if (text.length > 255) {
         createPopup(
           "Review too long",
           <p>
