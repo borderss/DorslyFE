@@ -8,7 +8,7 @@ import Header from "../components/header"
 import { UserContext } from "../contexts/userContext"
 
 export default function instruction() {
-  const { user, token, setUser, setToken } = useContext(UserContext)
+  const { user } = useContext(UserContext)
 
   return (
     <>
