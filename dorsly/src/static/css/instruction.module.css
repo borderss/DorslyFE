@@ -1,3 +1,7 @@
+.main_text {
+    padding-left: 240px;
+}
+
 .container {
   color: #292929;
   font-family: Lexend;
@@ -14,6 +18,8 @@
   flex-direction: column;
   gap: 10px;
   margin-top: 25px;
+  position: fixed;
+  top: 140px;
 }
 
 .button_container > a {
