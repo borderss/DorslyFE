@@ -506,9 +506,7 @@ export default function admin() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault()
-
     let searchText = e.target.parentElement.children[0].value
-
     let searchBy
     let searchValue
 
