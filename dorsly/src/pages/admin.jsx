@@ -588,7 +588,6 @@ export default function admin() {
 
   const handleSaveClick = async (e, editedHTMLData, initialData) => {
     e.stopPropagation()
-
     let saveData = {}
 
     editedHTMLData.childNodes.forEach((cell, i) => {
@@ -675,9 +674,7 @@ export default function admin() {
 
   const handleDeleteClick = async (e) => {
     let rowItemIndex = e.target.parentElement.parentElement.id
-
     let deleteData = data.data.find((row) => row.id == rowItemIndex)
-
     let deleteEndpointSection = section
 
     if (section === "reviews") {
