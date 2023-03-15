@@ -491,11 +491,8 @@ export default function admin() {
 
   const handleGoToPageClick = (e) => {
     let pageIndex = goToPageRef.current.value
-
     let pageTemplate = data.meta?.links[1].url
-
     pageTemplate = pageTemplate.substring(pageTemplate.lastIndexOf("/") + 1)
-
     pageTemplate = pageTemplate.split("=")[0]
 
     apiMethod("/" + pageTemplate + "=" + pageIndex, {
@@ -509,9 +506,7 @@ export default function admin() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault()
-
     let searchText = e.target.parentElement.children[0].value
-
     let searchBy
     let searchValue
 
@@ -593,7 +588,6 @@ export default function admin() {
 
   const handleSaveClick = async (e, editedHTMLData, initialData) => {
     e.stopPropagation()
-
     let saveData = {}
 
     editedHTMLData.childNodes.forEach((cell, i) => {
@@ -680,9 +674,7 @@ export default function admin() {
 
   const handleDeleteClick = async (e) => {
     let rowItemIndex = e.target.parentElement.parentElement.id
-
     let deleteData = data.data.find((row) => row.id == rowItemIndex)
-
     let deleteEndpointSection = section
 
     if (section === "reviews") {
@@ -879,7 +871,6 @@ export default function admin() {
                     }
                   }}
                 />
-
                 <button onClick={(e) => handleGoToPageClick(e)}>Go</button>
               </div>
             </div>
