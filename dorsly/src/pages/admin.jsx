@@ -491,11 +491,8 @@ export default function admin() {
 
   const handleGoToPageClick = (e) => {
     let pageIndex = goToPageRef.current.value
-
     let pageTemplate = data.meta?.links[1].url
-
     pageTemplate = pageTemplate.substring(pageTemplate.lastIndexOf("/") + 1)
-
     pageTemplate = pageTemplate.split("=")[0]
 
     apiMethod("/" + pageTemplate + "=" + pageIndex, {
