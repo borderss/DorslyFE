@@ -871,7 +871,6 @@ export default function admin() {
                     }
                   }}
                 />
-
                 <button onClick={(e) => handleGoToPageClick(e)}>Go</button>
               </div>
             </div>
