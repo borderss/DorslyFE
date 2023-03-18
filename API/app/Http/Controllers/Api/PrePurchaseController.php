@@ -73,13 +73,15 @@ class PrePurchaseController extends Controller
             $totalPrice += $product['quantity'] * $productData->price;
         }
 
+        $rootFrontedUrl = config('app.root_fronted_url');
+
         $session = $stripe->checkout->sessions->create([
             'line_items' => [
                 $stripeLineItems
             ],
             'mode' => 'payment',
-            'success_url' => 'https://www.dorsly.com/payment'.'?poi='. PointOfInterest::find($validated['point_of_interest_id'])->id.'&session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => 'https://www.dorsly.com/error',
+            'success_url' => $rootFrontedUrl.'payment'.'?poi='. PointOfInterest::find($validated['point_of_interest_id'])->id.'&session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => $rootFrontedUrl.'error',
         ]);
 
         $prePurchase = PrePurchase::create([

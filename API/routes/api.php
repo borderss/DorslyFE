@@ -44,6 +44,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/filter_deals',[DealsController::class, 'filter']);
     Route::post('/filter_points_of_interest',[PointOfInterestController::class, 'filter']);
     Route::post('/filter_products',[ProductController::class, 'filter']);
+    Route::post('/filter_reservations',[DealsController::class, 'filterReservations']);
+    Route::post('/filter_prepurchases',[DealsController::class, 'filterPrePurchases']);
+
 
     Route::post('/reservationAvailable',[ReservationController::class, 'reservationAvailable']); // check if available
     Route::post('/createDeal', [DealsController::class, 'createDeal']); // create reservation

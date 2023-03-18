@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DealsRequest;
 use App\Http\Resources\DealsResourse;
 use App\Http\Resources\FilterDealsResource;
+use App\Http\Resources\FilterPrePurchasesResource;
+use App\Http\Resources\FilterReservationsResource;
 use App\Models\Deal;
 use App\Models\PrePurchase;
 use App\Models\Reservation;
@@ -193,5 +195,53 @@ class DealsController extends Controller
         }
 
         return FilterDealsResource::collection($users);
+    }
+
+    public function filterReservations(Request $request)
+    {
+        $validated = $request->validate([
+            'by'=>'required',
+            'value'=>'required',
+            'paginate'=>'required|integer'
+        ]);
+
+        if ($validated['by'] == 'all'){
+            $users = Reservation::where('id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('point_of_interest_id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('date', "LIKE", "%{$validated['value']}%")
+                ->orWhere('number_of_people', "LIKE", "%{$validated['value']}%")
+                ->orWhere('created_at', "LIKE", "%{$validated['value']}%")
+                ->orWhere('updated_at', "LIKE", "%{$validated['value']}%")
+                ->paginate($validated['paginate']);
+        } else {
+            $users = Reservation::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);
+        }
+
+        return FilterReservationsResource::collection($users);
+    }
+
+    public function filterPrePurchases(Request $request)
+    {
+        $validated = $request->validate([
+            'by'=>'required',
+            'value'=>'required',
+            'paginate'=>'required|integer'
+        ]);
+
+        if ($validated['by'] == 'all'){
+            $users = PrePurchase::where('id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('point_of_interest_id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('total_price', "LIKE", "%{$validated['value']}%")
+                ->orWhere('status', "LIKE", "%{$validated['value']}%")
+                ->orWhere('payment_status', "LIKE", "%{$validated['value']}%")
+                ->orWhere('payment_id', "LIKE", "%{$validated['value']}%")
+                ->orWhere('created_at', "LIKE", "%{$validated['value']}%")
+                ->orWhere('updated_at', "LIKE", "%{$validated['value']}%")
+                ->paginate($validated['paginate']);
+        } else {
+            $users = PrePurchase::where($validated['by'], "LIKE", "%{$validated['value']}%")->paginate($validated['paginate']);
+        }
+
+        return FilterPrePurchasesResource::collection($users);
     }
 }

@@ -6,6 +6,7 @@ return [
 
     'stripe_secret' => env('STRIPE_SECRET'),
     'stripe_webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+    'root_fronted_url' => env('FRONTEND_ROOT_URL', 'http://localhost:5000/'),
 
     /*
     |--------------------------------------------------------------------------
