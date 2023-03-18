@@ -120,28 +120,24 @@ export default function admin() {
         field: "id",
       },
       {
-        title: "Account ID",
-        field: "account_id",
-      },
-      {
         title: "POI ID",
-        field: "poi_id",
+        field: "point_of_interest_id",
       },
       {
-        title: "Reservation date",
-        field: "reservation_date",
+        title: "Date",
+        field: "date",
       },
       {
-        title: "Reservation time",
-        field: "reservation_time",
+        title: "Number of people",
+        field: "number_of_people",
       },
       {
-        title: "Attending person count",
-        field: "attending_person_count",
+        title: "Creation date",
+        field: "created_at",
       },
       {
-        title: "Stripe check number",
-        field: "stripe_check_number",
+        title: "Last change",
+        field: "updated_at",
       },
     ],
     prepurchases: [
@@ -150,28 +146,28 @@ export default function admin() {
         field: "id",
       },
       {
-        title: "Account ID",
-        field: "account_id",
+        title: "Status",
+        field: "status",
       },
       {
-        title: "POI ID",
-        field: "poi_id",
+        title: "Payment status",
+        field: "payment_status",
       },
       {
-        title: "Reservation ID",
-        field: "reservation_id",
+        title: "Total price",
+        field: "total_price",
       },
       {
-        title: "Pre-purchase date",
-        field: "prepurchase_date",
+        title: "Payment id",
+        field: "payment_id",
       },
       {
-        title: "Pre-purchase time",
-        field: "prepurchase_time",
+        title: "Creation date",
+        field: "created_at",
       },
       {
-        title: "Stripe check number",
-        field: "stripe_check_number",
+        title: "Last change",
+        field: "updated_at",
       },
     ],
     reviews: [
@@ -327,6 +323,16 @@ export default function admin() {
           title: "Reservations overview",
           desc: "Search through reservation data, such as the billed person's account ID, relevant POI's ID, reservation date, time, attending person count, stripe check number, etc.",
         })
+
+        apiMethod("/filter_reservations", {
+          method: "POST",
+          headers: bearerHeaders(token),
+          body: JSON.stringify(defaultPostBody),
+        })
+          .then((data) => {
+            setData(data)
+          })
+          .catch((error) => console.log(error))
         break
 
       case "prepurchases":
@@ -334,6 +340,16 @@ export default function admin() {
           title: "Pre-purchase overview",
           desc: "View pre-purchase data, such as billed person's ID, relevant POI's ID, associated reservation, the date and time on which the pre-purchase was made, stripe check number, etc.",
         })
+
+        apiMethod("/filter_prepurchases", {
+          method: "POST",
+          headers: bearerHeaders(token),
+          body: JSON.stringify(defaultPostBody),
+        })
+          .then((data) => {
+            setData(data)
+          })
+          .catch((error) => console.log(error))
         break
 
       case "reviews":
