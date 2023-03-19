@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { logoutUser } from "../static/js/util"
 
+import LocationPicker from "./locationPicker"
+
 import style from "../static/css/header.module.css"
 import LogoIcon from "/assets/svg/dorslylogo.svg"
 import GpsIcon from "/assets/svg/gps.svg"
@@ -20,6 +22,8 @@ export default function header() {
   const userContext = useContext(UserContext)
   const { user, token, setUser, setToken } = useContext(UserContext)
   const { popupData, createPopup, setPopupData } = useContext(PopupContext)
+
+  const [locationPickerVisible, setLocationPickerVisible] = useState(true)
 
   const [userOptions, setUserOptions] = useState(
     <>
@@ -41,16 +45,35 @@ export default function header() {
     }
   }
 
-  const handleOutsideClick = (e) => {
-    if (e.target.closest(`.${style["profile-logo-button"]}`)) {
-      return
-    }
-    const profileDropdown = document.querySelector(
-      `.${style["profile-dropdown"]}`
-    )
-    profileDropdown?.classList.remove(style["profile-dropdown-active"])
+  const handleOutsideClick = (event) => {
+    const handleClickOutsideDropdown = (e) => {
+      if (e.target.closest(`.${style["profile-logo-button"]}`)) {
+        return
+      }
+      const profileDropdown = document.querySelector(
+        `.${style["profile-dropdown"]}`
+      )
+      profileDropdown?.classList.remove(style["profile-dropdown-active"])
 
-    window.removeEventListener("click", handleOutsideClick)
+      window.removeEventListener("click", handleOutsideClick)
+    }
+
+    const handleClickOutsideLocationPicker = (e) => {
+      if (e.target.closest(`.${style["gps-icon"]}`)) {
+        return
+      }
+      setLocationPickerVisible(false)
+      window.removeEventListener("click", handleOutsideClick)
+    }
+
+    handleClickOutsideDropdown(event)
+    // handleClickOutsideLocationPicker(event)
+  }
+
+  const handleGpsIconClick = (e) => {
+    if (e.target.closest(`.${style["gps-icon"]}`)) {
+      setLocationPickerVisible(true)
+    }
   }
 
   window.addEventListener("click", (e) => handleOutsideClick(e))
@@ -145,18 +168,21 @@ export default function header() {
         </div>
         <div className={style["right-side"]}>
           {userOptions}
-          <div
-            className={style["gps-logo"]}
-            onClick={(e) => {
-              e.preventDefault()
-              createPopup(
-                "Not implemented yet",
-                <p>This feature hasn't been implemented yet. Sorry!</p>,
-                "error",
-                "Close"
-              )
-            }}>
+          <div className={style["gps-logo"]} onClick={handleGpsIconClick}>
             <img src={GpsIcon} alt="GPS" />
+
+            {locationPickerVisible && (
+              <LocationPicker
+                containerStyle={{
+                  width: "100%",
+                  height: "400px",
+                }}
+                center={{
+                  lat: parseFloat(12),
+                  lng: parseFloat(4),
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
