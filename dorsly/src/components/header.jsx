@@ -178,8 +178,8 @@ export default function header() {
                   height: "400px",
                 }}
                 center={{
-                  lat: parseFloat(12),
-                  lng: parseFloat(4),
+                  lat: 56.96883572892239,
+                  lng: 24.15072315264866,
                 }}
               />
             )}
