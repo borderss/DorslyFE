@@ -5,6 +5,8 @@ import style from "../static/css/locationPicker.module.css"
 
 function LocationPicker(props) {
   const mapRef = useRef(null)
+  const [activeMethod, setActiveMethod] = useState("map")
+
   const [position, setPosition] = useState({
     lat: -25.0270548,
     lng: 115.1824598,
@@ -37,9 +39,19 @@ function LocationPicker(props) {
 
   return (
     <div className={style["location-picker-container"]}>
-      <p>Location Picker</p>
+      <div className={style["picking-options"]}>
+        <div
+          onClick={() => setActiveMethod("map")}
+          {...(activeMethod == "map" && { className: style["active"] })}>
+          Select your location on the map
+        </div>
+        <div
+          onClick={() => setActiveMethod("text")}
+          {...(activeMethod == "text" && { className: style["active"] })}>
+          Use my current location
+        </div>
+      </div>
       <div>
-        <p>Map</p>
         {isLoaded && (
           <GoogleMap
             id="map"

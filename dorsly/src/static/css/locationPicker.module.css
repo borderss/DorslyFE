@@ -5,4 +5,29 @@
   width: 500px;
   height: 700px;
   background-color: #fff;
+  border-radius: 15px;
+}
+
+.picking-options {
+  display: flex;
+}
+
+.picking-options > div {
+  padding: 10px 20px;
+  width: 50%;
+  font-size: 20px;
+  text-align: center;
+  line-height: initial;
+  user-select: none;
+  box-shadow: inset 0px 0px 0px 0px #ffb82e;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.picking-options > div:hover {
+  box-shadow: inset 0px -2px 0px 0px var(--accent-light);
+}
+
+.picking-options > div.active {
+  box-shadow: inset 0px -3px 0px 0px var(--accent) !important;
 }
