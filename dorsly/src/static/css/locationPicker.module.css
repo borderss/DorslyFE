@@ -6,6 +6,7 @@
   height: 700px;
   background-color: #fff;
   border-radius: 15px;
+  box-shadow: 0px 4px 10px #0000000f;
 }
 
 .picking-options {
