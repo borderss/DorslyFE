@@ -175,7 +175,7 @@ export default function header() {
               <LocationPicker
                 containerStyle={{
                   width: "100%",
-                  height: "400px",
+                  height: "450px",
                 }}
                 center={{
                   lat: 56.96883572892239,
