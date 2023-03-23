@@ -13,7 +13,7 @@ function LocationPicker(props) {
   const [activeMethod, setActiveMethod] = useState("map")
 
   const [position, setPosition] = useState({
-    lat: -25.0270548,
+    lat: -25.0270547,
     lng: 115.1824598,
   })
 
@@ -29,8 +29,6 @@ function LocationPicker(props) {
   function handleCenterChanged() {
     if (!mapRef.current) return
     const newPos = mapRef.current.getCenter().toJSON()
-
-    console.log("new pos: ", newPos)
     setPosition(newPos)
   }
 
