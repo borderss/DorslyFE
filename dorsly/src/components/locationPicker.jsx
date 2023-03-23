@@ -29,8 +29,6 @@ function LocationPicker(props) {
   function handleCenterChanged() {
     if (!mapRef.current) return
     const newPos = mapRef.current.getCenter().toJSON()
-
-    console.log("new pos: ", newPos)
     setPosition(newPos)
   }
 
@@ -41,8 +39,6 @@ function LocationPicker(props) {
       navigator.geolocation.getCurrentPosition(function (position) {
         const { latitude, longitude } = position.coords
         userContext.setPosition({ lat: latitude, lng: longitude })
-
-        console.log("user geolocated pos: ", { lat: latitude, lng: longitude })
       })
     }
   }
