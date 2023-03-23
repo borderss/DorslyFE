@@ -13,7 +13,7 @@ function LocationPicker(props) {
   const [activeMethod, setActiveMethod] = useState("map")
 
   const [position, setPosition] = useState({
-    lat: -25.0270547,
+    lat: -25.0270548,
     lng: 115.1824598,
   })
 
