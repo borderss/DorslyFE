@@ -1,10 +1,8 @@
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api"
 import React, { useContext, useRef, useState } from "react"
-import { debounce } from "../static/js/util"
-
 import { UserContext } from "../contexts/userContext"
-
 import style from "../static/css/locationPicker.module.css"
+import { debounce } from "../static/js/util"
 
 function LocationPicker(props) {
   const userContext = useContext(UserContext)
@@ -12,7 +10,7 @@ function LocationPicker(props) {
   const mapRef = useRef(null)
   const [activeMethod, setActiveMethod] = useState("map")
 
-  const [position, setPosition] = useState({
+  const [pos, setPos] = useState({
     lat: -25.0270548,
     lng: 115.1824598,
   })
@@ -29,7 +27,7 @@ function LocationPicker(props) {
   function handleCenterChanged() {
     if (!mapRef.current) return
     const newPos = mapRef.current.getCenter().toJSON()
-    setPosition(newPos)
+    setPos(newPos)
   }
 
   const handleChangeActiveMethod = (method) => {
@@ -38,7 +36,7 @@ function LocationPicker(props) {
     if (!userContext.position) {
       navigator.geolocation.getCurrentPosition(function (position) {
         const { latitude, longitude } = position.coords
-        userContext.setPosition({ lat: latitude, lng: longitude })
+        userContext.setPos({ lat: latitude, lng: longitude })
       })
     }
   }
