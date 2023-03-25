@@ -1,10 +1,8 @@
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api"
 import React, { useContext, useRef, useState } from "react"
-import { debounce } from "../static/js/util"
-
 import { UserContext } from "../contexts/userContext"
-
 import style from "../static/css/locationPicker.module.css"
+import { debounce } from "../static/js/util"
 
 function LocationPicker(props) {
   const userContext = useContext(UserContext)
