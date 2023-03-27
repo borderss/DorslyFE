@@ -40,9 +40,9 @@
 }
 
 .card-data-list {
+  gap: 50px;
   display: flex;
   flex-wrap: wrap;
-  gap: 50px;
   max-width: calc(1398px);
   margin-inline: auto;
 }
