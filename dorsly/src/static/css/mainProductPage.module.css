@@ -48,12 +48,12 @@
 }
 
 .card-data-list > h1 {
-  font-family: Lexend;
-  font-size: 2.5rem;
-  color: #3b3b3b;
-  font-weight: 500;
-  margin-bottom: 10rem;
   width: 100%;
+  color: #3b3b3b;
+  font-size: 2.5rem;
+  font-weight: 500;
+  font-family: Lexend;
+  margin-bottom: 10rem;
   text-align: center;
   position: relative;
   z-index: 1;
