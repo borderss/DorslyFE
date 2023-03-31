@@ -32,3 +32,19 @@
 .picking-options > div.active {
   box-shadow: inset 0px -3px 0px 0px var(--accent) !important;
 }
+
+.map-container {
+  position: relative;
+}
+
+.gps-icon {
+  position: absolute;
+  height: 40px;
+  width: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 20px));
+  filter: drop-shadow(0px 4px 4px #00000069);
+  pointer-events: none;
+  user-select: none;
+}
