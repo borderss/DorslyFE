@@ -1,12 +1,3 @@
-# dorsly
+A small, upcomming 2D game about running a restaurant.
 
-Under development
-
-By:
-
-- Alberts Liepiņš
-- Dmitrijs Semjonovs
-- Roberts Āboliņš
-- Rinalds Balodis
-
-last updated: 09.11.22 23:57
+You play as an Italian cheff with your main objective being to generate as much profit with the resources you have as possible.
