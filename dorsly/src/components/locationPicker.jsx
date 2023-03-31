@@ -2,6 +2,9 @@ import { GoogleMap, useJsApiLoader } from "@react-google-maps/api"
 import React, { useContext, useRef, useState } from "react"
 import { UserContext } from "../contexts/userContext"
 import style from "../static/css/locationPicker.module.css"
+
+import GpsIcon from "/assets/svg/gps3.svg"
+
 import { debounce } from "../static/js/util"
 
 function LocationPicker(props) {
@@ -9,6 +12,12 @@ function LocationPicker(props) {
 
   const mapRef = useRef(null)
   const [activeMethod, setActiveMethod] = useState("map")
+
+  const defaultMapOptions = {
+    disableDefaultUI: true,
+    keyboardShortcuts: false,
+    gestureHandling: "greedy",
+  }
 
   const [pos, setPos] = useState({
     lat: -25.0270548,
@@ -55,7 +64,7 @@ function LocationPicker(props) {
           Use my current location
         </div>
       </div>
-      <div>
+      <div className={style["map-container"]}>
         {isLoaded && (
           <GoogleMap
             id="map"
@@ -63,10 +72,12 @@ function LocationPicker(props) {
             onLoad={handleLoad}
             center={props.center}
             onCenterChanged={debounce(handleCenterChanged, 750)}
+            options={defaultMapOptions}
             {...(props.containerStyle && {
               mapContainerStyle: props.containerStyle,
             })}></GoogleMap>
         )}
+        <img className={style["gps-icon"]} src={GpsIcon} alt="gps" />
       </div>
     </div>
   )
