@@ -35,7 +35,12 @@ function LocationPicker(props) {
 
   function handleCenterChanged() {
     if (!mapRef.current) return
-    const newPos = mapRef.current.getCenter().toJSON()
+    const newPos = new google.maps.LatLng(mapRef.current.getCenter().toJSON())
+
+    console.log({
+      lat: newPos.lat(),
+      lng: newPos.lng(),
+    })
     setPos(newPos)
   }
 
@@ -45,6 +50,7 @@ function LocationPicker(props) {
     if (!userContext.position) {
       navigator.geolocation.getCurrentPosition(function (position) {
         const { latitude, longitude } = position.coords
+        console.log(latitude, longitude)
         userContext.setPos({ lat: latitude, lng: longitude })
       })
     }
