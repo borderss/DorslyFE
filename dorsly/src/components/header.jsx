@@ -23,7 +23,7 @@ export default function header() {
   const { user, token, setUser, setToken } = useContext(UserContext)
   const { popupData, createPopup, setPopupData } = useContext(PopupContext)
 
-  const [locationPickerVisible, setLocationPickerVisible] = useState(true)
+  const [locationPickerVisible, setLocationPickerVisible] = useState(false)
 
   const [userOptions, setUserOptions] = useState(
     <>
@@ -71,8 +71,8 @@ export default function header() {
   }
 
   const handleGpsIconClick = (e) => {
-    if (e.target.closest(`.${style["gps-icon"]}`)) {
-      setLocationPickerVisible(true)
+    if (e.target.classList.contains("click-target")) {
+      setLocationPickerVisible(!locationPickerVisible)
     }
   }
 
@@ -168,8 +168,10 @@ export default function header() {
         </div>
         <div className={style["right-side"]}>
           {userOptions}
-          <div className={style["gps-logo"]} onClick={handleGpsIconClick}>
-            <img src={GpsIcon} alt="GPS" />
+          <div
+            className={[style["gps-logo"], "click-target"].join(" ")}
+            onClick={handleGpsIconClick}>
+            <img className={"click-target"} src={GpsIcon} alt="GPS" />
 
             {locationPickerVisible && (
               <LocationPicker
