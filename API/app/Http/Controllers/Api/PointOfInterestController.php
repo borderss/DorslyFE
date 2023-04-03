@@ -27,7 +27,6 @@ class PointOfInterestController extends Controller
      */
     public function index(Request $request)
     {
-
         if ($request->page) {
             $points_of_interest = PointOfInterest::filter($request->all())->paginate(10);
         } else {
@@ -69,6 +68,11 @@ class PointOfInterestController extends Controller
      */
     public function store(PointOfInterestRequest $request)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
 
         $validated = $request->validated();
         $image = $validated['images'];
@@ -76,9 +80,6 @@ class PointOfInterestController extends Controller
         $image->store('public/point_of_interest_photo/');
 
         return new PointOfInterestResouce(PointOfInterest::create($validated));
-//        $Point = PointOfInterest::create($request->validated());
-//
-//        return new PointOfInterestResouce($Point);
     }
 
     /**
@@ -106,6 +107,12 @@ class PointOfInterestController extends Controller
      */
     public function update(PointOfInterestRequest $request, $id)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $Point = PointOfInterest::find($id);
         $validated = $request->validated();
         if($request->hasFile('images')){
@@ -127,6 +134,12 @@ class PointOfInterestController extends Controller
      */
     public function destroy($id)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $Point = PointOfInterest::find($id);
         $Point->images= Storage::disk('local')->delete('public/point_of_interest_photo/'.$Point->images);
         $Point->delete();
@@ -142,6 +155,12 @@ class PointOfInterestController extends Controller
 
     public function filter(Request $request)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $validated = $request->validate([
             'by'=>'required',
             'value'=>'required',

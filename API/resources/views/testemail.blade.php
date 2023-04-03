@@ -1,5 +1,5 @@
 <div style="
-background-image: url({{"https://api.dorsly.com/email_background.png"}});
+background-image: url({{"https://i.ibb.co/SB5rwK6/Frame-26-1.png"}});
 background-size: cover;
 background-position: bottom;
 border-radius: 20px;
@@ -24,21 +24,16 @@ width: 100%;">
             font-size: 30px;
             margin: 7px 0px;
             color-scheme: light only">
-                        Hello!</h2>
+                        Labiden.</h2>
 
                     <p style="font-size: 16px;
             color-scheme: light only">
-                        This is an example email from <span style="font-weight: bold; color: #FAB733">Dorsly</span>
-
-                        The attatched text was:
-                        <br/>
-                        <br/>
-                        {{ $data }}
-                        <br/>
-                        <br/>
-
-                        Have a wonderful day,<br/>
-                        the Dorsly team.
+                        Ar smagu sirdi esmu spiests paziņot par līdzšinējās projketa ietvaros veiktās kontribūcijas pārtraukšanu sakarā ar projekta <span style="font-weight: bold; color: #FAB733">Dorsly</span> beigu sasniegšanu.
+                        <br/><br/>
+                        Jūs tikāt noņemti no github projekta repozitorijas kā arī no trello projekta izveides organizācijas programmas.
+                        <br/><br/>
+                        Paldies par sadarbību,<br/>
+                        vēlu veiksmi.
                     </p>
                 </td>
             </tr>

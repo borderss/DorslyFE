@@ -11,6 +11,12 @@ class TestMailController extends Controller
 {
     public function sendEmail()
     {
-        Mail::to("liepins01@gmail.com")->send(new TestEmail("testing!!!!!!!"));
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
+        Mail::to("support@dorsly.com")->send(new TestEmail("Test Email"));
     }
 }

@@ -111,6 +111,12 @@ class PrePurchaseController extends Controller
     }
 
     public function filter(Request $request){
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $validated = $request->validate([
             'by'=>'required',
             'value'=>'required',

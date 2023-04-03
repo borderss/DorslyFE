@@ -90,7 +90,6 @@ class DealsController extends Controller
 
         $availability = (new ReservationController)->reservationAvailable($request)->getData();
 
-
         if ($availability->available === false) {
             return response()->json([
                 'message' => 'Reservation could not be created: ' . $availability->reason,
@@ -175,6 +174,12 @@ class DealsController extends Controller
 
     public function filter(Request $request)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $validated = $request->validate([
             'by'=>'required',
             'value'=>'required',
@@ -199,6 +204,12 @@ class DealsController extends Controller
 
     public function filterReservations(Request $request)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $validated = $request->validate([
             'by'=>'required',
             'value'=>'required',
@@ -222,6 +233,12 @@ class DealsController extends Controller
 
     public function filterPrePurchases(Request $request)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $validated = $request->validate([
             'by'=>'required',
             'value'=>'required',

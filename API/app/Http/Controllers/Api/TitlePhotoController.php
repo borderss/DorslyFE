@@ -32,6 +32,12 @@ class TitlePhotoController extends Controller
      */
     public function store(TitlePhotoRequest $request)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $validated = $request->validated();
         $image = $validated['image'];
         $validated['image'] = $image->hashName();
@@ -60,6 +66,12 @@ class TitlePhotoController extends Controller
      */
     public function update(TitlePhotoRequest $request, $id)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $TitlePhoto = TitlePhotos::find($id);
         $validated = $request->validated();
         $TitlePhoto->image= Storage::disk('local')->delete('public/point_of_interest_photo/'.$TitlePhoto->image);
@@ -78,6 +90,12 @@ class TitlePhotoController extends Controller
      */
     public function destroy($id)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $TitlePhoto = TitlePhotos::find($id);
         $TitlePhoto->image= Storage::disk('local')->delete('public/point_of_interest_photo/'.$TitlePhoto->image);
         $TitlePhoto->delete();

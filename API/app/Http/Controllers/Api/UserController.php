@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\Comment;
 use App\Models\Deal;
+use App\Models\Rating;
 use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
@@ -15,22 +16,15 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function profileStatistics(){
-        $user = auth()->user();
-
-        $userDeals = Deal::where('user_id', $user->id)->get();
-
-        $dealCount = $userDeals->count();
-        $reviewCount = Comment::where('user_id', $user->id)->count();
         $totalSpent = 0;
 
-        forEach($userDeals as $deal) {
+        forEach(Deal::where('user_id', auth()->user()->id)->get() as $deal) {
             $totalSpent += $deal->prePurchase()->sum('total_price');
         }
 
-
         return response()->json([
-            'dealCount' => $dealCount,
-            'reviewCount' => $reviewCount,
+            'dealCount' => Deal::where('user_id', auth()->user()->id)->count(),
+            'reviewCount' => Comment::where('user_id', auth()->user()->id)->count(),
             'totalSpent' => round($totalSpent, 2),
         ]);
     }
@@ -76,6 +70,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         User::find($id)->update($request->validate([
             "first_name"=>'required',
             "last_name"=>'required',
@@ -91,14 +91,22 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->delete();
+        if (auth()->user()->is_admin === false || auth()->user()->id !== $id){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
 
-        return new UserResource($user);
+        if(auth()->user()->is_admin === true){
+            $user = User::find($id);
+            $user->delete();
+            return new UserResource($user);
+        }
+
     }
 
     public function filter(Request $request)
@@ -142,11 +150,8 @@ class UserController extends Controller
             }
         }
 
-        $user = auth()->user();
-        $user->update($updateData);
-
         return response()->json([
-            'data' => new UserResource($user)
+            'data' => new UserResource(auth()->user()->update($updateData))
         ]);
     }
 
@@ -157,20 +162,18 @@ class UserController extends Controller
             'password_confirmation' => 'required|same:password',
         ]);
 
-        $user = auth()->user();
-
-        if (!Hash::check($validated['old_password'], $user->password)) {
+        if (!Hash::check($validated['old_password'], auth()->user()->password)) {
             return response()->json([
                 'message' => 'Old password is incorrect',
             ],403);
         }
 
-        $user->update([
+        auth()->user()->update([
             'password' => Hash::make($validated['password'])
         ]);
 
         return response()->json([
-            'data' => new UserResource($user)
+            'data' => new UserResource(auth()->user())
         ]);
     }
 
@@ -189,11 +192,10 @@ class UserController extends Controller
             }
         }
 
-        $user = auth()->user();
-        $user->update($updateData);
+        auth()->user()->update($updateData);
 
         return response()->json([
-            'data' => new UserResource($user)
+            'data' => new UserResource(auth()->user())
         ]);
     }
 
@@ -202,18 +204,17 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        $user = auth()->user();
-
-        if (!Hash::check($validated['password'], $user->password)) {
+        if (!Hash::check($validated['password'], auth()->user()->password)) {
             return response()->json([
                 'message' => 'Password is incorrect',
             ],403);
         }
 
-        $user->delete();
+        auth()->user()->delete();
 
         return response()->json([
             'message' => 'Account deleted successfully',
         ]);
+
     }
 }

@@ -56,6 +56,12 @@ class ContactMessageController extends Controller
      */
     public function show($id)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         return new ContactMessageResources(ContactMessage::find($id));
     }
 
@@ -68,6 +74,12 @@ class ContactMessageController extends Controller
      */
     public function update(ContactMessageRequest $request, $id)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         ContactMessage::find($id)->update($request->validated());
 
         return new ContactMessageResources(ContactMessage::find($id));
@@ -81,6 +93,12 @@ class ContactMessageController extends Controller
      */
     public function destroy($id)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $message = ContactMessage::find($id);
         $message->delete();
         return new ContactMessageResources($message);

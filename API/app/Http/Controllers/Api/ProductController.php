@@ -28,6 +28,12 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $product = Product::create($request->validated());
 
         return new ProductResourse($product);
@@ -53,10 +59,15 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, $id)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         Product::find($id)->update($request->validated());
 
         return  new ProductResourse(Product::find($id));
-
     }
 
     /**
@@ -67,6 +78,12 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $product = Product::find($id);
         $product->delete();
         return new ProductResourse($product);
@@ -74,6 +91,12 @@ class ProductController extends Controller
 
     public function filter(Request $request)
     {
+        if (auth()->user()->is_admin === false){
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $validated = $request->validate([
             'by'=>'required',
             'value'=>'required',

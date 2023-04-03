@@ -14,14 +14,11 @@ use Illuminate\Http\Request;
 class RatingController extends Controller
 {
     public function getUserRatings(){
-        $user = auth()->user();
-        $ratings = Rating::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        $ratings = Rating::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
         return UserRatingResource::collection($ratings);
     }
 
     public function getUsersPointOfInterestRating($id){
-        $user = auth()->user();
-
         if (!PointOfInterest::find($id)) {
             return response()->json([
                 'status' => 'error',
@@ -29,14 +26,14 @@ class RatingController extends Controller
             ], 404);
         }
 
-        if (Rating::where('user_id', $user->id)->where('point_of_interest_id', $id)->doesntExist()) {
+        if (Rating::where('user_id', auth()->user()->id)->where('point_of_interest_id', $id)->doesntExist()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'User has not rated this point of interest.'
             ], 404);
         }
 
-        $rating = Rating::where('user_id', $user->id)->where('point_of_interest_id', $id)->first();
+        $rating = Rating::where('user_id', auth()->user()->id)->where('point_of_interest_id', $id)->first();
         return response()->json([
             'status' => 'success',
             'rating' => $rating->rating,
@@ -132,6 +129,12 @@ class RatingController extends Controller
      */
     public function update(RatingRequest $request, $id)
     {
+        if (auth()->user()->is_admin === false || Rating::find($id)->user_id === auth()->user()->id) {
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         Rating::find($id)->update($request->validated());
 
         return new RatingResourse(Rating::find($id));
@@ -145,6 +148,12 @@ class RatingController extends Controller
      */
     public function destroy($id)
     {
+        if (auth()->user()->is_admin === false || Rating::find($id)->user_id === auth()->user()->id) {
+            return response()->json([
+                'message' => 'You are not authorized to do this action'
+            ], 403);
+        }
+
         $rating = Rating::find($id);
         $rating->delete();
         return new RatingResourse($rating);
