@@ -45,7 +45,6 @@ function LocationPicker(props) {
     ).then((res) => res.json())
 
     localIP.then((res) => {
-      console.log(res)
       setLocationInfo({
         ...locationInfo,
         gps: new google.maps.LatLng(res.latitude, res.longitude),
@@ -75,7 +74,6 @@ function LocationPicker(props) {
   }
 
   const handleCenterChanged = async () => {
-    console.log("fired")
     if (!mapRef.current || activeMethod == "input") return
     const newPos = new google.maps.LatLng(mapRef.current.getCenter().toJSON())
 
@@ -101,8 +99,6 @@ function LocationPicker(props) {
 
   const handleChangeActiveMethod = (method) => {
     setActiveMethod(method)
-
-    console.log(locationInfo)
 
     if (method == "input") {
       mapRef.current.setOptions({
@@ -213,7 +209,6 @@ function LocationPicker(props) {
               })}
               handleInputChange={debounce((e) => {
                 setLocationInfo(e.target.value)
-                console.log(e.target.value)
               })}
             />
           </div>
