@@ -1,18 +1,21 @@
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api"
-import React, { useRef, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import style from "../static/css/locationPicker.module.css"
 
 import LabeledInputField from "./labeledInputField"
 
 import GpsIcon from "/assets/svg/gps3.svg"
 
+import { PopupContext } from "../contexts/popupContext"
 import { debounce } from "../static/js/util"
 
 function LocationPicker(props) {
+  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
   const [activeMethod, setActiveMethod] = useState("map")
   const [locationInfo, setLocationInfo] = useState({
-    geolocation_allowed: false,
-    formatted_address: "",
+    geolocationAllowed: false,
+    formattedAddress: "Loading...",
+    searchAddress: "",
     gps: null,
   })
 
@@ -22,6 +25,7 @@ function LocationPicker(props) {
     disableDefaultUI: true,
     keyboardShortcuts: false,
     gestureHandling: "greedy",
+    zoomControl: true,
   }
 
   const { isLoaded } = useJsApiLoader({
@@ -33,16 +37,33 @@ function LocationPicker(props) {
     mapRef.current = map
   }
 
+  useEffect(() => {
+    if (!isLoaded) return
+
+    let localIP = fetch(
+      "https://api.bigdatacloud.net/data/reverse-geocode-client"
+    ).then((res) => res.json())
+
+    localIP.then((res) => {
+      setLocationInfo({
+        ...locationInfo,
+        gps: new google.maps.LatLng(res.latitude, res.longitude),
+        geolocationAllowed: true,
+      })
+
+      mapRef.current.setCenter({
+        lat: res.latitude,
+        lng: res.longitude,
+      })
+    })
+  }, [mapRef.current])
+
   const asyncReverseGeocode = async (loc) => {
     const geocoder = new google.maps.Geocoder()
 
     try {
       const response = await geocoder.geocode({ location: loc })
-
-      console.log(response)
-
       if (response.results[0]) {
-        console.log(response.results[0].formatted_address)
         return response.results[0].formatted_address
       } else {
         console.log("No results found")
@@ -68,9 +89,8 @@ function LocationPicker(props) {
       .then((res) => {
         setLocationInfo({
           ...locationInfo,
-          formatted_address: res,
+          formattedAddress: res,
         })
-        console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -80,41 +100,62 @@ function LocationPicker(props) {
   const handleChangeActiveMethod = (method) => {
     setActiveMethod(method)
 
-    if (!locationInfo.gps && method == "input") {
-      mapRef.current.set
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const { latitude, longitude } = position.coords
+    if (method == "input") {
+      mapRef.current.setOptions({
+        draggable: false,
+      })
 
-        let newLocationInfo = { ...locationInfo }
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          const { latitude, longitude } = position.coords
 
-        asyncReverseGeocode({
-          lat: latitude,
-          lng: longitude,
-        })
-          .then((res) => {
-            newLocationInfo.formatted_address = res
-            setLocationInfo(newLocationInfo)
+          let newLocationInfo = { ...locationInfo }
 
-            // TweenJS?
-            mapRef.current.setCenter({
-              lat: latitude,
-              lng: longitude,
-            })
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-
-        setLocationInfo({
-          ...locationInfo,
-          geolocation_allowed: true,
-          gps: {
+          asyncReverseGeocode({
             lat: latitude,
             lng: longitude,
-          },
-        })
-      })
+          })
+            .then((res) => {
+              newLocationInfo.formattedAddress = res
+              setLocationInfo(newLocationInfo)
+
+              // TweenJS?
+              mapRef.current.setCenter({
+                lat: latitude,
+                lng: longitude,
+              })
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+
+          setLocationInfo({
+            ...locationInfo,
+            geolocationAllowed: true,
+            gps: {
+              lat: latitude,
+              lng: longitude,
+            },
+          })
+        },
+        function (error) {
+          setActiveMethod("map")
+
+          createPopup(
+            "Geolocation failed",
+            <p>
+              You didn't give us permission to estimate your location based on
+              your GPS location. Please select your location on the map.
+            </p>,
+            "warning",
+            "Close"
+          )
+        }
+      )
     } else {
+      mapRef.current.setOptions({
+        draggable: true,
+      })
     }
   }
 
@@ -139,7 +180,13 @@ function LocationPicker(props) {
             zoom={10}
             onLoad={handleLoad}
             center={props.center}
-            onCenterChanged={debounce(handleCenterChanged, 1000)}
+            onCenterChanged={debounce(handleCenterChanged, 1200)}
+            // onBoundsChanged={(e) => {
+            //   setLocationInfo({
+            //     ...locationInfo,
+            //     formattedAddress: "Loading...",
+            //   })
+            // }}
             options={defaultMapOptions}
             {...(props.containerStyle && {
               mapContainerStyle: props.containerStyle,
@@ -157,12 +204,11 @@ function LocationPicker(props) {
           <div className={style["location-info-value"]}>
             <LabeledInputField
               label=""
-              {...(locationInfo.formatted_address && {
-                value: locationInfo.formatted_address,
+              {...(locationInfo.formattedAddress && {
+                value: locationInfo.formattedAddress,
               })}
               handleInputChange={debounce((e) => {
                 setLocationInfo(e.target.value)
-                console.log(e.target.value)
               })}
             />
           </div>
