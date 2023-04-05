@@ -30,7 +30,6 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/updateUserPrivacySettings', [UserController::class, 'updateUserPrivacySettings']);
     Route::delete('/deleteAccount', [UserController::class, 'handleUserAccountDelete']);
 
-
     Route::apiResource('comments',CommentController::class);
     Route::apiResource('users',UserController::class);
     Route::apiResource('deals',DealsController::class);
@@ -65,6 +64,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/getSession/{pointOfInterest}',[StripeController::class, 'getSession']);
     Route::post('/successPayment', [StripeController::class, 'successPayment']);
     Route::get('/sendTestMail', [TestMailController::class, 'sendEmail']);
+
+    Route::get('/myIp', function () {
+        return request()->ip();
+    });
 });
 
 

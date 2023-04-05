@@ -12,6 +12,7 @@ use App\Models\Rating;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use mysql_xdevapi\Warning;
 
@@ -29,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'surname1',
             'phone_number' => '+371 22022479',
             'email' => 'user1@gmail.com',
-            'password' => Hash::make('password1'),
+            'password' => Hash::make(Config::get('app.admin_password')),
             'gps_lng' => 34.1976253,
             'gps_lat' => 21.7612640,
             'is_admin' => true,

@@ -142,6 +142,12 @@ class UserController extends Controller
             'phone_number' => 'sometimes|nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
         ]);
 
+        if (count($validated) === 0) {
+            return response()->json([
+                'message' => 'No data provided'
+            ], 400);
+        }
+
         $updateData = [];
 
         foreach ($validated as $key => $value) {
