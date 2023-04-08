@@ -3,10 +3,10 @@
   top: 73px;
   right: 0px;
   width: 500px;
-  height: 700px;
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 0px 4px 10px #0000000f;
+  cursor: default;
 }
 
 .picking-options {
@@ -54,11 +54,44 @@
 }
 
 .location-info-container {
-  padding: 12px 22px;
+  padding: 12px 22px 22px;
 }
 
 .location-info-label {
   font-size: 20px;
   line-height: 1.5em;
   margin-bottom: -11px;
+}
+
+.location-info-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.location-info-actions > button {
+  border-radius: 7px;
+  flex-grow: 1;
+  margin: 0px 5px;
+}
+
+.location-info-actions > button:first-child:hover {
+  background-color: #ffb013;
+}
+
+.location-info-actions > button:last-child {
+  position: relative;
+  flex: 0 1 auto;
+  width: 60px;
+}
+
+.location-info-actions > button:last-child:hover {
+  background-color: #ff3c2e;
+}
+
+.location-info-actions > button:last-child > img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25px;
 }

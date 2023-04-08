@@ -75,3 +75,12 @@ img {
   user-select: none;
   -webkit-user-drag: none;
 }
+
+/* this is pure autism but i dont want to fix it correctly */
+.gmnoprint.gm-bundled-control.gm-bundled-control-on-bottom * {
+  min-height: auto !important;
+}
+
+#map button:hover {
+  background: initial;
+}
