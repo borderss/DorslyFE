@@ -183,6 +183,7 @@ export default function header() {
                   lat: 0,
                   lng: 0,
                 }}
+                handleClose={() => setLocationPickerVisible(false)}
               />
             )}
           </div>

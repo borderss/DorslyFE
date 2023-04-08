@@ -14,7 +14,7 @@ function LocationPicker(props) {
   const [activeMethod, setActiveMethod] = useState("map")
   const [locationInfo, setLocationInfo] = useState({
     geolocationAllowed: false,
-    formattedAddress: "Loading...",
+    formattedAddress: "",
     searchAddress: "",
     gps: null,
   })
@@ -74,13 +74,19 @@ function LocationPicker(props) {
   }
 
   const handleCenterChanged = async () => {
-    if (!mapRef.current || activeMethod == "input") return
     const newPos = new google.maps.LatLng(mapRef.current.getCenter().toJSON())
 
     setLocationInfo({
       ...locationInfo,
       gps: newPos,
     })
+
+    if (
+      !mapRef.current ||
+      activeMethod == "input" ||
+      locationInfo.formattedAddress != "Loading..."
+    )
+      return
 
     asyncReverseGeocode({
       lat: newPos.lat(),
@@ -159,6 +165,15 @@ function LocationPicker(props) {
     }
   }
 
+  const handleLocationChange = (e) => {
+    setLocationInfo({
+      ...locationInfo,
+      searchAddress: e.target.value,
+    })
+  }
+
+  let timeout
+
   return (
     <div className={style["location-picker-container"]}>
       <div className={style["picking-options"]}>
@@ -180,13 +195,18 @@ function LocationPicker(props) {
             zoom={10}
             onLoad={handleLoad}
             center={props.center}
-            onCenterChanged={debounce(handleCenterChanged, 1200)}
-            // onBoundsChanged={(e) => {
-            //   setLocationInfo({
-            //     ...locationInfo,
-            //     formattedAddress: "Loading...",
-            //   })
-            // }}
+            onCenterChanged={() => {
+              if (locationInfo.formattedAddress != "Loading...") {
+                setLocationInfo({
+                  ...locationInfo,
+                  formattedAddress: "Loading...",
+                })
+              }
+            }}
+            onIdle={(e) => {
+              clearTimeout(timeout)
+              timeout = setTimeout(handleCenterChanged, 1200)
+            }}
             options={defaultMapOptions}
             {...(props.containerStyle && {
               mapContainerStyle: props.containerStyle,
@@ -211,6 +231,31 @@ function LocationPicker(props) {
                 setLocationInfo(e.target.value)
               })}
             />
+          </div>
+          <div className={style["location-info-actions"]}>
+            <button
+              onClick={() => {
+                if (locationInfo.formattedAddress == "Loading...") return
+
+                handleLocationChange({
+                  gps: locationInfo.gps,
+                  formattedAddress: locationInfo.formattedAddress,
+                })
+
+                props.handleClose()
+              }}>
+              Save
+            </button>
+            <button
+              onClick={() => {
+                setLocationInfo({
+                  ...locationInfo,
+                  formattedAddress: "Loading...",
+                })
+                props.handleClose()
+              }}>
+              Cancel
+            </button>
           </div>
         </div>
       </div>
