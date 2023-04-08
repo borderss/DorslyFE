@@ -33,6 +33,7 @@ If you encounter any issues or have any questions, please contact us at support@
 
 We would like to thank the following individuals and organizations for their contributions to this project:
 
+- [@Fleksis](https://github.com/Fleksis) (Laravl Server)
 - [@TapeJIka](https://github.com/TapeJIka) (Laravel Server)
 - [@SodiumN1trate](https://github.com/SodiumN1trate) (General Assistance)
 - Digital Ocean (Server Hosting)
