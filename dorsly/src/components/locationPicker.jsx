@@ -80,7 +80,6 @@ function LocationPicker(props) {
       ...locationInfo,
       gps: newPos,
     })
-
     asyncReverseGeocode({
       lat: newPos.lat(),
       lng: newPos.lng(),
