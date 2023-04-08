@@ -109,21 +109,17 @@ const logoutUser = (user, token, setUser, setToken) => {
 
 const debounce = (func, waitFor, immediate = false) => {
   let timeout
-  return function () {
-    const context = this
-    const args = arguments
 
-    const later = function () {
+  return (...args) => {
+    const context = this
+    const later = () => {
       timeout = null
       if (!immediate) func.apply(context, args)
     }
-
-    const run = immediate && !timeout
-
+    const callNow = immediate && !timeout
     clearTimeout(timeout)
     timeout = setTimeout(later, waitFor)
-
-    if (run) func.apply(context, args)
+    if (callNow) func.apply(context, args)
   }
 }
 
