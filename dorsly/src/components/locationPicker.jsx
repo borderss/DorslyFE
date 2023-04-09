@@ -5,13 +5,19 @@ import style from "../static/css/locationPicker.module.css"
 import LabeledInputField from "./labeledInputField"
 
 import GpsIcon from "/assets/svg/gps3.svg"
+import CloseIcon from "/assets/svg/x.svg"
 
 import { PopupContext } from "../contexts/popupContext"
+import { UserContext } from "../contexts/userContext"
 import { debounce } from "../static/js/util"
 
 function LocationPicker(props) {
-  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
+  const { createPopup } = useContext(PopupContext)
+  const { setPosition } = useContext(UserContext)
   const [activeMethod, setActiveMethod] = useState("map")
+  const [aproximateLocation, setApproximateLocation] = useState({
+    gps: null,
+  })
   const [locationInfo, setLocationInfo] = useState({
     geolocationAllowed: false,
     formattedAddress: "",
@@ -26,6 +32,10 @@ function LocationPicker(props) {
     keyboardShortcuts: false,
     gestureHandling: "greedy",
     zoomControl: true,
+    panControl: true,
+    zoomControl: true,
+    streetViewControl: true,
+    rotateControl: true,
   }
 
   const { isLoaded } = useJsApiLoader({
@@ -40,11 +50,16 @@ function LocationPicker(props) {
   useEffect(() => {
     if (!isLoaded) return
 
-    let localIP = fetch(
+    let clientData = fetch(
       "https://api.bigdatacloud.net/data/reverse-geocode-client"
     ).then((res) => res.json())
 
-    localIP.then((res) => {
+    clientData.then((res) => {
+      setApproximateLocation({
+        ...aproximateLocation,
+        gps: new google.maps.LatLng(res.latitude, res.longitude),
+      })
+
       setLocationInfo({
         ...locationInfo,
         gps: new google.maps.LatLng(res.latitude, res.longitude),
@@ -76,16 +91,7 @@ function LocationPicker(props) {
   const handleCenterChanged = async () => {
     const newPos = new google.maps.LatLng(mapRef.current.getCenter().toJSON())
 
-    setLocationInfo({
-      ...locationInfo,
-      gps: newPos,
-    })
-
-    if (
-      !mapRef.current ||
-      activeMethod == "input" ||
-      locationInfo.formattedAddress != "Loading..."
-    )
+    if (!mapRef.current || activeMethod == "input" || locationInfo.formattedAddress != "Loading...")
       return
 
     asyncReverseGeocode({
@@ -96,6 +102,10 @@ function LocationPicker(props) {
         setLocationInfo({
           ...locationInfo,
           formattedAddress: res,
+          gps: {
+            lat: newPos.lat(),
+            lng: newPos.lng(),
+          },
         })
       })
       .catch((err) => {
@@ -109,26 +119,31 @@ function LocationPicker(props) {
     if (method == "input") {
       mapRef.current.setOptions({
         draggable: false,
+        zoom: 14,
+      })
+
+      mapRef.current.setCenter({
+        lat: aproximateLocation.gps.lat(),
+        lng: aproximateLocation.gps.lng(),
       })
 
       navigator.geolocation.getCurrentPosition(
         function (position) {
           const { latitude, longitude } = position.coords
 
-          let newLocationInfo = { ...locationInfo }
-
           asyncReverseGeocode({
             lat: latitude,
             lng: longitude,
           })
             .then((res) => {
-              newLocationInfo.formattedAddress = res
-              setLocationInfo(newLocationInfo)
-
-              // TweenJS?
-              mapRef.current.setCenter({
-                lat: latitude,
-                lng: longitude,
+              console.log(res)
+              setLocationInfo({
+                ...locationInfo,
+                formattedAddress: res,
+                gps: {
+                  lat: latitude,
+                  lng: longitude,
+                },
               })
             })
             .catch((err) => {
@@ -165,11 +180,19 @@ function LocationPicker(props) {
     }
   }
 
-  const handleLocationChange = (e) => {
-    setLocationInfo({
-      ...locationInfo,
-      searchAddress: e.target.value,
+  const handleLocationChange = () => {
+    setPosition({
+      gps: locationInfo.gps,
+      formattedAddress: locationInfo.formattedAddress,
     })
+    console.log(
+      "Location changed to: ",
+      locationInfo.gps,
+      ",",
+      locationInfo.formattedAddress
+    )
+
+    props.handleClose()
   }
 
   let timeout
@@ -200,6 +223,7 @@ function LocationPicker(props) {
                 setLocationInfo({
                   ...locationInfo,
                   formattedAddress: "Loading...",
+                  gps: null,
                 })
               }
             }}
@@ -234,15 +258,11 @@ function LocationPicker(props) {
           </div>
           <div className={style["location-info-actions"]}>
             <button
+              {...(locationInfo.formattedAddress == "Loading..." && {
+                disabled: true,
+              })}
               onClick={() => {
-                if (locationInfo.formattedAddress == "Loading...") return
-
-                handleLocationChange({
-                  gps: locationInfo.gps,
-                  formattedAddress: locationInfo.formattedAddress,
-                })
-
-                props.handleClose()
+                handleLocationChange()
               }}>
               Save
             </button>
@@ -254,7 +274,7 @@ function LocationPicker(props) {
                 })
                 props.handleClose()
               }}>
-              Cancel
+              <img src={CloseIcon} alt="X" />
             </button>
           </div>
         </div>
