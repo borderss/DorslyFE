@@ -91,11 +91,7 @@ function LocationPicker(props) {
   const handleCenterChanged = async () => {
     const newPos = new google.maps.LatLng(mapRef.current.getCenter().toJSON())
 
-    if (
-      !mapRef.current ||
-      activeMethod == "input" ||
-      locationInfo.formattedAddress != "Loading..."
-    )
+    if (!mapRef.current || activeMethod == "input" || locationInfo.formattedAddress != "Loading...")
       return
 
     asyncReverseGeocode({
