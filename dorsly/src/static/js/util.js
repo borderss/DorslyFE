@@ -51,8 +51,7 @@ const loginUser = async (loginData, user, token, setUser, setToken) => {
   } else {
     console.warn("Logging in with a user token")
     return {
-      error:
-        "You are already logged in. Clear your cookies with <b>Ctrl + Shift + Delete</b>",
+      error: "You are already logged in. Clear your cookies with <b>Ctrl + Shift + Delete</b>",
     }
   }
 }
@@ -78,8 +77,7 @@ const registerUser = async (registerData, user, token, setUser, setToken) => {
       .catch((error) => error)
   } else {
     return {
-      error:
-        "You are already logged in. Clear your cookies with <b>Ctrl + Shift + Delete</b>",
+      error: "You are already logged in. Clear your cookies with <b>Ctrl + Shift + Delete</b>",
     }
   }
 }
@@ -101,8 +99,7 @@ const logoutUser = (user, token, setUser, setToken) => {
   } else {
     window.location.href = "/"
     return {
-      error:
-        "Something went wrong, but you should be fine if you go back to the home page.",
+      error: "Something went wrong, but you should be fine if you go back to the home page.",
     }
   }
 }
@@ -123,13 +120,4 @@ const debounce = (func, waitFor, immediate = false) => {
   }
 }
 
-export {
-  url,
-  apiMethod,
-  defaultHeaders,
-  bearerHeaders,
-  loginUser,
-  registerUser,
-  logoutUser,
-  debounce,
-}
+export { url, apiMethod, defaultHeaders, bearerHeaders, loginUser, registerUser, logoutUser, debounce }
