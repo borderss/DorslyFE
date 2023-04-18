@@ -44,7 +44,6 @@ const loginUser = async (loginData, user, token, setUser, setToken) => {
       .then((data) => {
         setUser(data.user)
         setToken(data.token)
-
         return data
       })
       .catch((error) => error)
