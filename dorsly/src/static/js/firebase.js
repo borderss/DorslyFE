@@ -1,7 +1,5 @@
 import { getAnalytics } from "firebase/analytics"
 import { initializeApp } from "firebase/app"
-// https://firebase.google.com/docs/web/setup#available-libraries
-
 const firebaseConfig = {
   apiKey: import.meta.env.API_KEY,
   authDomain: import.meta.env.AUTH_DOMAIN,
@@ -12,6 +10,5 @@ const firebaseConfig = {
   measurementId: import.meta.env.MEASUREMENT_ID,
 }
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
