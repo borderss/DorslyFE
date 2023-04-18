@@ -69,8 +69,7 @@
   height: 100%;
   aspect-ratio: 1;
 
-  filter: brightness(0) saturate(0) invert(87%) sepia(23%) saturate(2641%)
-    hue-rotate(332deg) brightness(0) contrast(0);
+  filter: brightness(0) saturate(0) invert(87%) sepia(23%) saturate(2641%) hue-rotate(332deg) brightness(0) contrast(0);
   transition: 0.2s;
 }
 
@@ -89,8 +88,7 @@
 }
 
 .side-navbar > p:hover::before {
-  filter: brightness(0) saturate(100%) invert(87%) sepia(23%) saturate(2641%)
-    hue-rotate(332deg) brightness(100%) contrast(102%);
+  filter: brightness(0) saturate(100%) invert(87%) sepia(23%) saturate(2641%) hue-rotate(332deg) brightness(100%) contrast(102%);
 }
 
 .side-navbar > p:hover {
@@ -102,8 +100,7 @@
 
 .navbar-item-active::before {
   padding-left: 20px !important;
-  filter: brightness(0) saturate(100%) invert(87%) sepia(23%) saturate(2641%)
-    hue-rotate(332deg) brightness(100%) contrast(102%) !important;
+  filter: brightness(0) saturate(100%) invert(87%) sepia(23%) saturate(2641%) hue-rotate(332deg) brightness(100%) contrast(102%) !important;
 }
 
 .navbar-item-active {
