@@ -241,9 +241,7 @@ function LocationPicker(props) {
           </div>
           <div className={style["location-info-actions"]}>
             <button
-              {...(locationInfo.formattedAddress == "Loading..." && {
-                disabled: true,
-              })}
+              {...(locationInfo.formattedAddress == "Loading..." && { disabled: true })}
               onClick={() => {
                 handleLocationChange()
               }}>
