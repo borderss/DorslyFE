@@ -136,28 +136,16 @@ class UserController extends Controller
 
     public function updateUserGeneralSettings(Request $request) {
         $validated = $request->validate([
-            'first_name' => 'sometimes|nullable',
-            'last_name' => 'sometimes|nullable',
-            'email' => 'sometimes|nullable|email|unique:users,email,' . auth()->user()->id,
-            'phone_number' => 'sometimes|nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email,' . auth()->user()->id,
+            'phone_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
         ]);
 
-        if (count($validated) === 0) {
-            return response()->json([
-                'message' => 'No data provided'
-            ], 400);
-        }
-
-        $updateData = [];
-
-        foreach ($validated as $key => $value) {
-            if ($value) {
-                $updateData[$key] = $value;
-            }
-        }
+        auth()->user()->update($validated);
 
         return response()->json([
-            'data' => new UserResource(auth()->user()->update($updateData))
+            'data' => new UserResource(auth()->user())
         ]);
     }
 

@@ -143,9 +143,14 @@
       <path value="$PROJECT_DIR$/api/vendor/doctrine/deprecations" />
       <path value="$PROJECT_DIR$/API/vendor/tucker-eric/eloquentfilter" />
       <path value="$PROJECT_DIR$/API/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/API/vendor/wnx/laravel-stats" />
+      <path value="$PROJECT_DIR$/API/vendor/phploc/phploc" />
+      <path value="$PROJECT_DIR$/API/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/API/vendor/andyabih/laravel-to-uml" />
+      <path value="$PROJECT_DIR$/API/vendor/spatie/laravel-permission" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
   <component name="PhpStanOptionsConfiguration">

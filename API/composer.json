@@ -12,6 +12,7 @@
         "laravel/passport": "^11.5",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "spatie/laravel-permission": "^5.10",
         "stripe/stripe-php": "^10.2",
         "tucker-eric/eloquentfilter": "^3.1"
     },
