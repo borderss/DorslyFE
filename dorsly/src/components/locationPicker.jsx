@@ -28,14 +28,13 @@ function LocationPicker(props) {
   const mapRef = useRef(null)
 
   const defaultMapOptions = {
-    disableDefaultUI: true,
-    keyboardShortcuts: false,
     gestureHandling: "greedy",
+    keyboardShortcuts: false,
+    streetViewControl: true,
+    disableDefaultUI: true,
+    rotateControl: true,
     zoomControl: true,
     panControl: true,
-    zoomControl: true,
-    streetViewControl: true,
-    rotateControl: true,
   }
 
   const { isLoaded } = useJsApiLoader({
@@ -49,9 +48,7 @@ function LocationPicker(props) {
 
   useEffect(() => {
     if (!isLoaded) return
-    let clientData = fetch(
-      "https://api.bigdatacloud.net/data/reverse-geocode-client"
-    ).then((res) => res.json())
+    let clientData = fetch("https://api.bigdatacloud.net/data/reverse-geocode-client").then((res) => res.json())
 
     clientData.then((res) => {
       setApproximateLocation({
@@ -90,12 +87,7 @@ function LocationPicker(props) {
   const handleCenterChanged = async () => {
     const newPos = new google.maps.LatLng(mapRef.current.getCenter().toJSON())
 
-    if (
-      !mapRef.current ||
-      activeMethod == "input" ||
-      locationInfo.formattedAddress != "Loading..."
-    )
-      return
+    if (!mapRef.current || activeMethod == "input" || locationInfo.formattedAddress != "Loading...") return
 
     asyncReverseGeocode({
       lat: newPos.lat(),
@@ -168,8 +160,7 @@ function LocationPicker(props) {
           createPopup(
             "Geolocation failed",
             <p>
-              You didn't give us permission to estimate your location based on
-              your GPS location. Please select your location on the map.
+              You didn't give us permission to estimate your location based on your GPS location. Please select your location on the map.
             </p>,
             "warning",
             "Close"
@@ -188,12 +179,7 @@ function LocationPicker(props) {
       gps: locationInfo.gps,
       formattedAddress: locationInfo.formattedAddress,
     })
-    console.log(
-      "Location changed to: ",
-      locationInfo.gps,
-      ",",
-      locationInfo.formattedAddress
-    )
+    console.log("Location changed to: ", locationInfo.gps, ",", locationInfo.formattedAddress)
 
     props.handleClose()
   }
@@ -203,14 +189,10 @@ function LocationPicker(props) {
   return (
     <div className={style["location-picker-container"]}>
       <div className={style["picking-options"]}>
-        <div
-          onClick={(_) => handleChangeActiveMethod("map")}
-          {...(activeMethod == "map" && { className: style["active"] })}>
+        <div onClick={(_) => handleChangeActiveMethod("map")} {...(activeMethod == "map" && { className: style["active"] })}>
           Select your location on the map
         </div>
-        <div
-          onClick={(_) => handleChangeActiveMethod("input")}
-          {...(activeMethod == "input" && { className: style["active"] })}>
+        <div onClick={(_) => handleChangeActiveMethod("input")} {...(activeMethod == "input" && { className: style["active"] })}>
           Use my current location
         </div>
       </div>
@@ -244,9 +226,7 @@ function LocationPicker(props) {
       <div className={style["location-info-container"]}>
         <div className={style["location-info"]}>
           <div className={style["location-info-label"]}>
-            {activeMethod == "map"
-              ? "We think you are pointing here:"
-              : "We think you are here:"}
+            {activeMethod == "map" ? "We think you are pointing here:" : "We think you are here:"}
           </div>
           <div className={style["location-info-value"]}>
             <LabeledInputField
@@ -261,9 +241,7 @@ function LocationPicker(props) {
           </div>
           <div className={style["location-info-actions"]}>
             <button
-              {...(locationInfo.formattedAddress == "Loading..." && {
-                disabled: true,
-              })}
+              {...(locationInfo.formattedAddress == "Loading..." && { disabled: true })}
               onClick={() => {
                 handleLocationChange()
               }}>

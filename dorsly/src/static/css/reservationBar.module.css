@@ -57,7 +57,7 @@
   border: none;
   border-right: 2px solid #ebebeb;
   background: none;
-  padding-left: 15px;
+  padding-inline: 16px 12px !important;
   gap: 8px;
   cursor: pointer;
 }
@@ -79,8 +79,8 @@
 
 .date::-webkit-calendar-picker-indicator {
   background-image: var(--calendarSvg);
-  width: 25px;
-  height: 25px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
 }
 
@@ -117,8 +117,8 @@ input::-webkit-datetime-edit-ampm-field:focus {
 
 .time::-webkit-calendar-picker-indicator {
   background-image: var(--clockSvg);
-  width: 25px;
-  height: 25px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
 }
 

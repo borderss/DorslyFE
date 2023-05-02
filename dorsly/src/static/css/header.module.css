@@ -85,8 +85,7 @@
 }
 
 .dorsly-logo > img {
-  filter: brightness(0) invert(77%) sepia(56%) saturate(926%) hue-rotate(333deg)
-    brightness(103%) contrast(101%);
+  filter: brightness(0) invert(77%) sepia(56%) saturate(926%) hue-rotate(333deg) brightness(103%) contrast(101%);
   height: 35px;
 }
 
@@ -195,32 +194,28 @@
   text-decoration: none;
   cursor: pointer;
   transition: filter 0.2s;
-  border-block: 1px solid transparent;
-  border-left: 5px solid transparent;
   border-top: 1px solid #f7f7f7;
+  border-left: 5px solid transparent;
+  border-block: 1px solid transparent;
 }
 
 .profile-dropdown > *::before {
   content: "";
-  background-image: var(--background-icon);
   background-size: auto 32px;
-  background-position: 50% 50%;
+  background-image: var(--background-icon);
   background-repeat: no-repeat;
-
+  background-position: 50% 50%;
   position: absolute;
-  left: 1px;
   top: 0;
+  left: 1px;
   height: 100%;
+  filter: brightness(0) saturate(0) invert(0) sepia(0) saturate(0) hue-rotate(332deg) brightness(0) contrast(0);
   aspect-ratio: 1;
-
-  filter: brightness(0) saturate(0) invert(0) sepia(0) saturate(0)
-    hue-rotate(332deg) brightness(0) contrast(0);
   transition: 0.2s;
 }
 
 .profile-dropdown > *:hover::before {
-  filter: brightness(0) saturate(100%) invert(87%) sepia(23%) saturate(2641%)
-    hue-rotate(332deg) brightness(100%) contrast(102%);
+  filter: brightness(0) saturate(100%) invert(87%) sepia(23%) saturate(2641%) hue-rotate(332deg) brightness(100%) contrast(102%);
 }
 .profile-dropdown > *:any-link {
   color: #5a5a5a;

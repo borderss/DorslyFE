@@ -7,13 +7,11 @@ import PopupContextProvider from "./contexts/popupContext"
 import UserContextProvider from "./contexts/userContext"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <UserContextProvider>
-      <CartContextProvider>
-        <PopupContextProvider>
-          <App />
-        </PopupContextProvider>
-      </CartContextProvider>
-    </UserContextProvider>
-  </React.StrictMode>
+  <UserContextProvider>
+    <CartContextProvider>
+      <PopupContextProvider>
+        <App />
+      </PopupContextProvider>
+    </CartContextProvider>
+  </UserContextProvider>
 )

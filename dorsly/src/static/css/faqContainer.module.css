@@ -1,6 +1,5 @@
 .ContentIllustration {
-  filter: invert(65%) sepia(0%) saturate(0%) hue-rotate(149deg) brightness(85%)
-    contrast(89%);
+  filter: invert(65%) sepia(0%) saturate(0%) hue-rotate(149deg) brightness(85%) contrast(89%);
   width: 30px;
   transition: 0.1s;
 }
@@ -55,6 +54,5 @@
 }
 
 .faq.active .ContentIllustration {
-  filter: invert(76%) sepia(83%) saturate(785%) hue-rotate(333deg)
-    brightness(102%) contrast(101%);
+  filter: invert(76%) sepia(83%) saturate(785%) hue-rotate(333deg) brightness(102%) contrast(101%);
 }
