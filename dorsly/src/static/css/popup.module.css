@@ -41,6 +41,14 @@
   transition: 0.2s;
 }
 
+.popup-card a:link,
+.popup-card a:visited,
+.popup-card a:hover,
+.popup-card a:active {
+  color: #fab733;
+  text-decoration: none;
+}
+
 .popup-card-container:has(.popup-card.remove) {
   animation: remove 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards !important;
 }
