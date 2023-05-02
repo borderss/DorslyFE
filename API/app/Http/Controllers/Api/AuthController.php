@@ -38,17 +38,20 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (!Auth::attempt($validated)) {
+        $user = User::where('email', $validated['email'])->first();
+
+        if ($user && Hash::check($validated['password'], $user->password)) {
+            $token = $user->createToken('accessToken')->accessToken;
+
             return response()->json([
-                'data' => ['Check your email and password'],
-            ],403);
+                'user' => new UserResource($user),
+                'access_token' => $token,
+            ]);
         }
 
-        $token = auth()->user()->createToken('accessToken')->accessToken;
         return response()->json([
-            'user' => new UserResource(auth()->user()),
-            'access_token' => $token,
-        ]);
+            'data' => ['Check your email and password'],
+        ],403);
     }
 
     public function logout() {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReservationResource;
+use App\Models\Deal;
 use App\Models\PointOfInterest;
 use App\Models\Reservation;
 use Carbon\Carbon;
@@ -24,6 +25,7 @@ class ReservationController extends Controller
             'people' => 'required|integer',
         ]);
 
+        $available = true;
         $reason = '';
 
         $pointOfInterest = PointOfInterest::find($validated['point_of_interest_id']);
@@ -36,17 +38,25 @@ class ReservationController extends Controller
             ->where('date', '<=', $timeUpperBound)
             ->get();
 
-        $available = true;
+        foreach ($reservations_in_range as $reservation) {
+            if ($reservation->number_of_people + $validated['people'] > $pointOfInterest->available_seats) {
+                $available = false;
+                $reason = 'Not enough seats available.';
+            }
+
+            $dealWithReservation = Deal::where('reservation_id', $reservation->id)->first();
+
+            if (!$dealWithReservation) {
+                $reservations_in_range = $reservations_in_range->filter(function ($value, $key) use ($reservation) {
+                    return $value->id != $reservation->id;
+                });
+            }
+        }
 
         if ($reservations_in_range->count() > 0) {
             $available = false;
             $reason = 'Reservation already exists in this time range.';
         }
-
-        if ($validated['people'] > $pointOfInterest->available_seats) {
-            $available = false;
-            $reason = 'Not enough seats available.';
-        };
 
         return response()->json([
             'available' => $available,
