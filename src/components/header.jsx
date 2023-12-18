@@ -173,7 +173,7 @@ export default function header() {
             onClick={handleGpsIconClick}>
             <img className={"click-target"} src={GpsIcon} alt="GPS" />
 
-            {locationPickerVisible && (
+            {(locationPickerVisible && userContext.user) && (
               <LocationPicker
                 containerStyle={{
                   width: "100%",

@@ -1,7 +1,7 @@
-var api = "http://127.0.0.1/api"
+var api = import.meta.env.VITE_API_URL
 
-if (import.meta.env.MODE == "production") {
-  api = "https://api.dorsly.com/api"
+if (import.meta.env.MODE === "development") {
+  api = "http://127.0.0.1/v1"
 }
 
 const url = (path) => {
@@ -119,4 +119,4 @@ const debounce = (func, waitFor, immediate = false) => {
   }
 }
 
-export { url, apiMethod, defaultHeaders, bearerHeaders, loginUser, registerUser, logoutUser, debounce }
+export { apiMethod, bearerHeaders, debounce, defaultHeaders, loginUser, logoutUser, registerUser, url }

@@ -48,9 +48,9 @@ export default function profile() {
   })
 
   const [privacySettingsData, setPrivacySettingsData] = useState({
-    promotionEmails: user.is_promotion_emails_allowed || false,
-    securityNotices: user.is_security_notices_allowed || false,
-    reservationInfo: user.is_reservation_info_allowed || false,
+    promotionEmails: false,
+    securityNotices: false,
+    reservationInfo: false,
   })
 
   const [accountDeleteData, setAccountDeleteData] = useState({
@@ -115,6 +115,12 @@ export default function profile() {
 
       setStatistics(statistics)
     }
+
+    setPrivacySettingsData({
+      promotionEmails: user.is_promotion_emails_allowed,
+      securityNotices: user.is_security_notices_allowed,
+      reservationInfo: user.is_reservation_info_allowed,
+    })
 
     fetchData()
   }, [user])
@@ -685,7 +691,22 @@ export default function profile() {
               setUser({
                 ...user,
                 first_name: promise.data.first_name,
+                last_name: promise.data.last_name,
+                email: promise.data.email,
+                phone_number: promise.data.phone_number,
               })
+
+              if (userSettingsData.email) {
+                createPopup(
+                  "General settings updated succesfully",
+                  <p>Your general settings have been updated succesfully.<br/><br/>You were logged out because you changed your email, you can log back in.</p>,
+                  "success",
+                  "Close"
+                )
+                
+                logoutUser(user, token, setUser, setToken)
+                return
+              }
 
               createPopup(
                 "General settings updated succesfully",
@@ -730,9 +751,9 @@ export default function profile() {
           const handlePrivacySubmit = async (e) => {
             e.preventDefault()
 
-            console.log("submitted: ", privacySettingsData)
+            console.log("submitted: ", privacySettingsData, user)
 
-            let promise = await apiMethod("/updateUserGeneralSettings", {
+            let promise = await apiMethod("/updateUserPrivacySettings", {
               method: "PUT",
               headers: bearerHeaders(token),
               body: JSON.stringify({
@@ -885,12 +906,9 @@ export default function profile() {
                           type="checkbox"
                           name="promotion-emails"
                           id="promotion-emails"
-                          defaultChecked={privacySettingsData.promotionEmails}
+                          checked={privacySettingsData.promotionEmails}
                           onChange={(e) => {
-                            setPrivacySettingsData({
-                              ...privacySettingsData,
-                              promotionEmails: e.target.checked,
-                            })
+                            setPrivacySettingsData({ ...privacySettingsData, promotionEmails: e.target.checked })
                           }}
                         />
                       </span>
@@ -902,12 +920,9 @@ export default function profile() {
                           type="checkbox"
                           name="security-warnings"
                           id="security-warnings"
-                          defaultChecked={privacySettingsData.securityNotices}
+                          checked={privacySettingsData.securityNotices}
                           onChange={(e) => {
-                            setPrivacySettingsData({
-                              ...privacySettingsData,
-                              securityNotices: e.target.checked,
-                            })
+                            setPrivacySettingsData({ ...privacySettingsData, securityNotices: e.target.checked })
                           }}
                         />
                       </span>
@@ -919,12 +934,9 @@ export default function profile() {
                           type="checkbox"
                           name="reservation-info"
                           id="reservation-info"
-                          defaultChecked={privacySettingsData.reservationInfo}
+                          checked={privacySettingsData.reservationInfo}
                           onChange={(e) => {
-                            setPrivacySettingsData({
-                              ...privacySettingsData,
-                              reservationInfo: e.target.checked,
-                            })
+                            setPrivacySettingsData({ ...privacySettingsData, reservationInfo: e.target.checked })
                           }}
                         />
                       </span>
