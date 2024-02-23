@@ -11,10 +11,9 @@ For businesses, Dorsly streamlines reservation and payment management, while als
 - Payment integration with multiple payment methods
 - User profile management
 - Email notifications
+- Google Maps integration
 
 ## TODO 📋 
-*(Last updated: April 4, 2023 at 01:05 GMT+2)*
-- Google Maps integration ⌛
 - Business owner role and control panel ⌛
 - POI creation and management ⌛
 - Product creation and management ⌛
@@ -25,16 +24,11 @@ For businesses, Dorsly streamlines reservation and payment management, while als
 
 This project is licensed under the CC-BY-NC-ND-4.0 license. See the [LICENSE.md](LICENSE.md) file for details.
 
-## Support 📧
+## Running the project locally
 
-If you encounter any issues or have any questions, please contact us at support@dorsly.com.
+To run the project locally, you also need the backend:
+https://github.com/borderss/DorslyBE/
 
-## Acknowledgements 🙏
+## domain dorsly.com
 
-We would like to thank the following individuals and organizations for their contributions to this project:
-
-- [@Fleksis](https://github.com/Fleksis) (Laravl Server)
-- [@TapeJIka](https://github.com/TapeJIka) (Laravel Server)
-- [@SodiumN1trate](https://github.com/SodiumN1trate) (General Assistance)
-- Digital Ocean (Server Hosting)
-- Google (Web Hosting and Services)
+The site is hosted under the dorsly.com domain, and the frontend should be accessible from it. The backend server is usually hosted on DigitalOcean, but currently it's disabled and not running.
