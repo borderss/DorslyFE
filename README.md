@@ -31,4 +31,4 @@ https://github.com/borderss/DorslyBE/
 
 ## domain dorsly.com
 
-The site is hosted under the dorsly.com domain, and the frontend should be accessible from it. The backend server is usually hosted on DigitalOcean, but currently it's disabled and not running.
+The site (currently only the frontend) is hosted under the dorsly.com domain, and the frontend should be accessible from it. The backend server is usually hosted on DigitalOcean, but currently it's disabled and not running.
