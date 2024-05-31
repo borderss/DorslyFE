@@ -2,21 +2,20 @@ import React, { useContext, useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { apiMethod, bearerHeaders } from "../static/js/util"
 
+import CreateProductForm from "../components/createProductForm"
 import Header from "../components/header"
 
 import style from "../static/css/admin.module.css"
 import "../static/css/general.css"
 
 import CalendarIcon from "/assets/svg/calendar.svg"
-import GPSIcon from "/assets/svg/gps2.svg"
-import PeopleIcon from "/assets/svg/people.svg"
 import CommentIcon from "/assets/svg/reviewlogo.svg"
 import TakeawayIcon from "/assets/svg/takeaway.svg"
 
 import { PopupContext } from "../contexts/popupContext"
 import { UserContext } from "../contexts/userContext"
 
-export default function admin() {
+export default function business() {
   const navigate = useNavigate()
   const searchRef = useRef(null)
   const entryRef = useRef(null)
@@ -26,41 +25,7 @@ export default function admin() {
   const { user, token } = useContext(UserContext)
 
   const tableMetaData = {
-    users: [
-      {
-        title: "ID",
-        field: "id",
-      },
-      {
-        title: "Name",
-        field: "first_name",
-      },
-      {
-        title: "Surname",
-        field: "last_name",
-      },
-      {
-        title: "Phone number",
-        field: "phone_number",
-      },
-      {
-        title: "Email",
-        field: "email",
-      },
-      {
-        title: "Is admin",
-        field: "is_admin",
-      },
-      {
-        title: "Registration date",
-        field: "created_at",
-      },
-      {
-        title: "Last change",
-        field: "updated_at",
-      },
-    ],
-    points_of_interest: [
+    products: [
       {
         title: "ID",
         field: "id",
@@ -70,54 +35,26 @@ export default function admin() {
         field: "name",
       },
       {
-        title: "Country",
-        field: "country",
-      },
-      {
-        title: "GPS latitude",
-        field: "gps_lat",
-      },
-      {
-        title: "GPS longitude",
-        field: "gps_lng",
-      },
-      {
-        title: "Is open round the clock",
-        field: "is_open_round_the_clock",
-      },
-      {
-        title: "Is on location",
-        field: "is_on_location",
-      },
-      {
-        title: "Is takeaway",
-        field: "is_takeaway",
-      },
-      {
         title: "Description",
         field: "description",
       },
       {
-        title: "Available seats",
-        field: "available_seats",
+        title: "Ingredients",
+        field: "ingredients",
       },
       {
-        title: "Review count",
-        field: "review_count",
+        title: "Image",
+        field: "image",
       },
       {
-        title: "Average rating",
-        field: "avg",
+        title: "Price",
+        field: "price",
       },
     ],
     reservations: [
       {
         title: "ID",
         field: "id",
-      },
-      {
-        title: "POI ID",
-        field: "point_of_interest_id",
       },
       {
         title: "Date",
@@ -184,10 +121,6 @@ export default function admin() {
         field: "user_id",
       },
       {
-        title: "POI ID",
-        field: "point_of_interest_id",
-      },
-      {
         title: "Text",
         field: "text",
       },
@@ -195,8 +128,7 @@ export default function admin() {
   }
 
   const canManipulate = {
-    users: true,
-    points_of_interest: true,
+    products: true,
     reservations: false,
     prepurchases: false,
     reviews: false,
@@ -234,7 +166,9 @@ export default function admin() {
     paginate: 10,
   }
 
-  const [section, setSection] = useState("users")
+  const [isCreating, setIsCreating] = useState(false)
+
+  const [section, setSection] = useState("products")
 
   const [data, setData] = useState(defaultData)
 
@@ -247,12 +181,11 @@ export default function admin() {
   })
 
   const [sectionInfo, setSectionInfo] = useState({
-    title: "Account overview",
-    desc: "Overview account information such as username, name, surname, email, registration date, date of last change, etc.",
+    title: "Product overview",
+    desc: "View product data, such as product name, description, relevant POI's ID, ingredients, image, price, etc.",
   })
 
   useEffect(() => {
-    console.log(user)
     if (user === null || token === null) {
       navigate("/")
       return
@@ -261,12 +194,12 @@ export default function admin() {
         return
       }
 
-      if (user.is_admin == false) {
+      if (user.roles.includes('business_manager') == false) {
         navigate("/")
         return
       }
 
-      apiMethod("/filter_users", {
+      apiMethod("/business_filter_products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -287,31 +220,13 @@ export default function admin() {
     if (!token) return
 
     switch (section) {
-      case "users":
+      case "products":
         setSectionInfo({
-          title: "Account overview",
-          desc: "Overview, edit or delete account information such as username, name, surname, email, registration date, date of last change, etc.",
+          title: "Product overview",
+          desc: "View product data, such as product name, description, relevant POI's ID, ingredients, image, price, etc.",
         })
 
-        apiMethod("/filter_users", {
-          method: "POST",
-          headers: bearerHeaders(token),
-          body: JSON.stringify(defaultPostBody),
-        })
-          .then((data) => {
-            console.log(data)
-            setData(data)
-          })
-          .catch((error) => console.log(error))
-        break
-
-      case "points_of_interest":
-        setSectionInfo({
-          title: "Point of interest overview",
-          desc: "Check interest data, for example, name, description, creation date, number of reservations/pre-purchases fulfilled, and other general satistical data.",
-        })
-
-        apiMethod("/filter_points_of_interest", {
+        apiMethod("/business_filter_products", {
           method: "POST",
           headers: bearerHeaders(token),
           body: JSON.stringify(defaultPostBody),
@@ -321,14 +236,14 @@ export default function admin() {
           })
           .catch((error) => console.log(error))
         break
-
+      
       case "reservations":
         setSectionInfo({
           title: "Reservations overview",
           desc: "Search through reservation data, such as the billed person's user ID, relevant POI's ID, reservation date, time, attending person count, stripe check number, etc.",
         })
 
-        apiMethod("/filter_reservations", {
+        apiMethod("/business_filter_reservations", {
           method: "POST",
           headers: bearerHeaders(token),
           body: JSON.stringify(defaultPostBody),
@@ -345,7 +260,7 @@ export default function admin() {
           desc: "View pre-purchase data, such as billed person's ID, relevant POI's ID, associated reservation, the date and time on which the pre-purchase was made, stripe check number, etc.",
         })
 
-        apiMethod("/filter_prepurchases", {
+        apiMethod("/business_filter_prepurchases", {
           method: "POST",
           headers: bearerHeaders(token),
           body: JSON.stringify(defaultPostBody),
@@ -362,7 +277,7 @@ export default function admin() {
           desc: "See point of interest reviews, who posted the review, the date and time the review was posted at, etc.",
         })
 
-        apiMethod("/filter_comments", {
+        apiMethod("/business_filter_comments", {
           method: "POST",
           headers: bearerHeaders(token),
           body: JSON.stringify(defaultPostBody),
@@ -379,6 +294,7 @@ export default function admin() {
   }, [section])
 
   const onNavbarItemClick = (e) => {
+    isCreating && setIsCreating(false)
     let target
 
     if (e.target.tagName === "P") {
@@ -390,9 +306,11 @@ export default function admin() {
     setData(defaultData)
     setPostBody(defaultPostBody)
 
-    searchRef.current.value = ""
-    entryRef.current.value = 10
-    goToPageRef.current.value = 1
+    try {
+      searchRef.current.value = ""
+      entryRef.current.value = 10
+      goToPageRef.current.value = 1
+    } catch (error) {}
 
     setSection(e.target.id)
     ;[...document.querySelectorAll(`.${style["side-navbar"]} > p`)].forEach(
@@ -423,24 +341,22 @@ export default function admin() {
       cells.push(<td key={key}>{row[col.field]?.toString()}</td>)
     })
 
-    cells.push(
+    canManipulate[section] ? cells.push(
       <td key={cells.length} style={{
         textAlign: "right",
       }}>
-        {canManipulate[section] && (
-          <button
-            className={style["table-action-button"]}
-            onClick={(e) => handleEditClick(e)}>
-            Edit
-          </button>
-        )}
+        <button
+          className={style["table-action-button"]}
+          onClick={(e) => handleEditClick(e)}>
+          Edit
+        </button>
         <button
           className={style["table-action-button"]}
           onClick={(e) => handleDeleteClick(e)}>
           Delete
         </button>
       </td>
-    )
+    ) : cells.push(<td key={cells.length}></td>)
 
     return cells
   }
@@ -617,8 +533,6 @@ export default function admin() {
     editedHTMLData.childNodes.forEach((cell, i) => {
       if (i === editedHTMLData.childNodes.length - 1) return
 
-      console.log(tableMetaData[section][i].field, cell, i)
-
       if (typeof initialData[tableMetaData[section][i].field] === "number") {
         saveData[tableMetaData[section][i].field] = parseInt(cell.innerText)
       } else {
@@ -647,13 +561,13 @@ export default function admin() {
         handleEditClick(e)
       })
 
-      let EndpointSection = section
+      let deleteEndpointSection = section
 
       if (section === "reviews") {
-        EndpointSection = "comments"
+        deleteEndpointSection = "comments"
       }
 
-      await apiMethod("/admin/" + EndpointSection + "/" + editedHTMLData.id, {
+      await apiMethod("/" + deleteEndpointSection + "/" + editedHTMLData.id, {
         method: "PUT",
         headers: bearerHeaders(token),
         body: JSON.stringify(saveData),
@@ -708,7 +622,7 @@ export default function admin() {
     }
 
     let apiData = await apiMethod(
-      "/admin/" + deleteEndpointSection + "/" + deleteData.id,
+      "/" + deleteEndpointSection + "/" + deleteData.id,
       {
         method: "DELETE",
         headers: bearerHeaders(token),
@@ -743,17 +657,11 @@ export default function admin() {
           </div>
 
           <p
-            id="users"
+            id="products"
             className={style["navbar-item-active"]}
-            style={{ "--nav-item-icon": `url(${PeopleIcon})` }}
+            style={{ "--nav-item-icon": `url(${CalendarIcon})` }}
             onClick={(e) => onNavbarItemClick(e)}>
-            Users
-          </p>
-          <p
-            id="points_of_interest"
-            style={{ "--nav-item-icon": `url(${GPSIcon})` }}
-            onClick={(e) => onNavbarItemClick(e)}>
-            Points of interest
+            Products
           </p>
           <p
             id="reservations"
@@ -777,138 +685,146 @@ export default function admin() {
           <div className={style["version-data"]}>
             <p>Version 1.0.0 {import.meta.env.MODE}</p>
 
-            <p>© 2022 Dorsly</p>
+            <p>© 2024 Dorsly</p>
           </div>
         </div>
 
-        <div className={style["content-section"]}>
-          <div className={style["info"]}>
-            <h1>{sectionInfo.title}</h1>
-            <p>{sectionInfo.desc}</p>
-
-            <div>
-              <h2 className={style["search"]}>How to search?</h2>
-              You can search for a speciffic attribute by prefixing your search
-              data with the attribute and a colon:
-              <br />
-              <br />
-              <div>
-                for example:
-                <ul>
-                  <li>first_name:john</li>
-                  <li>last_name:doe</li>
-                  <li>date_created:2022-12-13</li>
-                  <li>email:example@email.com</li>
-                </ul>
-              </div>
-              <br />
-              <p className={style["error-disclaimer"]}>
-                If you encounter any unexpected data or results, immediately
-                notify any of the developers and log out of your account.
-              </p>
-              <h2 className={style["search"]}>Searchable fields</h2>
-              <div className={style["searchable-keys"]}>
-                {(Object.keys(tableMetaData[section]) || []).map((key) => (
-                  <div key={key}>{tableMetaData[section][key].field}</div>
-                ))}
-              </div>
-            </div>
+        {isCreating ? (
+          <div className={style["content-section"]}>
+              <CreateProductForm onClose={
+                () => setIsCreating(false)
+              } />
           </div>
-
-          <div className={style["table"]}>
-            <div className={style["searchbar"]}>
-              <div>
-                <input
-                  ref={searchRef}
-                  type="text"
-                  placeholder="Search..."
-                  defaultValue={search}
-                />
-                <button onClick={(e) => handleSearchSubmit(e)}>Search</button>
-                {canManipulate[section] && (
-                  <button
-                    onClick={(e) => {
-                      navigate("/admin/create/" + section)
-                    }}>
-                    Create
-                  </button>
-                )}
-
-              </div>
+        ) : (              
+          <div className={style["content-section"]}>
+            <div className={style["info"]}>
+              <h1>{sectionInfo.title}</h1>
+              <p>{sectionInfo.desc}</p>
 
               <div>
-                <p>Entries per page:</p>
-                <input
-                  ref={entryRef}
-                  type="number"
-                  min={1}
-                  max={data.meta?.total}
-                  placeholder={data.meta?.per_page}
-                />
-                <button onClick={(e) => handleEntriesPerPageSubmit(e)}>
-                  Set
-                </button>
-              </div>
-            </div>
-            <table>
-              <thead>
-                <tr>{data != defaultData && renderColumnHeaders()}</tr>
-              </thead>
-              <tbody>
-                {data != defaultData && renderTableSectionData(section)}
-              </tbody>
-            </table>
-
-            <div className={style["pagination"]}>
-              <div>
-                {data.links?.prev ? (
-                  <button onClick={handlePrevPageClick}>Previous</button>
-                ) : (
-                  <button disabled>Previous</button>
-                )}
-                <p>
-                  Page {data.meta.current_page} of {data.meta.last_page}
+                <h2 className={style["search"]}>How to search?</h2>
+                You can search for a speciffic attribute by prefixing your search
+                data with the attribute and a colon:
+                <br />
+                <br />
+                <div>
+                  for example:
+                  <ul>
+                    <li>first_name:john</li>
+                    <li>last_name:doe</li>
+                    <li>date_created:2022-12-13</li>
+                    <li>email:example@email.com</li>
+                  </ul>
+                </div>
+                <br />
+                <p className={style["error-disclaimer"]}>
+                  If you encounter any unexpected data or results, immediately
+                  notify any of the developers and log out of your account.
                 </p>
-                {data.links.next ? (
-                  <button onClick={handleNextPageClick}>Next</button>
-                ) : (
-                  <button disabled>Next</button>
-                )}
+                <h2 className={style["search"]}>Searchable fields</h2>
+                <div className={style["searchable-keys"]}>
+                  {(Object.keys(tableMetaData[section]) || []).map((key) => (
+                    <div key={key}>{tableMetaData[section][key].field}</div>
+                  ))}
+                </div>
               </div>
+            </div>
 
-              <p>
-                Showing <span>{data.meta.from}</span> to{" "}
-                <span>{data.meta.to}</span> of <span>{data.meta.total}</span>{" "}
-                entries
-              </p>
+            <div className={style["table"]}>
+              <div className={style["searchbar"]}>
+                <div>
+                  <input
+                    ref={searchRef}
+                    type="text"
+                    placeholder="Search..."
+                    defaultValue={search}
+                  />
+                  <button onClick={(e) => handleSearchSubmit(e)}>Search</button>
 
-              <div>
-                <p>Go to page:</p>
-                <input
-                  ref={goToPageRef}
-                  type="number"
-                  min={1}
-                  max={data.meta.last_page}
-                  placeholder={data.meta.current_page}
-                  onChange={(e) => {
-                    if (e.target.value > data.meta.last_page) {
-                      e.target.value = data.meta.last_page
-                    }
+                  {canManipulate[section] && (
+                    <button
+                      onClick={(e) => {
+                        setIsCreating(true)
+                      }}>
+                      Create
+                    </button>
+                  )}
+                </div>
 
-                    if (e.target.value < 1) {
-                      e.target.value = 1
-                    }
+                <div>
+                  <p>Entries per page:</p>
+                  <input
+                    ref={entryRef}
+                    type="number"
+                    min={1}
+                    max={data.meta?.total}
+                    placeholder={data.meta?.per_page}
+                  />
+                  <button onClick={(e) => handleEntriesPerPageSubmit(e)}>
+                    Set
+                  </button>
+                </div>
+              </div>
+              <table>
+                <thead>
+                  <tr>{data != defaultData && renderColumnHeaders()}</tr>
+                </thead>
+                <tbody>
+                  {data != defaultData && renderTableSectionData(section)}
+                </tbody>
+              </table>
 
-                    if (e.target.value === "") {
-                      e.target.value = data.meta.current_page
-                    }
-                  }}
-                />
-                <button onClick={(e) => handleGoToPageClick(e)}>Go</button>
+              <div className={style["pagination"]}>
+                <div>
+                  {data.links?.prev ? (
+                    <button onClick={handlePrevPageClick}>Previous</button>
+                  ) : (
+                    <button disabled>Previous</button>
+                  )}
+                  <p>
+                    Page {data.meta.current_page} of {data.meta.last_page}
+                  </p>
+                  {data.links.next ? (
+                    <button onClick={handleNextPageClick}>Next</button>
+                  ) : (
+                    <button disabled>Next</button>
+                  )}
+                </div>
+
+                <p>
+                  Showing <span>{data.meta.from}</span> to{" "}
+                  <span>{data.meta.to}</span> of <span>{data.meta.total}</span>{" "}
+                  entries
+                </p>
+
+                <div>
+                  <p>Go to page:</p>
+                  <input
+                    ref={goToPageRef}
+                    type="number"
+                    min={1}
+                    max={data.meta.last_page}
+                    placeholder={data.meta.current_page}
+                    onChange={(e) => {
+                      if (e.target.value > data.meta.last_page) {
+                        e.target.value = data.meta.last_page
+                      }
+
+                      if (e.target.value < 1) {
+                        e.target.value = 1
+                      }
+
+                      if (e.target.value === "") {
+                        e.target.value = data.meta.current_page
+                      }
+                    }}
+                  />
+                  <button onClick={(e) => handleGoToPageClick(e)}>Go</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   )

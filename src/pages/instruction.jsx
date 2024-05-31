@@ -28,7 +28,7 @@ export default function instruction() {
           <a href="#reitngs">Reitngs </a>
           <a href="#rezervacija">Rezervacija </a>
           <a href="#restorans">Restorāna informācija </a>
-          <a href="#rezervacija kommenti">Rezervācijas kommenti </a>
+          <a href="#rezervacijas-kommenti">Rezervācijas kommenti </a>
           <a href="#produkt">Produktu lapa </a>
         </div>
         <div>
@@ -47,11 +47,11 @@ export default function instruction() {
               <p>
                 Users opcijā var redzēt lietotāju id, vārdus(name), telefona
                 numurus, e-pastus, vai ir admins, reģistrācijas laiku, pēdējas
-                izmaiņas reservation opcijā ir redzams id, account id,
+                izmaiņas reservation opcijā ir redzams id, user id,
                 reservācijas datumu, rezervācijas laiku, cik cilvēki ieradīsies
-                uz rezervāciju, pre-purchases opcijā var redzēt id, account id,
+                uz rezervāciju, pre-purchases opcijā var redzēt id, user id,
                 reservation id, pre-purchases date, pre-purchases time, reviews
-                opcijā var redzēt id, name, surname, account id, poi id, text
+                opcijā var redzēt id, name, surname, user id, poi id, text
                 Visām šis opcijas arī var gan editot gan izdzēst.
               </p>
               <br />
@@ -131,7 +131,7 @@ export default function instruction() {
           </p>
           <br />
 
-          <h1 id="rezervacija kommenti">Rezervācijas kommenti</h1>
+          <h1 id="rezervacijas-kommenti">Rezervācijas kommenti</h1>
           <p>
             {" "}
             Ieejot komentāra/reitinga sadaļu , varam atstāt savu komentāru ,

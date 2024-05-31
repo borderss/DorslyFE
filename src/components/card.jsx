@@ -31,6 +31,14 @@ export default function card(props) {
     navigate("/place?p=" + props.data?.id, { state: { place: props.data } })
   }
 
+  const formattedDistance = (meters) => {
+    if (meters < 1000) {
+      return `${Math.round(meters)}m`
+    } else {
+      return `${Math.round(meters / 1000)}km`
+    }
+  }
+
   return (
     <div ref={cardContainer} className={containerstyle} onClick={onCardClick}>
       {
@@ -43,7 +51,7 @@ export default function card(props) {
       }
       <div
         className={style["mainimg"]}
-        style={{ "--imgUrl": `url(${props.data?.imgurl || `https://picsum.photos/seed/picsum/560/700?radnom=${Math.floor(Math.random()*100)}`})` }}></div>
+        style={{ "--imgUrl": `url(${props.data?.images || `https://picsum.photos/seed/picsum/560/700?radnom=${Math.floor(Math.random()*100)}`})` }}></div>
       <div className={style["desccon"]}>
         <div className={style["name"]}>{props.data?.name}</div>
         <div className={style["desc"]}>{props.data?.desc}</div>
@@ -54,8 +62,8 @@ export default function card(props) {
               <p>24 hours a day</p>
             ) : (
               <p>
-                {props?.data?.opens_at.slice(0, 5)}-
-                {props?.data?.closes_at.slice(0, 5)}
+                {props?.data?.opens_at?.split('T')[1]?.slice(0, 5)}-
+                {props?.data?.closes_at?.split('T')[1]?.slice(0, 5)}
               </p>
             )}
           </div>
@@ -78,10 +86,12 @@ export default function card(props) {
             <img src={People} alt="" />
             <p>{props.data?.available_seats}</p>
           </div>
-          <div className={style["gps2"]}>
-            <img src={Gps2} alt="" />
-            <p>1.5km</p>
-          </div>
+          {props.data?.distance && (
+            <div className={style["gps2"]}>
+              <img src={Gps2} alt="" />
+              <p>{formattedDistance(props.data?.distance)}</p>
+            </div>
+          )}
           <div className={style["reviewlogo"]}>
             <img src={Reviewlogo} alt="" />
             <p>{props.data?.review_count}</p>

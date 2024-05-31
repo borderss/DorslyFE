@@ -1,0 +1,98 @@
+.form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  max-width: 800px;
+  margin-inline: auto;
+
+  .labeled-text-input-box {
+  --label-color: #ffb82e;
+
+  position: relative;
+  width: 100%;
+  min-height: 46px;
+  margin-bottom: 25px;
+}
+  & h2 {
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    width: inherit;
+    text-align: start;
+  }
+
+  & > form {
+    width: 100%;
+
+
+    & textarea {
+      width: 100%;
+      height: 200px;
+      border: none;
+      border-bottom: 2px solid #ffdd98;
+      outline: none;
+      font-size: 18px;
+      padding-inline: 0px;
+      text-indent: 6px;
+      transition: 0.2s;
+      margin-block: 5px 30px;
+      font-family: arial;
+      padding-block: 10px;
+      font-size: 20px;
+
+      &::placeholder {
+        color: var(--accent);
+        transition: 0.2s;
+        font-family: "lexend";
+        font-weight: 300;
+      }
+    }
+
+    & label {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--accent);
+      font-family: "lexend";
+      font-weight: 300;
+    }
+
+    & .input_container {
+      border-bottom: 2px solid #ffdd98;
+      background-color: #fcfcfc;
+      margin-top: 5px;
+      margin-bottom: 20px;
+    }
+
+    & input[type=file]::file-selector-button {
+      background-color: #fff;
+      font-size: 16px;
+      color: var(--accent);
+      font-family: "lexend";
+      font-weight: 300;
+      border: 0px;
+      padding: 10px 15px;
+      margin-right: 20px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    & input[type=file]::file-selector-button:hover {
+      font-size: 16px;
+      border: 0px;
+    }
+  }
+}
+
+.error_msg {
+  color: #ff4228;
+  font-size: 16px;
+  font-weight: 500;
+  padding-block: 16px;
+  padding-inline: 20px;
+  border-radius: 10px;
+  border: 2px solid #ffa295;
+  background-color: #f8d7da;
+}

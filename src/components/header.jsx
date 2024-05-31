@@ -21,7 +21,7 @@ import { UserContext } from "../contexts/userContext"
 export default function header() {
   const userContext = useContext(UserContext)
   const { user, token, setUser, setToken } = useContext(UserContext)
-  const { popupData, createPopup, setPopupData } = useContext(PopupContext)
+  const { createPopup } = useContext(PopupContext)
 
   const [locationPickerVisible, setLocationPickerVisible] = useState(false)
 
@@ -113,6 +113,13 @@ export default function header() {
                 Admin
               </Link>
             )}
+            {userContext.user?.roles.includes('business_manager') && (
+              <Link
+                to="/business"
+                style={{ "--background-icon": `url(${AdminIcon})` }}>
+                Business
+              </Link>
+            )}
             <Link
               to="/"
               style={{ "--background-icon": `url(${LogoutIcon})` }}
@@ -146,7 +153,17 @@ export default function header() {
           <Link to="/aboutUs">
             <div className={style["about_us"]}>About us</div>
           </Link>
-          <Link to="/contact_us">
+          <Link
+            to="/contact_us"
+            onClick={(e) => {
+              e.preventDefault()
+              createPopup(
+                "Not implemented yet",
+                <p>This feature hasn't been implemented yet. Sorry!</p>,
+                "error",
+                "Close"
+              )
+            }}>
             <div className={style["contact_us"]}>Contact</div>
           </Link>
           <Link to="/products">
@@ -168,25 +185,27 @@ export default function header() {
         </div>
         <div className={style["right-side"]}>
           {userOptions}
-          <div
-            className={[style["gps-logo"], "click-target"].join(" ")}
-            onClick={handleGpsIconClick}>
-            <img className={"click-target"} src={GpsIcon} alt="GPS" />
+          {(userContext.user) && (
+            <div
+              className={[style["gps-logo"], "click-target"].join(" ")}
+              onClick={handleGpsIconClick}>
+              <img className={"click-target"} src={GpsIcon} alt="GPS" />
 
-            {(locationPickerVisible && userContext.user) && (
-              <LocationPicker
-                containerStyle={{
-                  width: "100%",
-                  height: "450px",
-                }}
-                center={{
-                  lat: 0,
-                  lng: 0,
-                }}
-                handleClose={() => setLocationPickerVisible(false)}
-              />
-            )}
-          </div>
+              {(locationPickerVisible) && (
+                <LocationPicker
+                  containerStyle={{
+                    width: "100%",
+                    height: "450px",
+                  }}
+                  center={{
+                    lat: 0,
+                    lng: 0,
+                  }}
+                  handleClose={() => setLocationPickerVisible(false)}
+                />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

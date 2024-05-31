@@ -9,6 +9,7 @@
 .top-section {
   background-image: linear-gradient(112deg, #282828b3, transparent),
     var(--background-image);
+  background-size: cover;
   background-position-y: center;
   padding-top: 231px;
   padding-inline: 96px;
@@ -164,6 +165,7 @@
 
 .place-lower-bg {
   background-image: var(--background-image);
+  background-size: cover;
   height: 345px;
   margin-top: -20px;
   padding-top: 1px;
@@ -548,7 +550,7 @@
   margin: 5px;
 }
 
-.review-form {
+.form {
   width: 90%;
   margin-inline: auto;
   display: flex;
@@ -557,13 +559,13 @@
   margin-block: 40px;
 }
 
-.review-form > h1 {
+.form > h1 {
   font-size: 30px;
   font-weight: 400;
   margin-block: 0px;
 }
 
-.review-form > textarea {
+.form > textarea {
   height: 150px;
   border: 1px solid #e7e7e7;
   border-radius: 5px;
@@ -572,7 +574,7 @@
   resize: none;
 }
 
-.review-form > button {
+.form > button {
   width: 200px;
   margin-left: auto;
   background-color: #25c94e;

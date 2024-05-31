@@ -9,11 +9,11 @@ import CloseIcon from "/assets/svg/x.svg"
 
 import { PopupContext } from "../contexts/popupContext"
 import { UserContext } from "../contexts/userContext"
-import { debounce } from "../static/js/util"
+import { apiMethod, bearerHeaders, debounce } from "../static/js/util"
 
 function LocationPicker(props) {
   const { createPopup } = useContext(PopupContext)
-  const { setPosition } = useContext(UserContext)
+  const { token, setPosition } = useContext(UserContext)
   const [activeMethod, setActiveMethod] = useState("map")
   const [aproximateLocation, setApproximateLocation] = useState({
     gps: null,
@@ -101,6 +101,17 @@ function LocationPicker(props) {
             lat: newPos.lat(),
             lng: newPos.lng(),
           },
+        })
+
+        apiMethod("/setUserLocation", {
+          method: "POST",
+          headers: bearerHeaders(token),
+          body: JSON.stringify({
+            gps_lng: newPos.lng(),
+            gps_lat: newPos.lat(),
+          }),
+        }).then((res) => {
+          console.log(res)
         })
       })
       .catch((err) => {
