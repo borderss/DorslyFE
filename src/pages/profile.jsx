@@ -158,6 +158,7 @@ export default function profile() {
 
                 setStatistics((prev) => {
                   prev.dealCount--
+                  prev.totalSpent -= deal.total_price
                   return prev
                 })
 
@@ -319,7 +320,7 @@ export default function profile() {
               const handleExpandClick = (e) => {
                 let target = e.target.parentElement.parentElement.parentElement.querySelector("." + style["pre-purchase-data"])
 
-                let height = 140 * deal.pre_purchase.products.length + 25 + 66
+                let height = 140 * deal.pre_purchase.products.length + 25 + 84
 
                 target.style = "--height: " + height + "px"
 
@@ -360,19 +361,26 @@ export default function profile() {
                       </div>
                       <div>
                         <p>Status</p>
-                        <p>{deal.status}</p>
+                        <p>{deal?.pre_purchase?.payment_status ? `${deal?.pre_purchase?.payment_status}  |  ` : ''}{deal?.status}</p>
                       </div>
                       <div className={style["button-container"]}>{renderButtons(deal)}</div>
                     </div>
                   </div>
                   {deal.pre_purchase && (
                     <div aria-hidden={true} className={style["pre-purchase-data"]}>
-                      <h1>Products</h1>
+                      <div className={style["title"]}>
+                        <h1>Products</h1>
+                        <span>
+                          total: <b>€{
+                            deal.pre_purchase.products.reduce((acc, product) => { return acc + parseFloat(product.price) * product.quantity }, 0)
+                          }</b>
+                        </span>
+                      </div>
                       <div className={style["pre-purchase-data-content"]}>
                         {deal.pre_purchase.products.map((product, index) => {
                           return (
                             <div className={style["product"]}>
-                              <img src="https://via.placeholder.com/1920x1080.png/00aa33?text=food+rerum" />
+                              <img src={product.image} />
                               <div className={style["product-content"]}>
                                 <div>
                                   <h1>{product.name || "Placeholder Name"}</h1>
@@ -426,6 +434,12 @@ export default function profile() {
 
             if (promise.data.id == id) {
               setReviewData(reviewData.filter((review) => review.id !== id))
+
+              setStatistics((prev) => {
+                prev.reviewCount--
+                return prev
+              })
+
 
               createPopup(
                 "Successfully removed!",

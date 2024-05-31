@@ -37,7 +37,7 @@ export default function home() {
   }, [])
 
   useEffect(() => {
-    let cardsTemp = cardData.map((card, id) => {
+    let cardsTemp = cardData?.map((card, id) => {
       return <Card key={id} data={card} />
     })
 
@@ -106,7 +106,7 @@ export default function home() {
           <img src={QuestionMark} />
         </Link>
 
-        {cards.length > 0 ? (
+        {cards?.length > 0 ? (
           <Carousel data={cards} stylesheet={carouselStyle} />
         ) : (
           <Carousel data={carouselPlaceholderData} stylesheet={carouselStyle} />

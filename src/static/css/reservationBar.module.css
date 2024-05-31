@@ -82,6 +82,7 @@
   width: 28px;
   height: 28px;
   cursor: pointer;
+  margin-right: 5px;
 }
 
 input::-webkit-datetime-edit-day-field,

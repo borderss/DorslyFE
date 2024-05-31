@@ -11,6 +11,10 @@ export default function labeledInputField(props) {
   }
 
   const handleInput = (e) => {
+    if (props.handleInputChange == null) {
+      return
+    }
+
     let valid = props.handleInputChange(props.inputName, e.target.value)
 
     if (valid) {
@@ -34,6 +38,7 @@ export default function labeledInputField(props) {
         onChange={(e) => handleInput(e)}
         {...(props.value && { value: props.value })}
         {...(props.inputType && { type: props.inputType })}
+        {...(props.step && { step: props.step })}
         {...(props.inputType == "password" && {
           autoComplete: "current-password",
         })}

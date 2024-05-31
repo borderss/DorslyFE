@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from "react"
+import React, { createContext, useEffect, useMemo, useState } from "react"
 import { apiMethod, bearerHeaders } from "../static/js/util"
 
 export const UserContext = createContext()
@@ -19,10 +19,10 @@ export default function UserContextProvider(props) {
     }
   }, [user, token, position, setUser, setToken, setPosition])
 
-  window.addEventListener("load", () => {
-    const token = window.localStorage.getItem("access_token")
+  useEffect(() => {
+    const local_token = window.localStorage.getItem("access_token")
 
-    if (!token) {
+    if (!local_token) {
       setUser(null)
       setUser(null)
       return
@@ -30,18 +30,18 @@ export default function UserContextProvider(props) {
 
     apiMethod("/user", {
       method: "GET",
-      headers: bearerHeaders(token),
+      headers: bearerHeaders(local_token),
     }).then((res) => {
       if (!res.message) {
         setUser(res)
-        setToken(token)
+        setToken(local_token)
       } else {
         localStorage.removeItem("access_token")
         setUser(null)
         setToken(null)
       }
     })
-  })
+  }, [])
 
   return (
     <UserContext.Provider value={contextValue}>

@@ -311,11 +311,23 @@
   max-height: var(--height);
 }
 
-.pre-purchase-data > h1 {
-  font-size: 28px;
-  margin-block: 16px;
-  margin-left: 20px;
+.pre-purchase-data > .title {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 25px 16px;
+  margin-inline: 34px;
   color: #2b2b2b;
+}
+
+.pre-purchase-data > .title > h1 {
+  font-size: 26px;
+  margin-block: 5px;
+  color: #2b2b2b;
+}
+
+.pre-purchase-data > .title > span {
+  font-size: 22px;
+  margin-block: 5px;
 }
 
 .section-title {
@@ -415,8 +427,8 @@
 .expand-indicator {
   position: absolute;
   font-size: 14px;
-  color: #ccc;
-  font-weight: 200;
+  color: #222;
+  font-weight: 500;
   bottom: 5px;
   right: 50%;
   translate: 50%;
@@ -430,7 +442,7 @@
 }
 
 .expand-indicator:hover {
-  color: #999;
+  color: #111;
 }
 
 .no-data-warning {

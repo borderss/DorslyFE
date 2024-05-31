@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
-import { apiMethod, bearerHeaders, defaultHeaders } from "../static/js/util"
+import { apiMethod, bearerHeaders } from "../static/js/util"
 
 import Map from "../components/map"
 import ReservationBar from "../components/reservationBar"
@@ -39,10 +39,8 @@ export default function place() {
   const [reviewData, setReviewData] = useState([])
   const [productData, setProductData] = useState([])
   const [userRating, setUserRating] = useState(1)
-  const [bgImage, setBgImage] = useState(
-    `https://picsum.photos/1920/1080/?random&t=${new Date().getTime()}`
-  )
   const [section, setSection] = useState("products")
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (
@@ -146,21 +144,21 @@ export default function place() {
 
     apiMethod("/points_of_interest/" + searchParams.get("p"), {
       method: "GET",
-      headers: defaultHeaders(),
+      headers: bearerHeaders(token),
     }).then((data) => {
       setData(data.data)
     })
 
     apiMethod(`/points_of_interest/${searchParams.get("p")}/comments`, {
       method: "GET",
-      headers: defaultHeaders(),
+      headers: bearerHeaders(token),
     }).then((data) => {
       setReviewData(data.data)
     })
 
     apiMethod(`/points_of_interest/${searchParams.get("p")}/products`, {
       method: "GET",
-      headers: defaultHeaders(),
+      headers: bearerHeaders(token),
     }).then((data) => {
       setProductData(data.data)
     })
@@ -257,6 +255,8 @@ export default function place() {
     }
 
     const handlePayment = async () => {
+      setLoading(true)
+
       if (!user) {
         createPopup(
           "Login Required",
@@ -268,6 +268,8 @@ export default function place() {
           },
           "Close"
         )
+
+        setLoading(false)
         return
       }
 
@@ -289,9 +291,8 @@ export default function place() {
         body: JSON.stringify(sessionData),
       })
 
+      setLoading(false)
       if (promise?.stripe_url) {
-        console.log(promise)
-
         promise?.stripe_url && window.open(promise?.stripe_url, "_self")
 
         setCart({
@@ -360,11 +361,14 @@ export default function place() {
                 <td>Total:</td>
                 <td>{cart?.total.toFixed(2) || "0.00"}</td>
                 <td>
-                  <button
-                    className={style["remove"]}
-                    onClick={(e) => handlePayment()}>
-                    Pay now
-                  </button>
+                  {loading ? (
+                    <button>Loading...</button>
+                  ) : (
+                    <button
+                      onClick={(e) => handlePayment()}>
+                      Pay now
+                    </button>
+                  )}
                 </td>
               </tr>
             }
@@ -629,7 +633,7 @@ export default function place() {
     return (
       <div className={style["product-section"]}>
         <h2 className={style["section-title"]}>Reviews</h2>
-        <form className={style["review-form"]} action="">
+        <form className={style["form"]} action="">
           <h1>Leave a review!</h1>
           <textarea
             name="review"
@@ -696,7 +700,7 @@ export default function place() {
         <div
           className={style["top-section"]}
           style={{
-            "--background-image": `url(${bgImage})`,
+            "--background-image": `url(${data.images})`,
           }}>
           <div className={style["content"]}>
             <div className={style["rating"]}>
