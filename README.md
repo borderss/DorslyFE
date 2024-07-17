@@ -2,7 +2,13 @@
 
 Dorsly Reservation System is a web-based platform that enables users to conveniently book visits and make advance payments. With a built-in commenting and rating system, users can easily find the best locations for their needs. 
 
-For businesses, Dorsly streamlines reservation and payment management, while also providing a feedback platform to improve services and attract customers.
+This project was in development for roughly 2.5 years, and has been transfered though multiple repos as it transitioned from only front-end, to monorepo, and finally into two split repos for the Backend and Frontend.
+
+The code quality is utter dogshit and we weren't aware of clean-code practices at the time of development, as we were still learning. Basically, the project was started while we had minimal knowledge in the field, and it was updated and evolved as we learned more and more about decent project structures. So the result is a project with a non-existing foundation of knowledge or reasoning, that had been built upon for years.
+
+The only redeeming quality is that the design is self-made, and the project doesn't make uses of any style or component libraries.
+
+![Group 153](https://github.com/user-attachments/assets/66b19492-633e-4086-ac76-049f53549151)
 
 ## Features 🚀
 
@@ -12,13 +18,7 @@ For businesses, Dorsly streamlines reservation and payment management, while als
 - User profile management
 - Email notifications
 - Google Maps integration
-
-## TODO 📋 
-- Business owner role and control panel ⌛
-- POI creation and management ⌛
-- Product creation and management ⌛
-- Limited access worker view ⌛
-- Inserting data from the admin panel ⌛
+- Administrative panel
 
 ## License 📜
 
